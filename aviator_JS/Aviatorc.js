@@ -28,9 +28,8 @@ function getCookie(name) {
     }
     return null;
 }
-debugger;
-setCookie('mult_no', 0, 1);
 
+setCookie('mult_no', 0, 1);
 window.addEventListener('beforeunload', function () {
     deleteCookie('mult_no');
 });

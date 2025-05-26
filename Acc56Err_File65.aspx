@@ -1482,3 +1482,25 @@ Event Info :   at System.Data.DataRow.GetDataColumn(String columnName)
    at System.Data.DataRow.get_Item(String columnName)
    at BetHistoryUpdate.recordCrash() in c:\Users\HP\Downloads\Aviator_Updated Proc\Aviator_Updated Proc\Aviator_Game_23_05_25\BetHistoryUpdate.ashx:line 70
 <br><hr>
+<br>[<b style='color:Red;'>Date:</b> 26 May 2025] & [<b style='color:Red;'>Time:</b> 03:33:50]
+<br>my_bets_history Error Msg :Database Error: Could not find stored procedure 'dbo.Avtr_ProBetHistory'.
+Event Info :   at DynamicDtls.ByProcedure(String ProcedureName, String[] Parameter, String[] Values, String ByDataSetAlert) in c:\Users\HP\Documents\GitHub\AviatorGAme2025\App_Code\DynamicDtls.cs:line 65
+   at my_bets_history.MyBetHistory() in c:\Users\HP\Documents\GitHub\AviatorGAme2025\Handler\my_bets_history.ashx:line 52
+<br><hr>
+<br>[<b style='color:Red;'>Date:</b> 26 May 2025] & [<b style='color:Red;'>Time:</b> 03:53:02]
+<br>my_bets_history Error Msg :Database Error: Could not find stored procedure 'dbo.Avtr_ProBetHistory'.
+Event Info :   at DynamicDtls.ByProcedure(String ProcedureName, String[] Parameter, String[] Values, String ByDataSetAlert) in c:\Users\HP\Documents\GitHub\AviatorGAme2025\App_Code\DynamicDtls.cs:line 65
+   at my_bets_history.MyBetHistory() in c:\Users\HP\Documents\GitHub\AviatorGAme2025\Handler\my_bets_history.ashx:line 52
+<br><hr>
+<br>[<b style='color:Red;'>Date:</b> 26 May 2025] & [<b style='color:Red;'>Time:</b> 04:01:00]
+<br>my_bets_history Error Msg :Database Error: Could not find stored procedure 'dbo.Avtr_ProBetHistory'.
+Event Info :   at DynamicDtls.ByProcedure(String ProcedureName, String[] Parameter, String[] Values, String ByDataSetAlert) in c:\Users\HP\Documents\GitHub\AviatorGAme2025\App_Code\DynamicDtls.cs:line 65
+   at my_bets_history.MyBetHistory() in c:\Users\HP\Documents\GitHub\AviatorGAme2025\Handler\my_bets_history.ashx:line 52
+<br><hr>
+<br>[<b style='color:Red;'>Date:</b> 26 May 2025] & [<b style='color:Red;'>Time:</b> 04:11:04]
+<br>my_bets_history Error Msg :Input string was not in a correct format.Couldn't store <> in trade_num Column.  Expected type is Decimal.
+Event Info :   at System.Data.DataColumn.set_Item(Int32 record, Object value)
+   at System.Data.DataRow.set_Item(DataColumn column, Object value)
+   at System.Data.DataRow.set_Item(String columnName, Object value)
+   at my_bets_history.MyBetHistory() in c:\Users\HP\Documents\GitHub\AviatorGAme2025\Handler\my_bets_history.ashx:line 62
+<br><hr>

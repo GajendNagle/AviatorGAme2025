@@ -114,6 +114,7 @@ function currentid() {
 }
 
 function gamegenerate() {
+    debugger;
     bet_array.length = 0;
 
     setTimeout(() => {
@@ -132,7 +133,7 @@ function gamegenerate() {
 
                 dataType: "json",
                 success: function (result) {
-                     debugger;
+                    debugger;
                     if (!result.Success && result.Message === "Not Authenticated") {
                         window.location.href = "SignIn.aspx";
                         return;
@@ -155,21 +156,21 @@ function gamegenerate() {
                     let currentbet = 0;
                     var a = 1.0;
                     let isbet = $("#isbet").val();
-                    //alert(Number(getCookie('mult_no')));
+                    isbet = 1;
                     $.ajax({
                         url: "Handler/increamentor.ashx",
                         type: "POST",
                         data: {
-                            token: Number(getCookie('mult_no')),
-                            isbet: 1,
+                            // token: Number(getCookie('mult_no')),
+                            token: 0,
+                            isbet: 0,
                             game_id: result.id,
                         },
-                        dataType: "json",
+                        dataType: "text",
                         success: function (data) {
-                            debugger;
                             var decodedData = atob(data);
                             var mlresult = JSON.parse(decodedData);
-
+                            console.log(mlresult);
                             if (current_is_bet) {
 
                                 if (mlresult.result <= 3) {
@@ -182,33 +183,38 @@ function gamegenerate() {
                                 currentbet = mlresult.result;
                             }
 
-                            $.ajax({
-                                url: 'aviator/my_bets_history',
-                                type: "POST",
-                                data: {
-                                    _token: hash_id
-                                },
-                                dataType: "json",
-                                success: function (data) {
+                            function MyBetHistory() {
+                                $.ajax({
+                                    url: 'Handler/my_bets_history.ashx',
+                                    type: "POST",
+                                    data: {
+                                        _token: hash_id
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        update_my_bet_history(data.data);
+                                    }
+                                });
+                            }
+                            MyBetHistory();
+                            setInterval(MyBetHistory, 1000);
 
-                                    update_my_bet_history(data.data);
-                                }
-                            });
-
-
-
-                            $.ajax({
-                                url: "aviator/currentlybet",
-                                type: "POST",
-                                data: {
-                                    _token: hash_id,
-                                },
-                                dataType: "json",
-                                success: function (intialData) {
-                                    info_data(intialData);
-                                },
-                            });
-
+                            function CurrentlyBet() {
+                                $.ajax({
+                                    url: "Handler/currentlybet.ashx",
+                                    type: "POST",
+                                    data: {
+                                        _token: hash_id,
+                                    },
+                                    dataType: "json",
+                                    success: function (intialData) {
+                                      
+                                        info_data(intialData);
+                                    },
+                                });
+                            }
+                            CurrentlyBet();
+                            setInterval(CurrentlyBet, 1000);
 
 
                             var randomintervalId = setInterval(function () {

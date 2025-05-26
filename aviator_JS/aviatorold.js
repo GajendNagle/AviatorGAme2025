@@ -654,7 +654,7 @@ function lets_fly_one() {
 }
 
 function lets_fly() {
-    debugger;
+    //debugger;
     $(".stage-board").removeClass('blink_section');
     $(".bet-controls").removeClass('blink_section');
     stage_time_out = 0;
@@ -751,7 +751,7 @@ function lets_fly() {
 }
 
 function incrementor(inc_no) {
-    debugger;
+   //debugger;
     $('.loading-game').removeClass('show');
     $("#auto_increment_number_div").show();
     $("#running_type").text('cash out time');
@@ -853,13 +853,13 @@ function update_bet_list(bets, target, appendType = '') {
             var cashOut = '-';
             var multiplication = '-';
         }
-        if (bets[i].class_name != undefined && bets[i].class_name != 'undefined') {
-            var sectionNo = 'bet_id_' + '' + bets[i].class_name;
-        } else {
-            var sectionNo = '';
-        }
+   //   me  //if (bets[i].class_name != undefined && bets[i].class_name != 'undefined') {
+        //    var sectionNo = 'bet_id_' + '' + bets[i].class_name;
+        //} else {
+        //    var sectionNo = '';
+//   me     //}
         html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
-            '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">  </div>' +
+            //'<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">  </div>' +
              '<div class="column-2"> ' + bets[i].userid + ' </div>' +
             '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
             '<div class="column-4"> ' + multiplication + ' </div>' +
@@ -872,7 +872,6 @@ function update_bet_list(bets, target, appendType = '') {
 
 
 function updateRandomMultiplier(bets, target, a) {
-
     var randomIndex = Math.floor(Math.random() * bets.length);
     bets[randomIndex].cashout_multiplier = a !== undefined ? a.toFixed(2) : '-'; // Assign '-' if `a` is undefined
     var html = generateUpdatedHtml(bets);
@@ -974,18 +973,19 @@ function update_my_new_bet(bet_amount, section_no, target) {
 }
 
 function update_my_bet_history(data) {
+
      var myBetListDiv = document.getElementById("my_bet_list");
         myBetListDiv.innerHTML = ""; // Clear existing content
 
         data.forEach(function(item) {
             var listItem = document.createElement("div");
             listItem.classList.add("list-items");
-
+          
             // Add columns
             listItem.innerHTML = `
                 <div class="column-1 users fw-normal">${item.add_date.split(' ')[0]}</div>
                 <div class="column-2">
-                    <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">₹${item.amount}</button>
+                    <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">TRX ${item.amount}</button>
                 </div>
                 <div class="column-3">
                     <div class="bg3 custom-badge mx-auto">${item.trade_type}x</div>

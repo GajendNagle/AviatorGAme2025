@@ -1328,7 +1328,7 @@
 
     <script>
         $(document).ready(function() {
-
+            debugger;
             if (successMessage != undefined && successMessage != '') {
                 swal('Success', successMessage, "success");
                 'false';
@@ -1337,7 +1337,7 @@
                 'false';
             }
             $(".load-txt").hide();
-
+            debugger;
             $.ajax({
                 url: "Handler/new_game_generated.ashx",
                 type: "GET",
@@ -1350,6 +1350,7 @@
                         window.location.href = "SignIn.aspx";
                         return;
                     }
+                    document.querySelector('.period_no').textContent = "Round No : " + result.id;
                     gamegenerate();
                 },
                 error: function () {
