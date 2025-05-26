@@ -1,0 +1,48 @@
+--Avtr_ProBetHistory 'AllBetStatus',''
+ALTER  PROC dbo.Avtr_ProBetHistory  
+    @BetHistorytype VARCHAR(30) = NULL,  
+    @MemId VARCHAR(10) = NULL  
+AS  
+BEGIN  
+    SET NOCOUNT ON;  
+    IF (@BetHistorytype = 'SelfBetHistory')  
+    BEGIN  
+        SELECT  CONVERT(VARCHAR(10), Bet_Date, 105) as add_date, 
+            amount  ,
+            Multi AS trade_type ,  
+			CAST(CONVERT(DECIMAL(18,2), Amount * Multi) AS VARCHAR(10))trade_num
+        FROM Avtr_tblBetPlayHistory  
+        WHERE MemId = @MemId  
+        ORDER BY Bet_Date DESC  
+    END  
+	ELSE IF (@BetHistorytype = 'AllBetStatus')  
+    BEGIN  
+	print 'ddd'
+       SELECT  COUNT(Bet) AS currentGameBetCount,RoundNo AS currentGame,SUM(Amount) AS totalBetAmount 
+	FROM Avtr_tblBetPlayHistory GROUP BY RoundNo HAVING RoundNo =(Select  RoundNo  from  Avtr_tblBetHistory where RoundNo='000000000109')
+	----------------------------
+	SELECT  MemId,Amount AS BetAmount,ISNULL(Multi,0)Multi, Amount,Bet FROM Avtr_tblBetPlayHistory
+	WHERE RoundNo = (Select  RoundNo  from  Avtr_tblBetHistory where RoundNo='000000000109')
+	--WHERE RoundNo = (Select RoundNo from  Avtr_tblBetHistory where Round_Status='Running')
+        ORDER BY Bet_Date DESC  
+    END  
+    ELSE IF (@BetHistorytype = 'ALLBetHistory')  
+    BEGIN  
+        SELECT   
+            MemId AS PlayerId,  
+            RoundNo,  
+            Amount AS [Bet Amount],  
+            Multi AS [Cashout Multiplier],  
+            Result_Status AS Status,  
+            CASE   
+                WHEN Result_Status = 'WIN' THEN '+' + CONVERT(VARCHAR(10), ISNULL(Win_Amt, 0))  
+                WHEN Result_Status = 'Loss' THEN '-' + CONVERT(VARCHAR(10), ISNULL(Amount, 0))  
+                WHEN Result_Status = 'Cancel' THEN '0'  
+                ELSE '0'  
+            END AS Profit,  
+            CONVERT(VARCHAR(10), Bet_Date, 105) AS BetDate,  
+            CONVERT(VARCHAR(8), Bet_Date, 108) AS BetTime  
+        FROM Avtr_tblBetPlayHistory  
+        ORDER BY Bet_Date DESC  
+    END  
+END
