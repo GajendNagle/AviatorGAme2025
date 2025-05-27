@@ -378,6 +378,7 @@ var extra_counter = 0;
     }
 
 function crash_plane(inc_no) {
+    debugger;
     soundPlay();
   
     window.clearInterval(StopPlaneIntervalID);
@@ -1078,7 +1079,7 @@ function show_bet_count(count,bet_amount) {
 }
 
 function bet_now(element, section_no, event) {
-
+    debugger;
     event.preventDefault();
     $("#isbet").val(1);
 
@@ -1167,7 +1168,6 @@ function place_bet_now(result) {
     for(let i=0;i < bet_array.length; i++){
         bet_array[i].game_id = result.id;
     }
-    
          current_is_bet= true; 
  
          var mult_no = getCookie('mult_no');
@@ -1178,7 +1178,7 @@ function place_bet_now(result) {
               setCookie('mult_no',1, 1); 
          }
 
-  
+    debugger
  var triggerElement = document.querySelector('.wallet-top');
     var walletText = triggerElement.textContent;
     var walletValue = walletText.substring(1);

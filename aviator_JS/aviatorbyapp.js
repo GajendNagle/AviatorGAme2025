@@ -114,7 +114,6 @@ function currentid() {
 }
 
 function gamegenerate() {
-    debugger;
     bet_array.length = 0;
 
     setTimeout(() => {
@@ -133,13 +132,12 @@ function gamegenerate() {
 
                 dataType: "json",
                 success: function (result) {
-                    debugger;
                     if (!result.Success && result.Message === "Not Authenticated") {
                         window.location.href = "SignIn.aspx";
                         return;
                     }
                     incrementor(parseFloat(1.00).toFixed(2));
-
+                    debugger;
                     if (bet_array.length > 0) {
                         place_bet_now(result);
                     }

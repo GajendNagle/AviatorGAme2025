@@ -1,5 +1,4 @@
 //CANVAS ANIMTION FUNCTION
-debugger;
 var cW = $('.stage-board').width();
 var cH = $('.stage-board').height();
 $('#myCanvas').attr('width', cW).attr('height', cH);
