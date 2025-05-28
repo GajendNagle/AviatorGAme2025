@@ -854,10 +854,10 @@
                                             </div>
                                         </div>
                                         <div class="bets-opt-list">
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">100</span><span class="currency">₹</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">200</span><span class="currency">₹</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">500</span><span class="currency">₹</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1000</span><span class="currency">₹</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">100</span><span class="currency">TRX</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">200</span><span class="currency">TRX</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">500</span><span class="currency">TRX</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1000</span><span class="currency">TRX</span></button>
                                         </div>
                                     </div>
                                     <div class="buttons-block" id="bet_button">
@@ -930,9 +930,9 @@
                                 <div class="first-row auto-game-feature">
                                     <div class="bet-block">
                                         <div class="spinner">
-                                            <div class="input">
-                                                <input id="bet_amount" value="10.00" min="10.00" type="number" class="extra_bet_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-                                            </div>
+                                                <div class="input">
+                                                    <input id="bet_amount" value="10.00" min="10.00" type="number" class="extra_bet_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                                </div>
                                             <div class="qty-buttons">
                                                 <button type="button" class="minus " id="extra_minus_btn" onclick="bet_amount_decremental(this, event);">
                                                     -
@@ -943,10 +943,10 @@
                                             </div>
                                         </div>
                                         <div class="bets-opt-list">
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">100</span><span class="currency">₹</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">200</span><span class="currency">₹</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">500</span><span class="currency">₹</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1000</span><span class="currency">₹</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">100</span><span class="currency">TRX</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">200</span><span class="currency">TRX</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">500</span><span class="currency">TRX</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1000</span><span class="currency">TRX</span></button>
                                         </div>
                                     </div>
                                     <div class="buttons-block" id="bet_button">
@@ -1025,15 +1025,15 @@
                         <ul class="list-unstyled limit-rules">
                             <li class="list-group-item">
                                 Minimum Bet:
-                                <span class="badge badge-success px-2 font-family-number">10 ₹ </span>
+                                <span class="badge badge-success px-2 font-family-number">10 TRX </span>
                             </li>
                             <li class="list-group-item">
                                 Maximum Bet:
-                                <span class="badge badge-success px-2 font-family-number">8000 ₹ </span>
+                                <span class="badge badge-success px-2 font-family-number">8000 TRX </span>
                             </li>
                             <li class="list-group-item">
                                 Maximum win for one bet:
-                                <span class="badge badge-success px-2 font-family-number">800000 ₹ </span>
+                                <span class="badge badge-success px-2 font-family-number">800000 TRX </span>
                             </li>
                         </ul>
                     </div>
@@ -1361,7 +1361,7 @@
 
 
             $.ajax({
-                url: 'https://totalwin.live/associate/aviator/currentlybet',
+                url: 'Handler/currentlybet.ashx',
                 type: "POST",
                 data: {
                     _token: hash_id
@@ -1373,7 +1373,7 @@
             });
 
               $.ajax({
-                  url: 'https://totalwin.live/associate/aviator/my_bets_history',
+                  url: 'Handler/my_bets_history.ashx',
                 type: "POST",
                 data: {
                     _token: hash_id

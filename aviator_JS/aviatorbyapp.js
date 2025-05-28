@@ -1,8 +1,9 @@
 var gameId;
 function gameover(lastint) {
+    //debugger;
     $("#isbet").val(0);
     $.ajax({
-        url: 'aviator/game_over',
+        url: 'Handler/game_over.ashx',
         type: "POST",
         data: {
             _token: hash_id,
@@ -11,16 +12,17 @@ function gameover(lastint) {
         },
         dataType: "text",
         success: function (result) {
+            debugger;
             if (current_is_bet) {
                 $.ajax({
-                    url: 'aviator/my_bets_history',
+                    url: 'Handler/my_bets_history.ashx',
                     type: "POST",
                     data: {
                         _token: hash_id
                     },
                     dataType: "json",
                     success: function (data) {
-
+                        debugger;
                         update_my_bet_history(data.data);
                     }
                 });
@@ -114,6 +116,7 @@ function currentid() {
 }
 
 function gamegenerate() {
+    debugger;
     bet_array.length = 0;
 
     setTimeout(() => {
@@ -153,6 +156,7 @@ function gamegenerate() {
                     lets_fly();
                     let currentbet = 0;
                     var a = 1.0;
+                    debugger;
                     let isbet = $("#isbet").val();
                     isbet = 1;
                     $.ajax({
