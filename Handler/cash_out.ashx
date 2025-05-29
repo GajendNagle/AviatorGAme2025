@@ -48,14 +48,14 @@ public class cash_out : IHttpHandler
         response = _context.Response;
         context.Response.ContentType = "application/json";
 
-        if (context.Request.Cookies["LoginID"] != null)
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
         {
-            UserID = (context.Request.Cookies["LoginID"].Value);
-            float.TryParse(context.Request["betAmount"].Trim(), out BetAmount);
-            BetType = context.Request["betType"].Trim();
-            RoundNo = context.Request["RoundNo"].Trim();
-
-            multiplier = context.Request["multiplier"];
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+           // float.TryParse(context.Request["betAmount"].Trim(), out BetAmount);
+            BetType = context.Request["section_no"].Trim();
+            RoundNo = context.Request["game_id"].Trim();
+                float.TryParse(context.Request["betAmount"].Trim(), out BetAmount);
+            multiplier = context.Request["win_multiplier"];
             float.TryParse(multiplier.Trim(), out CrashMulti);
             BetAction = "Cashout";
             CashoutBetAction();

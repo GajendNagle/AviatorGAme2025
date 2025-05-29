@@ -29,8 +29,7 @@ public class add_bet : IHttpHandler
         ResponseModel res = new ResponseModel();
         JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        HttpCookie LoginID = context.Request.Cookies["LoginID"];
-        if (LoginID == null || string.IsNullOrEmpty(LoginID.Value))
+         if (context.Request.Cookies["Tap190Nvw92mst"]== null)
         {
             res.Success = false;
             res.Message = "LoginID missing.";
@@ -39,7 +38,7 @@ public class add_bet : IHttpHandler
             return;
         }
 
-        string userId = LoginID.Value;
+        string userId = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
         string token = context.Request["_token"];
         string roundNo = context.Request["RoundNo"]; 
         string allBetsJson = context.Request["all_bets"];
@@ -64,7 +63,7 @@ public class add_bet : IHttpHandler
                 DataSet ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay]", new string[] {
                     "Action", "MemId", "RoundNo", "Bet", "BetAmount", "Multi", "Result_Status"
                 }, new string[] {
-                    "Place", userId, roundNo, bet.bet_type, bet.bet_amount, "", "bet"
+                    "Place", userId, roundNo, bet.section_no.ToString(), bet.bet_amount, "0", "bet"
                 }, "bet");
 
                 if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0 || ds.Tables[0].Rows[0]["Success"].ToString() != "True")

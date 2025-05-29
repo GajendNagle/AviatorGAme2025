@@ -367,7 +367,7 @@ function updateRoundInfo() {
                 }
             }
             else {
-                window.location.href = "SignIn.aspx";
+                window.location.href = "../login.html";
             }
         },
         error: function (xhr, status, error) {

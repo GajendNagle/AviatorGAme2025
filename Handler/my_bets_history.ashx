@@ -31,10 +31,9 @@ public class my_bets_history : IHttpHandler
         response = _context.Response;
         response.ContentType = "application/json";
 
-        HttpCookie LoginID = context.Request.Cookies["LoginID"];
-        if (LoginID != null && (!string.IsNullOrEmpty(LoginID.Value)))
+          if (context.Request.Cookies["Tap190Nvw92mst"] != null)
         {
-            Memid = LoginID.Value.ToString();
+            Memid = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
             MyBetHistory();
         }
         else

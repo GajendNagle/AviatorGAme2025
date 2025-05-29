@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.SessionState;
 
-public class new_game_generated : IHttpHandler , IRequiresSessionState
+public class new_game_generated : IHttpHandler, IRequiresSessionState
 {
     public HttpContext context;
     public HttpRequest request;
@@ -19,8 +19,9 @@ public class new_game_generated : IHttpHandler , IRequiresSessionState
     DataTable dt;
     public float BetAPending;
     public float BetBPending;
+     DynamicDtls objgdb = new DynamicDtls();
 
-    public string ConDB = ConfigurationManager.ConnectionStrings["ConDB"].ConnectionString;
+    public string ConDB = ConfigurationManager.ConnectionStrings["Conn"].ConnectionString;
 
     public void ProcessRequest(HttpContext _context)
     {
@@ -32,11 +33,9 @@ public class new_game_generated : IHttpHandler , IRequiresSessionState
         /////////
         try
         {
-            HttpCookie LoginID = context.Request.Cookies["LoginID"];
-            if (LoginID != null && (!string.IsNullOrEmpty(LoginID.Value)))
+            if (context.Request.Cookies["Tap190Nvw92mst"] != null)
             {
-                WalletBlnc = float.Parse(context.Request.Cookies["WBlnc"].Value);
-                UserId = LoginID.Value;
+                UserId = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
                 BindResult();
             }
             else
@@ -82,10 +81,10 @@ public class new_game_generated : IHttpHandler , IRequiresSessionState
 
                             if (!string.IsNullOrEmpty(CurrentRound))
                             {
-                                BetAPending =float.Parse(dt.Rows[0]["Bet_A"].ToString()); 
-                                BetBPending =float.Parse(dt.Rows[0]["Bet_B"].ToString()); 
-                                WalletBlnc = float.Parse(dt.Rows[0]["GameWalletB"].ToString());
-                                WriteJsonResponse(true, "New Round Started", CurrentRound, UserId, WalletBlnc, BetAPending, BetBPending);
+                                BetAPending = float.Parse(dt.Rows[0]["Bet_A"].ToString());
+                                BetBPending = float.Parse(dt.Rows[0]["Bet_B"].ToString());
+                                //WalletBlnc = float.Parse(dt.Rows[0]["GameWalletB"].ToString());
+                                WriteJsonResponse(true, "New Round Started", CurrentRound, UserId, BetAPending, BetBPending);
                             }
                             else
                             {
@@ -104,14 +103,13 @@ public class new_game_generated : IHttpHandler , IRequiresSessionState
     }
 
 
-    private void WriteJsonResponse(bool success, string message, string roundNo = "", string UserId = "", float WalletBlnc = 0, float BetA = 0 , float BetB = 0)
+    private void WriteJsonResponse(bool success, string message, string roundNo = "", string UserId = "", float BetA = 0, float BetB = 0)
     {
         var result = new
         {
             Success = success,
             Message = message,
             id = roundNo,
-            WalletBlnc = WalletBlnc,
             UserId = UserId,
             PendingBetA = BetA,
             PendingBetB = BetB

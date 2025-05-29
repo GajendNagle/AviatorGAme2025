@@ -48,7 +48,7 @@ public class BetPlayHistoryUpdate : IHttpHandler
         response = _context.Response;
         context.Response.ContentType = "application/json";
 
-        if (context.Request.Cookies["LoginID"] != null)
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
         {
             UserID = (context.Request.Cookies["LoginID"].Value);
             BetAction = context.Request["action"].Trim();

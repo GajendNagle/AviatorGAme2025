@@ -33,8 +33,7 @@ public class game_over : IHttpHandler
 
         var serializer = new JavaScriptSerializer();
         ResponseModel res = new ResponseModel();
-        HttpCookie LoginID = context.Request.Cookies["LoginID"];
-        if (LoginID != null && (!string.IsNullOrEmpty(LoginID.Value)))
+          if (context.Request.Cookies["Tap190Nvw92mst"] != null)
         {
             try
             {

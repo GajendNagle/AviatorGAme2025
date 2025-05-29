@@ -1347,18 +1347,16 @@
                 dataType: "json",
                 success: function (result) {
                     if (!result.Success || result.Message === "Not Authenticated") {
-                        window.location.href = "SignIn.aspx";
+                        window.location.href = "../login.html";
                         return;
                     }
                     document.querySelector('.period_no').textContent = "Round No : " + result.id;
                     gamegenerate();
                 },
                 error: function () {
-                    window.location.href = "SignIn.aspx";
+                    window.location.href = "../login.html";
                 }
             });
-           
-
 
             $.ajax({
                 url: 'Handler/currentlybet.ashx',
@@ -1419,8 +1417,6 @@
         var current_cash_out = 1.00;
          var current_cash = false;
         var total_bet_lists = []
-
-
 
         document.addEventListener('DOMContentLoaded', function() {
             var tabs = document.querySelectorAll('[data-bs-toggle="pill"]');

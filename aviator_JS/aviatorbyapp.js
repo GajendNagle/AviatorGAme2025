@@ -12,7 +12,7 @@ function gameover(lastint) {
         },
         dataType: "text",
         success: function (result) {
-            debugger;
+            //debugger;
             if (current_is_bet) {
                 $.ajax({
                     url: 'Handler/my_bets_history.ashx',
@@ -22,7 +22,7 @@ function gameover(lastint) {
                     },
                     dataType: "json",
                     success: function (data) {
-                        debugger;
+                        //debugger;
                         update_my_bet_history(data.data);
                     }
                 });
@@ -65,10 +65,6 @@ function gameover(lastint) {
                         show_loading_game();
                         gamegenerate();
                     }, 5000);
-
-
-
-
 
                     // Main Bet
                     $(".main_bet_amount").prop('disabled', false);
@@ -116,7 +112,7 @@ function currentid() {
 }
 
 function gamegenerate() {
-    debugger;
+    //debugger;
     bet_array.length = 0;
 
     setTimeout(() => {
@@ -136,11 +132,11 @@ function gamegenerate() {
                 dataType: "json",
                 success: function (result) {
                     if (!result.Success && result.Message === "Not Authenticated") {
-                        window.location.href = "SignIn.aspx";
+                        window.location.href = "../login.html";
                         return;
                     }
                     incrementor(parseFloat(1.00).toFixed(2));
-                    debugger;
+                    //debugger;
                     if (bet_array.length > 0) {
                         place_bet_now(result);
                     }
@@ -156,7 +152,6 @@ function gamegenerate() {
                     lets_fly();
                     let currentbet = 0;
                     var a = 1.0;
-                    debugger;
                     let isbet = $("#isbet").val();
                     isbet = 1;
                     $.ajax({
@@ -175,7 +170,7 @@ function gamegenerate() {
                             console.log(mlresult);
                             if (current_is_bet) {
 
-                                if (mlresult.result <= 3) {
+                                if (mlresult.result <= 10) {
                                     currentbet = mlresult.result;
                                 } else {
                                     currentbet = 1.11;
@@ -277,7 +272,7 @@ function gamegenerate() {
             });
         }, 10000);
 
-    }, 1500);
+    }, 1000);
 }
 
 function check_game_running(event) {

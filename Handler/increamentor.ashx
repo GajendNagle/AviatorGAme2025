@@ -1,12 +1,16 @@
 ﻿<%@ WebHandler Language="C#" Class="increamentor" %>
 
 using System;
+using System.Text;
 using System.Web;
+using System.Data;
 using System.Web.Script.Serialization;
-using System.Text; // for Base64 encoding
 
 public class increamentor : IHttpHandler
 {
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds;
+
     public void ProcessRequest(HttpContext context)
     {
         context.Response.ContentType = "application/json";
@@ -15,16 +19,10 @@ public class increamentor : IHttpHandler
         string isbet = context.Request["isbet"];
         string gameId = context.Request["game_id"];
 
-        Random rand = new Random();
-        double crash = rand.NextDouble() * (10.0 - 1.10) + 1.10;
+        ds = objgdb.ByProcedure("[Avtr_GenerateCrashPoint]", new string[] {
+            "isbet"}, new string[] { isbet }, "das");
 
-        if (isbet == "1" && crash > 3.0)
-        {
-            crash = 1.11;
-        }
-
-        crash = Math.Round(crash, 2);
-
+        string crash = ds.Tables[0].Rows[0]["crash"].ToString();
         var resultObj = new
         {
             result = crash
