@@ -1,0 +1,151 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class ViewPinRequest : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    SqlDataAdapter da;
+    DataSet ds;
+    SqlCommand cmd;
+    SearchReports objSearchReports = new SearchReports();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!Page.IsPostBack)
+            {
+                try
+                {
+                    cmd = new SqlCommand("dbo.ViewPinRequestReports", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Status", ddlStatus.SelectedItem.Text);
+                    cmd.Parameters.AddWithValue("@FrDate", FromDate.Text);
+                    cmd.Parameters.AddWithValue("@ToDate", ToDate.Text);
+                    cmd.Parameters.AddWithValue("@Bank", ddlBank.SelectedItem.Text);
+                    cmd.Parameters.AddWithValue("@PinNo", txtPinNo.Text);
+                    da = new SqlDataAdapter(cmd);
+                    ds = new DataSet();
+                    da.Fill(ds);
+                    if (ds.Tables[0].Rows.Count != 0)
+                    {
+                        btnexporttoexport.Visible = true;
+                    }
+                    else
+                    {
+                        btnexporttoexport.Visible = false;
+                    }
+                    GridView1.DataSource = ds.Tables[0];
+                    GridView1.DataBind();
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    da.Dispose();
+                    ds.Dispose();
+                }
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            cmd = new SqlCommand("dbo.ViewPinRequestReports", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Status", ddlStatus.SelectedItem.Text);
+            cmd.Parameters.AddWithValue("@FrDate", FromDate.Text);
+            cmd.Parameters.AddWithValue("@ToDate", ToDate.Text);
+            cmd.Parameters.AddWithValue("@Bank", ddlBank.SelectedItem.Text);
+            cmd.Parameters.AddWithValue("@PinNo", txtPinNo.Text);
+            da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds);
+            if (ds.Tables[0].Rows.Count != 0)
+            {
+                btnexporttoexport.Visible = true; 
+            }
+            else
+            {
+                btnexporttoexport.Visible = false;
+            }
+            GridView1.DataSource = ds.Tables[0];
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            cmd.Dispose();
+            da.Dispose();
+            ds.Dispose();
+        }
+
+    }
+
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        GridViewExportUtil.Export("Search Report.xls", this.GridView1, "2");
+    }
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;
+        btnSearch_Click(sender, e);
+    }
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView1.EditIndex = e.NewEditIndex;
+        btnSearch_Click(sender, e);
+    }
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            cn.Open();
+            int r;
+            TextBox lblReq_No = (TextBox)GridView1.Rows[e.RowIndex].Cells[0].FindControl("txtReq_No");
+            TextBox hd = (TextBox)GridView1.Rows[e.RowIndex].Cells[0].FindControl("txtbxRemark");
+
+            cmd = new SqlCommand("update PinRequest set Remark='" + hd.Text.Trim() + "'  where Reqid='" + lblReq_No.Text.Trim() + "'", cn);
+            r = cmd.ExecuteNonQuery();
+            if (r > 0)
+            {
+                lblMsg.Text = " Field Updated Successfully....";
+            }
+            else
+            {
+
+                lblMsg.Text = " Some Problem Arise....";
+
+            }
+            GridView1.EditIndex = -1;
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        cn.Close();
+        btnSearch_Click(sender, e);
+    }
+}

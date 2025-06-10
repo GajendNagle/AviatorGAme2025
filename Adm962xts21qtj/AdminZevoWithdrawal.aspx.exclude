@@ -1,0 +1,252 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" CodeFile="AdminZevoWithdrawal.aspx.cs" Inherits="Adm962xts21qtj_AdminZevoWithdrawal" StylesheetTheme="MySkin" Title="Zevo Withdrawal History"%>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr>
+            <td style="width: 100%; height: 53px; background-color: White;" valign="top" align="center">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="width: 100%;  text-align: right;" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 50px; border-bottom: 1px solid #cdcdcd; margin-bottom: 10px;">
+                                <tr>
+                                    <td>
+                                        <div style="float: left; text-align: left; width: 450px;">
+                                            <a href="AdminViewBankCardDetails.aspx?FrmDt=<%=FrmDt%>&ToDt=<%=ToDt%>&strSearchText=<%=strSearchText%>&Pagesize=<%=Pagesize%>&currentPage=<%=cPage%>&ColumnName=<%=ColumnName%>&WthType=<%=WthType %>" onclick="NewWindow(this.href,'MList','1100','600','yes','center');return false">Click for Withdrawal list with Bank ###</a><br />
+                                            <br />
+                                            <%--<asp:LinkButton ID="lnkBntCalInc" runat="server" OnClick="lnkBntCalInc_Click">### Calculate Dialy Growth ###</asp:LinkButton>--%>
+                                        </div>
+                                        <div style="float: left; text-align: right; width: 50px;">
+                                            <asp:ImageButton ID="btnexporttoexport" runat="server" OnClick="btnexporttoexport_Click" ImageUrl="../UserPanel_Images/excel_icon.gif" />
+                                            <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')" />
+                                        </div>
+                                    </td>
+                                    <td style="width: 650px; display: none;">Withdrawal Income Upto:
+                                        <asp:TextBox ID="txtWithInc" runat="server" Width="100px" MaxLength="10"></asp:TextBox>
+                                        <asp:RequiredFieldValidator runat="server" ErrorMessage="RequiredFieldValidator" ControlToValidate="txtWithInc" ValidationGroup="Wth"></asp:RequiredFieldValidator>
+                                        <asp:Button ID="btnWithInc" runat="server" Text="Withdrawal Now !!" ValidationGroup="Wth" OnClick="btnWithInc_Click" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="width: 100%; height: 30px;" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" class="MtblCntReg" style="width: 100%">
+                                <tr>
+                                    <td class="lbl" style="height: 33px;">From Date :</td>
+                                    <td style="height: 33px;">
+                                        <asp:TextBox ID="txtFromDate" runat="server" MaxLength="12" Width="87px" AutoComplete="off"></asp:TextBox>
+                                    </td>
+                                    <td class="lbl" style="height: 33px;">To Date :</td>
+                                    <td style="height: 33px;">
+                                        <asp:TextBox ID="txtToDate" runat="server" MaxLength="12" Width="87px" AutoComplete="off"></asp:TextBox>
+                                    </td>
+                                    <td class="lbl" style="height: 33px;">Select One:</td>
+                                    <td style="height: 33px;">
+                                        <asp:DropDownList ID="DDLDownPos" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx" OnSelectedIndexChanged="DDLDownPos_SelectedIndexChanged" Width="102px">
+                                            <asp:ListItem>All</asp:ListItem>
+                                            <asp:ListItem Value="pai.TransID">Transaction ID</asp:ListItem>
+                                            <asp:ListItem Value="md.MName">Name</asp:ListItem>
+                                            <asp:ListItem Value="pai.MemID">Member ID</asp:ListItem>
+                                            <asp:ListItem Value="pai.Status">Status</asp:ListItem>
+                                            <asp:ListItem Value="pai.AccType">Payment Mode</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td style="height: 33px;">
+                                        <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" MaxLength="30" Text="" Width="87px"></asp:TextBox>
+                                        <asp:DropDownList ID="DDLFillItems" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana" Font-Size="10px" Visible="False" Width="80px" AutoPostBack="True" OnSelectedIndexChanged="DDLFillItems_SelectedIndexChanged1">
+                                            <%--<asp:ListItem>PENDING</asp:ListItem>
+                                            <asp:ListItem>COMPLETED</asp:ListItem>
+                                            <asp:ListItem>REJECTED</asp:ListItem>--%>
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td style="height: 33px;">
+                                        <asp:Button ID="btnSearch" runat="server" CssClass="Btn" OnClick="btnSearch_Click" Text="GO" />
+                                    </td>
+                                    <td style="height: 33px;" class="lblr">
+                                        <%=PageNo%>
+                                        -
+                                        <%=Pagesize %>
+                                        of &nbsp;
+                                        <asp:Label ID="lblTotRec" runat="server" Font-Bold="True"></asp:Label>
+                                        &nbsp;
+                                        <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx"></asp:DropDownList>
+                                    </td>
+                                </tr>
+                            </table>
+                            <asp:Label ID="lblMsg" runat="server" Font-Bold="True"></asp:Label>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr id="idChangeSts" runat="server">
+            <td class="BoardStructure" style="padding-top: 10px;" valign="top">
+                <table>
+                    <tr>
+                        <td align="left" style="height: 26px;">
+                            <asp:DropDownList ID="ddlchangeStatus" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana" Font-Size="10px" Visible="true" Width="80px">
+                                <asp:ListItem>COMPLETED</asp:ListItem>
+                            </asp:DropDownList>
+                        </td>
+                        <td style="height: 26px;">
+                            <asp:Button ID="btnchangestatus" runat="server" OnClick="btnchangestatus_Click" Text="Change Status" />
+                            <%--<asp:DropDownList ID="ddWtp" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx" OnSelectedIndexChanged="ddWtp_SelectedIndexChanged" Width="200px">
+                                <asp:ListItem>All</asp:ListItem>
+                                <asp:ListItem Value="ROI Auto Withdrawal">ROI Auto Withdrawal</asp:ListItem>
+                                <asp:ListItem Value="Bonus Auto Withdrawal">Bonus Auto Withdrawal</asp:ListItem>
+                            </asp:DropDownList>--%>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" class="BoardStructure" style="padding-top: 10px;">
+                <asp:Label ID="lblgvrecord" runat="server" Text=""></asp:Label>
+                <div id="divPrint">
+                    <asp:GridView ID="grdUserDtl" runat="server" Width="100%" OnRowDataBound="grdUserDtl_RowDataBound" ShowFooter="True" AutoGenerateColumns="False">
+                        <Columns>
+                            <asp:TemplateField HeaderText="SrNo.">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex +1  %>.
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkHeader" runat="server" AutoPostBack="true" OnCheckedChanged="chkHeader_CheckedChanged" />
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                  <asp:Panel ID="Panel71" runat="server" Visible='<%#Eval("Status").Equals("PENDING")?true:false%>'>
+                                     <asp:CheckBox ID="chkSelect" runat="server" />
+                                    </asp:Panel>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Edit">
+                                <ItemTemplate>
+                                    <asp:Panel ID="Panel781" runat="server" Visible='<%#Eval("Status").Equals("PENDING")?true:false%>'>
+                                        <a href='Zevo_Admin_EditPayOutAmt.aspx?ID=<%# Eval("ID") %>' onclick="NewWindow(this.href,'MList','600','540','yes','center');return false"
+                                            onfocus="this.blur()">Edit</a>
+                                    </asp:Panel>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <%--<asp:TemplateField HeaderText="Account">
+                                <ItemTemplate>
+                                    <a href='BankDetailFill.aspx?ID=<%# Eval("ID") %>' onclick="NewWindow(this.href,'MList','530','450','yes','center');return false" onfocus="this.blur()">Detail</a>
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
+                            <asp:TemplateField HeaderText="Member ID">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblmemberID" runat="server" Text='<%#Eval("Memid")%>'></asp:Label>
+                                    <asp:Label ID="lblID" runat="server" Visible="False" Text='<%#Eval("ID")%>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Name">
+                                <ItemTemplate>
+                                    <b><%# DataBinder.Eval(Container.DataItem, "Name")%><br /></b>
+                                    A/c: <%# DataBinder.Eval(Container.DataItem, "accno")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Mobile">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Mobile")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <%--<asp:TemplateField HeaderText="Issue Mode">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "issueMode")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
+                            <asp:TemplateField HeaderText="Request Date">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "RequestDate")%>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    Page Total :
+                                </FooterTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Amount">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblAmt" runat="server" Text='<%#Eval("NetAmt")%>'></asp:Label>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    <asp:Label ID="lblTotAmt"  runat="server"></asp:Label>
+                                </FooterTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Transaction ID">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "TransID")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Transaction Date">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "UpdateDate")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Transaction Status">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Status")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Withdrawal From">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "TransMode")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <%--<asp:TemplateField HeaderText="IssueMode">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblIssueMode" runat="server" Text='<%#Eval("issueMode") %>' Visible="false"></asp:Label>
+                                    <a href="Admin_WithDrawalMode_Detail.aspx?U=<%# Eval("MemID") %>&M=<%#Eval("issueMode") %>" onclick="NewWindow(this.href,'MList','610','500','yes','center');return false">
+                                        <%#Eval("IssueMode") %>
+                                    </a>
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
+                        </Columns>
+                        <FooterStyle BorderStyle="None" Height="20px" HorizontalAlign="Center" VerticalAlign="Middle"></FooterStyle>
+                        <PagerStyle Font-Size="12px"></PagerStyle>
+                        <EmptyDataTemplate>
+                            <span style="color: Red;">---!!! Ooops, Amount Withdrawn Details Not Found !!!---</span>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtFromDate" TargetControlID="txtFromDate"></ajaxToolkit:CalendarExtender>
+    <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" Format="MM/dd/yyyy" PopupButtonID="txtWithInc" TargetControlID="txtWithInc"></ajaxToolkit:CalendarExtender>
+    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtToDate" TargetControlID="txtToDate"></ajaxToolkit:CalendarExtender>--%>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+        $(function () {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+
+        $(function () {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+        $(function () {
+            $("#<%=txtWithInc.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+    </script>
+</asp:Content>

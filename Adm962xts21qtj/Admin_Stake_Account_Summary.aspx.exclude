@@ -1,0 +1,339 @@
+﻿<%--<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin_Account_Summary.aspx.cs" Inherits="Admin_Account_Summary"   StylesheetTheme="MySkin" Title="Account Setting User !!" %>--%>
+
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" StylesheetTheme="mySkin" CodeFile="Admin_Stake_Account_Summary.aspx.cs" Inherits="Adm962xts21qtj_Admin_Account_Summary" Title="Account Setting User" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <style>
+        .ui-datepicker-trigger {
+            right: 21px;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="flex-img-link-wrapper">
+                    <div class="flex-img-link-in">
+                        <span>
+                            <asp:Image ID="Image1" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" />
+                            <asp:LinkButton ID="LinkButton1" runat="server" CssClass="Uparmenu" OnClientClick="return CallPrint('divPrint')">Print</asp:LinkButton>
+                        </span>
+                        <span>
+                            <asp:Image ID="Image4" runat="server" ImageUrl="../UserPanel_Images/excel.png" />
+                            <asp:LinkButton ID="LinkButton2" runat="server" CssClass="Uparmenu" OnClick="btnexporttoexport_Click">Export to Excel</asp:LinkButton>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-wrap" style="display: none;">
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Data Type </label>
+                    <asp:DropDownList ID="ddldttTyp" runat="server" Width="90px" Font-Names="Verdana" Font-Size="11px" CssClass="ComposeTxtBx"></asp:DropDownList>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>From Date </label>
+                    <asp:TextBox ID="txtFromDate" runat="server" CssClass="form-control" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>To Date </label>
+                    <asp:TextBox ID="txtToDate" runat="server" CssClass="form-control" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Income Type </label>
+                    <asp:DropDownList ID="ddl_IncType" runat="server" CssClass="form-control"></asp:DropDownList>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Show Results By  </label>
+                    <%--<asp:DropDownList ID="DDLSrchByDjGt" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="DDLSrchByDjGt_SelectedIndexChanged"></asp:DropDownList>--%>
+                </div>
+            </div>
+            <div class="col-md-2 col-12" id="detsdv" runat="server">
+                <div class=" form-group">
+                    <asp:DropDownList ID="DDLDownPos" runat="server" CssClass="form-control blnk-input" Visible="false"></asp:DropDownList>
+                    <asp:TextBox ID="txtSearch" runat="server" Visible="false" Text="" CssClass="form-control blnk-input" AutoComplete="off"></asp:TextBox>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <asp:Button ID="btnSearch" runat="server" Text="GO" CssClass="OuterBtn blnk-input" OnClick="btnSearch_Click" />
+            </div>
+        </div>
+        <div class="row" style="display: none;">
+            <div class="col-md-6 col-12">
+                <asp:Label ID="lblTotalSum" runat="server" CssClass="total-record" Font-Bold="True" ForeColor="#FF0000"></asp:Label>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="pgsizes">
+                    <span>
+                        <%--<%=PageNo%>
+                        -
+                        <%=Pagesize %>
+                        of--%>
+                        <asp:Label ID="lblRecordNo" runat="server" Font-Bold="True"></asp:Label>
+                        <asp:Label ID="lblTotRec" runat="server"></asp:Label>
+                        &nbsp;
+                    </span>
+                    <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageChanged" CssClass="form-control" Width="58px"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlGrpageSz" runat="server" Width="60px" AutoPostBack="true" OnSelectedIndexChanged="PageChangedPz">
+                        <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                        <asp:ListItem Text="200" Value="200"></asp:ListItem>
+                        <asp:ListItem Text="300" Value="300"></asp:ListItem>
+                        <asp:ListItem Text="500" Value="500"></asp:ListItem>
+                        <asp:ListItem Text="1000" Value="1000"></asp:ListItem>
+                        <asp:ListItem Text="2500" Value="2500"></asp:ListItem>
+                        <asp:ListItem Text="5000" Value="5000"></asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lblMsg" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+            </div>
+        </div>
+        <div class="row" id="idChangeSts" style="display: none;" runat="server">
+            <div class="col-md-2 col-12">
+                <asp:Button ID="tbnSendPayout" runat="server" Text="Send Bank Payout" CssClass="OuterBtn" />
+                <asp:DropDownList ID="ddlchangeStatus" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana" Font-Size="10px" Visible="true" Width="100px">
+                    <asp:ListItem Value="">--Status--</asp:ListItem>
+                    <asp:ListItem Value="0">process</asp:ListItem>
+                    <asp:ListItem Value="1">success</asp:ListItem>
+                    <asp:ListItem Value="2">Failure</asp:ListItem>
+                    <asp:ListItem Value="3">pending</asp:ListItem>
+                    <asp:ListItem Value="4">refund</asp:ListItem>
+                </asp:DropDownList>
+            </div>
+            <div class="col-md-2 col-12">
+                <asp:TextBox ID="txtreport_id" runat="server" placeholder="report_id:" Width="100px"></asp:TextBox>
+            </div>
+            <div class="col-md-2 col-12">
+                <asp:TextBox ID="txtutr" runat="server" placeholder="utr:" Width="100px"></asp:TextBox>
+            </div>
+            <div class="col-md-2 col-12">
+                <asp:TextBox ID="txtmessage" runat="server" Width="100px" placeholder="message: Like : refund, success, pending, Low balance, Bank Not found or Down, Please check IFSC code"></asp:TextBox>
+            </div>
+            <div class="col-md-2 col-12">
+                <asp:Button ID="btnchangestatus" runat="server" Text="Update Status" CssClass="OuterBtn" />
+            </div>
+            <div class="col-md-2 col-12">
+                <%--<asp:DropDownList ID="ddWtp" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx" OnSelectedIndexChanged="ddWtp_SelectedIndexChanged" Width="200px">
+                    <asp:ListItem>All</asp:ListItem>
+                    <asp:ListItem Value="ROI Auto Withdrawal">ROI Auto Withdrawal</asp:ListItem>
+                    <asp:ListItem Value="Bonus Auto Withdrawal">Bonus Auto Withdrawal</asp:ListItem>
+                </asp:DropDownList>--%>
+                <%--"status":0,"status_id":1,"orderid":"415808554","utr":"029712714678","report_id":2124473,"message":"SUCCESS"--%>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div id="divPrint">
+                    <asp:GridView ID="gvinvoiceno" runat="server" PagerSettings-Visible="false" PageSize="100" ShowFooter="True" Width="100%"></asp:GridView>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%--<table align="center" height="36" border="0" cellpadding="0" cellspacing="0" style="width: 1250px">
+        <tr>
+            <td style="width: 100%; height: 30px; text-align: right;" valign="top">
+                <asp:ImageButton ID="btnexporttoexport" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif" OnClick="btnexporttoexport_Click" />
+                &nbsp;
+                <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')" />
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="bottom" style="position: relative;">
+                <table border="0" cellpadding="0" cellspacing="0" style="width: 250px">
+                    <tr></tr>
+                </table>
+                <br />
+            </td>
+        </tr>
+    </table>--%>
+    <%--<table width="100%" cellpadding="0" cellspacing="0" style="position: relative; top: -30px;">
+        <tr>
+            <td>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="ScrollBar">
+                            <div style="width: 100%; height: 100%; scrollbar-base-color: #ffeaff">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="MtblCntReg">
+                                    <tr>
+                                        <td align="center" valign="top">
+                                            <table width="100%" cellpadding="0" cellspacing="0" style="">
+                                                <tr style="display: none;">
+                                                    <td align="center" valign="top">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; font-family: 'Poppins', sans-serif; width: 80%;">
+                                                            <tr>
+                                                                <td class="lbl" style="width: 125px;">Date Type</td>
+                                                                <td class="lbl" style="width: 150px;">From Date</td>
+                                                                <td class="lbl" style="width: 150px;">To Date</td>
+                                                                <td class="lbl" style="width: 180px;">Show Results By</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>--%>
+                                                                    <%--<a class="AutoWith Btn" href="ShowPayoutWithdrawal.aspx">Auto Withdrawal</a>--%>
+                                                                <%--</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddldttTyp" runat="server" Width="90px" Font-Names="Verdana" Font-Size="11px" CssClass="ComposeTxtBx"></asp:DropDownList>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtFromDate" autocomplete="off" runat="server" Font-Names="Verdana" Font-Size="11px" Width="87px" Height="25px"></asp:TextBox>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtToDate" autocomplete="off" runat="server" Width="87px" Height="25px"></asp:TextBox>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddl_IncType" runat="server" CssClass="ComposeTxtBx" Width="150px" Height="35px" OnSelectedIndexChanged="ColumnFilterChanged" AutoPostBack="true"></asp:DropDownList>
+                                                                </td>--%>
+                                                                <%--<td>
+                                                                    <asp:DropDownList ID="DDLSrchByDjGt" runat="server" Font-Names="Verdana" Font-Size="11px" CssClass="ComposeTxtBx" AutoPostBack="True" OnSelectedIndexChanged="DDLSrchByDjGt_SelectedIndexChanged" Width="150px" Height="35px"></asp:DropDownList>
+                                                                </td>--%>
+                                                                <%--<td  style="width: 254px; height: 24px;">&nbsp;By Position :</td>--%>
+                                                                <%--<td>
+                                                                    <asp:DropDownList ID="DDLDownPos" runat="server" Font-Names="Verdana" Font-Size="11px" Width="100px" CssClass="ComposeTxtBx" Visible="false" Height="35px"></asp:DropDownList>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Visible="false" Text="" Width="100px" Height="25px"></asp:TextBox></td>
+                                                                <td>
+                                                                    <asp:Button ID="btnSearch" runat="server" Text="Go" CssClass="OuterBtn" OnClick="btnSearch_Click" />
+                                                                </td>
+                                                                <td class="lblr" style="text-align: left;">--%>
+                                                                    <%--<%=PageNo%>
+                                                                    -
+                                                                    <%=Pagesize %>
+                                                                    of &nbsp;--%>
+                                                                    <%--<asp:Label ID="lblRecordNo" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                                    &nbsp;
+                                                                    <asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                                    &nbsp;
+                                                                    <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx" Height="35px"></asp:DropDownList>
+                                                                    <asp:DropDownList ID="ddlGrpageSz" runat="server" Width="60px" AutoPostBack="true" OnSelectedIndexChanged="PageChangedPz">
+                                                                        <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                                                                        <asp:ListItem Text="200" Value="200"></asp:ListItem>
+                                                                        <asp:ListItem Text="300" Value="300"></asp:ListItem>
+                                                                        <asp:ListItem Text="500" Value="500"></asp:ListItem>
+                                                                        <asp:ListItem Text="1000" Value="1000"></asp:ListItem>
+                                                                        <asp:ListItem Text="2500" Value="2500"></asp:ListItem>
+                                                                        <asp:ListItem Text="5000" Value="5000"></asp:ListItem>
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                                <td class="lblr" style="text-align: left;"></td>
+                                                            </tr>
+                                                        </table>
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td style="width: 20%; height: 19px"></td>
+                                                                <td style="width: 60%; height: 19px; text-align: center">
+                                                                    <asp:Label ID="lblTotalSum" runat="server" Font-Bold="True" ForeColor="#FF0000"></asp:Label>
+                                                                </td>
+                                                                <td align="right" style="padding-left: 5px; width: 182px; height: 26px;">
+                                                                    <div style="text-align: center; float: left;"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                                                    </td>
+                                                </tr>--%>
+                                                <%--<tr id="idChangeSts" style="display: none;" runat="server">
+                                                    <td class="BoardStructure" style="padding-top: 10px; color: #000;" valign="top">
+                                                        <table>
+                                                            <tr>
+                                                                <td align="left" style="height: 26px">
+                                                                    <asp:Button ID="tbnSendPayout" runat="server" Text="Send Bank Payout" CssClass="OuterBtn" />
+                                                                    <asp:DropDownList ID="ddlchangeStatus" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                                        Font-Size="10px" Visible="true" Width="100px">
+                                                                        <asp:ListItem Value="">--Status--</asp:ListItem>
+                                                                        <asp:ListItem Value="0">process</asp:ListItem>
+                                                                        <asp:ListItem Value="1">success</asp:ListItem>
+                                                                        <asp:ListItem Value="2">Failure</asp:ListItem>
+                                                                        <asp:ListItem Value="3">pending</asp:ListItem>
+                                                                        <asp:ListItem Value="4">refund</asp:ListItem>
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:TextBox ID="txtreport_id" runat="server" placeholder="report_id:" Width="100px"></asp:TextBox>
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:TextBox ID="txtutr" runat="server" placeholder="utr:" Width="100px"></asp:TextBox>
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:TextBox ID="txtmessage" runat="server" Width="100px" placeholder="message: Like : refund, success, pending, Low balance, Bank Not found or Down, Please check IFSC code"></asp:TextBox>
+                                                                </td>
+                                                                <td align="left" style="height: 26px;">
+                                                                    <asp:Button ID="btnchangestatus" runat="server" Text="Update Status" CssClass="OuterBtn" />--%>
+                                                                    <%--<asp:DropDownList ID="ddWtp" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx" OnSelectedIndexChanged="ddWtp_SelectedIndexChanged" Width="200px">
+                                                                        <asp:ListItem>All</asp:ListItem>
+                                                                        <asp:ListItem Value="ROI Auto Withdrawal">ROI Auto Withdrawal</asp:ListItem>
+                                                                        <asp:ListItem Value="Bonus Auto Withdrawal">Bonus Auto Withdrawal</asp:ListItem>
+                                                                    </asp:DropDownList>--%>
+                                                                    <%--"status":0,"status_id":1,"orderid":"415808554","utr":"029712714678","report_id":2124473,"message":"SUCCESS"--%>
+                                                                <%--</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 100%" valign="top" class="BoardStructure">
+                                                        <div id="divPrint">
+                                                            <asp:GridView ID="gvinvoiceno" runat="server" PagerSettings-Visible="false" PageSize="100" ShowFooter="True" Width="100%"></asp:GridView>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>--%>
+                                            <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtFromDate" TargetControlID="txtFromDate"></ajaxToolkit:CalendarExtender>
+                                            <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtToDate" TargetControlID="txtToDate"></ajaxToolkit:CalendarExtender>--%>
+                                        <%--</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>--%>
+    <%--<script language="javascript" type="text/javascript">
+        $(function () {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+        $(function () {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+         function CallPrint(strid) {
+             var prtContent = document.getElementById(strid);
+             var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+             WinPrint.document.write(prtContent.innerHTML);
+             WinPrint.document.close();
+             WinPrint.focus();
+             WinPrint.print();
+             WinPrint.close();
+             prtContent.innerHTML = strOldOne;
+         }
+    </script>--%>
+</asp:Content>

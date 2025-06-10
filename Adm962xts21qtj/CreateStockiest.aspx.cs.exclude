@@ -1,0 +1,57 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Adm962xts21qtj_CreateStockiest : System.Web.UI.Page
+{
+    DataSet ds;
+    DynamicDtls objgdb = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (Request.QueryString["Memid"] == null)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>ParentPage(); </script>");
+
+            }
+            else
+            {
+                txtMemID.Text = Request.QueryString["Memid"].ToString();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ds= objgdb.ByProcedure("ProcCreateStockiest", new string[] { "Memid", "Role", "Type" }, new string[] { txtMemID.Text, ddlStatus.SelectedItem.Text, "0" }, "Bydataset");
+            if (ds.Tables[0].Rows[0]["Msg"].ToString() == "Ok")
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["Sts"].ToString() + "'); </script>");
+
+            }
+            else
+            {
+                lblMsg.Text = objgdb.ErrorMsg(ds.Tables[0].Rows[0]["Sts"].ToString());
+            
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+}

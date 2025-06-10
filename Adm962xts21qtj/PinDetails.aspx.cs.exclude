@@ -1,0 +1,228 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Admin_PinDetails : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    SqlCommand cmd; string UserID, InvoiceNo, Remark, CrRemark; Int32 GenNo, PinAmt;
+    SqlDataReader dr;
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    DataSet ds; SqlDataAdapter da;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            objDynamicDtls.FillWebSiteEmailCompany();
+            cn.Open();
+            if (!IsPostBack)   
+               
+                if (Request.QueryString["UserId"] != null)
+                {
+                    UserID = Request.QueryString["UserId"].ToString().Trim();
+                    InvoiceNo = Request.QueryString["InvoiceNo"].ToString().Trim();
+                    fillTransferPinList(InvoiceNo);
+                    cmd = new SqlCommand("select convert(varchar(10),invoicedate,103) invoicedate,noofpins,amount,isnull(Remark,0) Remark from Pininvoicemaster where invoiceno='" + InvoiceNo + "' ", cn);
+                    dr = cmd.ExecuteReader();
+                    if (dr.HasRows == true)
+                    {
+                        getinfo();
+                        GetData();
+                      
+                    }
+                    else
+                    {
+                        pnlPinDetails.Visible = false;
+                       // Lblmsg.Text = "This Invoice Having Zero Pin !!";
+                    }
+                    cn.Close();
+                }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+
+    private void fillTransferPinList(string InvoiceNo)
+    { 
+      
+       try
+        {
+            cmd = new SqlCommand("dbo.Proc_TransferPinList", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@InvoicNo", SqlDbType.VarChar).Value = InvoiceNo;
+            cmd.Parameters.Add("@TransferFrm", SqlDbType.VarChar).Value = UserID;
+            da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                lblMsgT.Text = InvoiceNo;
+                GridView2.DataSource = ds;
+                GridView2.DataBind();
+            }
+            else { lblMsgT.Text = "Sorry, No Pin Transfer History Found for this Invoice..!"; }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); Lblmsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            ds.Dispose();
+            da.Dispose();
+            cmd.Dispose();
+        }
+    
+    }
+    private void GetInfoData()
+    {
+
+        invno.Text = Request.QueryString["InvoiceNo"].ToString();
+        UserID = Request.QueryString["UserId"].ToString().Trim();
+        cmd = new SqlCommand("select convert(varchar(10),invoicedate,103) invoicedate,noofpins,amount,isnull(Remark,0) Remark from Pininvoicemaster where invoiceno='" + invno.Text + "' ", cn);
+        SqlDataReader drINVD = cmd.ExecuteReader();
+        while (drINVD.Read())
+        {
+            invdate.Text = drINVD["invoicedate"].ToString();
+            noofpins.Text = drINVD["noofpins"].ToString();
+            PinAmt = Convert.ToInt32(drINVD["amount"].ToString());
+            Remark = drINVD["Remark"].ToString();
+        }
+
+
+    }
+    private void GetData()
+    {
+
+        GetInfoData();
+        totalamount.Text = Convert.ToString(Convert.ToInt32(noofpins.Text) * PinAmt);
+        string strcmd = "select p.pinno PIN,p.memid 'USER ID',m.mname 'USER NAME',p.packageused PACKAGE,p.purchasetype 'PIN TYPE',convert(varchar,p.pinuseddate,103) 'USED DATE' from pininvoicedetails p left join memdetail m on m.memid=p.memid where invoiceno='" + InvoiceNo + "' order by p.pinuseddate desc";
+        SqlDataAdapter da = new SqlDataAdapter(strcmd, cn);
+        DataTable dt = new DataTable();
+
+        da.Fill(dt);
+        if (dt.Rows.Count == 0) { Lblmsg.Text = "No Record Found!"; }
+        else
+        {
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+        }
+
+    }
+    private void getinfo()
+    {
+        id.Text = UserID.ToUpper();
+        cmd = new SqlCommand("select Mname,address,state from memdetail where memid='" + UserID + "'", cn);
+        SqlDataReader dr = cmd.ExecuteReader();
+        if (dr.Read())
+        {
+
+            mname.Text = dr["Mname"].ToString();
+            address.Text = dr["address"].ToString();
+            state.Text = dr["state"].ToString();
+
+        }
+
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        cn.Open();
+        GetData();
+        cn.Close();
+
+    }
+    private void CancelPins()
+    {
+        ArrayList ar = new ArrayList();
+        for (int i = 0; i < GridView1.Rows.Count; i++)
+        {
+            CheckBox c = (CheckBox)GridView1.Rows[i].FindControl("chkMemID");
+            if (c.Checked == true)
+            {
+                string ID = Convert.ToString(GridView1.DataKeys[i].Value);
+
+                ar.Add(ID);
+            }
+
+        }
+        if (ar.Count == 0)
+        {
+            Lblmsg.Text = "Please Select Pins For Cancel....!";
+        }
+        else
+        {
+            foreach (string p in ar)
+            {
+                using (SqlConnection con = new SqlConnection(new DB().getconnection()))
+                {
+                    con.Open();
+                    SqlTransaction t;
+                    t = con.BeginTransaction();
+                    try
+                    {
+                        cmd = new SqlCommand("select count(*) from pininvoicedetails  where pinno='" + p + "' and invoiceno='" + invno.Text + "' and memid is null ", con, t);
+                        Int32 ChkEmpPin = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                        if (ChkEmpPin > 0)
+                        {
+                            cmd = new SqlCommand("delete from pininvoicedetails  where pinno='" + p + "' and invoiceno='" + invno.Text + "' and memid is null ", con, t);
+                            cmd.ExecuteNonQuery();
+
+                            cmd = new SqlCommand("update pininvoicemaster set noofpins=(select count(*) from pininvoicedetails where invoiceno='" + invno.Text + "') where invoiceno='" + invno.Text + "'", con, t);
+                            cmd.ExecuteNonQuery();
+
+                            cmd = new SqlCommand("update PinInvoiceHistory  set noofpins=(select count(*) from pininvoicedetails where invoiceno='" + invno.Text + "') where invoiceno='" + invno.Text + "'", con, t);
+                            cmd.ExecuteNonQuery();
+
+                            cmd = new SqlCommand("delete from pininvoicemaster where noofpins=0", con, t);
+                            cmd.ExecuteNonQuery();
+
+                            cmd = new SqlCommand("delete from PinInvoiceHistory where noofpins=0", con, t);
+                            cmd.ExecuteNonQuery();
+                            if (Remark.Trim().ToUpper() == "GENERATE BY USER")
+                            {
+                                CrRemark = "Credit By Return PinAmt Of PinNo: " + p;
+                                cmd = new SqlCommand("insert into EWallet(memid,transactiondt,dr,cr,remark) values('" + UserID.Trim().ToUpper() + "','" + System.DateTime.Now.ToShortDateString().ToString() + "',0,'" + PinAmt + "','" + CrRemark.Trim().ToUpper() + "')", con, t);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            t.Commit();
+                            Lblmsg.Text = "Selected Pins Has Been Deleted Successfully...";
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        t.Rollback();
+                        DB.WriteLog(this.ToString() + " Error Msg :" + Ex.Message + "\n" + "Event Info :" + Ex.StackTrace); Lblmsg.Text = "Your request could not be completed.";
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+        }
+    }
+
+    protected void btnCancelPins_Click(object sender, EventArgs e)
+    {
+        GetInfoData();
+        CancelPins();
+        UserID = Request.QueryString["UserId"].ToString().Trim();
+        InvoiceNo = Request.QueryString["InvoiceNo"].ToString().Trim();
+
+        getinfo();
+        GetData();
+        //cn.Close();
+    }
+}

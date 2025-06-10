@@ -1,0 +1,51 @@
+.modal-wrapper {
+    position: fixed;
+    z-index: 999;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 200ms;
+}
+.userimage {
+    position: fixed;
+    margin: 0 auto;
+    left: 45%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    height: 90px;
+    width: 200px;
+    background-color: #ecebeb;
+    padding: 0 0 0 0;
+}
+.imageseted {
+    position: absolute;
+    top: 41px;
+    left: 42px;
+}
+.loading-texted {
+    position: absolute;
+    top: 48px;
+    left: 85px;
+    color: #777777;
+}
+.wait-plese {
+    background-color: #dcdcdc;
+    width: 200px;
+    color: #777777;
+    padding: 7px;
+    border-radius: 5px;
+}
+.wait-please {
+    text-align: center;
+    background: #d5d3d3;
+    padding: 3px 0px 3px 0px;
+    border-radius: 8px 8px 0 0;
+    color: #646161;
+}

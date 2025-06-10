@@ -1,0 +1,93 @@
+<%@ WebHandler Language="C#" Class="LatestMembers" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+
+public class LatestMembers : IHttpHandler {
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    public bool sc; public string msg, dtl, strJson, NewsType = "";
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds; DataTable dt;
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        this.BindResult();
+        /////////
+    }
+    private void BindResult()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("ManageLatestMembers_new", new string[] { "MName", "Country", "Type" }, new string[] { "", "", "ViewMems" }, "");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    StringBuilder jsonBuilder = new StringBuilder("");
+                    jsonBuilder.Append("<table width='100%'  border='0' align='center' cellpadding='0' cellspacing='0'>");
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                      //  if (dt.Rows[i]["RowN"].ToString() == "2")
+                      //{jsonBuilder.Append("<tr>");}
+                      
+                      //  jsonBuilder.Append("<td>");
+                      //  jsonBuilder.Append("<img src='Country-Flag/"+dt.Rows[i]["Flag"].ToString()+"' /><p>"+dt.Rows[i]["MName"].ToString() +"<br />");
+                      //  jsonBuilder.Append("<span>("+dt.Rows[i]["Country"].ToString()+")</span></p></td>");
+
+                      //  if (dt.Rows[i]["RowN"].ToString() == "3")
+                      //  { jsonBuilder.Append("</tr>"); }
+                        if (dt.Rows[i]["RowN"].ToString() == "1")
+                        { jsonBuilder.Append("<tr>"); }   
+                       
+                        jsonBuilder.Append("<td align='center' valign='middle'><img src='Country-Flag/"+dt.Rows[i]["Flag"].ToString()+"'></td>");
+                        jsonBuilder.Append("<td align='left' valign='middle' class='lMem'>"+dt.Rows[i]["MName"].ToString()+"<br><span>("+dt.Rows[i]["Country"].ToString()+")</span></td>");   
+                        jsonBuilder.Append("<td align='left' valign='middle'>&nbsp;</td>");
+                        
+                        if (dt.Rows[i]["RowN"].ToString() == "0")
+                        { jsonBuilder.Append("</tr>"); } 
+                    }
+                    jsonBuilder.Append("</table>");
+                    response.Write(jsonBuilder);
+                }
+                else
+                {
+                    response.Write("SORRY NO RECORD FOUND !!<br/><br/>");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            response.Write("SORRY NO RECORD FOUND !!<br/><br/>");
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); dt.Dispose(); }
+        }
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

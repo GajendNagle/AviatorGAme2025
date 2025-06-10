@@ -1,0 +1,250 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+
+public partial class Adm962xts21qtj_AdminEditDepositeRequest : System.Web.UI.Page
+{
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    SqlConnection cn;
+    string TodayDt = Convert.ToString(DateTime.Now.ToShortDateString().ToString());
+    SqlCommand cmd;
+    SqlDataAdapter da;
+    DataSet ds;
+    string ReqID, Amount, PreStatus;
+    Int32 ChkUA;
+    string UpCnt;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        objDynamicDtls.FillWebSiteEmailCompany();
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            ReqID = Request.QueryString["ReqID"].ToString();
+            if (!IsPostBack)
+                GetCreditRequestSt();
+
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+    protected void imgbtnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            int Amt = 0, Reqamt = 0;
+            try
+            { Reqamt = int.Parse(txtReqAmt.Text); }
+            catch { }
+            try
+            { Amt = int.Parse(txtAmount.Text); }
+            catch { }
+            if (Reqamt >= Amt)
+            {
+                // UpdateCreditRequest();
+
+                SqlConnection cn = new SqlConnection(new DB().getconnection());
+
+                cn.Open();
+                SqlTransaction tran;
+                tran = cn.BeginTransaction();
+                try
+                {
+
+                    cmd = new SqlCommand("UpdateCreditRequest", cn, tran);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ReqID", SqlDbType.Int).Value = ReqID;
+                    cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = ddlStatus.Text.ToUpper();
+                    cmd.Parameters.Add("@UpdateRemark", SqlDbType.VarChar).Value = txtRemark.Text.Trim();
+                    cmd.Parameters.Add("@Amount", SqlDbType.VarChar).Value = txtAmount.Text.Trim();
+                    da = new SqlDataAdapter(cmd);
+                    ds = new DataSet();
+                    da.Fill(ds);
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        UpCnt = dr[0].ToString();
+                    }
+
+                    if (ddlStatus.Text.ToUpper() == "COMPLETED")
+                    {
+
+                        if (UpCnt == "1")
+                        {
+                            tran.Commit();
+                            ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('Credit Request Has Been COMPLETED...'); </script>");
+                            // lblMsg.Text = "Credit Request Has Been COMPLETED...";
+                            // SendSMSFrom();
+
+                            ChkUA = 0;
+                            string ErrorMsg = "";
+                            //try
+                            //{
+                            //    cmd = new SqlCommand("dbo.UpgPack", cn, tran);
+                            //    cmd.CommandType = CommandType.StoredProcedure;
+                            //    cmd.Parameters.Add("@PackageName", SqlDbType.VarChar).Value = new DB().ByDataSet("SELECT PACKAGE ,Memid FROM memdetail WITH (NOLOCK)  WHERE memid =(SELECT memid FROM creditrequest WITH (NOLOCK)   WHERE repid = " + Request.QueryString["ReqID"].ToString() + ") ").Tables[0].Rows[0][0].ToString();
+                            //    cmd.Parameters.Add("@MID", SqlDbType.VarChar).Value = new DB().ByDataSet("SELECT PACKAGE ,Memid FROM memdetail WITH (NOLOCK)  WHERE memid =(SELECT memid FROM creditrequest WITH (NOLOCK)   WHERE repid = " + Request.QueryString["ReqID"].ToString() + ") ").Tables[0].Rows[0][1].ToString();
+                            //    da = new SqlDataAdapter(cmd);
+                            //    ds = new DataSet();
+                            //    da.Fill(ds);
+                            //    foreach (DataRow dr in ds.Tables[0].Rows)
+                            //    {
+                            //        ChkUA = Convert.ToInt32(dr[0].ToString().Trim());
+                            //        ErrorMsg = dr["ErrorMsg"].ToString().Trim();
+                            //    }
+
+                            //    if (ChkUA == 5)
+                            //    {
+                            //        lblMsg.Text = ErrorMsg.ToString();
+                            //    }
+                            //    else
+                            //    {
+                            //        tran.Commit();
+                            //        lblMsg.Text = "Current Package Has Been Activated Successfully..";
+
+                            //       // ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('Your Current Package Has Been Upgraded Successfully..!'); </script>");
+                            //        //lblMsg.Text = "Credit Request Has Been COMPLETED...";
+                            //        imgbtnSubmit.Enabled = false;
+                            //    }
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //    tran.Rollback();
+                            //    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                            //}
+                        }
+                        else
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>closePage('Credit Request Already COMPLETED...'); </script>");
+                            //lblMsg.Text = "Credit Request Already COMPLETED...";
+                        }
+
+                    }
+
+                    if (ddlStatus.Text.ToUpper() == "REJECTED")
+                    {
+                        if (UpCnt == "1")
+                        {
+                            //SendSMSFrom();
+                            ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('Credit Request Has Been REJECTED...'); </script>");
+                            //lblMsg.Text = "Credit Request Has Been REJECTED...";
+                            imgbtnSubmit.Enabled = false;
+                        }
+                        else if (UpCnt == "0")
+                        {
+                            lblMsg.Text = "Credit Request Already REJECTED...";
+                        }
+                        else
+                        {
+                            lblMsg.Text = "Credit Request Has Been REJECTED...";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+                finally
+                {
+                    if (cn != null && cn.State == ConnectionState.Open)
+                    {
+                        cn.Close();
+                        cn.Dispose();
+                    }
+                    if (ds != null) { ds.Dispose(); }
+                    if (da != null) { da.Dispose(); }
+                    if (cmd != null) { cmd.Dispose(); }
+                }
+            }
+            else
+            {
+                lblMsg.Text = "Amount should be Not greater than Request Amount.";
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+
+
+    }
+    private void GetCreditRequestSt()
+    {
+        try
+        {
+            DB objdb = new DB();
+            ds = objdb.ByDataSet("SELECT status,remark,memid,ApprovedAmt,Amount,isnull(Amount,0)-isnull(ApprovedAmt,0)-isnull(RejectedAmt,0)Bal FROM creditrequest WITH (NOLOCK) WHERE  repid='" + ReqID + "'");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                txtUserID.Text = ds.Tables[0].Rows[0]["memid"].ToString();
+                txtRemark.Text = ds.Tables[0].Rows[0]["Remark"].ToString();
+                PreStatus = ds.Tables[0].Rows[0]["status"].ToString();
+                txtReqAmt.Text = ds.Tables[0].Rows[0]["Bal"].ToString();
+                ddlStatus.Items.FindByText(ds.Tables[0].Rows[0]["status"].ToString()).Selected = true;
+            }
+            else
+            {
+                txtReqAmt.Text = Request.QueryString["Amount"].ToString();
+            }
+            ds.Dispose();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+
+    }
+    private void SendSMSFrom()
+    {
+        try
+        {
+            string TextFrom = "Dear, " + txtUserID.Text.Trim() + " Your Credit Request No :" + ReqID + " of Amount :" + txtAmount.Text.ToUpper().Trim() + " Has Been " + ddlStatus.Text.ToUpper() + " Plz Check ur Acc For Details(" + DynamicDtls.WebSite + ").";
+
+            new SendSms().SendSMSToUserIDMob(TextFrom, txtUserID.Text.Trim());
+        }
+        catch { }
+    }
+    private void UpdateCreditRequest()
+    {
+        try
+        {
+            cn = new SqlConnection(new DB().getconnection());
+            cmd = new SqlCommand("UpdateCreditRequest", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@ReqID", SqlDbType.Int).Value = ReqID;
+            cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = ddlStatus.Text.ToUpper();
+            cmd.Parameters.Add("@UpdateRemark", SqlDbType.VarChar).Value = txtRemark.Text.Trim();
+            cmd.Parameters.Add("@Amount", SqlDbType.VarChar).Value = txtAmount.Text.Trim();
+
+
+            da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds);
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                UpCnt = dr[0].ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            cn.Dispose();
+            ds.Dispose();
+            da.Dispose();
+            cmd.Dispose();
+        }
+    }
+}

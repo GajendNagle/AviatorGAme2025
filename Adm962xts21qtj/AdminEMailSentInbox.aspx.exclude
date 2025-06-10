@@ -1,0 +1,300 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="AdminEMailSentInbox.aspx.cs" Inherits="AdminEMailSentInbox" 
+    EnableEventValidation="false" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" height="397" class="TableStyle"
+        style="width: 98%">
+             <tr>
+    <td colspan="2" class="Header_Top1" style="height: 25px;background-image:none;text-align:right;" ><samp class="Header_Top">Sent Message</samp></td>
+  </tr>
+        <tr align="center" valign="middle">
+            <td align="right" rowspan="2" valign="top" style="width: 262px; height: 482px;">
+                <table cellpadding="0" cellspacing="0" style="width: 200px">
+                    <tr>
+                        <td style="width: 100px; height: 30px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="width: 235px" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" height="36" style="width: 227px">
+                                <tr>
+                                    <td align="left" style="background-image: url(../UserPanel_EMailBox_Img/NewsBox.gif)"
+                                        height="353" valign="top" width="235">
+                                        <div id="navigation" style="width: 109px">
+                                            <ul class="links1" style="width: 200px">
+                                                <li>
+                                                    <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Compose_Icon.png" runat="server" ID="Image1"
+                                                        ImageAlign="Baseline" />
+                                                    <a href="AdminEMailCompose.aspx" title="Compose Message">Compose Message</a></li><li>
+                                                        <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Inbox_Icon.png" runat="server" ID="imgInbox"
+                                                            ImageAlign="Baseline" />
+                                                        <asp:LinkButton ID="lnkbtnInbox" runat="server" CausesValidation="false" OnClick="lnkbtnInbox_Click"
+                                                            ToolTip="Inbox">Inbox</asp:LinkButton>
+                                                    </li>
+                                                 <li>
+                                                        <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Sent_Icon.png" runat="server" ID="Image2"
+                                                            ImageAlign="Baseline" />
+                                                        <asp:LinkButton ID="lnkbtnSentbox" runat="server" CausesValidation="false" OnClick="lnkbtnSentbox_Click">Sent Message</asp:LinkButton>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="width: 25px">
+                                                                    <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Draft_Icon.png" runat="server" ID="Image3" />
+                                                                </td>
+                                                                <td colspan="2">
+                                                                     <asp:LinkButton ID="lnkbtnTrash" runat="server" CausesValidation="false" OnClick="lnkbtnTrash_Click">Trash</asp:LinkButton>
+                                                                     <asp:LinkButton ID="lnkTrash" CausesValidation="false" CssClass="LinkTrash" runat="server"
+                                                                        OnClick="lnkTrash_Click" ToolTip="Empty">Empty</asp:LinkButton>&nbsp;</td>
+                                                            </tr>
+                                                        </table>
+                                                    </li>
+                                                 
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="color: #000000">
+                                    <td height="12">
+                                        <strong>&nbsp;</strong></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="100%" align="right" rowspan="2" valign="top" style="height: 482px">
+                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height: 30px; background-color: #EBF2F7" align="left" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 394px" class="InboxToplnk">
+                                <tr>
+                                    <td style="width: 11px; height: 13px">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="lnkbtnDltMail" runat="server" CausesValidation="false" OnClick="lnkbtnDltMail_Click">DELETE</asp:LinkButton></td>
+                                    <td colspan="3" style="height: 13px">
+                                        <asp:Label ID="lblMsg" runat="server" ForeColor="Red"></asp:Label></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="width: 691px; height: 348px; background-color: #ffffff;"
+                            valign="top" class="MiddleBoxBor GrideLink">
+                            <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="#CCCCCC"
+                                BorderStyle="None" BorderWidth="0px" CellPadding="3" Width="100%" GridLines="Horizontal"
+                                AutoGenerateColumns="False" DataKeyNames="MsgID" OnRowDataBound="GridView1_RowDataBound" Font-Size="10px">
+                                <RowStyle ForeColor="#000066" Font-Size="11px" />
+                                <FooterStyle BackColor="White" ForeColor="#000066" />
+                                <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+                                <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+                                <HeaderStyle CssClass="GrideBg" />
+                                <Columns>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <asp:CheckBox ID="checkAll" runat="server" onclick="checkAll(this);" />
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <asp:CheckBox ID="chkMemID" onclick="javascript:HighlightRow(this);" runat="server" />
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <asp:Image ImageUrl="../UserPanel_EMailBox_Img/NO.jpg" runat="server" ID="Image5" />
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <asp:Image ImageUrl='<%#"../UserPanel_EMailBox_Img/"+DataBinder.Eval(Container.DataItem, "MsgRead")+".jpg"%>'
+                                                ImageAlign="Top" runat="server" ID="imgUnReadMsg" />
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField>
+                                        
+                                        <ItemTemplate >
+                                        <a href="#" title="Get more about <%# Eval("FromUser") %>">
+                                            <asp:Image runat="server" ID="imgUserPhoto"  ImageUrl='<%# "~/"+DataBinder.Eval(Container.DataItem, "Photo")%>' ImageAlign="Top" />
+                                            </a>
+                                        </ItemTemplate>
+                                        
+                                    </asp:TemplateField>
+                                    
+                                    
+                                    <asp:TemplateField HeaderText="FROM">
+                                        <ItemTemplate>
+                                            
+                                             <a href="#">
+                                               <span class="inboxLinkUser" ><%# DataBinder.Eval(Container.DataItem, "FromUser")%></span></a>
+                                                <br />
+                                          
+                                                <span style="color: Gray">
+                                                    <%# DataBinder.Eval(Container.DataItem, "Age")%>
+                                                    ,
+                                                    <%# DataBinder.Eval(Container.DataItem, "City")%>
+                                                </span>
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="TO">
+                                        <ItemTemplate>
+                                        
+                                            <a style=" text-transform:lowercase" href='AdminEMailMsgDtl.aspx?MsgID=<%# DataBinder.Eval(Container.DataItem, "MsgID")%>'>
+                                                <%# DataBinder.Eval(Container.DataItem, "ToUser")%>
+                                                <br />
+                                                <%-- <span style="color:Gray"><%# DataBinder.Eval(Container.DataItem, "MName")%></span> --%>
+                                            </a>
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="SUBJECT">
+                                        <ItemTemplate>
+                                            <a   style=" text-transform:lowercase" href='AdminEMailMsgDtl.aspx?MsgID=<%# DataBinder.Eval(Container.DataItem, "MsgID")%>' title="Read message">
+                                                <%# DataBinder.Eval(Container.DataItem, "MsgSubject")%>
+                                                <br />
+                                                <span style="color: Gray">
+                                                    <%# DataBinder.Eval(Container.DataItem, "MsgText")%>
+                                                </span></a>
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="DATE">
+                                        <ItemTemplate>
+                                            <a href='AdminEMailMsgDtl.aspx?MsgID=<%# DataBinder.Eval(Container.DataItem, "MsgID")%>'>
+                                                <%# DataBinder.Eval(Container.DataItem, "MsgDate")%>
+                                            </a>
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:TemplateField>
+                                </Columns>
+                                <EmptyDataTemplate>
+                                    There are no emails in your Sent Message Box !!!
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="height: 30px; background-color: #EBF2F7" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 394px" class="InboxToplnk">
+                                <tr>
+                                    <td style="width: 11px; height: 13px">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="false" OnClick="lnkbtnDltMail_Click">DELETE</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                    </td>
+                                    <td style="width: 100px; height: 13px">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr align="left" valign="middle">
+        </tr>
+    </table>
+
+    <script language="javascript" type="text/javascript">
+function CallPrint(strid)
+{
+ var prtContent = document.getElementById(strid);
+ var WinPrint = window.open('','','letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+ WinPrint.document.write(prtContent.innerHTML);
+ WinPrint.document.close();
+ WinPrint.focus();
+ WinPrint.print();
+ WinPrint.close();
+ prtContent.innerHTML=strOldOne;
+}
+    </script>
+
+    <script language="javascript" type="text/javascript">
+function SelectAllCheckboxesMoreSpecific(spanChk)
+       {
+           var IsChecked = spanChk.checked;
+           var Chk = spanChk;
+              Parent = document.getElementById('GridView1');                                                   
+              for(i=0;i< Parent.rows.length;i++)
+              {     
+                  var tr = Parent.rows[i];
+                 //var td = tr.childNodes[0];                                  
+                  var td = tr.firstChild;         
+                  var item =  td.firstChild;                     
+                  if(item.id != Chk && item.type=="checkbox")
+                  {           
+                      if(item.checked!= IsChecked)
+                      {    
+                          item.click();    
+                      }
+                  }
+              }            
+       }
+ 
+       function HighlightRow(chkB)
+{
+var IsChecked = chkB.checked;           
+if(IsChecked)
+  {
+       chkB.parentElement.parentElement.style.backgroundColor='#ff6e01 '; 
+       chkB.parentElement.parentElement.style.color='black';
+  }else
+  {
+       chkB.parentElement.parentElement.style.backgroundColor='white';
+       chkB.parentElement.parentElement.style.color='black';
+  }
+}
+ 
+    </script>
+
+    <script type="text/javascript">  
+function checkAll(objRef)  
+{  
+    var GridView = objRef.parentNode.parentNode.parentNode;  
+    var inputList = GridView.getElementsByTagName("input");  
+    for (var i=0;i<inputList.length;i++)  
+    {  
+        //Get the Cell To find out ColumnIndex  
+        var row = inputList[i].parentNode.parentNode;  
+        if(inputList[i].type == "checkbox"  && objRef != inputList[i])  
+        {  
+            if (objRef.checked)  
+            {  
+                //If the header checkbox is checked  
+                //check all checkboxes  
+                //and highlight all rows  
+                row.style.backgroundColor = '#ff6e01 ';  
+                inputList[i].checked=true;  
+            }  
+            else  
+            {  
+                //If the header checkbox is checked  
+                //uncheck all checkboxes  
+                //and change rowcolor back to original   
+                if(row.rowIndex % 2 == 0)  
+                {  
+                   //Alternating Row Color  
+                   row.style.backgroundColor = "#fff";  
+                }  
+                else  
+                {  
+                   row.style.backgroundColor = "white";  
+                }  
+                inputList[i].checked=false;  
+            }  
+        }  
+    }  
+}  
+    </script>
+
+</asp:Content>

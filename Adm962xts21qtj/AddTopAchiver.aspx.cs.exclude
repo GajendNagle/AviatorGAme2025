@@ -1,0 +1,195 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Adm962xts21qtj_AddTopAchiver : System.Web.UI.Page
+{
+    DataSet ds;
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            try
+            {
+                if (!IsPostBack)
+                {
+                    feelgrid();
+                }
+            }
+            catch (Exception ex)
+            {
+                DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+    private void clears()
+    {
+        txtAmount.Text = txtMemId.Text = "";
+        ddlCountry.SelectedIndex = 0;
+        txtName.Text = "";
+        ddlEntryType.SelectedIndex = 0;
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ds = objDynamicDtls.ByProcedure("ProcTopAchivers", new string[] { "EntryType", "id", "MemId", "Name", "Country", "Amount", "type" },
+                 new string[] { ddlSearch.SelectedItem.Text, "", "", "", "", "", "4" }, "GET");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                lblEmptyMsg.Visible = false;
+                lblEmptyMsg.Text = "";
+                GridView2.Visible = true;
+                GridView2.DataSource = ds.Tables[0];
+                GridView2.DataBind();
+            }
+            else
+            {
+                lblEmptyMsg.Visible = true;
+                lblEmptyMsg.Text = objDynamicDtls.EmptyMessage("No Record Found.");
+                GridView2.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+    
+    }
+    protected void btnpass_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            ds = objDynamicDtls.ByProcedure("ProcTopAchivers", new string[] {"EntryType", "id", "MemId", "Name", "Country", "Amount", "type" },
+                new string[] { ddlEntryType.SelectedItem.Text, "", txtMemId.Text.Trim(),txtName.Text, ddlCountry.SelectedItem.Text, txtAmount.Text, "1" }, "GET");
+
+            if (ds.Tables[0].Rows[0]["Sts"].ToString() == "Member ID Already Exist.")
+            {
+                lblMsg1.Text = objDynamicDtls.ErrorMsg(ds.Tables[0].Rows[0]["Sts"].ToString());
+            }
+            else
+            {
+                lblMsg1.Text = objDynamicDtls.UpdateMessage(ds.Tables[0].Rows[0]["Sts"].ToString());
+
+                feelgrid();
+                this.clears();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+            lblMsg1.Visible = true;
+
+        }
+    }
+
+    public void feelgrid()
+    {
+        try
+        {
+            ds = objDynamicDtls.ByProcedure("ProcTopAchivers", new string[] { "EntryType", "id", "MemId", "Name", "Country", "Amount", "type" },
+                 new string[] { ddlEntryType.SelectedItem.Text,"", "", "","", "", "0" }, "GET");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                lblEmptyMsg.Visible = false;
+                lblEmptyMsg.Text = "";
+                GridView2.Visible = true;
+                GridView2.DataSource = ds.Tables[0];
+                GridView2.DataBind();
+            }
+            else
+            {
+                lblEmptyMsg.Visible = true;
+                lblEmptyMsg.Text = objDynamicDtls.EmptyMessage("No Record Found.");
+                GridView2.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            ds = objDynamicDtls.ByProcedure("ProcTopAchivers", new string[] { "EntryType", "id", "MemId", "Name", "Country", "Amount", "type" },
+                new string[] { "",id.ToString(), txtMemId.Text.Trim(),"", ddlCountry.SelectedItem.Text, txtAmount.Text, "3" }, "GET");
+
+            feelgrid();
+            lblMsg1.Text = objDynamicDtls.UpdateMessage("Record Deleted Successfully.");
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void GridView2_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView2.EditIndex = -1;
+        feelgrid();
+    }
+    protected void GridView2_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView2.EditIndex = e.NewEditIndex;
+        feelgrid();
+
+    }
+    protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            DropDownList ddlCountry = (DropDownList)GridView2.Rows[e.RowIndex].Cells[0].FindControl("ddlCountry");
+            TextBox txtMemId = (TextBox)GridView2.Rows[e.RowIndex].Cells[1].FindControl("txtMemId");
+            TextBox txtAmount = (TextBox)GridView2.Rows[e.RowIndex].Cells[2].FindControl("txtAmount");
+            TextBox txtName = (TextBox)GridView2.Rows[e.RowIndex].Cells[2].FindControl("txtName");
+
+            ds = objDynamicDtls.ByProcedure("ProcTopAchivers", new string[] { "EntryType", "id", "MemId", "Name", "Country", "Amount", "type" },
+               new string[] { "",id.ToString(), txtMemId.Text.Trim(), txtName.Text, ddlCountry.SelectedItem.Text, txtAmount.Text, "2" }, "GET");
+
+            lblMsg1.Text = objDynamicDtls.UpdateMessage("Record Updated Successfully.");
+
+            GridView2.EditIndex = -1;
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+        feelgrid();
+    }
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+                Label lblCountry = (Label)e.Row.FindControl("lblCountry");
+
+                DropDownList ddlCountry = (DropDownList)e.Row.FindControl("ddlCountry");
+                ddlCountry.Items.FindByText(lblCountry.Text).Selected = true;
+            }
+        }
+    }
+}
+

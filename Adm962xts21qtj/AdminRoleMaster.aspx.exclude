@@ -1,0 +1,198 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" StylesheetTheme="MySkin" CodeFile="AdminRoleMaster.aspx.cs" Inherits="Asw52qAh78Iak8_AdminRoleMaster" Title="Create Admin Role" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <style>
+        .sub-boxs {
+            text-align: right;
+        }
+        .table-rolusr {
+            width: 100%;
+        }
+        .alert {
+            margin-bottom: 0;
+            margin-top: 1rem;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="usr-creats adnewss">
+            <div class="row">
+                <div class="col-md-4 col-12">
+                    <div class="sub-boxs">
+                        <div class="row">
+                            <div class="col-md-3 col-12">
+                                <label>Enter Role </label>
+                            </div>
+                            <div class="col-md-9 col-12">
+                                <asp:TextBox ID="txtEnerRole" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtEnerRole" SetFocusOnError="true" ErrorMessage="Please Enter Role Name">*</asp:RequiredFieldValidator>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-12">
+                    <div class="sub-boxs">
+                        <div class="row">
+                            <div class="col-md-3 col-12">
+                                <label>Search By Role</label>
+                            </div>
+                            <div class="col-md-5 col-12">
+                                <asp:DropDownList ID="ddlRole" runat="server" TabIndex="7" OnInit="ddlRole_Init" CssClass="ComposeTxtBx"></asp:DropDownList>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <asp:Button ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" Text="Go" CssClass="Btn" ValidationGroup="12" />
+                                <asp:Button ID="BtnSave" runat="server" Text="Save" OnClick="BtnSave_Click" CssClass="Btn" />
+                                <asp:Button ID="BtnUpdate" runat="server" Text="Update" OnClick="BtnUpdate_Click" CausesValidation="False" CssClass="Btn" />
+                                <asp:Button ID="BtnDelete" runat="server" Text="Delete" OnClick="BtnDelete_Click" CausesValidation="False" CssClass="Btn" />
+                                <asp:Button ID="Btnclear" runat="server" Text="Clear" OnClick="Btnclear_Click" CausesValidation="False" CssClass="Btn" />
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div id="divPrint">
+                    <asp:GridView ID="GVContent" runat="server" AutoGenerateColumns="false" CellPadding="4" CellSpacing="1" DataKeyNames="" GridLines="None" CssClass="table-rolusr">
+                        <Columns>
+                            <asp:TemplateField HeaderText="ID">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblID" Visible="false" runat="server" Text='<%#Eval("SrNo")%>'></asp:Label>
+                                    <%#Eval("Id")%>
+                                </ItemTemplate>
+                                <ControlStyle Width="100px" />
+                                <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Select">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxSelect" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxSelect_CheckedChanged" />Select
+                                    All
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkSelect" Checked='<%# Eval("SelectA") %>' runat="server" />
+                                </ItemTemplate>
+                                <ControlStyle Width="50px" />
+                                <HeaderStyle HorizontalAlign="Center" Width="120px" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Save" Visible="false">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxSaveM" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxSaveM_CheckedChanged" />Save
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkSaveM" runat="server" Checked='<%# Eval("SaveM") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Update" ItemStyle-Width="100px">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxUpdateM" runat="server" AutoPostBack="True" OnCheckedChanged="chkboxUpdateM_CheckedChanged" />Update
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkUpdateM" runat="server" Checked='<%# Eval("UpdateM") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Delete" Visible="false">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxDeleteM" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxDeleteM_CheckedChanged" />Delete
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkDeleteM" runat="server" Checked='<%# Eval("DeleteM") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Print" Visible="false">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxPrintM" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxPrintM_CheckedChanged" />Print
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkPrintM" runat="server" Checked='<%# Eval("PrintM") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Export to Excel" Visible="false">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxExcelM" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxExcelM_CheckedChanged" />Excel
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkExcelM" runat="server" Checked='<%# Eval("ExcelM") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Report" Visible="false">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="chkboxReportM" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxReportM_CheckedChanged" />Report
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkReportM" runat="server" Checked='<%# Eval("ReportM") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Form Name">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFormName" runat="server" Text='<%#Eval("FormName")%>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <EditRowStyle BorderColor="Red" />
+                    </asp:GridView>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lbldelete" runat="server" Visible="False"></asp:Label>
+                <asp:TextBox ID="txtAuto" runat="server" Width="1px" Visible="False"></asp:TextBox>
+            </div>
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lblMsg" runat="server"></asp:Label>
+                <div>&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <table cellspacing="0" width="100%" style="display:none;">
+        <tr>
+            <td class="Header_Top1"></td>
+        </tr>
+        <tr>
+            <td class="ScrollBar">
+                <table style="font-size: 12px;" width="100%">
+                    <tr>
+                        <td colspan="5"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                         <td align="center" style="padding-top: 10px;"></td>
+                        <td></td>
+                        <td></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="width: 6px;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <center></center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" style="height: 27px;"></td>
+                        <td style="height: 27px; width: 6px;"></td>
+                        <td align="center" style="height: 27px;"></td>
+                        <td style="width: 7px; height: 27px;">
+                            <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBox1" ErrorMessage="Please Enter Role Name For Search." SetFocusOnError="true" ValidationGroup="12">*</asp:RequiredFieldValidator>--%>
+                        </td>
+                        <td style="width: 7px; height: 27px;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="width: 6px;"></td>
+                        <td align="center"></td>
+                        <td style="width: 7px;"></td>
+                        <td style="width: 7px;">
+                            <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowMessageBox="True" ShowSummary="False" ValidationGroup="12" />
+                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>

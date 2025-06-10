@@ -1,0 +1,246 @@
+<%@ WebHandler Language="C#" Class="Upload_Profile_Pics" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Drawing;
+using Image = System.Drawing.Image;
+using System.Data;
+
+public class Upload_Profile_Pics : IHttpHandler {
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public string msg, Msgs, dtl, strJson, UserID, RtnRlt, message, OrderId, fname, chkfileEx,fileext,
+SDbFilePath = "", AcFileNamefpath = "", fpath = "", x1 = "0", y1 = "0", h1 = "0", w1 = "0", AcFileName = "", PImgPth = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+    public static string GenerateRandomUsername()
+    {
+        string str = Path.GetRandomFileName(); //This method returns a random file name of 11 characters
+        str = str.Replace(".", "");
+        return str;
+    }
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+            {
+                UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            }
+            /////////
+            if (context.Request.Files.Count > 0)
+            {
+                x1 = context.Request["x1"].Trim().ToString();
+                y1 = context.Request["y1"].Trim().ToString();
+                h1 = context.Request["h1"].Trim().ToString();
+                w1 = context.Request["w1"].Trim().ToString();
+                fileext = context.Request["fileext"].Trim().ToString();
+                /////////
+                UploadProfileImg();
+                /////////      
+                FileInfo file = new FileInfo(fpath);
+                if (file.Exists)
+                {
+                    //the problem ocurred because this, 
+                    using (FileStream s = new FileStream(fpath, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None))
+                    {
+                        //openning stream, them file in use by a process
+                        //System.IO.File.Delete(fpath); //Generete a error
+                        //problem solved here...
+                        s.Close();
+                        s.Dispose();
+                        System.IO.File.Delete(fpath); //File deletad sucessfully!
+                    }
+                }
+                //FileInfo file = new FileInfo(fpath);
+                //if (file.Exist)
+                //{
+                //    StreamReader testTxt = new StreamReader(fpath);
+                //    string allRead = testTxt.ReadToEnd();
+                //    testTxt.Close();
+                //    file.Delete();
+                //}
+            }
+            else
+            {
+                msg = "Only GIF, JPEG, PNG, BMP & PDF files are allowed !";
+                sc = false;
+            }
+            /////////
+            handleRequest();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('login.html','_top');</script>");
+        }
+    }
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+    private void UploadProfileImg()
+    {
+        if (context.Request.Files.Count > 0)
+        {
+            HttpFileCollection files = context.Request.Files;
+            for (int i = 0; i < files.Count; i++)
+            {
+                HttpPostedFile file = files[i];
+
+                if (HttpContext.Current.Request.Browser.Browser.ToUpper() == "IE" || HttpContext.Current.Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                {
+                    string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                    fname = testfiles[testfiles.Length - 1];
+                }
+                else
+                {
+                    fname = file.FileName;
+                }
+
+                chkfileEx = Path.GetExtension(fname).ToLower();
+                //chkfileEx = "."+fileext.ToLower();
+                if (chkfileEx.ToString().Trim() == ".jpg" || chkfileEx.ToString().Trim() == ".gif" ||
+                  chkfileEx.ToString().Trim() == ".bmp" || chkfileEx.ToString().Trim() == ".jpeg" ||
+                  chkfileEx.ToString().Trim() == ".png" || chkfileEx.ToString().Trim() == ".pdf")
+                {
+                    AcFileName = GenerateRandomUsername();
+                    //SDbFilePath = "UserProfileImg/" + AcFileName + chkfileEx;
+                    //fpath = Path.Combine(context.Server.MapPath("~/UserProfileImg/"), AcFileName + chkfileEx);
+                    //file.SaveAs(fpath);
+                    ///////
+                    fpath = Path.Combine(context.Server.MapPath("~/UserProfileImg/"), AcFileName + chkfileEx);
+                    file.SaveAs(fpath);
+                    Image oimg = Image.FromFile(fpath);
+                    Rectangle cropcords = new Rectangle(Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(h1), Convert.ToInt32(w1));
+                    string cfname, cfpath;
+                    Bitmap bitMap;
+                    //if (chkfileEx.ToString().Trim() == ".jpg" || chkfileEx.ToString().Trim() == ".bmp" || chkfileEx.ToString().Trim() == ".jpeg" || chkfileEx.ToString().Trim() == ".pdf")
+                    //{
+                        bitMap = new Bitmap(cropcords.Width, cropcords.Height, oimg.PixelFormat);
+                        Graphics grph = Graphics.FromImage(bitMap);
+                        grph.DrawImage(oimg, new Rectangle(0, 0, bitMap.Width, bitMap.Height), cropcords, GraphicsUnit.Pixel);
+                    //}
+                    //else
+                    //{
+                        ////Rectangle cropRect = new Rectangle(...);
+                        ////bitMap = Image.FromFile(fpath) as Bitmap;
+                        //bitMap = oimg as Bitmap;
+                        //Bitmap target = new Bitmap(cropcords.Width, cropcords.Height);
+                        //using (Graphics g = Graphics.FromImage(target))
+                        //{
+                        //    g.DrawImage(bitMap, new Rectangle(0, 0, target.Width, target.Height),
+                        //    cropcords, GraphicsUnit.Pixel);
+                        //}
+                    //}
+
+
+                    //SDbFilePath = "UserProfileImg/Crop" + AcFileName + chkfileEx;                   
+                    cfname = "Crop" + AcFileName + chkfileEx;
+                    SDbFilePath = "UserProfileImg/" + cfname;
+                    /////////
+                    cfpath = Path.Combine(context.Server.MapPath("~/UserProfileImg/"), cfname);
+                    bitMap.Save(cfpath);
+                    /////////
+                    GiveHelpOrder();
+                    /////
+                    oimg.Dispose();
+                    ////
+                }
+                else
+                {
+                    msg = "Only GIF, JPEG, PNG, BMP & PDF files are allowed !";
+                    sc = false;
+                }
+            }
+            ////
+        }
+        else
+        {
+            msg = "Only GIF, JPEG, PNG, BMP & PDF files are allowed !";
+            sc = false;
+        }
+    }
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("dbo.Upload_Profile_Pics", new string[] { "MemID", "MemPicName", "type" },
+                new string[] { UserID, SDbFilePath, "UpdatePics" }, "ByDataset");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                RtnRlt = ds.Tables[0].Rows[0]["Rlt"].ToString();
+                Msgs = ds.Tables[0].Rows[0]["Msg"].ToString();
+                PImgPth = ds.Tables[0].Rows[0]["PImgPth"].ToString();
+                ////delete previou
+                string PvfilePath = context.Server.MapPath("~/" + PImgPth);
+                if (File.Exists(PvfilePath))
+                {
+                    File.Delete(PvfilePath);
+                }
+                /////
+            }
+            if (RtnRlt.ToString().Trim() == "IsOk")
+            {
+                sc = true;
+                msg = Msgs;
+            }
+            else
+            {
+                sc = false;
+                msg = Msgs;
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            msg = "Sorry, Something is wrong please try later !";
+            sc = false;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

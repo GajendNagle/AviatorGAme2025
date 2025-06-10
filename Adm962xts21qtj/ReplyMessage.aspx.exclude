@@ -1,0 +1,72 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ReplyMessage.aspx.cs" Inherits="Adm962xts21qtj_ReplyMessage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Untitled Page</title>
+    <link href="../UserPanel_css/MyRegisCss.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        function redirectPage() {
+            parent.window.location.href = parent.window.location.href;
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div style="text-align: center;">
+            <center>
+                <div class="MtblCntRegBdr">
+                    <table width="100%" cellpadding="0" cellspacing="0" class="MtblCntReg">
+                        <tr>
+                            <td class="hdrtblReg">
+                                <span class="span">
+                                    <center>Reply Message</center>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="top">
+                                <div class="MyCnt">
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td>
+                                                <asp:Label ID="Lblmsg" runat="server" Font-Bold="True" Font-Size="11px" ForeColor="Red"></asp:Label>
+                                            </td>
+                                            <td colspan="2"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lbl">Subject:</td>
+                                            <td colspan="2" class="lbl">
+                                                <asp:Label ID="lblMessage" runat="server"></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lbl">Message:</td>
+                                            <td colspan="2">
+                                                <asp:TextBox ID="txtMessage" runat="server" Columns="20" MaxLength="500" Rows="2" TextMode="MultiLine" Width="498px"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtMessage" ErrorMessage="Please enter message.">*</asp:RequiredFieldValidator>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lbl"></td>
+                                            <td class="lbl" colspan="2">
+                                                <asp:Button ID="btnReply" runat="server" CssClass="Btn" Text="Reply" OnClick="btnReply_Click"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowMessageBox="True" ShowSummary="False" />
+                                                <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </center>
+        </div>
+    </form>
+</body>
+</html>

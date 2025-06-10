@@ -1,0 +1,101 @@
+﻿<%@ WebHandler Language="C#" Class="CoinPayments" %>
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+
+public class CoinPayments : IHttpHandler
+{
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds; DataTable dt;
+    public string merchant="",ipn_mode="",ipn_type="",txn_id="",item_name="",item_number="",amount1="",amount2="",
+        currency1 = "", currency2 = "", status = "", status_text = "", Invoiceno = "", buyer_name = "", fee = "", received_amountcp = "", received_confirmscp = "";
+
+    libCoinPaymentsNET.CoinPayments cp = new libCoinPaymentsNET.CoinPayments("D30f6F50d2e46999B075cA2Ee06e1e1c15940B15F624A2C6c22B1dd74aE466Bc", "9b3739d85fba78eb548371f7bc5d050d0287691d74e98e64f733572b6f05e26e"); //private key,public key
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        try
+        {
+            //if (context.Request.HttpMethod == "GET")
+            //{
+            //    merchant = context.Request["merchant"].ToString();
+            //    ipn_mode = context.Request["ipn_mode"].ToString();
+            //    ipn_type = context.Request["ipn_type"].ToString();
+            //    txn_id = context.Request["txn_id"].ToString();
+            //    item_name = context.Request["item_name"].ToString();
+            //    buyer_name = context.Request["item_number"].ToString();
+            //    amount1 = context.Request["amount1"].ToString();
+            //    amount2 = context.Request["amount2"].ToString();
+            //    currency1 = context.Request["currency1"].ToString();
+            //    currency2 = context.Request["currency2"].ToString();
+            //    status = context.Request["status"].ToString();
+            //    status_text = context.Request["status_text"].ToString();
+            //}
+            //else 
+            if (context.Request.HttpMethod == "POST")
+            {
+                merchant = context.Request["merchant"].ToString();
+                ipn_mode = context.Request["ipn_mode"].ToString();
+                ipn_type = context.Request["ipn_type"].ToString();
+                txn_id = context.Request["txn_id"].ToString();
+                item_name = context.Request["item_name"].ToString();
+                buyer_name = context.Request["buyer_name"].ToString();
+                amount1 = context.Request["amount1"].ToString();
+                amount2 = context.Request["amount2"].ToString();
+                currency1 = context.Request["currency1"].ToString();
+                currency2 = context.Request["currency2"].ToString();
+                status = context.Request["status"].ToString();
+                status_text = context.Request["status_text"].ToString();
+                fee = context.Request["fee"].ToString();
+                received_amountcp = context.Request["received_amount"].ToString();
+                received_confirmscp = context.Request["received_confirms"].ToString();
+                Invoiceno = context.Request["buyer_name"].ToString();
+            }
+            DB.WriteLog(this.ToString() + " Coin-Payment Txn-ID :" + txn_id + "\n" + "Amount1 :" + amount1 + "\n" + "fee :" + fee);
+            BTC_APIResponse();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+    }
+
+    public void BTC_APIResponse()
+    {
+        try
+        {
+           ds = objgdb.ByProcedure("[BTC_Get_APIResponse_CP]", new string[] { "merchant", "txn_id", "item_name", "buyer_name", "amount1", "amount2", "currency1", "currency2", "status", "status_text", "fee", "received_amountcp", "received_confirmscp" },
+            new string[] { merchant, txn_id, item_name, buyer_name, amount1, amount2, currency1, currency2, status, status_text, fee, received_amountcp, received_confirmscp }, "");
+            //if (ds.Tables[0].Rows.Count > 0)
+            //{
+            //    Msgs = ds.Tables[0].Rows[0]["Msg"].ToString();
+            //    RtnRlt = ds.Tables[0].Rows[0]["Rtrn"].ToString();
+            //}
+            //context.Response.Write(Msgs);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+}

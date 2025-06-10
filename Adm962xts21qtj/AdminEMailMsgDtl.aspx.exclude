@@ -1,0 +1,157 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="AdminEMailMsgDtl.aspx.cs" Inherits="AdminEMailMsgDtl" Title="::Message Details::" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" height="397" class="TableStyle"
+        style="width: 100%">
+                   <tr>
+    <td colspan="2" class="Header_Top1" style="height: 25px;background-image:none;text-align:right;" ><samp class="Header_Top">Message Detail</samp></td>
+  </tr>
+        <tr align="center" valign="middle">
+            <td align="right" rowspan="2" valign="top" style="width: 262px;">
+                <table cellpadding="0" cellspacing="0" style="width: 200px">
+                    <tr>
+                        <td style="width: 100px; height: 30px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="width: 235px" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" height="36" style="width: 227px">
+                                <tr>
+                                    <td align="left" style="background-image: url(../UserPanel_EMailBox_Img/NewsBox.gif)"
+                                        height="353" valign="top" width="235">
+                                        <div id="navigation" style="width: 109px">
+                                            <ul class="links1" style="width: 200px">
+                                                <li>
+                                                    <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Compose_Icon.png" runat="server" ID="Image1"
+                                                        ImageAlign="Baseline" />
+                                                    <a href="AdminEMailCompose.aspx" title="Compose Message">Compose Message</a></li><li>
+                                                        <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Inbox_Icon.png" runat="server" ID="imgInbox"
+                                                            ImageAlign="Baseline" />
+                                                        <asp:LinkButton ID="lnkbtnInbox" runat="server" CausesValidation="false" OnClick="lnkbtnInbox_Click"
+                                                            ToolTip="Inbox">Inbox</asp:LinkButton>
+                                                    </li>
+                                                <li>
+                                                    <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Sent_Icon.png" runat="server" ID="Image2"
+                                                        ImageAlign="Baseline" />
+                                                    <asp:LinkButton ID="lnkbtnSentbox" runat="server" CausesValidation="false" OnClick="lnkbtnSentbox_Click">Sent Message</asp:LinkButton>
+                                                </li>
+                                                <li>
+                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width: 25px">
+                                                                <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Draft_Icon.png" runat="server" ID="Image3" />
+                                                            </td>
+                                                            <td colspan="2">
+                                                                <asp:LinkButton ID="lnkbtnTrash" runat="server" CausesValidation="false" OnClick="lnkbtnTrash_Click">Trash</asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkTrash" CausesValidation="false" CssClass="LinkTrash" runat="server"
+                                                                    OnClick="lnkTrash_Click" ToolTip="Empty">Empty</asp:LinkButton>&nbsp;</td>
+                                                        </tr>
+                                                    </table>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="color: #000000">
+                                    <td height="12">
+                                        <strong>&nbsp;</strong></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="99%" align="left" rowspan="2" valign="top">
+                <table border="0" cellpadding="0" cellspacing="0" style="width: 99%">
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height: 30px; background-color: #EBF2F7" align="left" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 394px" class="InboxToplnk">
+                                <tr>
+                                    <td style="width: 11px; height: 13px">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="lnkbtnDltMail" runat="server" CausesValidation="false" OnClick="lnkbtnDltMail_Click">DELETE</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="lnkbtnRplyMail" runat="server" CausesValidation="false" OnClick="lnkbtnRplyMail_Click">REPLY</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="lnkbtnFrwdMail" runat="server" CausesValidation="false" OnClick="lnkbtnFrwdMail_Click">FORWARD</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px">
+                                        <asp:Label ID="lblMsgID" runat="server" ForeColor="Red" Visible="False"></asp:Label></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="width: 100%; height: 349px; background-color: #ffffff;" valign="top"
+                            class="MiddleBoxBor">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                                <tr>
+                                    <td align="center" style="background-image: url(../UserPanel_EMailBox_Img/MsgDetailHdr_Bg.jpg);
+                                        width: 691px; height: 75px" valign="top">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 95%">
+                                            <tr>
+                                                <td align="left" style="width: 675px; height: 23px;" valign="middle">
+                                                    <asp:Label ID="lblMsgSub" runat="server" Font-Bold="True"></asp:Label></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="width: 675px" valign="middle">
+                                                    <table border="0" cellpadding="0" cellspacing="0" style="width: 540px">
+                                                        <tr>
+                                                            <td align="right" style="width: 20px; height: 21px" valign="middle">
+                                                                FROM:</td>
+                                                            <td style="width: 551px; height: 20px">
+                                                                <asp:Label ID="lblFromUser" runat="server" CssClass="MsgDtllbl"></asp:Label></td>
+                                                            <td align="right" rowspan="2" style="width: 314px" valign="middle">
+                                                                <asp:Label ID="lblMsgDate" runat="server"></asp:Label></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="right" style="height: 21px" valign="middle">
+                                                                TO:</td>
+                                                            <td style="width: 551px; height: 21px">
+                                                                <asp:Label ID="lblToUser" runat="server" CssClass="MsgDtllbl" Font-Italic="True"></asp:Label></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="width: 100%; height: 270px" valign="top">
+                                        <iframe style="border: #83D2F2 1px solid; width: 99%; height: 272px; background-color: #ffffff"
+                                            src="MailDetails.aspx?MsgID=<%=GetMsgID()%>">Message</iframe>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="height: 30px; background-color: #EBF2F7" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 394px" class="InboxToplnk">
+                                <tr>
+                                    <td style="width: 11px; height: 13px">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="false" OnClick="LinkButton1_Click">DELETE</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="false" OnClick="LinkButton2_Click">REPLY</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="LinkButton3" runat="server" CausesValidation="false" OnClick="LinkButton3_Click">FORWORD</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr align="left" valign="middle">
+        </tr>
+    </table>
+</asp:Content>

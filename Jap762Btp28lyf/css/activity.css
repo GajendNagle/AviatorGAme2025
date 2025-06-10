@@ -1,0 +1,145 @@
+﻿.table td, .table th {
+    padding: 0.2rem 0.25rem;
+}
+.orange-back-activity {
+    /*background: linear-gradient(90deg,#009688 0%,#0096889c100%);*/
+    background: linear-gradient(90deg, #009688 0%, #00c5b1 100%) !important;
+    color: #fff;
+}
+.btns-theme:active {
+    background: #009688;
+    color: #fff;
+    font-weight: 500;
+}
+.logoutHover:hover {
+    color: #fff;
+}
+.slidelink {
+    width: 100%;
+    position: absolute;
+    top: 33%;
+    font-weight: 600;
+}
+.profilecard {
+    border-radius: 0px 0px 100px 100px;
+    height: 250px;
+}
+.themebtn {
+    color: #fff;
+}
+.balanceprofile {
+    border: 1px solid #fff;
+    position: relative;
+    left: 1px;
+    background: #fff;
+    top: -90px;
+    border-radius: 11px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+h5 {
+    font-weight: 700;
+}
+p, ul li {
+    color: #252424;
+    list-style: none;
+}
+.un-invt {
+    color: #000;
+    background: linear-gradient(391.71deg, #8ae0d7 3%, #fff 97%);
+    padding-left: 7px;
+}
+.points {
+    font-size: 11px;
+}
+.vipimg {
+    width: 50px;
+}
+.viphead {
+    background-color: #000;
+}
+.viptext {
+    font-weight: 800;
+    font-size: 14px;
+}
+@media (max-width: 600px) {
+    .slidelink {
+        top: 25%;
+    }
+}
+.invite {
+    color: #fdfcfa;
+    font-weight: 500;
+    position: absolute;
+    top: 17%;
+    left: -1%;
+}
+.deposit1 {
+    color: #fdfcfa;
+    font-weight: 500;
+    position: absolute;
+    top: 35%;
+    left: 52%;
+    font-weight: 700;
+}
+.deposit2 {
+    color: #fdfcfa;
+    font-weight: 500;
+    position: absolute;
+    top: 44%;
+    left: 52%;
+    font-weight: 700;
+}
+.withdrawl1 {
+    color: #fdfcfa;
+    font-weight: 500;
+    position: absolute;
+    top: 3%;
+    left: 47%;
+    font-weight: 700;
+}
+.withdrawl2 {
+    color: #fdfcfa;
+    font-weight: 500;
+    position: absolute;
+    top: 10%;
+    left: 47%;
+    font-weight: 700;
+}
+.arrowpad {
+    padding-left: 10px;
+}
+@media (max-width: 600px) {
+    .deposit1 {
+        top: 24%;
+        left: 41%;
+    }
+    .deposit2 {
+        top: 34%;
+        left: 34%;
+    }
+    .withdrawl1 {
+        top: -5%;
+        left: 24%;
+    }
+    .withdrawl2 {
+        top: 2%;
+        left: 24%;
+    }
+    .slidelink {
+        top: 20%;
+    }
+    .invite {
+        width: 180px;
+        top: 13%;
+        margin-left: 19px;
+    }
+}
+p, ul li {
+    color: rgba(255, 2551, 255, 0.54);
+    list-style: none;
+}
+.invite {
+   
+    top: 20%;
+    margin-left: 19px;
+}

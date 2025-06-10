@@ -1,0 +1,64 @@
+.style8 {color: #2326B1}
+
+/*------------------POPUPS------------------------*/
+
+#fade {
+
+	display: none;
+
+	background: #000; 
+
+	position: fixed; left: 0; top: 0; 
+
+	z-index: 10;
+
+	width: 100%; height: 100%;
+
+	opacity: .90;
+
+	z-index: 9999;
+
+}
+
+.popup_block{
+	display: none;
+	background: #F2BD20;
+	padding-left:10px;
+	padding: 0px; 	
+	border: 5px solid #F2BD20;
+	float: left;
+	font-size: 1.2em;
+	position: fixed;
+	top: 50%; left: 50%;
+	z-index: 99999;	
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	color:#fff;
+}
+
+.bgpop
+{
+background-color:#C6F7C1;
+margin-top:30px;
+}
+
+
+.popup p {
+
+	padding: 5px 10px;
+
+	margin: 5px 0;
+
+}
+.pophad
+{
+	font-size:16px; color:#fff; font-weight:bold; font-family:Verdana; margin-bottom:-23px;
+	font-family: 'Lato', sans-serif;
+	height:25px;
+}
+
+.popimg
+{
+	vertical-align:middle; padding-right:5px;
+}

@@ -1,0 +1,86 @@
+<%@ WebHandler Language="C#" Class="Currency_Rate" %>
+using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Net;
+using System.IO;
+using System.Text;
+
+public class Currency_Rate : IHttpHandler
+{
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds;
+    public string CurTrxRt = "", SKey = "", Type = "", rtdate = "", CurEthRt = "", CurBtcRt = "", CurBnbRt = "",CurUSDtRt ="";
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        ////
+        //if (context.Request.Cookies["MxvUSeRyG"] != null)
+        //{
+        if (context.Request.HttpMethod == "POST")
+        {
+            CurTrxRt = context.Request["TrxRt"].ToString();
+            CurEthRt = context.Request["EthRt"].ToString();
+            CurBtcRt = context.Request["BtcRt"].ToString();
+            CurBnbRt = context.Request["BnbRt"].ToString();
+            CurUSDtRt = context.Request["USDtRt"].ToString();
+
+            SKey = DB.base64Decod(context.Request["scr"].ToString());
+
+
+            //Type = context.Request["type"].ToString();
+            //if (Type == "ETH")
+            //{
+            //    rtdate = context.Request.QueryString["rtdate"].ToString();
+            //}               
+            UpdateBTCRt();
+        }
+        //else if (context.Request.QueryString["AddIndx"] != null)
+        //{
+        //    context.Response.Write(new Block_Chain().getNewBTCAddress(context.Request.QueryString["AddIndx"].ToString()));
+        //}
+        //else
+        //{
+        //    context.Response.Write(new Block_Chain().getCurrencyRate());
+        //}
+        //}
+        //else
+        //{
+        //    context.Response.Write("<script>window.open('../Login-area.html','_top');</script>");
+        //}
+    }
+    public void UpdateBTCRt()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("[BTC_UpdateCurBtc_Rate_New]", new string[] { "CurBtcRt", "SKey", "rtdate", "CurRtEte", "CurRtTrx", "CurRtBnb","CurRtUSDt", "CurRt4" },
+                new string[] { CurBtcRt, SKey, rtdate, CurEthRt, CurTrxRt, CurBnbRt, CurUSDtRt,"" }, "");
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

@@ -1,0 +1,160 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AdminDepstReqstDtl.aspx.cs" Inherits="Adm962xts21qtj_AdminDepstReqstDtl" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>View Credit Detail</title>
+    <link href="../UserPanel_css/MyRegisCss.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="MtblCntRegBdr" style="width: 80%">
+            <table width="100%" cellspacing="0" class="MtblCntReg">
+                <tr>
+                    <td class="hdrtblReg">
+                        <span class="span">
+                            <center>Credit request detail</center>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                        <table style="width: 100%" id="BankWireShow" runat="server" class="lbl">
+                            <tr>
+                                <td style="height: 21px" colspan="2">
+                                    <span style="font-size: 14pt; width: 100%;" class="BoderHading">Bank Information:</span></td>
+                                <td colspan="1" style="height: 21px"></td>
+                                <td colspan="1" style="height: 21px"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; height: 21px; padding-left: 20px;" class="lbl">ReqID</td>
+                                <td style="width: 100px; height: 21px" class="lbl">
+                                    <%=ReqID %>
+                                </td>
+                                <td class="lbl" style="width: 100px; height: 21px; text-align: right">Receipt</td>
+                                <td align="left" class="lbl" rowspan="18" style="width: 100px" valign="top">
+                                    <asp:Image ID="Image1" runat="server" Height="400px" Width="400px" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;" class="lbl">UserID</td>
+                                <td style="width: 100px;" class="lbl">
+                                    <%=UserID %>
+                                </td>
+                                <td class="lbl" rowspan="17" style="width: 100px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;" class="lbl">Name&nbsp;</td>
+                                <td style="width: 100px" class="lbl">
+                                    <%=MName %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;" class="lbl">CrReqDt</td>
+                                <td style="width: 100px" class="lbl">
+                                    <%=CrReqDt %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;">DipositeDt</td>
+                                <td style="width: 100px;" class="lbl">
+                                    <%=DipositeDt %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;" class="lbl">PayMode</td>
+                                <td style="width: 100px;" class="lbl">
+                                    <%=PayMode%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;" class="lbl">PayModeNo</td>
+                                <td style="width: 100px;" class="lbl">
+                                    <%=PayModeNo%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px; padding-left: 20px;" class="lbl">BankName</td>
+                                <td style="width: 100px;" class="lbl">
+                                    <%=BankName%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">BranchName</td>
+                                <td class="lbl" style="width: 100px;">
+                                   <%=BranchName%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">City</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=City%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">State</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=State%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">Amount</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=Amount%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">Approved_Amt</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=Approved_Amt%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">Reject_Amt</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=Reject_Amt%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">Balance_Amt</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=Balance_Amt%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">TransactionID</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=TransactionID%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">Status</td>
+                                <td class="lbl" style="width: 100px;">
+                                  <%=Status%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" style="padding-left: 20px; width: 100px;">Remark</td>
+                                <td class="lbl" style="width: 100px;">
+                                    <%=Remark%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" colspan="2" rowspan="1" style="padding-left: 20px"></td>
+                                <td class="lbl" colspan="1" rowspan="1" style="padding-left: 20px"></td>
+                                <td class="lbl" colspan="1" rowspan="1" style="padding-left: 20px"></td>
+                            </tr>
+                            <tr>
+                                <td class="lbl" colspan="2" rowspan="1" style="padding-left: 20px"></td>
+                                <td class="lbl" colspan="1" rowspan="1" style="padding-left: 20px"></td>
+                                <td class="lbl" colspan="1" rowspan="1" style="padding-left: 20px"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

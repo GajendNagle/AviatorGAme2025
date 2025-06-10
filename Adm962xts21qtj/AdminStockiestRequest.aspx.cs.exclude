@@ -1,0 +1,335 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+public partial class Adm962xts21qtj_AdminStockiestRequest : System.Web.UI.Page
+{
+    SqlConnection cn;
+    DataTable dt; SqlDataAdapter sda; SqlCommand cmd;
+    string SearchText, UserID;
+    float TotalAmt = 0;
+    public string FrmDt, ToDt, strSearchText, strPagesize, currentPage, ColumnName;
+    public int PageNo;
+    public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            UserID = DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value);
+            if (!IsPostBack)
+            {
+                ddlJumpToPage.Items.Clear();
+                int TotalRows = this.BindResult(1);
+                this.populateList(TotalRows);
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    private int BindResult(int currentPage)
+    {
+        int TotalRows = 0;
+        try
+        {
+            if (txtSearch.Text == "")
+            {
+
+                if (DDLFillItems.Items.Count != 0)
+                {
+                    SearchText = DDLFillItems.SelectedItem.Text;
+                }
+                else
+                {
+                    SearchText = "";
+                }
+            }
+            else
+            {
+                SearchText = txtSearch.Text.Trim();
+            }
+
+
+
+            FrmDt = txtFromDate.Text.Trim();
+            ToDt = txtToDate.Text.Trim();
+            strSearchText = SearchText.Replace("PENDING", "PDG");
+            strPagesize = Pagesize.ToString();
+            currentPage = currentPage;
+            ColumnName = DDLDownPos.SelectedItem.Value;
+
+            cn = new SqlConnection(new DB().getconnection());
+            dt = new DataTable();
+            sda = new SqlDataAdapter();
+            cmd = new SqlCommand("dbo.Pro_StockiestRequestDetails");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.AddWithValue("@strSearchText", SearchText);
+            cmd.Parameters.AddWithValue("@intPageSize", Pagesize);
+            cmd.Parameters.AddWithValue("@intCurrentPage", currentPage);
+            cmd.Parameters.AddWithValue("@SrchByDjGt", "All");
+            cmd.Parameters.AddWithValue("@FrmDt", txtFromDate.Text.Trim());
+            cmd.Parameters.AddWithValue("@ToDt", txtToDate.Text.Trim());
+            cmd.Parameters.Add("@ColumnName", SqlDbType.VarChar).Value = DDLDownPos.SelectedItem.Value;
+            cmd.Parameters.AddWithValue("@status", "");
+            cmd.Parameters.AddWithValue("@MemId", "");
+            cmd.Parameters.AddWithValue("@id", "0");
+            cmd.Parameters.AddWithValue("@StockiestId", UserID);
+
+            cmd.Connection = cn;
+            sda.SelectCommand = cmd;
+            sda.Fill(dt);
+
+            TotalRows = (int)cmd.Parameters["@intTotalRecords"].Value;
+            if (TotalRows != 0)
+            {
+                grdUserDtl.Visible = true;
+                lblgvrecord.Visible = false;
+                grdUserDtl.PageIndex = currentPage - 1;
+
+                grdUserDtl.DataSource = dt;
+                grdUserDtl.DataBind();
+                lblgvrecord.Text = "";
+
+            }
+            else
+            {
+
+                lblgvrecord.Visible = true;
+                lblgvrecord.Text = new DB().EmptyMessage(dt.Rows[0]["MSG"].ToString());
+                grdUserDtl.Visible = false;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            sda.Dispose();
+            cmd.Dispose();
+            dt.Dispose();
+            cn.Close();
+            cn.Dispose();
+        }
+        return TotalRows;
+    }
+    //protected void chkHeader_CheckedChanged(object sender, EventArgs e)
+    //{
+    //    CheckBox chkbox = (CheckBox)grdUserDtl.HeaderRow.FindControl("chkHeader");
+
+    //    foreach (GridViewRow dr in grdUserDtl.Rows)
+    //    {
+    //        CheckBox chkselect = (CheckBox)dr.FindControl("chkSelect");
+    //        if (chkbox.Checked == true)
+    //        {
+    //            chkselect.Checked = true;
+    //        }
+    //        else
+    //        {
+    //            chkselect.Checked = false;
+
+    //        }
+    //    }
+    //}
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = Convert.ToString(TotalRows);
+        PageNo = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1); ;
+        for (int i = 1; i <= PageNo; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        CountingShow();
+    }
+    public void CountingShow()
+    {
+        if (ddlJumpToPage.SelectedItem.Text == "1")
+        {
+            PageNo = 1;
+            //Pagesize
+        }
+        else
+        {
+            PageNo = 1 + int.Parse(ddlJumpToPage.SelectedItem.Text);
+            Pagesize = (Pagesize * int.Parse(ddlJumpToPage.SelectedItem.Text));
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(PageNo);
+        CountingShow();
+    }
+    protected void DDLDownPos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtSearch.Text = "";
+        if (DDLDownPos.SelectedValue == "pai.Status")
+        {
+            DDLFillItems.Items.Clear();
+            DDLFillItems.Items.Insert(0, "PENDING");
+            DDLFillItems.Items.Insert(1, "COMPLETED");
+            DDLFillItems.Items.Insert(2, "REJECTED");
+            DDLFillItems.Visible = true;
+            txtSearch.Visible = false;
+        }
+        else if (DDLDownPos.SelectedValue == "pai.IssueMode")
+        {
+            DDLFillItems.Items.Clear();
+            DDLFillItems.Items.Insert(0, "By Perfect Money");
+            DDLFillItems.Items.Insert(1, "Bank Wire");
+            DDLFillItems.Visible = true;
+            txtSearch.Visible = false;
+        }
+        else
+        {
+            txtSearch.TextMode = TextBoxMode.SingleLine;
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = true;
+        }
+    }
+    protected void grdUserDtl_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblAmt = (Label)e.Row.FindControl("lblAmt");
+                try
+                {
+                    TotalAmt = TotalAmt + float.Parse(lblAmt.Text);
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+            }
+
+            if (e.Row.Cells.Count > 2)
+            {
+                //e.Row.Cells[2].Visible = false;
+                e.Row.Cells[6].Visible = false;
+            }
+
+
+            if (e.Row.RowType == DataControlRowType.Footer)
+            {
+                Label lblTotalAmt = (Label)e.Row.FindControl("lblTotAmt");
+                lblTotalAmt.Text = TotalAmt.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+
+
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+    //protected void btnchangestatus_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        foreach (GridViewRow dr in grdUserDtl.Rows)
+    //        {
+    //            CheckBox chek = (CheckBox)dr.FindControl("chkselect");
+    //            Label lblmemberID = (Label)dr.FindControl("lblmemberID");
+    //            Label lblID = (Label)dr.FindControl("lblID");
+
+    //            if (chek.Checked == true)
+    //            {
+    //                cn = new SqlConnection(new DB().getconnection());
+    //                dt = new DataTable();
+    //                sda = new SqlDataAdapter();
+    //                cmd = new SqlCommand("dbo.Pro_AdminBankPayoutDetails");
+    //                cmd.CommandType = CommandType.StoredProcedure;
+    //                cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+    //                cmd.Parameters.AddWithValue("@strSearchText", "");
+    //                cmd.Parameters.AddWithValue("@intPageSize", "");
+    //                cmd.Parameters.AddWithValue("@intCurrentPage", "");
+    //                cmd.Parameters.AddWithValue("@SrchByDjGt", "All");
+    //                cmd.Parameters.AddWithValue("@FrmDt", "");
+    //                cmd.Parameters.AddWithValue("@ToDt", "");
+    //                cmd.Parameters.Add("@ColumnName", SqlDbType.VarChar).Value = "";
+    //                cmd.Parameters.AddWithValue("@status", ddlchangeStatus.SelectedValue);
+    //                cmd.Parameters.AddWithValue("@MemId", lblmemberID.Text.Trim());
+    //                cmd.Parameters.AddWithValue("@id", lblID.Text.Trim());
+    //                cmd.Connection = cn;
+    //                sda.SelectCommand = cmd;
+    //                ds = new DataSet();
+    //                sda.Fill(ds);
+    //                if (ds.Tables[0].Rows.Count > 0)
+    //                {
+    //                    ddlJumpToPage.Items.Clear();
+    //                    int TotalRows = this.BindResult(1);
+    //                    this.populateList(TotalRows);
+
+    //                }
+
+    //            }
+
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+    //    }
+    //    finally
+    //    {
+    //        sda.Dispose();
+    //        cmd.Dispose();
+    //        dt.Dispose();
+    //        cn.Close();
+    //        cn.Dispose();
+    //    }
+
+    //}
+
+    //protected void DDLFillItems_SelectedIndexChanged1(object sender, EventArgs e)
+    //{
+
+    //    //DDLFillItems.Items.Clear();
+    //    if (DDLFillItems.SelectedItem.Text == "PENDING")
+    //    {
+    //        ddlchangeStatus.Visible = true;
+    //        btnchangestatus.Visible = true;
+
+    //    }
+    //    else if (DDLFillItems.SelectedItem.Text == "COMPLETED")
+    //    {
+    //        ddlchangeStatus.Visible = false;
+    //        btnchangestatus.Visible = false;
+    //    }
+
+    //    else if (DDLFillItems.SelectedItem.Text == "REJECTED")
+    //    {
+    //        ddlchangeStatus.Visible = false;
+    //        btnchangestatus.Visible = false;
+    //    }
+    //}
+}

@@ -1,0 +1,14 @@
+
+<asp:TextBox  runat="server"   Font-Names="Verdana" Font-Size="11px" CssClass="ComposeTxtBx"></asp:TextBox>
+
+<asp:GridView  runat="server" 	CssClass="gvMain"   ShowFooter="True"     
+ CellSpacing="1" CellPadding="2">
+<HeaderStyle CssClass="gvhdr"  />
+<FooterStyle CssClass="gvFtr"/>
+
+<RowStyle CssClass="gvRw" />
+<PagerStyle CssClass="gvpgr"  />
+<SelectedRowStyle CssClass="gvSlt" />
+<EditRowStyle BackColor="#b5b5b5"  Height="35px" />
+<AlternatingRowStyle CssClass="gvAlter"  />
+</asp:GridView>

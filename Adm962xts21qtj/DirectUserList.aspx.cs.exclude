@@ -1,0 +1,60 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+public partial class Admin_DirectUserList : System.Web.UI.Page
+{
+  
+    SqlCommand cmd; string UserID;
+    DataSet ds; SqlDataAdapter da;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            UserID = Session["UserId"].ToString();
+            GetDirectMemberFill();
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    private void GetDirectMemberFill()
+    {
+        SqlConnection cn = new SqlConnection(new DB().getconnection());
+        try
+        {
+            cmd = new SqlCommand("select dd.downid DirectID,m.mname,dd.position,convert(varchar(10),m.doj,103) doj,convert(varchar(10),m.activationdate,103) activationdate,m.status,m.Package,g.referalid Under_Placed from downlinedetails dd inner join memdetail m on dd.downid=m.memid inner join genealogy g on g.sponserid=dd.memid and g.memid=dd.downid  where g.sponserid='" + UserID + "' order by position,doj,m.acmemid", cn);
+            da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds);
+
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+        catch (Exception)
+        {
+            //DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            if (cn != null && cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+                cn.Dispose();
+            }
+            if (ds != null) { ds.Dispose(); }
+            if (da != null) { da.Dispose(); }
+            if (cmd != null) { cmd.Dispose(); }
+        }
+
+    }
+
+}

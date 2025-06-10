@@ -1,0 +1,229 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TestDeposit.aspx.cs" Inherits="Adm962xts21qtj_TestDeposit" %>
+
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" valign="top" style="padding-top: 5px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="center" class="BodyBox" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center" valign="middle">
+                                        <table align="center">
+                                            <tr>
+                                                <td align="left" colspan="11" style="text-align: right">
+                    <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif"   OnClick="btnexporttoexport_Click"/>
+                 &nbsp;
+                 <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')"/></td>
+                                            </tr>
+                
+                
+                
+                                            <tr>
+                                                <td align="left" style="width: 149px; height: 57px; font-family:Verdana; font-size:14px;" class="lbl">
+                                                    Status :</td>
+                                                <td align="left" style="height: 57px">
+                                                    <asp:DropDownList ID="ddlStatus" runat="server" Font-Names="Verdana"
+                                                        Width="155px" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged" CssClass="ComposeTxtBx" Height="34px">
+                                                        <asp:ListItem>ALL</asp:ListItem>
+                                                        <asp:ListItem>PENDING</asp:ListItem>
+                                                        <asp:ListItem>REJECTED</asp:ListItem>
+                                                        <asp:ListItem>COMPLETED</asp:ListItem>
+                                                        <asp:ListItem>BALANCE AMOUNT &gt;=</asp:ListItem>
+                                                        <asp:ListItem>BALANCE AMOUNT &lt;=</asp:ListItem>
+                                                    </asp:DropDownList></td>
+                                                <td align="left" style="width: 133px; height: 57px;">
+                                                </td>
+                                                <td align="left" style="width: 151px; height: 57px; font-size: 14px; font-family: 'Poppins', sans-serif;">
+                                                    Amt :</td>
+                                                <td align="left" style="height: 57px">
+                                                    <asp:TextBox ID="txtAmt" runat="server" ValidationGroup="b" Width="150px" OnTextChanged="txtAmt_TextChanged" CssClass="ComposeTxtBx" Height="34px"></asp:TextBox></td>
+                                                <td align="left" colspan="1" style="width: 138px; height: 57px;">
+                                                </td>
+                                                <td align="left" colspan="2" style="width: 250px; height: 57px; font-size: 14px; font-family: 'Poppins', sans-serif;">
+                                                    Deposit in Bank:</td>
+                                                <td align="left" colspan="3" style="height: 57px">
+                                                    <asp:DropDownList ID="ddlBank" runat="server" Width="190px" Font-Names="Verdana" CssClass="ComposeTxtBx" Height="34px">
+                                                        <asp:ListItem>ALL</asp:ListItem>
+                                                        <asp:ListItem>CASH</asp:ListItem>
+                                                        <asp:ListItem>HDFC(50200005892181)</asp:ListItem>
+                                                    </asp:DropDownList>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="ddlBank"
+                                                        ErrorMessage="Please Select Bank Name" InitialValue="--Select  Bank--" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="middle" style="width: 149px; font-size: 14px; font-family: 'Poppins', sans-serif;">
+                                                    From :
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="FromDate"
+                                                        ErrorMessage="Please Enter From Date">*</asp:RequiredFieldValidator></td>
+                                                <td align="left">
+                                                    <asp:TextBox ID="FromDate" runat="server" ValidationGroup="b" Width="150px" CssClass="ComposeTxtBx" Height="34px"></asp:TextBox></td>
+                                                <td align="left" style="width: 133px">
+                                                    </td>
+                                                <td align="left" style="width: 151px; font-size: 14px; font-family: 'Poppins', sans-serif;">
+                                                    To :<asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                                        ControlToValidate="ToDate" ErrorMessage="Please Enter ToDate">*</asp:RequiredFieldValidator>
+                                                </td>
+                                                <td align="left">
+                                                    <asp:TextBox ID="ToDate" runat="server" Width="150px" CssClass="ComposeTxtBx" Height="34px"></asp:TextBox></td>
+                                                <td align="left" style="width: 138px">
+                                                    </td>
+                                                <td align="left">
+                                                </td>
+                                                <td align="left" style="width: 173px">
+                                                    <asp:Button ID="btnSearch" runat="server" CssClass="Btn" Font-Bold="True" Font-Names="Verdana"
+                                                        Font-Size="11px" OnClick="btnSearch_Click" Text="SEARCH" Width="80px" CausesValidation="False" Height="34px" /></td>
+                                                <td align="left" style="width: 340px">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" colspan="9" style="height: 27px">
+                                                    <asp:Label ID="lblmsg" runat="server" ForeColor="Red" Width="100%"></asp:Label>&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="middle">
+                                   <div id="divPrint">   
+                                       <asp:GridView ID="GridView1" runat="server" CellPadding="3" ShowFooter="True" GridLines="none" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="false">
+                                            <Columns>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <a href='AdminDepstReqstDtl.aspx?ReqID=<%# Eval("ReqID") %>'
+                                                         onclick="NewWindow(this.href,'MList','550','350','yes','center');return false"
+                                                                onfocus="this.blur()">View</a>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:Panel ID="Panel1" runat="server" Visible='<%#Eval("Balance_Amt").Equals("0")?false:true%>'>
+                                                            <a href='EditCreditRequest.aspx?ReqID=<%# Eval("ReqID") %>&Amount=<%# Eval("amount") %>'
+                                                                onclick="NewWindow(this.href,'MList','550','350','yes','center');return false"
+                                                                onfocus="this.blur()">Edit</a>
+                                                        </asp:Panel>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                 <asp:TemplateField HeaderText="Sr.">
+                                                    <ItemTemplate>
+                                                      <%# Container.DataItemIndex+1 %>.
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ReqID">
+                                                    <ItemTemplate>
+                                                      <%# Eval("ReqID")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="UserID">
+                                                    <ItemTemplate>
+                                                       <%# Eval("UserID")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="MName">
+                                                    <ItemTemplate>
+                                                     <%# Eval("MName")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ReqDt">
+                                                    <ItemTemplate>
+                                                      <%# Eval("CrReqDt")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="DepstDt">
+                                                    <ItemTemplate>
+                                                    <%# Eval("DipositeDt")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="PayMode">
+                                                    <ItemTemplate>
+                                                      <%# Eval("PayMode")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="PayNo">
+                                                    <ItemTemplate>
+                                                   <%# Eval("PayModeNo")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ReqAmt">
+                                                    <ItemTemplate>
+                                                       <%# Eval("Amount")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Aprvd_Amt">
+                                                    <ItemTemplate>
+                                                       <%# Eval("Approved_Amt")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Rjct_Amt">
+                                                    <ItemTemplate>
+                                                      <%# Eval("Reject_Amt")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Blnc_Amt">
+                                                    <ItemTemplate>
+                                                      <%# Eval("Balance_Amt")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Status">
+                                                    <ItemTemplate>
+                                                      <%# Eval("Status")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                ---Sorry, Record Not Found---
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                         </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True"
+                    ShowSummary="False" Width="144px" />
+                &nbsp;
+            
+                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy"
+                    PopupButtonID="FromDate" TargetControlID="FromDate">
+                </ajaxToolkit:CalendarExtender>
+                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy"
+                    PopupButtonID="ToDate" TargetControlID="ToDate">
+                </ajaxToolkit:CalendarExtender>
+            </td>
+        </tr>
+    </table>
+    <script language="javascript" type="text/javascript">
+function CallPrint(strid)
+{
+ var prtContent = document.getElementById(strid);
+ var WinPrint = window.open('','','letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+ WinPrint.document.write(prtContent.innerHTML);
+ WinPrint.document.close();
+ WinPrint.focus();
+ WinPrint.print();
+ WinPrint.close();
+ prtContent.innerHTML=strOldOne;
+}
+
+
+    </script>   
+
+<asp:ScriptManager runat="server"></asp:ScriptManager>
+
+    
+    </form>
+</body>
+</html>

@@ -1,0 +1,253 @@
+﻿//// <reference path="../../handler_js/inner_page_summary.js" />
+//// <reference path="../../handler_js/inner_page_summary.js" />
+function Save_dataCP_Game() {
+    document.getElementById("addBalanceSubmit").disabled = true;
+    $("#addBalanceSubmit").html('Please wait...');
+    $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+    var od = new FormData();
+
+    var paymode = '';
+    paymode = $("#paymentmode").val();
+    var txtReqAmt = $("#txtBNB").val();
+    //if ($("#rbBNB").prop('checked') == true) {
+       
+    //}
+    //else if ($("#rbBNB1").prop('checked') == true) {
+    //    paymode = $("#rbBNB1").val();
+    //}
+    //else if ($("#rbBNB2").prop('checked') == true) {
+    //    paymode = $("#rbBNB2").val();
+    //}
+    //else if ($("#rbTRON").prop('checked') == true) {
+    //    paymode = $("#rbTRON").val();
+    //}
+    //else {
+    //    $('#Msgs').html("<div class='alert alert-danger alert-rounded'> You need to select one Payment Method option !<button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>×</span> </button>  </div>");
+    //    document.getElementById("addBalanceSubmit").disabled = false;
+    //    $("#addBalanceSubmit").html('<i class="fa fa-check"></i> Submit');
+    //    return;
+    //}
+    //if (paymode == 'BNB') {
+       
+    //}
+    //if (paymode == 'BNB1') {
+    //    var txtReqAmt = $("#txtBNB1").val();
+    //}
+    //if (paymode == 'BNB2') {
+    //    var txtReqAmt = $("#txtBNB2").val();
+    //}
+    //if (paymode == 'TRON') {
+    //    var txtReqAmt = $("#txtTRON").val();
+    //}
+    var eMailAddss = $("#FRemail").val();
+    od.append("txtReqAmt", txtReqAmt);
+    od.append("paymode", paymode);
+    od.append("eMailAddss", eMailAddss);
+    ///////
+
+    $.ajax({
+        url: "game/Handlers/Game-CoinPayments.ashx",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                //  $('#CPAddress').show();
+                //$('#Msgs').html("<div class='alert alert-success'> Request submitted successfully, Please check payment address below or Right Side!<button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>×</span> </button>  </div>");
+                $("#Msgs").html('');
+                swal({
+                    title: "Make Payment!",
+                    //text: "Request submitted successfully, Please check payment address below or Right Side!",
+                    text: "Please check payment address below or Right Side!!",
+                    //type: "success"
+
+                },
+                    function () {
+                        GMDashboardSummary();
+                        $('#Paymentdetailsshow').show();
+                        $('#onloadshowhistry').hide();
+                    });
+
+                document.getElementById("addBalanceSubmit").disabled = false;
+                $("#addBalanceSubmit").html('<i class="fa fa-check"></i> Submit');
+                //location.href = Response.Message;
+                //window.open(window.location.href = Response.Message, '_blank');
+                //$('#NewBTC1').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + Response.Message + "' width='150' height='150'>");
+                //$('#paranew').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept fund request & credit amount in f-Wallet!");
+                //$('#txtBTCAddress1').html(Response.Message);
+                //$('#CPAmt').html("$" + txtReqAmt);
+                //$('#CPACType').html(paymode + " wallet address...");
+                // parent.location.reload(true);
+            }
+            else {
+                $('#Msgs').html(Response.Message);
+            }
+        },
+        error: function (err) {
+            $('#Msgs').html(err.statusText);
+        }
+    });
+}
+///////////////////
+function GMDashboardSummary() {
+    ///////
+    $('#Mem_Name').html('<img src="../UserProfileImg/loading2.gif" />');
+    ///////
+    $.getJSON('Handlers/Inner_Page_Summary.ashx',
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                var wa = '';
+                for (var i = 0; i < OrjsonDS.length; i++) {
+                    ///// for Dashboard details...
+
+                    $('#TotTeam').html(OrjsonDS[i].TotTeam);
+                    ///
+                    $('#TOTAL_REFERRALS').html(OrjsonDS[i].TOTAL_REFERRALS);
+                    ///
+                    $('#prof_pic').attr('src', "../" + OrjsonDS[i].Mem_Profl_Pic + "");
+                    //
+                    $('#Mem_Profl_Pic').html("<img width='80' height='80' src='../" + OrjsonDS[i].Mem_Profl_Pic + "' alt='user'/>");
+                    ///
+                    $("#MemPic").attr('src', "../" + OrjsonDS[i].Mem_Profl_Pic + "");
+                    //
+                    $("#MemPic").attr('src', "../" + OrjsonDS[i].Mem_Profl_Pic + "");
+                    ///
+                    $('#Mem_Name').html(OrjsonDS[i].MemName);
+                    ///
+                    $('#Totte').html("Team " + OrjsonDS[i].TotTeam);
+                    ///
+                    $('#TotRef').html("Directs " + OrjsonDS[i].TOTAL_REFERRALS);
+                    ///
+                    //                $('#email').html(OrjsonDS[i].email);
+                    $('#email').html(OrjsonDS[i].MemID);
+                    $('#FRemail').val(OrjsonDS[i].email);
+                    ///                
+                    $('#btcadd').val(OrjsonDS[i].BTCAddress);
+                    ///Coin Payment                
+                    $('#CPACType').html(OrjsonDS[i].CPACType + " wallet address...");
+                    $('#GMACType').html(OrjsonDS[i].GMACType + " wallet address...");
+                    $('#NewBTC1').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + OrjsonDS[i].BTCAddress + "' width='150' height='150'>");
+                    $('#NewBTCGM').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + OrjsonDS[i].BTCAddress_GM + "' width='150' height='150'>");
+                    $('#paranew').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept fund request & credit amount in TRX-Wallet!");
+                    $('#paranewGM').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept fund request & credit amount in Game-Wallet!");
+                    $('#txtBTCAddress1').html(OrjsonDS[i].BTCAddress);
+                    $('#txtBTCAddressGM').html(OrjsonDS[i].BTCAddress_GM);
+                    $('#CPAmt').html(OrjsonDS[i].PlanAmt);
+                    $('#GMAmt').html(OrjsonDS[i].GMPlanAmt);
+                    //
+                    $('#CPStatus_txt').html(OrjsonDS[i].CPStatusMSG);
+                    $('#GmStatus_txt').html(OrjsonDS[i].GameStatusMSG);
+                    ///
+                    $('#fwalletBal').html("" + OrjsonDS[i].cWalletBal);
+                    $('#fwalletBalace').html("" + OrjsonDS[i].cWalletBal + " TRX");
+                    $('#eWalletBalCWallet').val(OrjsonDS[i].cWalletBal);
+
+                    $('#GMwalletBal').html("" + OrjsonDS[i].GMWalletBal + " TRX");
+                    $('#FndReqConfm').html(OrjsonDS[i].CntCnfFnd);
+                    $('#FndReqPndg').html(OrjsonDS[i].PendngFnd);
+                    ///
+                    $('#FndReqConfmGm').html(OrjsonDS[i].CntCnfFndGm);
+                    $('#FndReqPndgGm').html(OrjsonDS[i].PendngFndGM);
+                    ///////
+                    $('#ethadd').val(OrjsonDS[i].ETHAddress);
+                    ////
+                    $('#paytmadd').val(OrjsonDS[i].PaytmID);
+                    ///
+                    $('#upiadd').val(OrjsonDS[i].UPIID);
+                    ///
+                    $('#bankacno').val(OrjsonDS[i].BankAccNo);
+                    ///
+                    $('#bankname').val(OrjsonDS[i].BankName);
+                    ///
+                    $('#bankifsc').val(OrjsonDS[i].BankIFSC);
+                    ///
+                    $('#bankacholder').val(OrjsonDS[i].AcHolderName);
+                    ///
+                    //$('#txtmemiddeposit').val(OrjsonDS[i].MemID);
+                    ///
+                    $('#profJoin').html("<span style='color:#ffffff80;'>Registered On : </span> " + OrjsonDS[i].Sign_UpOn + " <br> <span style='color:#ffffff80;'>Purchase On : </span>" + OrjsonDS[i].Actived_On);
+                    ///
+                    $('#TotalRef').html(OrjsonDS[i].TOTAL_REFERRALS);
+                    $('#Active').html(OrjsonDS[i].ActTeam);
+                    $('#Inactive').html(OrjsonDS[i].Inactive);
+                    $('#Block').html(OrjsonDS[i].totBlock);
+                    $('#Topup').html(OrjsonDS[i].TotTeamDeposit);
+                    $('#Bonus').html(OrjsonDS[i].TotTeamBonus);
+                    $('#footertext').html(OrjsonDS[i].CompanyName);
+                    ///
+                    $('#RefErnSelfp').html(OrjsonDS[i].RefErnSelf);
+                    $('#RefErnTeamp').html(OrjsonDS[i].RefErnTeam);
+                    $('#TokenPrice').html("<b style='font-size: 16px;color: #ffc107;'>1 TRX = " + OrjsonDS[i].TokenRate + " TRX.</b>");
+                    $('#TPrice').val(OrjsonDS[i].TokenRate);
+                    $('#TkPrice').val(OrjsonDS[i].TokenRate);
+                    $('#txtSponserID').val(OrjsonDS[i].SponsorID);
+                    $('#showGlmrt').html("Today TRX Price 1TRX= <span style='color:#f1951c'>" + OrjsonDS[i].TokenRate + " TRX" + '<span>');
+                    ////
+                    $('#ACType_cp').html(OrjsonDS[i].ACType_cp + " wallet address...");
+                    $('#Newbtc_cp').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + OrjsonDS[i].Newbtc_cp + "' width='150' height='150'>");
+                    $('#messagestatus').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept payment request & credit to your account!");
+                    $('#depositcoinadress').html(OrjsonDS[i].Newbtc_cp);
+                    $('#planamount').html(OrjsonDS[i].PlanAmt_cp);
+                    $('#Cpstatus').html(OrjsonDS[i].CPStatusMSG_cp);
+
+                    if (OrjsonDS[i].CPStatusMSG_cp == "") {
+                        $('#Cpstatus2').html('');
+                    }
+                    else {
+                        $('#Cpstatus2').html("<h4 class='fs-20 text-black text-align-center' style='    font-size: 13px !important;'>Last Payment status</h4><p class='mb-0 fs-13' style='color: #ffc107;     font-size: 18px!important;'>" + OrjsonDS[i].CPStatusMSG_cp + "<p>");
+                    }
+
+                    $('#totaldepsoitpayment').html(OrjsonDS[i].totaldeposit + " <span style='color:#ffffff50'>$</span> ");
+                    $('#ConfirmedDeposit').html(OrjsonDS[i].CntCnfFnd_cp + " <span style='color:#ffffff50'>$</span> ");
+                    $('#PendingDeposit').html(OrjsonDS[i].PendngFnd_cp + " <span style='color:#ffffff50'>$</span> ");
+
+                    ///
+                    //                $('#Sign_UpOn').html(OrjsonDS[i].Sign_UpOn);                
+                    //                ///
+                    //                $('#Actived_On').html(OrjsonDS[i].Actived_On);                
+                    //                ///
+                    //                $('#Last_Access').html(OrjsonDS[i].Last_Access); 
+                    //                ///
+                    //                $('#MY_EARNINGS').html("<span style='vertical-align: super; font-size:15px;'>$</span>"+OrjsonDS[i].MY_EARNINGS);                 
+                    //                ///                    
+                    //                $('#Mem_Profl_Pic').html("<img class='img-circle m-b' width='70' height='70' src='../"+OrjsonDS[i].Mem_Profl_Pic+"' alt=''/>"); 
+                    //                ///
+                    //                $('#Mem_Name').html(OrjsonDS[i].Mem_Name);
+                    //                ///
+                    //                $('#MemID').html(OrjsonDS[i].MemID);
+                    //                ///
+                    $('#Tot_Msg_Cunt').html(OrjsonDS[i].Tot_Msg_Cunt);
+                    //
+                    $('#Msg_Cunt').html(OrjsonDS[i].Msg_Cunt);
+                    //
+                    $('#Msg_CuntTP').html(OrjsonDS[i].Msg_Cunt);
+                    $('#StakeDividendsbal').html(OrjsonDS[i].StakeDividendsbal);
+                    $('#LevelDividendsbal').html(OrjsonDS[i].LevelDividendsbal);
+                    $('#RankDividends').html(OrjsonDS[i].RankDividends);
+                    $('#StakeDividendsbal1').val(OrjsonDS[i].StakeDividendsbal);
+                    $('#LevelDividendsbal1').val(OrjsonDS[i].LevelDividendsbal);
+                    $('#RankDividends1').val(OrjsonDS[i].MinTokenWithdrawal);
+                    $('#MxWith1').val(OrjsonDS[i].MaxTokenWithdrawal);
+                    $('#WithDct1').val(OrjsonDS[i].WithdrawDeduction);
+                    $('#txtmemiddeposit').val(OrjsonDS[i].MemID);
+                    $('#StakeDivi').html(OrjsonDS[i].StakeDividendsbal);
+                    //$('#TotStkBal').html(OrjsonDS[i].TotStkBal);
+                    $('#TOTAL_STAKE').html(OrjsonDS[i].TOTAL_STAKE);
+                    $('#LstDt').html(OrjsonDS[i].LstDt);
+                    $('#maxTokn').html(OrjsonDS[i].maxTokn);
+                    $('#StakeDividendBal').html("Balance : " + OrjsonDS[i].StakeDividendsbal + " TRX");
+                    $('#LevelDividendBal').html("Balance : " + OrjsonDS[i].LevelDividendsbal + " TRX");
+                    $('#RankDividendsBal').html("Balance : " + OrjsonDS[i].RankDividends + " TRX");
+                    if (OrjsonDS[i].Chkday == '1') {
+                        $('#txtMCB').prop("disabled", false);
+                    }
+
+
+                }
+            }
+        });
+}

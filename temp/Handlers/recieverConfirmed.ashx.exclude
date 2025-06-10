@@ -1,0 +1,120 @@
+<%@ WebHandler Language="C#" Class="recieverConfirmed" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+
+public class recieverConfirmed : IHttpHandler {
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc; public string msg, dtl, strJson, assno, UserID,Code,SType,SQValue;
+    Random Rnd = new Random();
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+    
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public bool IsReusable
+    {
+        get { return false; }
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+        assno = context.Request["id"].ToString();
+        Code = context.Request["Code"].ToString();
+        if (Code == "200")
+        {
+            SType = "1";
+            SQValue = "24";
+        }
+        if (Code == "100")
+        {
+          SType="101";
+          SQValue = "Confirm";
+        }
+        if (Code == "300")
+        {
+            SType = "102";
+        }
+        if (Code == "500")
+        {
+            SType = "501";
+            SQValue = "Fake Receipt";
+        }
+        /////////
+        Confirm();
+        /////////
+        handleRequest();
+    }  
+    private void Confirm()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("ProcUpdateReceipttime", new string[] { "Id", "Value", "MemId", "type" },
+                new string[] { assno, SQValue, UserID, SType }, "ByDataset");
+            /////
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["flg"].ToString() == "0")
+                {
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                    sc = false;
+                }
+                else
+                {
+                    sc = true;
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            msg = ex.Message;
+            sc = false;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+   
+}

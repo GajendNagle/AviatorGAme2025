@@ -1,0 +1,83 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Admin_BankDetailFill : System.Web.UI.Page
+{
+    SqlConnection cn;
+    
+    SqlCommand cmd;
+    string Req_ID;
+    string RemrkRej; SqlDataReader drGetSt;
+   
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            Req_ID = Request.QueryString["ID"].ToString();           
+            if (!IsPostBack)
+                GetCreditRequestSt();
+
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+
+    }
+    private void GetCreditRequestSt()
+    {
+        try
+        {
+            cn = new SqlConnection(new DB().getconnection());
+
+            cn.Open();
+            cmd = new SqlCommand(@"SELECT     md.mname + ' ' + md.mmidname + ' ' + MLastName as  Name , pd.MemID,  
+md.PerfectMoneyID,md.AccountName+' ' + md.AccLName AccName,md.bankAddress
+,md.SwiftCode,md.BnkAccType,md.BankCity,md.Country,
+md.IfsC,md.Bankname,md.AccNo
+FROM         dbo.PayoutAmtIssueDt pd with(nolock) 
+inner join memdetail md with(nolock) on md.memid=pd.memid where pd.ID='" + Req_ID + "'", cn);
+             drGetSt = cmd.ExecuteReader();
+            while (drGetSt.Read())
+            {
+                lblPerfect.Text = drGetSt["PerfectMoneyID"].ToString();
+                lblUserName.Text = drGetSt["MemID"].ToString();
+                lblAccountHolder.Text = drGetSt["AccName"].ToString();
+                lblIFSC.Text = drGetSt["IfsC"].ToString();
+                lblSwiftCode.Text = drGetSt["SwiftCode"].ToString();
+
+                lblBankName.Text = drGetSt["Bankname"].ToString();
+            //  lblBranchName.Text = drGetSt["BranchName"].ToString();
+
+                lblAccountNo.Text = drGetSt["AccNo"].ToString();
+
+
+                lblCity.Text = drGetSt["BankCity"].ToString();
+                lblAccType.Text = drGetSt["BnkAccType"].ToString();
+
+
+            }
+        }
+        catch { }
+        finally
+        {
+            drGetSt.Close();
+            cn.Close();
+            cn.Dispose();
+            cmd.Dispose();
+            drGetSt.Dispose();
+
+        }
+    }
+  
+}

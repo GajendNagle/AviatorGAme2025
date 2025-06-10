@@ -1,0 +1,194 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="AdminEMailForward.aspx.cs" Inherits="AdminEMailForward" Title="Forward Message" %>
+
+<%@ Register TagPrefix="cc" Namespace="Winthusiasm.HtmlEditor" Assembly="Winthusiasm.HtmlEditor" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    
+    <asp:ScriptManager id="ScriptManager1" runat="server"></asp:ScriptManager>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" height="550" class="TableStyle"
+        style="width: 100%">
+          <tr>
+    <td colspan="2" class="Header_Top1" style="height: 25px;background-image:none;text-align:right;" ><samp class="Header_Top">Forward Message</samp></td>
+  </tr>
+        <tr align="left" valign="middle">
+            <td align="right" rowspan="2" valign="top" style="height: 527px">
+                <table cellpadding="0" cellspacing="0" style="width: 233px">
+                    <tr>
+                        <td style="width: 100px; height: 30px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="width: 235px" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" height="36" width="235">
+                                <tr>
+                                    <td align="left" style="background-image: url(../UserPanel_EMailBox_Img/NewsBox.gif)"
+                                        height="353" valign="top" width="235">
+                                        <div id="navigation" style="width: 109px">
+                                            <ul class="links1" style="width: 200px;">
+                                                <li>
+                                                    <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Compose_Icon.png" runat="server" ID="Image1"
+                                                        ImageAlign="Baseline" />
+                                                    <a href="AdminEMailCompose.aspx" title="Compose Message">Compose Message</a></li><li>
+                                                        <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Inbox_Icon.png" runat="server" ID="imgInbox"
+                                                            ImageAlign="Baseline" />
+                                                        <asp:LinkButton ID="lnkbtnInbox" runat="server" CausesValidation="false" OnClick="lnkbtnInbox_Click"
+                                                            ToolTip="Inbox">Inbox</asp:LinkButton>
+                                                    </li>
+                                                 <li>
+                                                    <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Sent_Icon.png" runat="server" ID="Image2"
+                                                        ImageAlign="Baseline" />
+                                                    <asp:LinkButton ID="lnkbtnSentbox" runat="server" CausesValidation="false" OnClick="lnkbtnSentbox_Click">Sent Message</asp:LinkButton>
+                                                </li>
+                                                <li>
+                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width: 25px">
+                                                                <asp:Image ImageUrl="../UserPanel_EMailBox_Img/Draft_Icon.png" runat="server" ID="Image3" />
+                                                            </td>
+                                                            <td colspan="2">
+                                                                <asp:LinkButton ID="lnkbtnTrash" runat="server" CausesValidation="false" OnClick="lnkbtnTrash_Click">Trash</asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkTrash" CausesValidation="false" CssClass="LinkTrash" runat="server"
+                                                                    OnClick="lnkTrash_Click" ToolTip="Empty">Empty</asp:LinkButton>&nbsp;</td>
+                                                        </tr>
+                                                    </table>
+                                                </li>
+                                               
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="color: #000000">
+                                    <td height="12">
+                                        &nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="100%" align="left" rowspan="2" valign="top" style="height: 527px; font-weight: bold;">
+                <table border="0" cellpadding="0" cellspacing="0" style="width: 99%">
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height: 30px; background-color: #EBF2F7" align="left" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 443px" class="InboxToplnk">
+                                <tr>
+                                    <td style="width: 11px; height: 13px">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="lnkbtnSendMail" runat="server" OnClick="lnkbtnSendMail_Click">SEND</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px; color: #000000;" align="center" valign="middle">
+                                        <asp:LinkButton ID="lnkbtnCancelMail" runat="server" CausesValidation="false" OnClick="lnkbtnCancelMail_Click">CANCEL</asp:LinkButton></td>
+                                    <td style="width: 214px; height: 13px; color: #000000;" align="center" valign="middle">
+                                    </td>
+                                    <td style="width: 100px; height: 13px">
+                                        <asp:Label ID="lblTo" runat="server" Visible="false"></asp:Label>
+                                        <asp:Label ID="lblID" runat="server" Visible="false"></asp:Label></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="width: 691px; height: 348px; background-color: #ffffff;"
+                            valign="top" class="MiddleBoxBor">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 520px">
+                                <tr>
+                                    <td align="left" style="width: 690px; height: 13px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 690px; height: 13px" valign="middle">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 504px" class="ComposeTableStyle">
+                                            <tr>
+                                                <td align="right" style="width: 104px; height: 35px" valign="middle">
+                                                    <strong>FROM :</strong></td>
+                                                <td align="left" style="width: 583px; height: 35px" valign="middle">
+                                                    <table border="0" cellpadding="0" cellspacing="0" style="width: 411px">
+                                                        <tr>
+                                                            <td align="left" style="height: 12px" valign="middle">
+                                                                <asp:TextBox ID="txtFromUser" runat="server" MaxLength="15" Width="200px" CssClass="ComposeTxtBx"
+                                                                    Enabled="False" Height="19px"></asp:TextBox></td>
+                                                            <td align="left" style="height: 12px" valign="middle">
+                                                                <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Size="11px" ForeColor="#1BB4E6"
+                                                                    Width="156px"></asp:Label></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td align="left" style="height: 35px" valign="middle">
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFromUser"
+                                                        ErrorMessage="Please Enter From UserID" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" style="width: 104px" valign="middle">
+                                                    <strong></strong>
+                                                </td>
+                                                <td align="left" style="width: 583px" valign="middle">
+                                                    &nbsp;<asp:Label ID="lblType" runat="server" Visible="False"></asp:Label></td>
+                                                <td align="left" valign="middle">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" style="width: 104px; height: 35px" valign="middle">
+                                                    <strong>TO :</strong></td>
+                                                <td align="left" style="width: 583px; height: 35px" valign="middle">
+                                                    <asp:TextBox ID="txtToUser" runat="server" Width="408px" CssClass="ComposeTxtBx"
+                                                        Height="19px" MaxLength="79"></asp:TextBox></td>
+                                                <td align="left" style="height: 35px" valign="middle">
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtToUser"
+                                                        ErrorMessage="Please Enter To UserID" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" style="width: 104px" valign="middle">
+                                                    <strong>SUBJECT :</strong></td>
+                                                <td align="left" style="width: 583px; height: 40px" valign="middle">
+                                                    <asp:TextBox ID="txtComSub" runat="server" MaxLength="50" Width="410px" CssClass="ComposeTxtBx"
+                                                        Height="19px"></asp:TextBox></td>
+                                                <td align="left" valign="middle">
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtComSub"
+                                                        ErrorMessage="Please Enter Message Subjects" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 690px; height: 13px" valign="top">
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtComSub"
+                                            ErrorMessage="Please Enter Message" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+                                        <cc:HtmlEditor ID="Editor" runat="server" ColorScheme="VisualStudio" EnableTheming="True"
+                                            Height="300px" ToggleMode="Buttons" Width="518px" SelectedTabBackColor="224, 224, 224"
+                                            TabBackColor="SkyBlue"></cc:HtmlEditor>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="height: 30px; background-color: #EBF2F7" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 443px" class="InboxToplnk">
+                                <tr>
+                                    <td style="width: 11px; height: 13px">
+                                    </td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="LinkButton1" runat="server" OnClick="lnkbtnSendMail_Click">SEND</asp:LinkButton></td>
+                                    <td style="width: 100px; height: 13px" align="center" valign="middle">
+                                        <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="false" OnClick="lnkbtnCancelMail_Click">CANCEL</asp:LinkButton></td>
+                                    <td style="width: 214px; height: 13px" align="center" valign="middle">
+                                    </td>
+                                    <td style="width: 100px; height: 13px">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True"
+                    ShowSummary="False" />
+            </td>
+        </tr>
+        <tr align="left" valign="middle">
+        </tr>
+    </table>
+</asp:Content>

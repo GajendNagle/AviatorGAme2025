@@ -1,0 +1,107 @@
+<%@ WebHandler Language="C#" Class="Weekly_Bonus" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Weekly_Bonus : IHttpHandler {
+
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, strJson, UserID = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            /////////
+            SavePerInfo();
+            ////////
+            handleRequest();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+
+    public void SavePerInfo()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("dbo.AWallet_Bonus", new string[] { "MemID" }, new string[] { UserID }, "ds");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                sc = true;
+                msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+            }
+            else
+            {
+                sc = false;
+                msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = ex.Message;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+      public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+}

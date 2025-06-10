@@ -1,0 +1,477 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Add Balance Bank</title>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/invite.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet"/>
+    <style>
+        .balancebubble {
+            height: 180px !important;
+            top: -62px !important;
+        }
+        .carousel-indicators {
+            bottom: -159px;
+        }
+        .carouselhe {
+            height: 169px;
+            border-radius: 7px;
+        }
+        .datepicker.flatpickr-input {
+            padding: 0.375rem 0.75rem !important;
+        }
+        .form-control[readonly] {
+            background-color: #fff !important;
+        }
+        .group-icon {
+             width: unset; 
+        }
+        @media(max-width: 767px) {
+            .dropdown-box {
+                padding: 10px 0px 10px 0px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="main-content mt-5 pb-3">
+                    <div class="pr-3 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="btn-toggle-mobile-side-bar">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </a>
+                        <a href="#" class="logo flex flex-ai-c absolute-center">
+                            Add Balance Bank
+                            <div class="loged-in"></div>
+                        </a>
+                        <a href="profile.html" class="pl-3 text-white fs-20 arrowpad"><i class="fa fa-arrow-left-long"></i></a>
+                    </div>
+                    <div class="mobile-side-bar">
+                        <nav class="menu-box-1">
+                            <div class="text-center pt-2">
+                                <img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;">
+                            </div>
+                            <hr class="mt-2 bg-white">
+                            <ul class="list">
+                                <li>
+                                    <a href="game-index.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-house m-1"></i>
+                                        </div>Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-user m-1"></i>
+                                        </div>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa-solid fa-file-import m-1"></i>
+                                        </div>Affiliate
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-team.html" class="block menui2">My Team</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-directs.html" class="block menui2">My Directs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-wave m-1"></i>
+                                        </div>Deposit
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance-history.html" class="block menui2">Deposit History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Main Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-User.html" class="block menui2">Transfer to user</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Growth Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="invite.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope-open-text m-1"></i>
+                                        </div>Promotion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-1 m-1"></i>
+                                        </div>Withdraw
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-history.html">Withdraw History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="inbox.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope m-1"></i>
+                                        </div>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="news.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-newspaper m-1"></i>
+                                        </div>News
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Sign-Out.aspx" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-right-from-bracket m-1"></i>
+                                        </div>Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="bubblecard"></div>
+                    <div class="p-3 marginbtm">
+                        <div id="carouselExampleIndicators" class="carousel slide col-11 m-auto p-1 text-center py-1 balancebubble" data-ride="carousel">
+                            <div class="carousel-inner carouselhe">
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="img/add-balance-by-bank1.jpg" alt="First slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="img/add-balance-by-bank2.jpg" alt="Second slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="img/add-balance-by-bank3.jpg" alt="Third slide">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <div class="dropdown-box" style="margin-top: -52px;"> 
+                            <form role="form" class="form-horizontal form-material" onsubmit="Save_Ab_bank_data(); return false;" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span>Payment Mode</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <select class="form-control" id="Paymentmode" onchange="BindAccountDetails()" aria-label="Default select example">
+                                            <option selected="">Select your payment method</option>
+                                            <option value="By Bank">By Bank</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-1" id="internet-banking" style="display: none;">
+                                    <label class="col-sm-12"><span>Choose Our Bank</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <select class="form-control" id="ChooseBank" onchange="Bankdetails()" aria-label="Default select example"></select>
+                                    </div>
+                                </div>
+                                <div class="text-align-center mb-3" id="UPI" style="display: none;">
+                                    <label class="col-sm-12"><span>QR Code</span></label>
+                                    <div class="col-sm-12">
+                                        <img id="NewBTC11" width="200" height="200" class="bg-white">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mb-3 text-secondary mt-m75rm" id="BankDetail_show" style="display: none;">
+                                    <p class="acc-name fs-id mb-0">
+                                        <i class="fa fa-arrow-circle-right text-theme mr-1"></i>Account Name: <span style="color: #009688;" id="Acc-name">...</span>
+                                    </p>
+                                    <p class="ifsc-code fs-id">
+                                        <i class="fa fa-arrow-circle-right text-theme mr-1"></i>IFSC Code: <span style="color: #009688;" id="ifsc-code">...</span>
+                                    </p>
+                                </div>
+                                <div class="form-group mb-3 mt-3" id="TransactionBy" style="display: none;">
+                                    <label class="col-sm-12"><span>Transaction Type</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <select class="form-control" id="ChooseTxnMode" aria-label="Default select example">
+                                            <option selected>Select Transaction Type</option>
+                                            <option value="NIFT">By NIFT</option>
+                                            <option value="RTGS">By RTGS</option>
+                                            <option value="IMPS">By IMPS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span>Amount</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <input type="number" class="form-control form-control-line" id="txtamt" placeholder="Enter Request Amount (₹)" autofocus maxlength="6" required>
+                                        <span class="input-group-text">INR</span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span>Request Date</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <input type="text" class="form-control datepicker" id="SpDate" placeholder="Please Select Date">
+                                        <span class="input-group-text group-icon"><i class="fa fa-calendar iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span>TXN No. / UTR No.</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <input type="text" class="form-control" id="txtTxnHas" placeholder="Enter Your Transaction Number" maxlength="80" autofocus required>
+                                        <span class="input-group-text group-icon"><i class="fa fa-key iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span>Upload Receipt</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <input type="file" class="form-control" id="filer_input">
+                                        <span class="input-group-text group-icon"><i class="fa fa-upload iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button class="btn btn-block btns-theme mb-2"  id="SubmitAddBal">Submit<i class="fa-solid fa-right-to-bracket ml-2"></i></button>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <div id="Msgs"></div>
+                                </div>
+                                <input type="hidden" id="btcadd" />
+                                <input type="hidden" id="TRXrt" />
+                                <input type="hidden" id="BNBrt" />
+                                <input type="hidden" id="INRrt" />
+                                <input type="hidden" id="TRXAmtsend" />
+                                <input type="hidden" id="FRemail">
+                                <input type="hidden" id="ethadd" />
+                                <input type="hidden" id="paytmadd" />
+                                <input type="hidden" id="upiadd" />
+                                <input type="hidden" id="bankacno" />
+                                <input type="hidden" id="bankname" />
+                                <input type="hidden" id="bankifsc" />
+                                <input type="hidden" id="bankacholder" />
+                                <input type="hidden" id="txtBTCAddress2" />
+                                <input type="hidden" id="txtBTCAddress" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+                <div id="footer-bar" class="row footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen pt-2 pb-0" style="transform: translateX(0);">
+                    <a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                    <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                    <a href="invite.html" class="">
+                        <div class="footer-ball">
+                            <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                        </div>
+                        <div class="footer-daimond-text">Promotion</div>
+                    </a>
+                    <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js?ver=1.1"></script>
+    <script src="Handler_js/Add-Balance-Bank-Request.js"></script>
+    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $("#SpDate").flatpickr();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script>
+        function myload() {
+            setTimeout(function () { location.reload(); }, 1000);
+        }
+    </script>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $('#RefLink1').load("Handlers/Common-Values.ashx?Vs=RefLink2");
+            $('#RefLink101').load("Handlers/Common-Values.ashx?Vs=RefLink1");
+            var ActiveTab = GetParameterValues('TB');
+            //GetTicketDetails(emid);
+            if (ActiveTab == 'PS' || ActiveTab == '' || ActiveTab == 'active' || ActiveTab == null) {
+                // $('#T1').addClass('active');
+                $('#T21').addClass('active');
+                $('#about').addClass('tab-pane active');
+                $('#PS').addClass('active');
+                $('#AS').removeClass('active');
+                $('#KY').removeClass('active');
+                $('#PD').removeClass('active');
+            }
+            else if (ActiveTab == 'KY') {
+                // $('#T2').addClass('active');
+                $('#T22').addClass('active');
+                $('#timeline').addClass('tab-pane active');
+                $('#KY').addClass('active');
+                $('#PS').removeClass('active');
+                $('#AS').removeClass('active');
+                $('#PD').removeClass('active');
+            }
+            else if (ActiveTab == 'PD') {
+                // $('#T3').addClass('active');
+                $('#T21').addClass('active');
+                $('#about').addClass('tab-pane active');
+                $('#bnk-crd').addClass('active');
+                $('#PD').addClass('active');
+                $('#KY').removeClass('active');
+                $('#PS').removeClass('active');
+                $('#AS').removeClass('active');
+            }
+            else if (ActiveTab == 'AS') {
+                //  $('#T4').addClass('active');
+                $('#T24').addClass('active');
+                $('#friends').addClass('tab-pane active');
+                $('#AS').addClass('active');
+                $('#PD').removeClass('active');
+                $('#KY').removeClass('active');
+                $('#PS').removeClass('active');
+            }
+            else if (ActiveTab == 'PP') {
+                // $('#T3').addClass('active');
+                $('#T23').addClass('active');
+                $('#photos').addClass('tab-pane active');
+                $('#PD').removeClass('active');
+                $('#KY').removeClass('active');
+                $('#PS').removeClass('active');
+                $('#AS').removeClass('active');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+        $(function () {
+            //$("#txtNomineeDOB").datepicker({
+            //  dateFormat: 'dd/mm/yy',
+            //  changeMonth: true,
+            //  changeYear: true,
+            //  yearRange: "1950:2015"
+            //});
+            //$("#txtNomineeDOB").dateDropper({
+            //  dropWidth: 200,
+            //  dropPrimaryColor: "#1abc9c",
+            //  dropBorder: "1px solid #1abc9c"
+            //});
+        });
+    </script>
+</body>
+</html>

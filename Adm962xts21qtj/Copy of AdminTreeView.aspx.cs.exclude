@@ -1,0 +1,785 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class AdminTreeView : System.Web.UI.Page
+{
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    SqlDataAdapter da; DataSet ds;
+    SqlCommand cmd; string UserID, DLMemID, DLMemID1, DecodeUID, FirstMID;
+    //SqlDataReader drchkmemid;
+    public string img39 = "", lblTopMem = "", lbl39 = "", lbl40 = "", lbl41 = "", lbl42 = "", lbl43 = "", lbl44 = "", lbl45 = "", lbl46 = "", lbl47 = "", lbl48 = "", lbl49 = "", lbl50 = "", lbl51 = "", lbl52 = "", lbl53 = "", lbl54 = "", lblL1 = "", lblR1 = "", lblL21 = "", lblR22 = "", lblL23 = "", lblR24 = "", lblL31 = "", lblR32 = "", lblL33 = "", lblR34 = "", lblL35 = "", lblR36 = "", lblL37 = "", lblR38 = "";
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+
+            SqlConnection cn = new SqlConnection(new DB().getconnection());
+
+            cn.Open();
+            cmd = new SqlCommand("select MemID from memdetail where acmemid in(select max(acmemid) from memdetail)", cn);
+            FirstMID = cmd.ExecuteScalar().ToString();
+            cn.Close();
+
+            UserID = FirstMID;
+
+            if (!IsPostBack)
+
+                getPkgs();
+
+            if (Request.QueryString["MemID"] == null)
+            {
+
+
+                cn.Open();
+                cmd = new SqlCommand("select MemID from memdetail where acmemid in(select max(acmemid) from memdetail)", cn);
+                FirstMID = cmd.ExecuteScalar().ToString();
+                cn.Close();
+
+                DLMemID = FirstMID;
+                Session["UserID"] = FirstMID;
+
+                GetWorkingTree(DLMemID);
+                // lblDirectList.Text = Session["UserID"].ToString();
+                link();
+                //lblNetworkList.Text = Session["UserID"].ToString();
+            }
+            else
+            {
+                if (UserID == DB.base64Decod(Request.QueryString["MemID"].ToString()))
+                {
+                    DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+                    Session["UserID"] = DLMemID;
+                }
+
+                else
+                {
+                    DLMemID1 = DB.base64Decod(Request.QueryString["MemID"].ToString());
+
+                    try
+                    {
+                        cn.Open();
+                        cmd = new SqlCommand("select count(id) from downlinedetails where memid='" + DLMemID1 + "'", cn);
+                        Int32 CntDownID = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                        cmd.Dispose();
+                        cn.Close();
+
+                        if (CntDownID > 0)
+                        {
+                            DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+                            Session["UserID"] = DLMemID;
+
+                        }
+                        else
+                        {
+                            DLMemID = UserID;
+                            Session["UserID"] = UserID;
+                            lblmsg.Text = "Ooops, Record Not Available !!";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+                    }
+                    finally
+                    {
+                        if (cn != null && cn.State == ConnectionState.Open)
+                        {
+                            cn.Close();
+                            cn.Dispose();
+                        }
+                        if (cmd != null) { cmd.Dispose(); }
+
+                    }
+
+                }
+
+                if (DLMemID == "OPEN")
+                {
+                    Response.Redirect("Genealogy.aspx");
+                }
+                else
+                {
+                    GetWorkingTree(DLMemID);
+                    //lblDirectList.Text = Session["UserID"].ToString();
+                    link();
+                    //  lblNetworkList.Text = Session["UserID"].ToString();
+
+                }
+
+            }
+
+
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+
+    private void getPkgs()
+    {
+        //ds = objDynamicDtls.ByProcedure("GetPkgForTree", "BY DATASET");
+        //DLPkg.DataSource = ds;
+        //DLPkg.DataBind();
+
+        //ds.Dispose();
+    }
+    private void GetWorkingTree(string UserID)
+    {
+
+        SqlConnection cn = new SqlConnection(new DB().getconnection());
+
+        try
+        {
+            cmd = new SqlCommand("dbo.getTree_lr", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@Memid", SqlDbType.VarChar).Value = UserID;
+            da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds);
+            cmd.Dispose();
+            da.Dispose();
+
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                switch (Convert.ToInt32(dr[0].ToString()))
+                {
+                    case 1:
+                        lblTopMem = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblWTName.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString() + " [" + dr[5].ToString() + "]";
+
+                        lblLeft00Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft000Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+                        lblLeft000Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft000SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft000GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft000TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft000TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgWTName.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgWTName.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImg1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 2:
+                        lblLeft1.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+
+                        lblLeft11Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+
+                        lblLeft111Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft111Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft111SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft111GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft111TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft111TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft1.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 3:
+                        lblRight1.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+
+                        lblRight11Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight11Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight11Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight11SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight11GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight11TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight11TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight1.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 4:
+                        lblLeft21.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft21Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft21Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft21Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft21SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft21GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft21TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft21TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft21.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft21.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft21.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 5:
+
+                        lblRight22.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight22Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight22Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight22Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight22SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight22GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight22TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight22TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight22.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight22.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight22.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 6:
+                        lblLeft23.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft23Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft23Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft23Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft23SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft23GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft23TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft23TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft23.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft23.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft23.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 7:
+                        lblRight24.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight24Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight24Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight24Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight24SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight24GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight24TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight24TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight24.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight24.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight24.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 8:
+                        lblLeft31.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft31Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft31Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+                        lblLeft31Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft31SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft31GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft31TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft31TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+
+                        bImgLeft31.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft31.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft31.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 9:
+                        lblRight32.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight32Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight32Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight32Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight32SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight32GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight32TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight32TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight32.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight32.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight32.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 10:
+                        lblLeft33.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft33Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft33Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft33Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft33SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft33GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft33TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft33TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft33.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft33.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft33.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 11:
+                        lblRight34.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight34Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight34Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight34Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight34SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight34GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight34TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight34TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight34.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight34.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight34.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 12:
+                        lblLeft35.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft35Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft35Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft35Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft35SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft35GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft35TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft35TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft35.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft35.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft35.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 13:
+                        lblRight36.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight36Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight36Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight36Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight36SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight36GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight36TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight36TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight36.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight36.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight36.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 14:
+                        lblLeft37.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft37Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblLeft37Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft37Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft37SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft37GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft37TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft37TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft37.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft37.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft37.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 15:
+                        lblRight38.Text = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight38Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString();
+                        lblRight38Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight38Package.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight38SPID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight38GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight38TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight38TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight38.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr[3].ToString() + ".PNG");
+                        ImgRight38.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight38.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+
+
+
+
+
+                    case 16:
+                        lbl39 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight39Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight39Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight39JoiPak.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight39SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight39Greendate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight39TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight39TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight39.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight39.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight39.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+
+                        break;
+                    case 17:
+                        lbl40 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft40Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft40DOJ.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft40JoinPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft40SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft40GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft40TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft40TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft40.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft40.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft40.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 18:
+                        lbl41 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight41Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight41Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight41JoinPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight41SponID.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight41GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight41TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight41TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight41.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight41.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight41.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 19:
+                        lbl42 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft42Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft42Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft42JoiDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft42SponId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft42GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft42TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft42TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft42.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft42.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft42.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 20:
+                        lbl43 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight43Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight43DOJ.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight43JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight43SponId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight43GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight43TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight43TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight43.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight43.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight43.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 21:
+                        lbl44 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft44Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft44Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft44JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft44SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft44GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft44TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft44TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft44.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft44.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft44.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 22:
+                        lbl45 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight45Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight45Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight45JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight45SponId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight45Greendate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight45TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight45TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight45.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight45.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight45.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 23:
+                        lbl46 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft46Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft46DOJ.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft46JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft46SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft46GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft46TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft46TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft46.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft46.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft46.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 24:
+                        lbl47 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight47Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight47Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight47JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight47SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight47GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight47TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight47TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight47.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight47.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight47.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 25:
+                        lbl48 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft48Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft48DOj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft48JOiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft48SponId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft48GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft48TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft48TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft48.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft48.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft48.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 26:
+                        lbl49 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight49Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight49Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight49JOiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight49SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight49Greendate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight49TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight49TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight49.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight49.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight49.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 27:
+                        lbl50 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft50Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft50Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft50JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft50SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft50GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft50TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft50TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft50.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft50.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft50.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 28:
+                        lbl51 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight51Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight51Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight51JOiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight51SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight51GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight51TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight51TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight51.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight51.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight51.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 29:
+                        lbl52 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft52Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft52Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft52JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft52SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft52GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft52TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft52TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft52.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft52.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft52.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 30:
+                        lbl53 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblRight53Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblRight53Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblRight53JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblRight53SponId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblRight53GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblRight53TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblRight53TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgRight53.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgRight53.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgRight53.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 31:
+                        lbl54 = (dr[1].ToString() == "") ? "OPEN" : dr[1].ToString();
+                        lblLeft54Name.Text = (dr[1].ToString() == "") ? "OPEN" : dr[5].ToString() + '[' + dr[1] + ']';
+                        lblLeft54Doj.Text = (dr[1].ToString() == "") ? "OPEN" : dr[4].ToString();
+
+                        lblLeft54JoiPkg.Text = (dr[1].ToString() == "") ? "OPEN" : dr[3].ToString();
+                        lblLeft54SpoId.Text = (dr[1].ToString() == "") ? "OPEN" : dr[7].ToString();
+                        lblLeft54GreenDate.Text = (dr[1].ToString() == "") ? "OPEN" : dr[6].ToString();
+                        lblLeft54TotLft.Text = (dr[1].ToString() == "") ? "OPEN" : dr[9].ToString();
+                        lblLeft54TotRgt.Text = (dr[1].ToString() == "") ? "OPEN" : dr[10].ToString();
+                        bImgLeft54.Style.Add("background-image", (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG");
+                        ImgLeft54.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        BigImgLeft54.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                }
+
+            }
+
+            lblL1 = DB.base64Encode(lblLeft1.Text);
+            lblR1 = DB.base64Encode(lblRight1.Text);
+            lblL21 = DB.base64Encode(lblLeft21.Text);
+            lblR22 = DB.base64Encode(lblRight22.Text);
+            lblL23 = DB.base64Encode(lblLeft23.Text);
+            lblR24 = DB.base64Encode(lblRight24.Text);
+            lblL31 = DB.base64Encode(lblLeft31.Text);
+            lblR32 = DB.base64Encode(lblRight32.Text);
+            lblL33 = DB.base64Encode(lblLeft33.Text);
+            lblR34 = DB.base64Encode(lblRight34.Text);
+            lblL35 = DB.base64Encode(lblLeft35.Text);
+            lblR36 = DB.base64Encode(lblRight36.Text);
+            lblL37 = DB.base64Encode(lblLeft37.Text);
+            lblR38 = DB.base64Encode(lblRight38.Text);
+
+
+            lblLeft1.Text = (lblLeft1.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft1.Text) + "'>" + lblLeft1.Text + "</a>";
+            lblRight1.Text = (lblRight1.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight1.Text) + "'>" + lblRight1.Text + "</a>";
+            lblLeft21.Text = (lblLeft21.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft21.Text) + "'>" + lblLeft21.Text + "</a>";
+            lblRight22.Text = (lblRight22.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight22.Text) + "'>" + lblRight22.Text + "</a>";
+            lblLeft23.Text = (lblLeft23.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft23.Text) + "'>" + lblLeft23.Text + "</a>";
+            lblRight24.Text = (lblRight24.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight24.Text) + "'>" + lblRight24.Text + "</a>";
+            lblLeft31.Text = (lblLeft31.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft31.Text) + "'>" + lblLeft31.Text + "</a>";
+            lblRight32.Text = (lblRight32.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight32.Text) + "'>" + lblRight32.Text + "</a>";
+            lblLeft33.Text = (lblLeft33.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft33.Text) + "'>" + lblLeft33.Text + "</a>";
+            lblRight34.Text = (lblRight34.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight34.Text) + "'>" + lblRight34.Text + "</a>";
+            lblLeft35.Text = (lblLeft35.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft35.Text) + "'>" + lblLeft35.Text + "</a>";
+            lblRight36.Text = (lblRight36.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight36.Text) + "'>" + lblRight36.Text + "</a>";
+            lblLeft37.Text = (lblLeft37.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblLeft37.Text) + "'>" + lblLeft37.Text + "</a>";
+            lblRight38.Text = (lblRight38.Text == "OPEN") ? "OPEN" : "<a href='AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View&MemID=" + DB.base64Encode(lblRight38.Text) + "'>" + lblRight38.Text + "</a>";
+
+            if (lblL1 == "OPEN" || lblL1 == "")
+            { lblL1 = lblTopMem; }
+            if (lblR1 == "OPEN" || lblR1 == "")
+            { lblR1 = lblTopMem; }
+            if (lblL21 == "OPEN" || lblL21 == "")
+            { lblL21 = lblTopMem; }
+            if (lblR22 == "OPEN" || lblR22 == "")
+            { lblR22 = lblTopMem; }
+            if (lblL23 == "OPEN" || lblL23 == "")
+            { lblL23 = lblTopMem; }
+            if (lblR24 == "OPEN" || lblR24 == "")
+            { lblR24 = lblTopMem; }
+            if (lblL31 == "OPEN" || lblL31 == "")
+            { lblL31 = lblTopMem; }
+            if (lblR32 == "OPEN" || lblR32 == "")
+            { lblR32 = lblTopMem; }
+            if (lblL33 == "OPEN" || lblL33 == "")
+            { lblL33 = lblTopMem; }
+            if (lblR34 == "OPEN" || lblR34 == "")
+            { lblR34 = lblTopMem; }
+            if (lblL35 == "OPEN" || lblL35 == "")
+            { lblL35 = lblTopMem; }
+            if (lblR36 == "OPEN" || lblR36 == "")
+            { lblR36 = lblTopMem; }
+            if (lblL37 == "OPEN" || lblL37 == "")
+            { lblL37 = lblTopMem; }
+            if (lblR38 == "OPEN" || lblR38 == "")
+            { lblR38 = lblTopMem; }
+            if (lbl39 == "OPEN" || lbl39 == "")
+            { lbl39 = lblTopMem; }
+            if (lbl40 == "OPEN" || lbl40 == "")
+            { lbl40 = lblTopMem; }
+            if (lbl41 == "OPEN" || lbl41 == "")
+            { lbl41 = lblTopMem; }
+            if (lbl42 == "OPEN" || lbl42 == "")
+            { lbl42 = lblTopMem; }
+            if (lbl43 == "OPEN" || lbl43 == "")
+            { lbl43 = lblTopMem; }
+            if (lbl44 == "OPEN" || lbl44 == "")
+            { lbl44 = lblTopMem; }
+            if (lbl45 == "OPEN" || lbl45 == "")
+            { lbl45 = lblTopMem; }
+            if (lbl46 == "OPEN" || lbl46 == "")
+            { lbl46 = lblTopMem; }
+            if (lbl47 == "OPEN" || lbl47 == "")
+            { lbl47 = lblTopMem; }
+            if (lbl48 == "OPEN" || lbl48 == "")
+            { lbl48 = lblTopMem; }
+            if (lbl49 == "OPEN" || lbl49 == "")
+            { lbl49 = lblTopMem; }
+            if (lbl50 == "OPEN" || lbl50 == "")
+            { lbl50 = lblTopMem; }
+            if (lbl51 == "OPEN" || lbl51 == "")
+            { lbl51 = lblTopMem; }
+            if (lbl52 == "OPEN" || lbl52 == "")
+            { lbl52 = lblTopMem; }
+            if (lbl53 == "OPEN" || lbl53 == "")
+            { lbl53 = lblTopMem; }
+            if (lbl54 == "OPEN" || lbl54 == "")
+            { lbl54 = lblTopMem; }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            if (cn != null && cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+                cn.Dispose();
+            }
+            if (ds != null) { ds.Dispose(); }
+            if (da != null) { da.Dispose(); }
+            if (cmd != null) { cmd.Dispose(); }
+
+
+        }
+    }
+    public void link()
+    {
+        DecodeUID = new EncryDecry().base64Encode(DLMemID);
+        // lblDownlineList.Text = "<a href='AdminDownlineList.aspx?MemID=" + DecodeUID + "'/>" + DLMemID + "</a>";
+    }
+    protected void btnGo_Click(object sender, EventArgs e)
+    {
+        if (txtuserid.Text != "")
+        {
+            lblmsg.Text = "";
+            SqlConnection cn = new SqlConnection(new DB().getconnection());
+            try
+            {
+                cn.Open();
+                cmd = new SqlCommand("select count(dd.id) from downlinedetails dd  WITH (NOLOCK)  where dd.downid='" + txtuserid.Text.Trim() + "' ", cn);
+                Int32 DnID = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                cmd.Dispose();
+                cn.Close();
+                if (DnID >= 1)
+                {
+
+                    Response.Redirect("AdminTreeView.aspx?mid=Affiliate Program&sid=My Tree View&MemID=" + DB.base64Encode(txtuserid.Text.Trim()), false);
+                    DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+
+                    GetWorkingTree(txtuserid.Text.Trim());
+                    //lblDirectList.Text = Session["UserID"].ToString();
+                    link();
+                    //lblNetworkList.Text = Session["UserID"].ToString();
+
+                }
+                else if (txtuserid.Text.Trim().ToUpper() == UserID.ToUpper())
+                {
+                    Response.Redirect("AdminTreeView.aspx?mid=Affiliate Program&sid=My Tree View&MemID=" + DB.base64Encode(txtuserid.Text.Trim()), false);
+                    DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+
+                    GetWorkingTree(txtuserid.Text.Trim());
+                    //lblDirectList.Text = Session["UserID"].ToString();
+                    link();
+                    //lblNetworkList.Text = Session["UserID"].ToString();
+                    lblmsg.Text = "";
+                }
+                else
+                {
+                    lblmsg.Text = "Oops , UserID Are Not Available !!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+            }
+            finally
+            {
+                if (cn != null && cn.State == ConnectionState.Open)
+                {
+                    cn.Close();
+                    cn.Dispose();
+                }
+
+                if (cmd != null) { cmd.Dispose(); }
+
+            }
+        }
+        else
+        {
+            lblmsg.Text = "Please Enter User ID!!";
+        }
+    }
+}

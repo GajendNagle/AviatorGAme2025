@@ -1,0 +1,950 @@
+﻿function Save_dataUPI() {
+    document.getElementById("addBalanceupi").disabled = true;
+    $("#addBalanceupi").html('Please wait...');
+    $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+    var paymode = $("#ddlupimode").find("option:selected").val();
+    if (paymode == 'paytm') {
+        $("#upim").html('Add Balance by Paytm UPI');
+        $("#qr").html('<img src="img/paytmqr.png">');
+        window.location.href = "https://vpa.nicepay.life/pay/plus/payg.html?orderId=169487016744842";
+    }
+    if (paymode == 'phonepe') {
+        $("#upim").html('Add Balance by Phonepe UPI');
+        $("#qr").html('<img src="img/phonepeqr.png">');
+    }
+    if (paymode == 'rzrpay') {
+        $("#upim").html('Add Balance by Razorpay UPI');
+        $("#qr").html('<img src="img/razorpayqr.png">');
+    }
+    document.getElementById("addBalanceupi").disabled = false;
+    $("#addBalanceupi").html('<i class="fa fa-check"></i> Submit');
+}
+function Save_dataCP() {
+
+    document.getElementById("addBalanceSubmit").disabled = true;
+    $("#addBalanceSubmit").html('Please wait...');
+    $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+    var od = new FormData();
+
+    var paymode = $("#ddlpaymode").find("option:selected").val();
+
+
+    if (paymode == 'BNB') {
+        var txtReqAmt = $("#txtamt").val();
+    }
+    if (paymode == 'BNB1') {
+        var txtReqAmt = $("#txtamt").val();
+    }
+    if (paymode == 'BNB2') {
+        var txtReqAmt = $("#txtamt").val();
+    }
+    if (paymode == 'TRON') {
+        var txtReqAmt = $("#txtamt").val();
+    }
+    var eMailAddss = $("#FRemail").val();
+    od.append("txtReqAmt", txtReqAmt);
+    od.append("paymode", paymode);
+    od.append("eMailAddss", eMailAddss);
+    ///////
+    $.ajax({
+        url: "Handlers/CoinPayments.ashx",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                //  $('#CPAddress').show();
+                //$('#Msgs').html("<div class='alert alert-success'> Request submitted successfully, Please check payment address below or Right Side!<button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>×</span> </button>  </div>");
+                $("#Msgs").html('');
+                swal({
+                    title: "Done!",
+                    text: "Request submitted successfully, Please check payment address below or Right Side!",
+                    type: "success"
+
+                },
+                    function () {
+                        DashboardSummary();
+                        $('#Paymentdetailsshow').show();
+                        $('#onloadshowhistry').hide();
+                    });
+
+                document.getElementById("addBalanceSubmit").disabled = false;
+                $("#addBalanceSubmit").html('<i class="fa fa-check"></i> Submit');
+                //location.href = Response.Message;
+                //window.open(window.location.href = Response.Message, '_blank');
+                //$('#NewBTC1').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + Response.Message + "' width='150' height='150'>");
+                //$('#paranew').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept fund request & credit amount in f-Wallet!");
+                //$('#txtBTCAddress1').html(Response.Message);
+                //$('#CPAmt').html("$" + txtReqAmt);
+                //$('#CPACType').html(paymode + " wallet address...");
+                // parent.location.reload(true);
+            }
+            else {
+                $('#Msgs').html(Response.Message);
+            }
+        },
+        error: function (err) {
+            $('#Msgs').html(err.statusText);
+        }
+    });
+}
+function Save_Ab_bank_data() {
+
+    //$('#Msgs').html('<div class="modal-wrapper"><div class="userimage"><img class="imageseted" src="../UserProfileImg/103.gif" width="35" height="35" /><span class="loading-texted" >Loading...</span> <div class="wait-plese"><i class="fa fa-cogs" aria-hidden="true"></i> Please wait....</div></div></div>');
+    $('#Msgs').html('<div class="modal-wrapper"><div class="userimage please-wait-img"><div class="wait-plese bar-loader-img"><img src="../UserProfileImg/loading2.gif" width="150" height="59" /></div><div class="please-wait">Please wait....</div></div></div>');
+
+    document.getElementById("addBalanceSubmit").disabled = true;
+    $("#addBalanceSubmit").html('Please wait...');
+
+
+    var paymode = document.querySelector('#Paymentmode').value;
+
+    if (paymode == "BTC") {
+        init_data();
+    }
+    else {
+
+        //$('#Msgs').html("<div class='preloader3 loader-block'><div class='circ1 loader-warning'></div> <div class='circ2 loader-warning'></div><div class='circ3 loader-warning'></div><div class='circ4 loader-warning'></div></div>");
+
+        //   $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+        var od = new FormData();
+        var txtBTCAddress = $('#txtBTCAddress').val();
+        var txtTxnHas = $("#txtTxnHas").val();//$("#txtTxnHas").val(); 
+        var txtReqAmt = $("#txtamt").val();
+        var reqdate = $("#SpDate").val();
+
+        //alert(reqdate);
+        ////////
+        od.append("txtBTCAddress", txtBTCAddress);/* txtBTCAddress*/
+        od.append("txtTxnHas", txtTxnHas);
+        od.append("txtReqAmt", txtReqAmt);
+        od.append("PlnAmt", txtReqAmt);
+        od.append("ReqDate", reqdate);
+        od.append("paymode", paymode);
+
+        alert(txtBTCAddress + ',' + txtTxnHas + ',' + txtReqAmt + ',' + reqdate + ',' + paymode);
+        var fileUpload = $("#filer_input").get(0);
+        var files = fileUpload.files;
+        for (var i = 0; i < files.length; i++) {
+            od.append(files[i].name, files[i]);
+        }
+
+        if (files.length == 0) {
+            //$("#Msgs").html("<div class='alert alert-warning border-warning'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='icofont icofont-close-line-circled'></i></button><strong></strong>Please upload Receipt !</div>");
+
+            $('#Msgs').html('');
+
+            swal({
+                title: "Sorry!",
+                text: "Please upload Receipt !",
+                type: "warning"
+
+            });
+
+            document.getElementById("addBalanceSubmit").disabled = false;
+            $("#addBalanceSubmit").html('Submit');
+
+            return
+        }
+
+
+        var FileSize = files[0].size / 1024; // in KB
+        if (FileSize > 500) {
+            // $("#Msgs").html("<div class='alert alert-warning border-warning'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='icofont icofont-close-line-circled'></i></button><strong></strong>Upload Receipt size exceeds 500 KB</div>");
+
+            $('#Msgs').html('');
+
+            swal({
+                title: "Sorry!",
+                text: "Upload Receipt size exceeds 500 KB",
+                type: "warning"
+
+            });
+
+            document.getElementById("addBalanceSubmit").disabled = false;
+            $("#addBalanceSubmit").html('Submit');
+
+            return;
+        }
+
+        ///////
+        $.ajax({
+            url: "Handlers/DWallet-Amt_Request.ashx?Save=BANKInfo",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: od,
+            dataType: "json",
+            success: function (Response) {
+                if (Response.Success) {
+                    //   $('#Msgs').html(Response.Message);
+                    // $("#Msgs").html("<div class='alert alert-success border-success'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='icofont icofont-close-line-circled'></i></button><strong></strong>" + Response.Message + "</div>");
+                    $('#Msgs').html('');
+                    swal({
+                        title: "Done!",
+                        text: Response.Message,
+                        type: "success"
+                    },
+                        function () {
+                            window.location.href = "Add-Balance-Crypto-api.html";
+                        });
+                    $(".modal-wrapper").removeClass("intro");
+                    // location.reload('');
+                }
+                else {
+                    // $('#Msgs').html(Response.Message);
+                    // $("#Msgs").html("<div class='alert alert-warning border-warning'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='icofont icofont-close-line-circled'></i></button><strong></strong>" + Response.Message + "</div>");
+                    $('#Msgs').html('');
+                    swal({
+                        title: "Sorry!",
+                        text: Response.Message,
+                        type: "warning"
+                    });
+                    $(".modal-wrapper").removeClass("intro");
+
+                    document.getElementById("addBalanceSubmit").disabled = false;
+                    $("#addBalanceSubmit").html('Submit');
+                }
+            },
+            error: function (err) {
+                // $('#Msgs').html(err.statusText);
+                //$("#Msgs").html("<div class='alert alert-warning border-warning'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='icofont icofont-close-line-circled'></i></button><strong></strong>" + err.statusText + "</div>");
+                $('#Msgs').html('');
+                swal({
+                    title: "Sorry!",
+                    text: Response.Message,
+                    type: "warning"
+                });
+                $(".modal-wrapper").removeClass("intro");
+
+                document.getElementById("addBalanceSubmit").disabled = false;
+                $("#addBalanceSubmit").html('Submit');
+            }
+        });
+
+    }
+
+
+}
+
+
+function DWalletAmtRequest(TranHas, SndrAdds, amount, PlnAmt, txndate) {
+    ////////
+    $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+    var od = new FormData();
+    var txtBTCAddress = SndrAdds;//$("#txtBTCAddress").val();    
+    var txtTxnHas = TranHas;//$("#txtTxnHas").val(); 
+    var txtReqAmt = amount;
+    var reqdate = txndate//$("#SpDate").val();
+    ////////
+    od.append("txtBTCAddress", txtBTCAddress);
+    od.append("txtTxnHas", txtTxnHas);
+    od.append("txtReqAmt", amount);
+    od.append("PlnAmt", amount);
+    od.append("ReqDate", reqdate);
+
+    //     var fileUpload = $("#fluplodBTC").get(0);
+    //    var files = fileUpload.files;
+    //    for (var i = 0; i < files.length; i++) {
+    //    od.append(files[i].name, files[i]);
+    //    }     
+    ///////
+    $.ajax({
+        url: "Handlers/DWallet-Amt_Request.ashx?Save=BTCInfo",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                $('#Msgs').html(Response.Message);
+            }
+            else {
+                $('#Msgs').html(Response.Message);
+            }
+        },
+        error: function (err) {
+            $('#Msgs').html(err.statusText);
+        }
+    });
+}
+///////
+function Save_data() {
+    ////////
+
+    var paymode = $('#paymode').val();
+
+    if (paymode == "BTC") {
+        init_data();
+    }
+    else if (paymode == "ETH") {
+        init_dataETH();
+    }
+    else if (paymode == "TRX") {
+        init_dataTRX();
+    }
+    else {
+        $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+        var od = new FormData();
+        var txtBTCAddress = $('#txtBTCAddress').val();
+        var txtTxnHas = $("#txtTxnHas").val();//$("#txtTxnHas").val(); 
+        var txtReqAmt = $("#txtamt").val();
+        var reqdate = $("#SpDate").val();
+        ////////
+        od.append("txtBTCAddress", txtBTCAddress);
+        od.append("txtTxnHas", txtTxnHas);
+        od.append("txtReqAmt", txtReqAmt);
+        od.append("PlnAmt", txtReqAmt);
+        od.append("ReqDate", reqdate);
+        od.append("paymode", paymode);
+
+
+        var fileUpload = $("#fluplodBTC").get(0);
+        var files = fileUpload.files;
+        for (var i = 0; i < files.length; i++) {
+            od.append(files[i].name, files[i]);
+        }
+        ///////
+        $.ajax({
+            url: "Handlers/DWallet-Amt_Request.ashx?Save=BANKInfo",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: od,
+            dataType: "json",
+            success: function (Response) {
+                if (Response.Success) {
+                    $('#Msgs').html(Response.Message);
+                }
+                else {
+                    $('#Msgs').html(Response.Message);
+                }
+            },
+            error: function (err) {
+                $('#Msgs').html(err.statusText);
+            }
+        });
+
+    }
+
+
+}
+///
+function init_data() {
+
+    $('#Msgs').html("<span style='color:#FF5A00'>Please enter correct transaction hash for above address payment...</span>");
+    ////
+    var DPlnAmt = $("#txtamt").val();
+
+    var TxnHs = $("#txtTxnHas").val();
+    var RcVAdd = $("#txtBTCAddress").val();
+    //////////
+    if (TxnHs != '' || RcVAdd != '') {
+        //////////
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "https://blockchain.info/multiaddr?cors=true&active=" + RcVAdd, true);
+        xmlhttp.send();
+        ///    
+        xmlhttp.onreadystatechange = function () {
+
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                //https://blockchain.info/q/getblockcount
+
+                var jsontext = xmlhttp.responseText;
+                var data = JSON.parse(jsontext);
+                ///
+                var n = data.txs.length;
+                for (var i = 0; i < n; i++) {
+                    for (z = 0; z < data.txs[i]['inputs'].length; z++) {
+                        var TranHas = data.txs[i].hash;
+                        var txndate = new Date(data.txs[i].time * 1000).toISOString().substring(0, 19).replace('T', ' ');
+                        ///             			        
+                        // if (TxnHs == TranHas)
+                        //{                           
+                        // var amount = data.txs[i]['inputs'][z]['prev_out']['value'];
+                        // var SndrAdds=data.txs[i]['inputs'][z]['prev_out']['addr'];
+                        //                            var blockheight = data.txs[i].block_height;
+                        //                            var txndate = new Date(data.txs[i].time*1000).toISOString().substring(0, 19).replace('T', ' ');
+                        //                            var Confm=(latestblock-blockheight)+1;
+                        ////
+                        if (TxnHs == TranHas) {
+                            var SndrAdds = data.txs[i]['inputs'][z]['prev_out']['addr'];
+                            for (w = 0; w < data.txs[i]['out'].length; w++) {
+                                var RecBTCAds = data.txs[i]['out'][w]['addr'];
+                                if (RecBTCAds == RcVAdd) {
+                                    var amount = data.txs[i]['out'][w]['value'];
+                                }
+                            }
+                            DWalletAmtRequest(TranHas, SndrAdds, amount, DPlnAmt, txndate);
+                            // $('#odc').load("UsRcP06k90/Handlers/BTC-API-457-CB_Cnf.ashx?ODsID="+id+"&value="+amount+"&transaction_hash="+Tnxhash+"&address="+outAdd+"&Conf="+Confm+"&Skey="+Skey+"&transaction_dt="+txndate);
+                            ////
+                        }
+                    }
+                }
+                //         
+            }
+        }
+    }
+    else {
+        $('#Msgs').html("Payment BTC address or transaction hash can't blank...");
+    }
+}
+function TransferToUser() {
+    $('#TranMsg').html('');
+    var od = new FormData();
+    var txtMemId = $("#txtMemId").val();
+    var txtTransPWD = $("#txtTransPWD").val();
+    var txtTopUpAmount = $("#txtTopUpAmount").val();
+    ////////
+    var tamt = document.getElementById('txtTopUpAmount');
+    var tamtfilter = /^[0-9]+$/;
+    /////////
+    if (tamtfilter.test(tamt.value)) {
+        $('#TranMsg').html('<img src="../UserProfileImg/loading2.gif" />');
+        od.append("txtMemId", txtMemId);
+        od.append("txtTransPWD", txtTransPWD);
+        od.append("txtTopUpAmount", txtTopUpAmount);
+        $.ajax({
+            url: "Handlers/Transfer-to-user.ashx",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: od,
+            dataType: "json",
+            success: function (Response) {
+                if (Response.Success) {
+                    //$.messager.alert("Success", Response.Message, 'info');
+                    $('#TranMsg').html(Response.Message);
+                    $("#txtMemId").val('');
+                    $("#txtTopUpAmount").val('');
+                    $("#txtTransPWD").val('');
+                    $('#MemName').html('');
+                    parent.location.reload(true);
+                }
+                else {
+                    //$.messager.alert("Warning", Response.Message, 'warning');
+                    $('#TranMsg').html(Response.Message);
+                }
+            },
+            error: function (err) {
+                //$.messager.alert("Failed", err.statusText, 'error');
+                $('#TranMsg').html(err.statusText);
+            }
+        });
+    }
+    else {
+        $("#txtTopUpAmount").val('');
+    }
+}
+////////////
+function GetMemberNameTp() {
+    $('#MemName').html('<img src="../UserProfileImg/progress.gif" />');
+    var od = new FormData();
+    var txtMemId = $("#txtMemId").val();
+    $('#MemName').load("Handlers/Transfer-to-user.ashx?MN=" + txtMemId);
+    $('#TranMsg').html('');
+}
+
+function FunctionTopMsg() {
+
+    var paymode = $('#paymode').val();
+
+    var btcaddress = $('#btcadd').val();
+    var ethaddress = $('#ethadd').val();
+    //var paytmaddress = $('#paytmadd').val();
+    // var upiaddress = $('#upiadd').val();
+    //var bankaccno = $('#bankacno').val();
+    //var bankname = $('#bankname').val();
+    // var ifsccode = $('#bankifsc').val();
+    //var acholder = $('#bankacholder').val();
+
+    if (paymode != "") {
+        if (paymode == "BTC") {
+            $('#topmsg').html("Please make payment on given below BTC Address by your block chain wallet & <span style='font-size:16px; font-weight:bold;'>Enter Request Amount & Transaction hash</span>.<br/>If all details will be correct then we will accept fund request & credit amount in f-Wallet...");
+            $('#Topmsg1').html("Request Payment into BTC address : ");
+            $('#NewBTC').html(btcaddress + "<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=BTC:" + btcaddress + " alt='QR Code' width='100' height='100'>");
+            $('#txtBTCAddress').val(btcaddress);
+        }
+        if (paymode == "ETH") {
+            $('#topmsg').html("Please make payment on given below BTC Address by your block chain wallet & <span style='font-size:16px; font-weight:bold;'>Enter Request Amount & Transaction hash</span>.<br/>If all details will be correct then we will accept fund request & credit amount in f-Wallet...");
+            $('#Topmsg1').html("Request Payment into ETH address : ");
+            $('#NewBTC').html(ethaddress + "<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=ETH:" + ethaddress + " alt='QR Code' width='100' height='100'>");
+            $('#txtBTCAddress').val(ethaddress);
+        }
+        //            if (paymode == "BANK")
+        //            {
+        //             $('#topmsg').html("Please make payment on give below Bank Address by your Bank Account & <span style='font-size:16px; font-weight:bold;'>Enter Request Amount & Transaction No</span>.If all details will be correct then we will accept fund request & credit amount in c-Wallet...");                
+        //             $('#Topmsg1').html("Request Payment into Bank Account Details : ");
+        //             $('#NewBTC').html("Bank Name: "+bankname+", Account Name: "+acholder+", Account No: "+bankaccno+", IFS Code: "+ifsccode);
+        //             $('#txtBTCAddress').val(ifsccode);
+        //            }
+        //            if (paymode == "PAYTM")
+        //            {
+        //             $('#topmsg').html("Please make payment on given below Paytm Address by your Paytm wallet & <span style='font-size:16px; font-weight:bold;'>Enter Request Amount & Transaction No</span>.If all details will be correct then we will accept fund request & credit amount in c-Wallet...");                
+        //             $('#Topmsg1').html("Request Payment into Paytm address : ");
+        //             $('#NewBTC').html("<a href='"+paytmaddress+"' target='_blank'>"+paytmaddress+"</a>");
+        //             $('#txtBTCAddress').val(paytmaddress);
+        //            }
+        //            if (paymode == "UPI")
+        //            {
+        //             $('#topmsg').html("Please make payment on given below UPI Address by your UPI wallet & <span style='font-size:16px; font-weight:bold;'>Enter Request Amount & Transaction No</span>.If all details will be correct then we will accept fund request & credit amount in c-Wallet...");                
+        //             $('#Topmsg1').html("Request Payment into UPI address : ");
+        //             $('#NewBTC').html(upiaddress);
+        //             $('#txtBTCAddress').val(upiaddress);
+        //            }
+    }
+}
+function loadOrders(PageIndex, PageSize, MemID) {
+
+    $('#depohistory').html('<img src="../UserProfileImg/loading2.gif" />');
+    //var option = $('#partiCipantList').combo('getValue');
+    $.getJSON('Handlers/Depsoit-History-Detail.ashx?p=' + PageIndex + "&s=" + PageSize + "&u=" + MemID + "&n=SELF",
+        function (Orjson) {
+
+            if (Orjson.length == 0) {
+                $('#depohistory').html('');
+                $('#depohistory').html("Sorry, record not found...!");
+            }
+            else {
+                var d = formatOrder(Orjson);
+                $('#depohistory').html(d);
+                $('#DownDeposit').html('');
+                //                if ($("#hdnpg").val() == "")
+                //                {
+                //                document.getElementById("SelePgNu").value = "1";
+                //                document.getElementById("SelePgNu").text = "1";
+                //                } 
+                //                else 
+                //                {
+                //                document.getElementById("SelePgNu").value = $("#hdnpg").val();
+                //                document.getElementById("SelePgNu").text = $("#hdnpg").val();
+                //                }
+            }
+        });
+
+
+}
+
+function formatOrder(Orjson) {
+    var pp1 = '';
+    for (var i = 0; i < Orjson.length; i++) {
+
+        //    if (i == 0)
+        //    {           
+        //        var select = document.getElementById("SelePgNu");
+        //        document.getElementById("SelePgNu").innerHTML = "";      
+        //        var pgsize = $("#SelePgSz").val();
+        //        var TotRecord = Orjson[i].TotRec;
+        //        document.getElementById("lbltotrec").innerHTML  = TotRecord;
+        //        for (var j = 1; j <=  Math.ceil(parseFloat(TotRecord).toFixed(10)/parseFloat(pgsize).toFixed(10)) ; j++)
+        //        {
+        //             var opt = j;
+        //             var el = document.createElement("option");
+        //             el.textContent = opt;
+        //             el.value = opt;
+        //             select.appendChild(el);
+        //        }
+        //    }
+
+        ///// for paging...
+
+
+        //    <div class="col-lg-4 col-md-6 col-xlg-2 col-xs-12">
+        //                                <div class="ribbon-wrapper card">
+        //                                    <div class="ribbon ribbon-default">Ribbon</div>
+        //                                    <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p>
+        //                                </div>
+        //                            </div>
+        pp1 = pp1 + "<div class='col-lg-4 col-md-6 col-xlg-2 col-xs-12'>";
+        pp1 = pp1 + "<div class='ribbon-wrapper card'>";
+        if (i == 0 || i == 6) {
+            pp1 = pp1 + "<div class='ribbon ribbon-default'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        else if (i == 1 || i == 7) {
+            pp1 = pp1 + "<div class='ribbon ribbon-danger'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        else if (i == 2 || i == 8) {
+            pp1 = pp1 + "<div class='ribbon ribbon-success'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        else if (i == 3 || i == 9) {
+            pp1 = pp1 + "<div class='ribbon ribbon-primary'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        else if (i == 4 || i == 10) {
+            pp1 = pp1 + "<div class='ribbon ribbon-info'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        else if (i == 5 || i == 11) {
+            pp1 = pp1 + "<div class='ribbon ribbon-warning'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        else {
+            pp1 = pp1 + "<div class='ribbon ribbon-danger'>INR " + Orjson[i].AdPacks + "</div>";
+        }
+        pp1 = pp1 + "<p class='ribbon-content'><span style='font-size:12px;'>Payment by</span><span style='font-weight:bold;'> " + Orjson[i].PayMode + " </span><span style='font-size:12px;'>on</span><span style='font-weight:bold;'> " + Orjson[i].Date + " </span><span style='font-size:12px;'>, Deposit no</span><span style='font-weight:bold;'> " + Orjson[i].InvestID + "</span></p>";
+        pp1 = pp1 + "</div>"
+        pp1 = pp1 + "</div>"
+
+        /////
+        $('#depohistory').html('');
+        ////
+    }
+    return pp1;
+}
+
+
+function loadOrdersdown(PageIndex, PageSize, MemID) {
+    $('#DownDeposit').html('<img src="../UserProfileImg/loading2.gif" />');
+    //var option = $('#partiCipantList').combo('getValue');
+    $.getJSON('Handlers/Depsoit-History-Detail.ashx?p=' + PageIndex + "&s=" + PageSize + "&u=" + MemID + "&n=DOWN",
+        function (Orjsons) {
+            if (Orjsons.length == 0) {
+                $('#DownDeposit').html('');
+                $('#DownDeposit').html("Sorry, record not found...!");
+            }
+            else {
+                var dd = formatOrders(Orjsons);
+                $('#DownDeposit').html(dd);
+                //                if ($("#hdnpg").val() == "")
+                //                {
+                //                document.getElementById("SelePgNu").value = "1";
+                //                document.getElementById("SelePgNu").text = "1";
+                //                } 
+                //                else 
+                //                {
+                //                document.getElementById("SelePgNu").value = $("#hdnpg").val();
+                //                document.getElementById("SelePgNu").text = $("#hdnpg").val();
+                //                }
+            }
+        });
+}
+
+function formatOrders(Orjsons) {
+    var pp1q = '';
+
+    for (var i = 0; i < Orjsons.length; i++) {
+
+        //    if (i == 0)
+        //    {           
+        //        var select = document.getElementById("SelePgNu");
+        //        document.getElementById("SelePgNu").innerHTML = "";      
+        //        var pgsize = $("#SelePgSz").val();
+        //        var TotRecord = Orjson[i].TotRec;
+        //        document.getElementById("lbltotrec").innerHTML  = TotRecord;
+        //        for (var j = 1; j <=  Math.ceil(parseFloat(TotRecord).toFixed(10)/parseFloat(pgsize).toFixed(10)) ; j++)
+        //        {
+        //             var opt = j;
+        //             var el = document.createElement("option");
+        //             el.textContent = opt;
+        //             el.value = opt;
+        //             select.appendChild(el);
+        //        }
+        //    }
+
+        ///// for paging...
+
+
+        //    <div class="col-lg-4 col-md-6 col-xlg-2 col-xs-12">
+        //                                <div class="ribbon-wrapper card">
+        //                                    <div class="ribbon ribbon-default">Ribbon</div>
+        //                                    <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p>
+        //                                </div>
+        //                            </div>
+        pp1q = pp1q + "<div class='col-lg-4 col-md-6 col-xlg-2 col-xs-12'>";
+        pp1q = pp1q + "<div class='ribbon-wrapper card'>";
+        if (i == 0 || i == 6) {
+            pp1q = pp1q + "<div class='ribbon ribbon-success ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        else if (i == 1 || i == 7) {
+            pp1q = pp1q + "<div class='ribbon ribbon-primary ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        else if (i == 2 || i == 8) {
+            pp1q = pp1q + "<div class='ribbon ribbon-default ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        else if (i == 3 || i == 9) {
+            pp1q = pp1q + "<div class='ribbon ribbon-danger ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        else if (i == 4 || i == 10) {
+            pp1q = pp1q + "<div class='ribbon ribbon-warning ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        else if (i == 5 || i == 11) {
+            pp1q = pp1q + "<div class='ribbon ribbon-info ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        else {
+            pp1q = pp1q + "<div class='ribbon ribbon-primary ribbon-right'>INR " + Orjsons[i].AdPacks + "</div>";
+        }
+        pp1q = pp1q + "<p class='ribbon-content'><span style='font-size:12px;'>Deposit for</span><span style='font-weight:bold;'> " + Orjsons[i].MemID + " </span><span style='font-size:12px;'>Payment by</span><span style='font-weight:bold;'> " + Orjsons[i].PayMode + " </span><span style='font-size:12px;'>on</span><span style='font-weight:bold;'> " + Orjsons[i].Date + "</span> <span style='font-size:12px;'>, Deposit no</span><span style='font-weight:bold;'> " + Orjsons[i].InvestID + "</span></p>";
+        pp1q = pp1q + "</div>"
+        pp1q = pp1q + "</div>"
+
+        /////
+        $('#DownDeposit').html('');
+        ////
+    }
+    return pp1q;
+}
+
+//////ETH /////
+function init_dataETH() {
+
+
+    var DPlnAmt = $("#txtamt").val();
+    var txtTxnHas = $("#txtTxnHas").val();
+    var RcVAddtemp = $("#txtBTCAddress").val();
+    var paymode = "ETH";
+
+
+
+    if (txtTxnHas != '' || RcVAddETH != '') {
+
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "//api.etherscan.io/api?module=account&action=txlist&address=" + RcVAddtemp + "&sort=desc", true);
+        xmlhttp.send();
+        ///
+        $('#rmsgbox').html("<span style='font-size:15px; color:#FF0000; font-wieght:bold'>Please wait...We are searching Ethereum Txn Hash details !</span>");
+        ///  
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                var jsontext = xmlhttp.responseText;
+                var data = JSON.parse(jsontext);
+                ///
+                var n = data.result.length;
+
+                for (var i = 0; i < n; i++) {
+                    var TranHas = data.result[i].hash;
+                    var txndate = new Date(data.result[i].timeStamp * 1000).toISOString().substring(0, 19).replace('T', ' ');
+                    ///  
+
+                    if (txtTxnHas == TranHas) {
+
+                        var SndrAdds = data.result[i].from;
+                        var RecETHAds = data.result[i].to;
+
+
+                        var RecETHAdsUpper = RecETHAds.toUpperCase();
+                        var RcVAddtempUpper = RcVAddtemp.toUpperCase();
+
+                        if (RecETHAdsUpper == RcVAddtempUpper) {
+                            var amount = data.result[i].value;
+
+                            DWalletAmtRequestEth(TranHas, SndrAdds, amount, DPlnAmt, txndate);
+                        }
+                        ///// 
+
+
+
+
+
+                        /////      
+                    }
+                }
+                //         
+            }
+        }
+
+    }
+    else {
+        $('#rmsgbox').html("<span style='font-size:15px; color:#FF0000; font-wieght:bold'>Please check Txn Hash information about ETH payment !</span>");
+    }
+
+}
+
+function DWalletAmtRequestEth(TranHas, SndrAdds, amount, PlnAmt, txndate) {
+    ////////
+    $('#Msgs').html('<img src="../UserProfileImg/loading2.gif" />');
+    var od = new FormData();
+    var txtBTCAddress = SndrAdds;//$("#txtBTCAddress").val();    
+    var txtTxnHas = TranHas;//$("#txtTxnHas").val(); 
+    var txtReqAmt = amount;
+    var reqdate = txndate;
+    ////////
+    od.append("txtBTCAddress", txtBTCAddress);
+    od.append("txtTxnHas", txtTxnHas);
+    od.append("txtReqAmt", amount);
+    od.append("PlnAmt", amount);
+    od.append("ReqDate", reqdate);
+
+    //     var fileUpload = $("#fluplodBTC").get(0);
+    //    var files = fileUpload.files;
+    //    for (var i = 0; i < files.length; i++) {
+    //    od.append(files[i].name, files[i]);
+    //    }     
+    ///////
+    $.ajax({
+        url: "Handlers/DWallet-Amt_Request.ashx?Save=ETHInfo",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                $('#Msgs').html(Response.Message);
+            }
+            else {
+                $('#Msgs').html(Response.Message);
+            }
+        },
+        error: function (err) {
+            $('#Msgs').html(err.statusText);
+        }
+    });
+}
+////////////BTC ETH RATE UPDATE //////////
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+///
+function btcrateupdate() {
+    ///
+    var secret = getCookie("Yes872mBr81bts");
+    $.getJSON('https://api.smartcontract.ru/gateway/rates_USD.json', function (data) {
+        var contractABI1 = JSON.stringify(data.data.trx);
+        var contractABI2 = JSON.stringify(data.data.eth);
+        var contractABI3 = JSON.stringify(data.data.btc);
+        var contractABI4 = JSON.stringify(data.data.bnb);
+        var contractABI5 = JSON.stringify(data.data.USDt);
+
+
+        var trxrt = contractABI1.replace('"', '');//parsedData1.data.trx;
+        var ethrt = contractABI2.replace('"', '');
+        var btcrt = contractABI3.replace('"', '');
+        var bnbrt = contractABI4.replace('"', '');
+        var USDt = contractABI5.replace('"', '');
+
+        var TRXRt = trxrt.replace('"', '');
+        var ETHRt = ethrt.replace('"', '');
+        var BTCRt = btcrt.replace('"', '');
+        var BNBRt = bnbrt.replace('"', '');
+        var USDTRt = USDt.replace('"', '');
+        var ethdatet = '';
+        ///
+        var odt = new FormData();
+        ///
+        odt.append("TrxRt", TRXRt);
+        odt.append("EthRt", ETHRt);
+        odt.append("BtcRt", BTCRt);
+        odt.append("BnbRt", BNBRt);
+        odt.append("USDtRt", USDTRt);
+        odt.append("scr", secret);
+        odt.append("rtdate", ethdatet);
+        ///
+        $.ajax({
+            url: "Handlers/CR_Amt_Crnt_Rt.ashx",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: odt,
+            dataType: "json",
+            success: function (Response) {
+                if (Response.Success) { }
+                else { }
+            },
+            error: function (err) { }
+        });
+        ///        
+    });
+    ///////end trx   
+}
+
+
+function BindAccountDetails() {
+    var mode = document.querySelector('#Paymentmode').value;
+    if (mode == 'UPI') {
+        mode = 'QRCode'
+    } else if (mode == 'Internet Banking') {
+        mode = 'Bank'
+    }
+    else {
+        $("#internet-banking").hide();
+        $("#BankDetail_show").hide();
+        $("#UPI").hide();
+    }
+    if (mode == "Bank") {
+        $.ajax({
+            type: "POST",
+            url: "Handlers/BankDetails.ashx?Paymentmode=" + mode + "&Accountno=''&Type=1",
+            /* data: $("#ChooseBank").val(),*/
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                $('#ChooseBank').empty();
+                $('#ChooseBank').append("<option>Choose Bank</option>");
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Bankname, data[i].AccountNo);
+                    $('#ChooseBank').append(opt);
+                    /*  $("#").append("<option value=? text=?/>");*/
+                    $("#internet-banking").show();
+                    $("#UPI").hide();
+                }
+            }
+        });
+
+    }
+    else if (mode == "QRCode") {
+        // alert(mode);
+        Bankdetails()
+    }
+}
+
+function Bankdetails() {
+    var mode = document.querySelector('#Paymentmode').value;
+    var Type = '';
+    var Accountno = document.querySelector('#ChooseBank').value;
+    if (mode == 'UPI') {
+        mode = 'QRCode'
+        Type = '2';
+    } else if (mode == 'Internet Banking') {
+        mode = 'Bank'
+        Type = '3';
+        if (Accountno == 'Choose Bank') {
+            $('#BankDetail_show').hide();
+        }
+    }
+    $.ajax({
+        type: "POST",
+        url: "Handlers/BankDetails.ashx?Paymentmode=" + mode + "&Accountno=" + Accountno + "&Type=" + Type,
+        /* data: $("#ChooseBank").val(),*/
+        contentType: "application/json",
+        dataType: "json",
+        success: function (OrjsonDS) {
+            for (var i = 0; i < OrjsonDS.length; i++) {
+                $("#txtBTCAddress").val(OrjsonDS[i].AccountNo);
+                $("#NewBTC11").attr("src", OrjsonDS[i].QrCode);
+                if (OrjsonDS[i].TransactionCurrency == 'QRCode') {
+                    $('#ChooseBank').empty();
+                    $("#BankDetail_show").hide();
+                    $("#internet-banking").hide();
+                    $("#UPI").show();
+
+                } else {
+                    $("#UPI").hide();
+                    $("#BankDetail_show").show();
+                    $("#Acc-name").html(OrjsonDS[i].BankName);
+                    $("#ifsc-code").html(OrjsonDS[i].IFSCCode);
+                }
+            }
+
+            //for (var i = 0; i < data.length; i++) {
+            //    var opt = new Option(data[i].Bankname, data[i].AccountNo);
+            //    $('#ChooseBank').append(opt);
+            //    /*  $("#").append("<option value=? text=?/>");*/
+            //}
+        }
+    });
+}

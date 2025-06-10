@@ -1,0 +1,299 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Net;
+using System.IO;
+using System.Text;
+
+public partial class Adm962xts21qtj_AdminApproveCWalletFundReq : System.Web.UI.Page
+{
+    DynamicDtls objDBConnectHP = new DynamicDtls();
+    SqlConnection cn; SqlDataAdapter da; DataSet ds, sds, ssds, spds;
+    string TodayDt = Convert.ToString(DateTime.Now.ToShortDateString().ToString());
+    SqlCommand cmd;
+    string Rep_ID, Req_ID, Amount, IssueBy, Status;
+    string Remrk, RemrkRej, RemrkFrmPEW;
+    string MemID, ID, FromMobiUSD, Frommobno;
+    int r; string Format = "";
+    SqlDataReader drGetSt;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            Req_ID = Request.QueryString["ID"].ToString();
+            //MemID = Request.QueryString["MemID"].ToString();
+            //Remrk = "Completed Credit Request " + Req_ID + " Of Amt:" + txtAmount.Text.Trim();
+
+            if (!IsPostBack)
+            {
+                GetCreditRequestSt();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+
+    //protected void TextPwd_Validate(object source, ServerValidateEventArgs args)
+    //{
+    //    if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "REJECTED")
+    //    {
+    //        string v = TxtAPwd.Text;
+    //        if (v == string.Empty)
+    //        {
+    //            args.IsValid = false;  // field is empty
+    //        }
+    //        else
+    //        {
+    //            args.IsValid = true;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        args.IsValid = true;
+    //    }
+    //}
+    private void GetCreditRequestSt()
+    {
+        try
+        {
+            ds = new DataSet();
+            ds = methods(Req_ID, "", "", "", "", "", "FILL_RECORD", "", "");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                txtMemID.Text = ds.Tables[0].Rows[0]["MemID"].ToString();
+                ddlStatus.Items.FindByText(ds.Tables[0].Rows[0]["Status"].ToString().ToUpper()).Selected = true;
+                txtRemark.Text = ds.Tables[0].Rows[0]["Remark"].ToString();
+                txtAmount.Text = ds.Tables[0].Rows[0]["PlanAmt"].ToString();
+                txtDate.Text = ds.Tables[0].Rows[0]["PayDepositDate"].ToString();
+                txtChkNo.Text = ds.Tables[0].Rows[0]["TxnHas"].ToString();
+                lbltransmode.Text = ds.Tables[0].Rows[0]["AcType"].ToString();
+                if (lbltransmode.Text.Trim() == "BTC")
+                {
+                    lbltranname.Text = "Transaction Has : ";
+                }
+                else
+                {
+                    lbltranname.Text = "Transaction No : ";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !";
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+    }
+
+    private void SendSMSFrom()
+    {
+        ds = new DataSet();
+        ds = methods("", txtMemID.Text.Trim().ToUpper(), "", "", "", "", "GET_MOBILE", "", "");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            Frommobno = ds.Tables[0].Rows[0]["mobile"].ToString();
+        }
+
+        //FromMobiUSD = "91" + Frommobno;
+        //string TextFrom = "Dear, " + txtMemID.Text.Trim().ToUpper() + " Your Fund Issue Request No :" + Req_ID + " of Amount :" + txtAmount.Text.Trim() + " Has Been " + ddlStatus.SelectedItem.Text.Trim().ToUpper() + " Plz Check ur Acc For Detail.";
+        //string createdURLFrom = "http://www.smswave.in/panel/sendsms.php?user=Hlp89Pro87&password=Pro)(8^%KHlt&sender=HLTPRO&PhoneNumber=" + FromMobiUSD + "&Text=" + TextFrom;
+
+        //HttpWebRequest myReqfrm = (HttpWebRequest)WebRequest.Create(createdURLFrom);
+        //myReqfrm.Method = "POST";
+        //// myReq.ContentLength = Text.Length;
+        //byte[] byteArrayfrm = Encoding.UTF8.GetBytes(TextFrom);
+        //// Set the ContentType property of the WebRequest.
+        //myReqfrm.ContentType = "application/x-www-form-urlencoded";
+        //// Set the ContentLength property of the WebRequest.
+        //myReqfrm.ContentLength = byteArrayfrm.Length;
+        //// Get the request stream.
+        //Stream dataStreamfrm = myReqfrm.GetRequestStream();
+        //// Write the data to the request stream.
+        //dataStreamfrm.Write(byteArrayfrm, 0, byteArrayfrm.Length);
+        //// Close the Stream object.
+        //dataStreamfrm.Close();
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        sds = new DataSet();
+        sds = methods(Req_ID, "", "", "", "", "", "GET_STATUS", "", "");
+        if (sds.Tables[0].Rows.Count > 0)
+        {
+            if (sds.Tables[0].Rows[0]["STATUS"].ToString().ToUpper()  == "PENDING")
+            {
+                submit();
+            }
+            else
+            {
+                submit2();
+            }
+        }
+    }
+    public void submit()
+    {
+        string IconPath = "", ExtStatus = "NOTOK", ErrorMess = "", CheckIconName = "", FilePath = "";
+
+        if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "PENDING")
+        { }
+        else
+        {
+            try
+            {
+
+                FilePath = "";
+                if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "APPROVED")
+                {
+                    ds = methods(Req_ID, txtMemID.Text.Trim().ToUpper(), txtDate.Text.Trim(), txtAmount.Text, ddlStatus.SelectedItem.Text, txtChkNo.Text, "COMPLETE_IMG", txtRemark.Text.Trim(), "");
+                    //objSendMail.MailFormat("BankPayout", txtMemID.Text.Trim(), txtMemID.Text.Trim(), txtAmount.Text, Req_ID);
+                    lblMsg.Visible = true;
+                    //SendEmailMsg();
+                    lblMsg.Text = new DB().UpdateMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+                    ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["MSG"].ToString() + "'); </script>");
+                }
+                else if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "REJECTED")
+                {
+                    ds = methods(Req_ID, txtMemID.Text.Trim().ToUpper(), txtDate.Text.Trim(), txtAmount.Text, ddlStatus.SelectedItem.Text, txtChkNo.Text, "REJECT_IMG", txtRemark.Text.Trim(), "");
+                    ////SendSMSFrom();
+                    lblMsg.Visible = true;
+                    lblMsg.Text = new DB().UpdateMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+                    ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["MSG"].ToString() + "'); </script>");
+                    //try
+                    //{
+                    //    //ds = new DataSet();
+                    //    ds = objDBConnectHP.ByProcedure("AdminPasswordVerification", new string[] { "investid", "Password", "Flag" }, new string[] { txtMemID.Text.Trim(), TxtAPwd.Text, "WITHDRWAL" }, "Methode");
+                    //    //lblMsg.Visible = true; lblMsg.Text = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
+                    //    ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["ErrMsg"].ToString() + "'); </script>");
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !";
+                    //}
+                    //finally
+                    //{
+                    //    ds.Dispose();
+                    //}
+
+                }
+                else
+                { }
+            }
+            catch (Exception ex)
+            {
+                DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+                lblMsg.Visible = true; lblMsg.Text = "Sorry, Something is wrong please try later !";
+            }
+            finally
+            {
+                ds.Dispose();
+            }
+        }
+
+    }
+    public void submit2()
+    {
+        string IconPath = "", ExtStatus = "NOTOK", ErrorMess = "", CheckIconName = "", FilePath = "";
+
+        if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "PENDING")
+        { }
+        else
+        {
+            try
+            {
+
+                FilePath = "";
+                if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "APPROVED")
+                {
+                    ds = methods(Req_ID, txtMemID.Text.Trim().ToUpper(), txtDate.Text.Trim(), txtAmount.Text , ddlStatus.SelectedItem.Text, txtChkNo.Text, "COMPLETE_AGAIN", txtRemark.Text.Trim(), "");
+                    //objSendMail.MailFormat("BankPayout", txtMemID.Text.Trim(), txtMemID.Text.Trim(), txtAmount.Text, Req_ID);
+                    lblMsg.Visible = true;
+                    //SendEmailMsg();
+                    lblMsg.Text = new DB().UpdateMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+                    ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["MSG"].ToString() + "'); </script>");
+                }
+                else if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "REJECTED")
+                {
+                     ds = methods(Req_ID, txtMemID.Text.Trim().ToUpper(), txtDate.Text.Trim(), FilePath, ddlStatus.SelectedItem.Text, txtChkNo.Text, "REJECT_AGAIN", txtRemark.Text.Trim(), "");
+                    // //SendSMSFrom();
+                     lblMsg.Visible = true;
+                     lblMsg.Text = new DB().UpdateMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+                     ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["MSG"].ToString() + "'); </script>");
+                    //try
+                    //{
+                    //    ds = objDBConnectHP.ByProcedure("AdminPasswordVerification", new string[] { "investid", "Password", "Flag" }, new string[] { txtMemID.Text.Trim(), TxtAPwd.Text, "WITHDRWAL" }, "Methode");
+                    //    ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage('" + ds.Tables[0].Rows[0]["ErrMsg"].ToString() + "'); </script>");
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !";
+                    //}
+                    //finally
+                    //{
+                    //    ds.Dispose();
+                    //}
+                }
+                else
+                { }
+            }
+            catch (Exception ex)
+            {
+                DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+                lblMsg.Visible = true; lblMsg.Text = "Sorry, Something is wrong please try later !";
+            }
+            finally
+            {
+                ds.Dispose();
+            }
+        }
+
+    }
+    private void SendEmailMsg()
+    {
+        Format = @"<html <div >
+                    Dear User,<br />
+                Your Request has been sucessfully approved and you can expect the funds in your
+                bank account in the next 3 working days.
+           <br /> Thanks<br />Admin
+            </div></html>";
+
+        lblMsg.Text = "";
+        try
+        {
+            objDBConnectHP.ByProcedure("Gladulas_InsertEmailMsg", new string[] { "FromUser", "ToUser", "MsgSubject", "MsgText", "MsgSendType" }, new string[] { "ADMIN", txtMemID.Text.Trim().ToUpper(), "approval Fund Request", Format, "" }, "EMail");
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !";
+        }
+    }
+
+    public DataSet methods(string Req_ID, string memid, string transdt, string UplodeFile, string status, string TransId, string Type, string txtRemarkp, string IncTypeM)
+    {
+        try
+        {
+            ds = new DataSet();
+            ds = objDBConnectHP.ByProcedure("PROC_RESPONSE_FUND_REQ", new string[] { "Req_ID", "memid", "transdt", "UplodeFile", "status", "TransId", "Type", "txtRemarkp", "inctype" }, new string[] { Req_ID, memid, transdt, UplodeFile, status, TransId, Type, txtRemarkp, IncTypeM }, "Methode");
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !";
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+        return ds;
+    }
+}

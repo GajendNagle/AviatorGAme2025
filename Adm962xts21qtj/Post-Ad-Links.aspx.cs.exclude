@@ -1,0 +1,159 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Adm962xts21qtj_Post_Ad_Links : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    DataSet ds;
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+                feelgrid();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); 
+            lblMsg1.Text = "Your request could not be completed.";
+        }
+
+    }
+    private void clears()
+    {
+        txtnews.Text = txtfirstdate.Text = txtheading.Text = "";
+    }
+
+    protected void btnpass_Click(object sender, EventArgs e)
+    {
+        //cn.Open();
+        try
+        {
+            string fdate = string.Format("{0:MM/dd/YYYY}", txtfirstdate.Text);
+            ds = objDynamicDtls.ByProcedure("PostPromotionalLinks", new string[] { "PageTitle", "PageLink", "Flag", "UID", "PageType" }, new string[] { txtheading.Text.Trim().ToUpper(), txtnews.Text.Trim(), "PostLink", "",ddlPageType.SelectedItem.Value }, "GET");
+            ////
+            lblMsg1.Text = objDynamicDtls.UpdateMessage("Link has been posted !");
+            feelgrid();
+            this.clears();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); 
+            lblMsg1.Text = "Your request could not be completed.";
+            lblMsg1.Visible = true;
+
+        }
+        //cn.Close();
+
+    }
+    protected void btnRepeatLnk_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ds = objDynamicDtls.ByProcedure("[abc_PostLinks]", new string[] { }, new string[] { }, "GET");
+            ////
+            lblMsg1.Text = objDynamicDtls.UpdateMessage("Link has been Repeated !");
+            ////
+            feelgrid();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); 
+            lblMsg1.Text = "Your request could not be completed.";
+            lblMsg1.Visible = true;
+        }
+    }
+    
+    public void feelgrid()
+    {
+        try
+        {
+            ds = objDynamicDtls.ByProcedure("PostPromotionalLinks", new string[] { "PageTitle", "PageLink", "Flag", "UID", "PageType" }, new string[] { "", "", "ViewLinkAdm", "", "" }, "GET");
+            if (ds.Tables[0].Rows.Count>0)
+            {
+                lblEmptyMsg.Visible = false;
+                lblEmptyMsg.Text = "";
+                GridView2.Visible = true;
+                GridView2.DataSource = ds.Tables[0];
+                GridView2.DataBind();
+            }
+            else
+            {
+                lblEmptyMsg.Visible = true;
+                lblEmptyMsg.Text = objDynamicDtls.EmptyMessage("Sorry no record found !");
+                GridView2.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            string oldbdelete = "delete from PromotionalLinks where id =" + id + "";
+            SqlDataAdapter adp = new SqlDataAdapter(oldbdelete, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            feelgrid();
+            lblMsg1.Text = "News Removed....";
+            lblMsg1.ForeColor = System.Drawing.Color.Green;
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void GridView2_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView2.EditIndex = -1;
+        feelgrid();
+    }
+    protected void GridView2_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView2.EditIndex = e.NewEditIndex;
+        feelgrid();
+
+    }
+    protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            TextBox hd = (TextBox)GridView2.Rows[e.RowIndex].Cells[0].FindControl("txtbxheading");
+            TextBox nw = (TextBox)GridView2.Rows[e.RowIndex].Cells[1].FindControl("txtbxnews");
+            TextBox st = (TextBox)GridView2.Rows[e.RowIndex].Cells[2].FindControl("txtbxstdate");
+            DropDownList dt = (DropDownList)GridView2.Rows[e.RowIndex].Cells[2].FindControl("EditddlPageType");
+
+            ds = objDynamicDtls.ByProcedure("PostPromotionalLinks", new string[] { "PageTitle", "PageLink", "Flag", "UID", "PageType" }, new string[] { hd.Text.Trim(), nw.Text.Trim(), "PostLinkUpdate", id.ToString(),dt.SelectedItem.Value }, "GET");
+
+            lblMsg1.Text = objDynamicDtls.UpdateMessage("Record has been updated");
+
+            GridView2.EditIndex = -1;
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg1.Text = "Your request could not be completed.";
+        }
+        feelgrid();
+    }
+}
+

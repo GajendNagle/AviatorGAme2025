@@ -1,0 +1,368 @@
+﻿var totRcds = '';
+
+function SearchDownline() {
+    $('#sbar').show();
+    //$("#txtTopUpAmount").val();  
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+
+
+
+function ChangePagesize() {
+    getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    // alert('Pn: '+Pgno+', pg siz: '+ PgSz+', search: '+SearchTxt+', frm dt: '+Fromdt+', todt: '+Todt+', sts: '+sts+', pos: '+Pos+', lvl: '+lvl);
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+
+function ChangeNo() {
+    //getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+function btnSrch() {
+
+    //getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    //if (SearchTxt !='')
+    //{
+    // alert(Fromdt);
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+    // }
+
+}
+function searchchngcolor(xyz) {
+
+    //getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    //var sts = $("#ddlStatus").val();
+    var sts = xyz;
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+function SelectSts() {
+    //getpageno();
+
+    var tm = $('#ddlStatus').val();
+    if (tm == "Active") {
+        $('#tmnm').html('<i style="font-size: 13px;">Total Active : </i>');
+        $('#Active1').html($('#acttm').val());
+    }
+    if (tm == "In-Active") {
+        $('#tmnm').html('<i style="font-size: 13px;">Total In-Active : </i>');
+        $('#Active1').html($('#incttm').val());
+    }
+    if (tm == "Block") {
+        $('#tmnm').html('<i style="font-size: 13px;">Total Block : </i>');
+        $('#Active1').html($('#bltm').val());
+    }
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+
+function SelectPos() {
+    //getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+
+
+function Srchlvl() {
+    //getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var sts = $("#ddlStatus").val();
+    var Pos = $("#ddlPos").val();
+    var lvl = $("#ddlLVL").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, sts, Pos, lvl);
+}
+//////
+function getpageno() {
+    var slcPg = $("#PageNo").val();
+    ////
+    var TTR = Number(totRcds);
+    var ttP = TTR / Number($("#PageSize").val());
+    ////
+    if (ttP > Math.floor(ttP)) {
+        var ttP = ttP + 1;
+    }
+    /////
+    var selectField = $("#PageNo");
+    var options = '';
+    selectField.empty();
+    ///
+    for (var j = 1; j <= ttP; j++) {
+        ////
+        if (j == 1) {
+            options += '<option value="1">Page No.</option>';
+        }
+        else {
+            options += '<option value="' + j + '">' + j + '</option>';
+        }
+    }
+    selectField.append(options);
+    $("#PageNo").val(slcPg);
+    ////
+}
+//////
+//START
+function loadOrders(PageIndex, PageSize, MemID, Fromdt, Todt, sts, Pos, lvl) {
+    $('#AwalletList').html('<img width="40px" src="../UserProfileImg/loading3.gif" />');
+    //alert(MemID);
+    $.getJSON('Handlers/Network-Levels.ashx?p=' + PageIndex + "&s=" + PageSize + "&u=" + MemID + "&frdt=" + Fromdt + "&todt=" + Todt + "&sts=" + sts + "&Pos=" + Pos + "&lvl=" + lvl,
+        function (Orjson) {
+            if (Orjson.length == 0) {
+                $('#AwalletList').html('');
+                $('#AwalletList').html("<div class='col-lg-12'><div class='search-sec-2' style='width: 100%;background:none; box-shadow: none;'><div class='alert alert-danger m-b-10'><strong>Sorry! </strong> record not found...! </div></div> </div>");
+
+
+            }
+            else {
+                var d = formatOrder(Orjson);
+                $('#AwalletList').html(d);
+            }
+        });
+}
+/*section load details*/
+function formatOrder(Orjson) {
+    var pp1 = '';
+
+    pp1 = pp1 + "<table class='table table-padded'>";
+    pp1 = pp1 + "<thead>";
+    pp1 = pp1 + "<tr>";
+    pp1 = pp1 + "<th>Sr.</th>";
+    pp1 = pp1 + "<th>Member Details</th>";
+
+    pp1 = pp1 + "<th> Status</th>";
+    pp1 = pp1 + "<th> Rank/Level</th>";
+    //pp1=pp1+"<th>Doj</th>";
+    //pp1=pp1+"<th>Country</th>";
+    pp1 = pp1 + "<th class='text-center'>Amount</th>";
+
+    pp1 = pp1 + "</tr>";
+    pp1 = pp1 + "</thead>";
+    pp1 = pp1 + "<tbody>";
+
+
+    for (var i = 0; i < Orjson.length; i++) {
+
+
+        if (i < 10) {
+            $("#AwalletList").removeClass("ful-lst-prt");
+            $('#AwalletList').css('height', 'auto');
+        }
+        else {
+            $("#AwalletList").addClass("ful-lst-prt");
+            $('#AwalletList').css('height', '835px');
+        }
+
+
+        $('#TotRec').html(Orjson[i].TotalRec);
+        totRcds = Orjson[i].TotalRec;
+
+
+
+
+        pp1 = pp1 + "<tr>";
+
+        pp1 = pp1 + "<td ><div>" + Orjson[i].srno + "</div></td>";
+
+        pp1 = pp1 + "<td class='cell-with-media'><div class='descrip-prt'><div class='alpha-prt'><img src='" + Orjson[i].MemProfilePic + "' title='Profile Pic' class='product-image' /></div><p class='detal-rimrk' >" + Orjson[i].Name + "<span class='country-flag'> <img src='" + Orjson[i].CountryPATH + "' title='country: " + Orjson[i].Country + "'/></span><br><span>ID: </span><strong class='strong-black'> " + Orjson[i].ReferrID + "</strong> <strong> { </strong><span>Sponsor Id: </span><strong >" + Orjson[i].SponsorID + "</strong><strong> }</strong> </p></div></td>";
+        pp1 = pp1 + "<td  class='nowrap'>";
+        if (Orjson[i].Status == 'In-Active') {
+            pp1 = pp1 + "<div class='badge badge-danger red' title='Status: InActive'>In-Active</div>";
+
+        }
+        else if (Orjson[i].Status == 'Active') {
+            pp1 = pp1 + "<div class='badge badge-success green' title='Status: Active'>Active</div>";
+
+        }
+        else if (Orjson[i].Status == 'Block') {
+            pp1 = pp1 + "<div class='badge yellow' title='Status: Block'>Block</div>";
+
+        }
+        pp1 = pp1 + "<br>Active-on : <span>" + Orjson[i].ActivedOn + "</span></div></td>";
+        pp1 = pp1 + "<td class='nowrap'><div class='tim-prt'><span class='bolder'> <strong>" + Orjson[i].Designation + "</strong> , Level : " + Orjson[i].mlevel + " , Position : " + Orjson[i].Position+"<br><div class='tim-prt'>Doj : <span>" + Orjson[i].SignupOn + "</span></div></span></div></td>";
+        //pp1 = pp1 + "<td class='nowrap'></td>";
+        //pp1 = pp1 + "<td class='nowrap'><div class='alpha-prt-new'></div></td>";
+        pp1 = pp1 + "<td class='nowrap text-right'><span class='text-danger bolder'><strong style='font-weight:bold'>$" + Orjson[i].BuyProducts + "</strong></span></td>";
+        //  if(Orjson[i].Credit != 0)
+        //{
+        // pp1 = pp1 + "<td class='nowrap'><span class='status-pill smaller green'></span><span>Amt. In</span></td>";
+        //}
+        //else
+        //{
+        //  pp1 = pp1 + "<td class='nowrap'><span class='status-pill smaller red'></span><span>Amt. Out</span></td>";
+        //}
+
+
+
+        //pp1 = pp1 + "<td><div class='tim-prt'><span>" + Orjson[i].Date + "</span></div></td>";
+
+        //if(Orjson[i].IncType=="Withdrawal Request")
+        //{
+        // pp1 = pp1 + "<td class='cell-with-media'><div class='descrip-prt'><div class='alpha-prt'><span class='alph-gren-crcl'></span><span class='alfabets-W'>W</span></div><p class='detal-rimrk'>" + Orjson[i].Remark + " </p></div></td>";
+        // pp1 = pp1 + "<td class='text-center'><a class='badge badge-success' href=''>" + Orjson[i].IncType + "</a></td>";
+        //}
+        //else if(Orjson[i].IncType=="By Company")
+        //{
+        //pp1 = pp1 + "<td class='cell-with-media'><div class='descrip-prt'><div class='alpha-prt'><span class='alph-red-crcl'></span><span class='alfabets-c'>C</span></div><p class='detal-rimrk'>" + Orjson[i].Remark + " </p></div></td>";
+        // pp1 = pp1 + "<td class='text-center'><a class='badge badge-danger' href=''>" + Orjson[i].IncType + "</a></td>";
+        //}
+        //else if(Orjson[i].IncType=="Royalties")
+        //{
+        //pp1 = pp1 + "<td class='cell-with-media'><div class='descrip-prt'><div class='alpha-prt'><span class='alph-blu-crcl'></span><span class='alfabets-d'>R</span></div><p class='detal-rimrk'>" + Orjson[i].Remark + " </p></div></td>";
+        // pp1 = pp1 + "<td class='text-center'><a class='badge badge-primary' href=''>" + Orjson[i].IncType + "</a></td>";
+        //}
+
+        //if(Orjson[i].Debit != 0)
+        //{
+        // pp1 = pp1 + "<td class='text-right bolder nowrap'><span class='text-danger'>- " + Orjson[i].Debit + "</span></td>";
+        //}
+        //else
+        //{
+        // pp1 = pp1 + "<td class='text-right bolder nowrap'><span class='text-success'>+ " + Orjson[i].Credit + "</span></td>";
+        //}
+        pp1 = pp1 + "</tr>";
+
+
+
+
+        $('#Msgs').html('');
+        ////
+    }
+
+
+    pp1 = pp1 + "</tbody>";
+    pp1 = pp1 + "</table>";
+
+    getpageno();
+    return pp1;
+}
+
+//END-->
+
+////
+
+
+/***************/
+
+function Gethoverdata(memid) {
+
+    $('#uname').html('');
+    $('#newmempic').html('');
+    $('#newrank').html('');
+    $('#Actvdat').html('');
+    $('#sincdat').html('');
+    $('#mobluname').html('');
+    $('#moblnewmempic').html('');
+    $('#moblnewrank').html('');
+    $('#moblActvdat').html('');
+    $('#moblsincdat').html('');
+
+
+    $.getJSON('Handlers/Getmyteamhover.ashx?uid=' + memid,
+        function (Orjson) {
+
+            for (var i = 0; i < Orjson.length; i++) {
+                $('#uname').html(Orjson[i].mname);
+                $('#newmempic').html("<img src='../UserProfileImg/" + Orjson[i].MemPic + "' alt='user'/>");
+                $('#newrank').html(Orjson[i].DRANK);
+                $('#Actvdat').html(Orjson[i].acdate);
+                $('#sincdat').html(Orjson[i].doj);
+                $('#mobluname').html(Orjson[i].mname);
+                $('#moblnewmempic').html("<img src='../UserProfileImg/" + Orjson[i].MemPic + "' alt='user'/>");
+                $('#moblnewrank').html(Orjson[i].DRANK);
+                $('#moblActvdat').html(Orjson[i].acdate);
+                $('#moblsincdat').html(Orjson[i].doj);
+            }
+
+
+        });
+
+
+
+
+}
+
+function Gethoverdata_default(memid) {
+
+
+
+    $.getJSON('Handlers/Getmyteamhover.ashx?uid=' + memid,
+        function (Orjson) {
+
+            for (var i = 0; i < Orjson.length; i++) {
+                $('#uname').html(Orjson[i].mname);
+                $('#newmempic').html("<img src='../" + Orjson[i].MemPic + "' alt='user'/>");
+                $('#newrank').html(Orjson[i].DRANK);
+                $('#Actvdat').html(Orjson[i].acdate);
+                $('#sincdat').html(Orjson[i].doj);
+                $('#mobluname').html(Orjson[i].mname);
+                $('#moblnewmempic').html("<img src='../UserProfileImg/" + Orjson[i].MemPic + "' alt='user'/>");
+                $('#moblnewrank').html(Orjson[i].DRANK);
+                $('#moblActvdat').html(Orjson[i].acdate);
+                $('#moblsincdat').html(Orjson[i].doj);
+            }
+
+
+        });
+
+
+
+
+}
+

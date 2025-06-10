@@ -1,0 +1,56 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Adm962xts21qtj_ReplyMessage : System.Web.UI.Page
+{
+    DynamicDtls objgdb = new DynamicDtls();
+    string UserId;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null  )
+        {
+            if (Request.QueryString["MsgID"] != null)
+            {
+                UserId = DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value);
+                if (!Page.IsPostBack)
+                {
+                    lblMessage.Text = objgdb.ByProcedure("ProcComposeMail",
+                      new string[] { "FromUser", "ToUser", "MsgSubject", "MsgText", "MsgSendType", "MsgId", "type" },
+                      new string[] { "", "", "", "", "User", Request.QueryString["MsgID"].ToString(), "3" }, "Bydataset").Tables[0].Rows[0]["MsgSubject"].ToString();
+                }
+            }
+            else
+            {
+                Response.Redirect("AdminComposeMail.aspx");
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    protected void btnReply_Click(object sender, EventArgs e)
+    {
+        try
+        {
+             objgdb.ByProcedure("ProcComposeMail",
+                         new string[] { "FromUser", "ToUser", "MsgSubject", "MsgText", "MsgSendType", "MsgId", "type" },
+                         new string[] { "", "", "", txtMessage.Text, "User", Request.QueryString["MsgID"].ToString(), "2" }, "Bydataset");
+             ClientScript.RegisterStartupScript(this.GetType(), "Post", "<script type='text/javascript'>redirectPage();</script>");
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            Lblmsg.Text = "Your request could not be completed."; ; ;
+        }
+
+    }
+}

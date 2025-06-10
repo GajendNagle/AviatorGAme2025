@@ -1,0 +1,229 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="AdminPinTransferHistoryView.aspx.cs" Inherits="Admin_AdminPinTransferHistoryView"
+    StylesheetTheme="MySkin" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellspacing="0">
+        <tr>
+            <td align="right" width="100%">
+                <samp class="Header_Top">
+                    <asp:Panel ID="PrintPanel" runat="server">
+                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="width: 214px">
+                            <tbody>
+                                <tr>
+                                    <td align="left">
+                                        <asp:Image ID="Image1" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" /></td>
+                                    <td align="center" style="width: 70px" valign="middle">
+                                        <asp:LinkButton ID="LinkButton1" runat="server" CssClass="Uparmenu" Font-Bold="False"
+                                            Font-Names="Verdana" OnClientClick="return CallPrint('divPrint')" Width="24px">Print</asp:LinkButton></td>
+                                    <td align="left">
+                                        <asp:Image ID="Image4" runat="server" ImageUrl="../UserPanel_Images/excel_icon.GIF" /></td>
+                                    <td align="left" style="width: 138px" valign="middle">
+                                        &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CssClass="Uparmenu" Font-Bold="False"
+                                            Font-Names="Verdana" OnClick="btnexporttoexport_Click" OnClientClick="return CallPrint('divPrint')"
+                                            Width="104px">Export to Excel</asp:LinkButton></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </asp:Panel>
+           <%--         <samp class="Header_Top">
+                        PIN TRANSFER HISTORY VIEW<img height="16" src="../UserPanel_Images/nav-arrow-down1.png"
+                            width="20" /></samp></samp>--%></td>
+        </tr>
+        <tr>
+            <td class="ScrollBar">
+                <table border="0" cellpadding="0" cellspacing="0" height="36" style="width: 100%">
+                    <tr>
+                        <td align="center" valign="top" style="height: 400px">
+                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                                <tr>
+                                    <td align="left" style="width: 998px; height: 80px; background-image: url(../UserPanel_Images/MsgDetailHdr_Bg.jpg)"
+                                        valign="top">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td align="left" valign="middle">
+                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold; font-size: 13px; color: #ff0033; font-family: 'Poppins', sans-serif;"
+                                                                valign="middle">
+                                                                Search Properties :</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">
+                                                    <table align="center" border="0" cellpadding="0" style="width: 934px">
+                                                        <tr>
+                                                            <td align="right" valign="middle" style="height: 32px">
+                                                                From Date :</td>
+                                                            <td align="left" valign="middle" style="height: 29px; width: 127px;">
+                                                                <asp:TextBox ID="txtFromDate" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                                    Font-Size="11px" MaxLength="12" Width="87px"></asp:TextBox>
+                                                                </td>
+                                                            <td align="right" valign="middle" style="height: 29px">
+                                                                To Date :</td>
+                                                            <td align="left" valign="middle" style="width: 127px; height: 29px;">
+                                                                <asp:TextBox ID="txtToDate" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                                    Font-Size="11px" MaxLength="12" Width="87px"></asp:TextBox>
+                                                                </td>
+                                                            <td align="left" valign="middle" style="height: 29px">
+                                                                Select One:</td>
+                                                            <td align="left" valign="middle" style="height: 29px">
+                                                                <asp:DropDownList ID="DDLDownPos" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx"
+                                                                    Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="DDLDownPos_SelectedIndexChanged"
+                                                                    Width="102px">
+                                                                    <asp:ListItem>All</asp:ListItem>
+                                                                    <asp:ListItem Value="TRANSFERFRM">Transfered From</asp:ListItem>
+                                                                    <asp:ListItem Value="TRANSFERTO">Transfered To</asp:ListItem>
+                                                                </asp:DropDownList><br />
+                                                            </td>
+                                                            <td align="left" valign="middle" style="height: 29px">
+                                                                <asp:TextBox ID="txtSearch" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                                    Font-Size="11px" MaxLength="30" Text="" Width="87px" Visible="False"></asp:TextBox><asp:DropDownList
+                                                                        ID="DDLFillItems" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                                        Font-Size="10px" Visible="False" Width="80px">
+                                                                    </asp:DropDownList>
+                                                            </td>
+                                                            <td align="left" style="padding: 0px 5px 0px 5px; height: 29px;" valign="middle">
+                                                                <asp:Button ID="btnSearch" runat="server" CssClass="Btn" Font-Names="Verdana" Font-Size="10px"
+                                                                    OnClick="btnSearch_Click" Text="GO" /></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td align="left">
+                                                                <asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                                <asp:DropDownList ID="DDLSrchByDjGt" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                                    Font-Size="11px" Width="84px" Visible="False">
+                                                                    <asp:ListItem Value="INVOICEDATE">Date</asp:ListItem>
+                                                                </asp:DropDownList></td>
+                                                            <td align="right">
+                                                                Jump To:<asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana"
+                                                                    Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px"
+                                                        ForeColor="Red"></asp:Label></td>
+                                            </tr>
+                                            <%-- <tr>
+                                    <td align="left" style="width: 100%;" valign="middle">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 757px">
+                                            <tr>
+                                                <td style="height: 10px" >
+                                                    </td>
+                                                </tr>
+                                        </table>
+                                    </td>
+                                </tr>--%>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" valign="top" style="padding-top: 10px; height: 188px;" class="BoardStructure">
+                                        <div id="divPrint">
+                                            <asp:GridView ID="gv1" runat="server" AllowPaging="True" AutoGenerateColumns="False"
+                                                DataKeyNames="TRANSFERED_TO_EPIN_NO" Font-Bold="False" OnRowDataBound="gv1_RowDataBound"
+                                                PageSize="50" Width="100%" ShowFooter="True" Font-Names="Verdana" Font-Size="11px">
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText="S.No.">
+                                                        <ItemTemplate>
+                                                            <%#Container.DataItemIndex+1%>
+                                                        </ItemTemplate>
+                                                        <ControlStyle Width="100px" />
+                                                        <ItemStyle HorizontalAlign="Center" Width="50px" />
+                                                        <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="TRANS_FROM">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "TRANS_FROM")%>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="TRANS_TO">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "TRANS_TO")%>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="TRANSFERED_TO_EPIN_NO">
+                                                        <ItemTemplate>
+                                                            <a href='AdminPinHistoryDet.aspx?invoiceno=<%# DataBinder.Eval(Container.DataItem, "TRANSFERED_TO_EPIN_NO")%>'
+                                                                onclick="NewWindow(this.href,'MList','720','300','yes','center');return false"
+                                                                onfocus="this.blur();">
+                                                                <%# DataBinder.Eval(Container.DataItem, "TRANSFERED_TO_EPIN_NO")%>
+                                                            </a>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                    </asp:TemplateField>
+                                                   
+                                                    <asp:TemplateField HeaderText="TRANSFER_DATE">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "TEANSFER_DATE")%>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="NO_OF_EPINS_TRANSFERED">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "NO_OF_EPINS_TRANSFERED")%>
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                                <FooterStyle HorizontalAlign="Center" VerticalAlign="Middle" BorderStyle="None" Height="20px" />
+                                                <RowStyle VerticalAlign="Middle" HorizontalAlign="Center" Height="22px" />
+                                                <PagerStyle Font-Size="12px" />
+                                                <HeaderStyle HorizontalAlign="Center" Height="20px" />
+                                                <PagerSettings PageButtonCount="25" />
+                                                <EmptyDataTemplate>
+                                                    <center>
+                                                        <b style="color: red; font-weight: bold; font-size: 14px">--Ooops User Pin Details Not
+                                                            Found--</b></center>
+                                                </EmptyDataTemplate>
+                                            </asp:GridView>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+               
+                            <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy"
+                                PopupButtonID="txtFromDate" TargetControlID="txtFromDate">
+                            </ajaxToolkit:CalendarExtender>
+                            <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy"
+                                PopupButtonID="txtToDate" TargetControlID="txtToDate">
+                            </ajaxToolkit:CalendarExtender>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <script language="javascript" type="text/javascript">
+function CallPrint(strid)
+{
+ var prtContent = document.getElementById(strid);
+ var WinPrint = window.open('','','letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+ WinPrint.document.write(prtContent.innerHTML);
+ WinPrint.document.close();
+ WinPrint.focus();
+ WinPrint.print();
+ WinPrint.close();
+ prtContent.innerHTML=strOldOne;
+}
+
+
+    </script>
+
+</asp:Content>

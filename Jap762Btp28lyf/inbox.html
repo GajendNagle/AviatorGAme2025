@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Inbox</title>
+    <link href="//cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        a:hover {
+            color: #fff;
+        }
+
+        a {
+            color: #10918e;
+        }
+
+        .modal.fade.show .modal-dialog {
+            bottom: 0;
+            opacity: 1;
+            margin: 22px;
+        }
+
+        .unread {
+            background: #f1f1f1;
+        }
+
+            .unread:hover {
+                background: #d9d8d8;
+            }
+
+        .repcomment {
+            border: 1px solid #a2a2a26e;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .img-circle {
+            border-radius: 50%;
+            border: 3px solid #e6e6e6;
+        }
+
+        button:focus {
+            outline: none;
+            outline: none;
+        }
+
+        .img-thumbnail {
+            border: none !important;
+        }
+
+        .modal-backdrop {
+            position: relative;
+        }
+
+        .table {
+            border-spacing: 0px;
+        }
+
+        .list-group-item {
+            border: none;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            box-sizing: border-box;
+            /*padding-top: 0px;*/
+            width: 20px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg></div><div class="container-fluid"><div class="row background-body-color"><div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen"><div class="mt-5 pb-3"><div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c"><a href="#" class="text-white ml-2 fs-20" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a><a href="#" class="btn-toggle-mobile-side-bar"><div></div><div></div><div></div></a><a href="#" class="logo flex flex-ai-c absolute-center">Inbox<div class="loged-in"></div></a></div><div class="mobile-side-bar"><nav class="menu-box-1"><div class="text-center pt-2"><img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;"></div><hr class="mt-2 bg-white"><ul class="list"><li><a href="game-index.html" class="block menui"><div class="icircles"><i class="fa fa-house m-1"></i></div>Home</a></li><li><a href="profile.html" class="block menui"><div class="icircles"><i class="fa fa-user m-1"></i></div>Profile</a></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa-solid fa-file-import m-1"></i></div>Affiliate<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="My-team.html" class="block menui2">My Team</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="My-directs.html" class="block menui2">My Directs</a></li></ul></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-money-bill-wave m-1"></i></div>Deposit<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="add-balance-history.html" class="block menui2">Deposit History</a></li></ul></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-building-columns m-1"></i></div>Main Wallet<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="Transfer-to-User.html" class="block menui2">Transfer to user</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a></li></ul></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-building-columns m-1"></i></div>Growth Wallet<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a></li></ul></li><li><a href="invite.html" class="block menui"><div class="icircles"><i class="fa fa-envelope-open-text m-1"></i></div>Promotion</a></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-money-bill-1 m-1"></i></div>Withdraw<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a></li><li><i class="fa-solid fa-diamond ds"></i><a class="block menui2" href="withdraw-history.html">Withdraw History</a></li></ul></li><li><a href="inbox.html" class="block menui"><div class="icircles"><i class="fa fa-envelope m-1"></i></div>Inbox</a></li><li><a href="news.html" class="block menui"><div class="icircles"><i class="fa fa-newspaper m-1"></i></div>News</a></li><li><a href="Sign-Out.aspx" class="block menui"><div class="icircles"><i class="fa fa-right-from-bracket m-1"></i></div>Log Out</a></li></ul></nav></div><div class="main-content mb-0" style="padding-top: 25px;"><div class="row section_row_inner pb-4"><div class="col-12"><div class="card"><div class="row"><div class="col-12 pb-1"><div class="card-body inbox-panel px-3"><a href="create-ticket.html" class="btn m-b-20 p-10 btn-block waves-effect btn-theme waves-light">Compose<i class="fa-regular fa-paper-plane ml-1"></i></a><div class="row mx-0 mt-2"><div class="col-md-8 col-8 list-group-item m-0" style="border: 1px solid #dbdbdb;"><a href="inbox.html" class="inboxcolor"><i class="fa-solid fa-envelope inboxcolor mr-1"></i>Inbox</a><span class="badge badge-success ml-auto" id="Tot_Msg_Cunt"></span></div><button type="button" style="width: 12%;" class="btn btn-themecolor2 mx-md-3 mx-2" onclick="RefLoad()"><i class="fa-solid fa-arrow-left"></i></button><button type="button" style="width: 12%;" class="btn btn-themecolor2" onclick="DeleteTitcketr()"><i class="fa-solid fa-trash-can"></i></button></div></div></div><div class="col-12 p-0 m-0"><div class="card-body p-0 mx-3"><div><div class="inbox-center"><table class="table table-striped table-hover no-wrap m-0 p-0"><tbody id="ticket_list"></tbody></table><div class="email-read-box px-3 ps ps--active-y" id="ticket_viewIn" style="display: none;"></div></div></div></div></div></div></div></div></div></div></div></div><a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a><div id="footer-bar" class="footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen" style="transform: translateX(0);"><a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a><a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a><a href="invite.html"><div class="footer-ball"><img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;"></div><div class="footer-daimond-text">Promotion</div></a><a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a><a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a></div><div class="card card-preview mb-0"><div class="card-inner inner-tabs bg-light-gray"></div></div></div></div>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="Handler_js/tickets.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetTicketList();
+        });
+    </script>
+</body>
+</html>

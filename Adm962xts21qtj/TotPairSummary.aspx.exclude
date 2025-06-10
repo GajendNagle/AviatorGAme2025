@@ -1,0 +1,135 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" StylesheetTheme="MySkin" CodeFile="TotPairSummary.aspx.cs" Inherits="Admin_TotPairSummary" Title="User Total Pair Summary" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+    </script>
+    <table width="100%" height="36" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="left" style="width: 100%; height: 30px; text-align: right;" valign="top">
+                <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif"   OnClick="btnexporttoexport_Click"/>
+                &nbsp;
+                <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')"/>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" valign="top" style="height: 396px">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                    <tr>
+                        <td align="center"  style="width: 998px; height: 80px; background-image: url(../UserPanel_Images/MsgDetailHdr_Bg.jpg)" valign="middle">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                                <tr>
+                                    <td align="center" style="width: 100%; height: 99px;" valign="top">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 60px;">
+                                            <tr>
+                                                <td align="right" style="width: 238px; height: 21px; text-align: right;" valign="middle">Filter By :</td>
+                                                <td align="center" style="width: 186px; height: 21px" valign="middle">
+                                                    <asp:DropDownList ID="ddlSearchBy" runat="server" AutoPostBack="true" Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="ddlSearchBy_SelectedIndexChanged" Width="145px" CssClass="ComposeTxtBx" Height="30px">
+                                                        <asp:ListItem Value="Pair">Total PAIR between</asp:ListItem>
+                                                        <asp:ListItem Value="MemId">Member ID</asp:ListItem>
+                                                    </asp:DropDownList>
+                                                </td>
+                                                <td align="left" style="width: 148px; height: 21px" valign="middle">
+                                                    <asp:Panel ID="pnlPairs" runat="server" Visible="true" Width="169px">
+                                                        <asp:TextBox ID="txtPairFrom" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana" Font-Size="11px" Width="60px" Height="30px"></asp:TextBox>
+                                                        and
+                                                        <asp:TextBox ID="txtPairTo" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana" Font-Size="11px" Width="60px" Height="30px"></asp:TextBox>
+                                                    </asp:Panel>
+                                                    <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Text="" Width="87px" CssClass="ComposeTxtBx" Visible="False" AutoPostBack="True" OnTextChanged="txtSearch_TextChanged" Height="30px"></asp:TextBox>
+                                                </td>
+                                                <td align="left" style="width: 74px; height: 21px" valign="middle">
+                                                    <asp:Button ID="btnSearch" runat="server" CssClass="Btn" Font-Names="Verdana" Font-Size="10px" OnClick="btnSearch_Click" Text="FIND" Height="30px" />
+                                                </td>
+                                                <td align="right" style="width: 173px; height: 21px" valign="middle">
+                                                    <%=PageNo %>
+                                                    -
+                                                    <%=Pagesize%>
+                                                    of
+                                                    <%=lblTotRec %>
+                                                </td>
+                                                <td align="left" style="width: 288px; height: 21px; padding-left: 10px;" valign="middle">
+                                                    <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="50px" CssClass="ComposeTxtBx" Height="30px"></asp:DropDownList>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Size="13px" ForeColor="Red" Width="100%"></asp:Label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="width: 100%;" valign="top">
+                            <asp:Label ID="Label1" runat="server"></asp:Label>
+                            <asp:GridView ID="grdUserDtl" runat="server" PagerSettings-Visible="false" PageSize="100" ShowFooter="True" Width="100%" OnRowDataBound="grdUserDtl_RowDataBound">
+                                <PagerSettings Visible="False" />
+                                <Columns>
+                                    <asp:TemplateField HeaderText="SNO.">
+                                        <ItemTemplate>
+                                            <%# Container.DataItemIndex+1 %>
+                                            .
+                                        </ItemTemplate>
+                                        <ControlStyle Width="100px" />
+                                        <ItemStyle HorizontalAlign="Center" Width="50px" />
+                                        <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                                    </asp:TemplateField>
+                                </Columns>
+                                <FooterStyle HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                                    <span style="font: Bold 13px verdana; color: Red">---!!! Ooops, Pair Details List Not Found !!!---</span>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                        </td>
+                    </tr>
+                </table>
+                <table align="center" style="width: 100%;">
+                    <tr>
+                        <td align="left">
+                            <asp:Panel ID="Panel1" runat="server" Visible="False">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 47px">
+                                    <tr>
+                                        <td align="left" style="font-weight: bold; font-size: 11px; width: 499px; color: #ff3333; font-family: 'Poppins', sans-serif; height: 12px; text-decoration: underline" valign="middle">*TERMS :-<br /></td>
+                                        <td align="left" style="font-weight: bold; font-size: 11px; width: 292px; color: #ff3333; font-family: 'Poppins', sans-serif; height: 12px; text-decoration: underline" valign="middle">
+                                            <br />
+                                            <br />
+                                        </td>
+                                        <td align="left" style="font-weight: bold; font-size: 11px; width: 399px; color: #ff3333; font-family: 'Poppins', sans-serif; height: 12px; text-decoration: underline" valign="middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="font-weight: normal; font-size: 11px; color: #000000; line-height: 15px; font-family: 'Poppins', sans-serif; height: 5px; width: 499px;" valign="top">
+                                            <strong>
+                                                <li>LEFTUSERCNT -</li>
+                                            </strong>
+                                            Left Count (new joining).
+                                            <li>
+                                                <strong>RIGHTUSER CNT -</strong>&nbsp;
+                                                Right Count (new joining)
+                                            </li>
+                                            <li>
+                                                <strong>TOTPAIR : </strong>
+                                                Pair - Lapse Pair. 
+                                            </li>
+                                        </td>
+                                        <td align="left" style="font-weight: normal; font-size: 11px; width: 399px; color: #000000; line-height: 15px; font-family: 'Poppins', sans-serif; height: 5px" valign="top">
+                                            <li><strong>LAPSEPAIR -</strong> Lapse Pair. </li>
+                                            <li><strong>PAIR -</strong>Match Pairs. </li>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </asp:Panel>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>

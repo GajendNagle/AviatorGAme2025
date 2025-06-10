@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Account Setting</title>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/invite.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="main-content mt-5 pb-3">
+                    <div class="pr-3 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="btn-toggle-mobile-side-bar">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </a>
+                        <a href="#" class="logo flex flex-ai-c absolute-center">
+                            Account Setting
+                            <div class="loged-in"></div>
+                        </a>
+                        <a href="profile.html" class="pl-3 text-white fs-20 arrowpad"><i class="fa fa-arrow-left-long"></i></a>
+                    </div>
+                    <div class="mobile-side-bar">
+                        <nav class="menu-box-1">
+                            <div class="text-center pt-2">
+                                <img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;">
+                            </div>
+                            <hr class="mt-2 bg-white">
+                            <ul class="list">
+                                <li>
+                                    <a href="game-index.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-house m-1"></i>
+                                        </div>Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-user m-1"></i>
+                                        </div>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa-solid fa-file-import m-1"></i>
+                                        </div>Affiliate
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-team.html" class="block menui2">My Team</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-directs.html" class="block menui2">My Directs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-wave m-1"></i>
+                                        </div>Deposit
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance-history.html" class="block menui2">Deposit History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Main Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-User.html" class="block menui2">Transfer to user</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Growth Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="invite.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope-open-text m-1"></i>
+                                        </div>Promotion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-1 m-1"></i>
+                                        </div>Withdraw
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-history.html">Withdraw History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="inbox.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope m-1"></i>
+                                        </div>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="news.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-newspaper m-1"></i>
+                                        </div>News
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Sign-Out.aspx" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-right-from-bracket m-1"></i>
+                                        </div>Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="profilecard"></div>
+                    <div class="p-3 marginbtm">
+                        <div class="col-12 m-auto py-2 balanceprofile">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="px-0">
+                                    <div id="prof_pic" class="text-center"></div>
+                                </div>
+                                <div class="justify-end">
+                                    <a href="change-avtar.html" class="linkclr">Change avatar<i class="fa fa-angle-right ml-2"></i></a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex align-items-center">
+                                <div class="col-3 px-0 text-center">USER ID</div>
+                                <div class="justify-end">
+                                    <span id="MemberId">...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-1 my-3 contents align-items-center p-3" style="margin-top: -60px !important;">
+                            <div>
+                                <span class="btn themebtn px-3"><i class="fa-solid fa-address-card"></i></span>
+                            </div>
+                            <div class="justify-end">
+                                <a href="#" class="linkclr" id="dropdown1">Personal Information<i class="fa-solid fa-chevron-right ml-2"></i></a>
+                            </div>
+                        </div>
+                        <div class="dropdown-box" id="panel1">
+                            <form class="form-horizontal" onsubmit="return SavePerInfo(),!1" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12"><span class="text-muted">User Name</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" id="txtFirstName" placeholder="First name &amp; last name" maxlength="50" class="form-control form-control-line" required>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa fa-user iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="example-email" class="col-md-12"><span class="text-muted">Email-ID</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="email" placeholder="Your e-mail address" id="txtEmailid" maxlength="50" class="form-control form-control-line" required>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa-solid fa-envelope iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12"><span class="text-muted">Mobile</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" placeholder="Member contact number" id="txtMobiUSD" class="form-control form-control-line" maxlength="15" required>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa-solid fa-mobile-screen-button iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12"><span class="text-muted">City</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" placeholder="Your location" id="txtCity" maxlength="30" required="" class="form-control form-control-line">
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa-solid fa-building iconsty"></i></span>
+                                        <input type="hidden" id="hlat" value="">
+                                        <input type="hidden" id="hlong" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span class="text-muted">Country</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <select class="form-control form-control-line" id="ddlcountry" required><option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>American Samoa</option><option>Andorra</option><option>Angola</option><option>Anguilla</option><option>Antarctica</option><option>Antigua and Barbuda</option><option>Argentina</option><option>Armenia</option><option>Aruba</option><option>Australia</option><option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option><option>Belize</option><option>Benin</option><option>Bermuda</option><option>Bhutan</option><option>Bolivia</option><option>Bosnia and Herzegovina</option><option>Botswana</option><option>Bouvet Island</option><option>Brazil</option><option>British Indian Ocean Territory</option><option>Brunei Darussalam</option><option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option><option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Cape Verde</option><option>Cayman Islands</option><option>Central African Republic</option><option>Chad</option><option>Chile</option><option>China</option><option>Christmas Island</option><option>Cocos Islands</option><option>Colombia</option><option>Comoros</option><option>Congo</option><option>Congo, Democratic Republic of the</option><option>Cook Islands</option><option>Costa Rica</option><option>Cote d'Ivoire</option><option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option><option>Estonia</option><option>Ethiopia</option><option>Falkland Islands</option><option>Faroe Islands</option><option>Fiji</option><option>Finland</option><option>France</option><option>French Guiana</option><option>French Polynesia</option><option>Gabon</option><option>Gambia</option><option>Georgia</option><option>Germany</option><option>Ghana</option><option>Gibraltar</option><option>Greece</option><option>Greenland</option><option>Grenada</option><option>Guadeloupe</option><option>Guam</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option><option>Heard Island and McDonald Islands</option><option>Honduras</option><option>Hong Kong</option><option>Hungary</option><option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option><option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option><option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Macao</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option><option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islands</option><option>Martinique</option><option>Mauritania</option><option>Mauritius</option><option>Mayotte</option><option>Mexico</option><option>Micronesia</option><option>Moldova</option><option>Monaco</option><option>Mongolia</option><option>Montenegro</option><option>Montserrat</option><option>Morocco</option><option>Mozambique</option><option>Myanmar</option><option>Namibia</option><option>Nauru</option><option>Nepal</option><option>Netherlands</option><option>Netherlands Antilles</option><option>New Caledonia</option><option>New Zealand</option><option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>Norfolk Island</option><option>North Korea</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Palau</option><option>Palestinian Territory</option><option>Panama</option><option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Pitcairn</option><option>Poland</option><option>Portugal</option><option>Puerto Rico</option><option>Qatar</option><option>Romania</option><option>Russian Federation</option><option>Rwanda</option><option>Saint Helena</option><option>Saint Kitts and Nevis</option><option>Saint Lucia</option><option>Saint Pierre and Miquelon</option><option>Saint Vincent and the Grenadines</option><option>Samoa</option><option>San Marino</option><option>Sao Tome and Principe</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option><option>Seychelles</option><option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Georgia</option><option>South Korea</option><option>Spain</option><option>Sri Lanka</option><option>Sudan</option><option>Suriname</option><option>Svalbard and Jan Mayen</option><option>Swaziland</option><option>Sweden</option><option>Switzerland</option><option>Syrian Arab Republic</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option><option>Thailand</option><option>The Former Yugoslav Republic of Macedonia</option><option>Timor-Leste</option><option>Togo</option><option>Tokelau</option><option>Tonga</option><option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>United States Minor Outlying Islands</option><option>Uruguay</option><option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option><option>Vietnam</option><option>Virgin Islands, British</option><option>Virgin Islands, U.S.</option><option>Wallis and Futuna</option><option>Western Sahara</option><option>Yemen</option><option>Zambia</option><option>Zimbabwe</option></select>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa-solid fa-earth-americas iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button id="updateDetail" class="btn btnsty mx-2">Update Detail<i class="fa-solid fa-file-import ml-2"></i></button>
+                                    </div>
+                                </div>
+                                <div id="SvPInfo"></div>
+                            </form>
+                        </div>
+                        <div class="card p-1 my-3 contents align-items-center p-3">
+                            <div>
+                                <span class="btn themebtn px-3"><i class="fa-solid fa-lock"></i></span>
+                            </div>
+                            <div class="justify-end">
+                                <a href="#" class="linkclr" id="dropdown2">Change Password<i class="fa-solid fa-chevron-right ml-2"></i></a>
+                            </div>
+                        </div>
+                        <div class="dropdown-box" id="panel2">
+                            <h5 class="text-themecolor">Login Password</h5>
+                            <form class="form-horizontal form-material mt-4" onsubmit="return SLoginPWD(),!1" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12">Old login password*</label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="password" class="form-control form-control-line" placeholder="******" id="txtoldpass" maxlength="20" required="">
+                                        <span class="input-group-text bg-white eyeclr" id="passwordIcon1"><i class="fa fa-eye-slash" onclick="myoldPsw()"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12">New login password*</label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="password" class="form-control form-control-line" placeholder="******" id="txtnewpass" maxlength="20" required="">
+                                        <span class="input-group-text bg-white eyeclr" id="passwordIcon2"><i class="fa fa-eye-slash" onclick="mynewPsw()"></i></span>
+                                    </div>
+                                </div>
+                                <div id="SLgPWD"></div>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button class="btn btnsty mx-2">Update Login Password<i class="fa-solid fa-file-import ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+                            <h5 class="text-themecolor mt-2 text-orange">Transaction Password</h5>
+                            <form class="form-horizontal form-material mt-4" onsubmit="return SSecurityPWD(),!1" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12">Old Transaction password*</label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="password" class="form-control form-control-line" placeholder="******" id="txtoldsecPWD" maxlength="20" required="">
+                                        <span class="input-group-text bg-white eyeclr" id="passwordIcon3"><i class="fa fa-eye-slash" onclick="secoldPsw()"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12">New Transaction password*</label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="password" class="form-control form-control-line" placeholder="******" id="txtNewsecPWD" maxlength="20" required="">
+                                        <span class="input-group-text bg-white eyeclr" id="passwordIcon4"><i class="fa fa-eye-slash" onclick="secnewPsw()"></i></span>
+                                    </div>
+                                </div>
+                                <div id="SSecPWD"></div>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button class="btn btnsty mx-2" id="passwordIcon2">Update Transaction Password<i class="fa-solid fa-file-import ml-2"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card p-1 my-3 contents align-items-center p-3 d-none">
+                            <div>
+                                <span class="btn themebtn px-3"><i class="fa-solid fa-wallet"></i></span>
+                            </div>
+                            <div class="justify-end">
+                                <a href="#" class="linkclr" id="dropdown4">Bank Account<i class="fa-solid fa-chevron-right ml-2"></i></a>
+                            </div>
+                        </div>
+                        <div class="dropdown-box d-none" id="panel4">
+                            <form class="form-horizontal form-material" onsubmit="return SaveBankInfo(),!1" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span class="text-muted">Choose Account Type*</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <select class="form-control form-control-line" id="ddlAccType" required>
+                                            <option value="">Choose Account Type</option>
+                                            <option>Saving Account</option>
+                                            <option>Current Account</option>
+                                        </select>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa-solid fa-earth-americas iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12"><span class="text-muted">A/c Name*</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" id="txtAccFName" placeholder="Account holder name" maxlength="50" class="form-control form-control-line" required>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa fa-user iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-sm-12"><span class="text-muted">Bank Name*</span></label>
+                                    <div class="col-sm-12 input-group">
+                                        <select class="form-control form-control-line" id="txtBakName" required>
+                                            <option value="">Choose Your Bank</option>
+                                            <option>Abhyudaya Co-operative Bank Ltd.</option>
+                                            <option>Abu Dhabi Commercial Bank Ltd.</option>
+                                            <option>Allahabad Bank</option>
+                                            <option>American Express Bank Ltd.</option>
+                                            <option>Andhra Bank</option>
+                                            <option>Antwerp Diamond Bank N.V.</option>
+                                            <option>Apna Sahakari Bank Ltd</option>
+                                            <option>Apex Bank</option>
+                                            <option>Arab Bangladesh Bank Limited</option>
+                                            <option>Axis Bank</option>
+                                            <option>Bandhan Bank</option>
+                                            <option>Bank Internasional Indonesia</option>
+                                            <option>Bank of America N.A.</option>
+                                            <option>Bank of Bahrain &amp; Kuwait BSC</option>
+                                            <option>Bank of Baroda</option>
+                                            <option>Bank of Ceylon</option>
+                                            <option>Bank of India</option>
+                                            <option>Bank of Maharashtra</option>
+                                            <option>Barclays Bank Plc</option>
+                                            <option>Baroda Rajasthan Kshetriya Garmin Bank </option>
+                                            <option>BASSEIN CATHOLIC CO-OPERATIVE BANK LTD</option>
+                                            <option>BNP PARIBAS</option>
+                                            <option>Calyon Bank</option>
+                                            <option>Canara Bank</option>
+                                            <option>Catholic Syrian Bank Ltd.</option>
+                                            <option>Central Bank of India</option>
+                                            <option>Chembur Nagarik Sahakari Bank LTD.</option>
+                                            <option>Chinatrust Commercial Bank Ltd.</option>
+                                            <option>Cho Hung Bank</option>
+                                            <option>Citibank N.A.</option>
+                                            <option>City Union Bank Ltd.</option>
+                                            <option>Coastal Local Area Bank Ltd</option>
+                                            <option>Corporation Bank</option>
+                                            <option>DBS Bank India</option>
+                                            <option>Dena Bank</option>
+                                            <option>Dena Gujarat Garmin Bank</option>
+                                            <option>Deutsche Bank AG</option>
+                                            <option>Development Credit Bank Ltd.</option>
+                                            <option>DHANLAXMI BANK</option>
+                                            <option>Dombivali Nagarik Sahakari Bank LTD.</option>
+                                            <option>Export-Import Bank of India</option>
+                                            <option>Federal bank</option>
+                                            <option>Fino payment bank</option>
+                                            <option>HDFC Bank</option>
+                                            <option>ICICI Bank</option>
+                                            <option>IDBI Bank Industrial Development Bank of India</option>
+                                            <option>IDBI Bank Limited</option>
+                                            <option>Idfc bank</option>
+                                            <option>India Post Payments Bank</option>
+                                            <option>Indian Bank</option>
+                                            <option>Indian Overseas Bank</option>
+                                            <option>IndusInd Bank Limited</option>
+                                            <option>Industrial Investment Bank of India Ltd.</option>
+                                            <option>ING Vysya Bank</option>
+                                            <option>J P Morgan Chase Bank, National Association</option>
+                                            <option>JAMMU AND KASHMIR BANK</option>
+                                            <option>Karnataka Bank</option>
+                                            <option>Karur Vysya Bank Limited.</option>
+                                            <option>Khattri Co-operative Urban Bank Ltd</option>
+                                            <option>Kotak Mahindra Bank Limited</option>
+                                            <option>Krung Thai Bank Public Company Limited</option>
+                                            <option>Lakshmi Vilas Bank</option>
+                                            <option>Mashreqbank psc</option>
+                                            <option>Mizuho Corporate Bank Ltd.</option>
+                                            <option>National Bank for Agriculture and Rural Development</option>
+                                            <option>National Housing Bank</option>
+                                            <option>North Eastern Development Finance Corporation</option>
+                                            <option>Oman International Bank S A O G</option>
+                                            <option>Oriental Bank of Commerce</option>
+                                            <option>PASCHIM BANGA GRAMIN BANK</option>
+                                            <option>Pragathi Krishna Gramin Bank</option>
+                                            <option>Prathama Bank</option>
+                                            <option>Punjab &amp; Sind Bank</option>
+                                            <option>Punjab National Bank</option>
+                                            <option>RAJASTHAN MARUDHARA GRAMIN BANK</option>
+                                            <option>SARVA HARIYANA GRAMIN BANK</option>
+                                            <option>SARASWAT BANK</option>
+                                            <option>Small Industries Development Bank of India</option>
+                                            <option>Societe Generale</option>
+                                            <option>Sonali Bank</option>
+                                            <option>Standard Chartered Bank</option>
+                                            <option>State Bank of Bikaner and Jaipur</option>
+                                            <option>State Bank of Hyderabad</option>
+                                            <option>State Bank of India</option>
+                                            <option>State Bank of Mauritius Ltd.</option>
+                                            <option>State Bank of Mysore</option>
+                                            <option>State Bank of Patiala</option>
+                                            <option>Syndicate Bank</option>
+                                            <option>The Cosmos Co-operative Bank Ltd</option>
+                                            <option>Tripura Gramin Bank</option>
+                                            <option>Yes Bank</option>
+                                            <option>Union Bank Of India</option>
+                                            <option>United bank of india</option>
+                                            <option>UCO Bank</option>
+                                            <option>Vijaya Bank</option>
+                                            <option>Zila Sahkari Bank</option>
+                                        </select>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa-solid fa-earth-americas iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12"><span class="text-muted">A/c Number*</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="number" id="txtAccountNo" placeholder="Account number" maxlength="16" class="form-control form-control-line" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa fa-user iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12"><span class="text-muted">IFSC Code*</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" id="txtIFSCode" placeholder="Bank IFSC Code" maxlength="11" class="form-control form-control-line" onchange="getifsc(this.value)" required>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa fa-user iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12 d-flex justify-content-between">
+                                        <span class="text-muted">Pan Card*</span>
+                                        <a class="text-primary" href="KYC.html#panCard"><i class="bx bxs-edit me-1"></i>Update Pan-No</a>
+
+                                    </label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" class="form-control form-control-line" placeholder="Update PAN Number from KYC Section" disabled readonly="readonly" id="txtPanCard" maxlength="10" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" /></a>
+                                        <span class="input-group-text group-icon" id="basic-addon1"><i class="fa fa-user iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="ifscdt"></div>
+                                </div>
+                                <div class="form-group mb-3" style="display: none;">
+                                    <label class="col-md-12"><span class="text-muted">Upload Bank Account Proof*</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="File" class="form-control form-control-line" id="bankFileuplaod" onchange="ShowBankImg(this);" />
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display: none;">
+                                    <div class="col-lg-12">
+                                        <p style="color: green; font-size: 12px; font-weight: 600;"><i class="mdi mdi-arrow-right"></i>Maximum File size 500 KB.Only GIF, JPEG, PNG, BMP files are allowed !</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <img id="ImgBANKP" alt="Bank Proof" width="80" height="80" />
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3" style="display: none;">
+                                    <label class="col-md-12"><span class="text-danger">OTP Password*</span></label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" id="txtbankotp" maxlength="15" placeholder="Please enter your otp for update your Bank Detail" class="form-control form-control-line" />
+                                    </div>
+                                </div>
+                                <div class="form-group d-flex justify-content-end px-3">
+                                    <a class="mt-2 text-succes" href="KYC.html#bankProof"><i class="bx bx-upload me-1"></i>Upload Bank Proof</a>
+                                </div>
+                                <div class="form-group" id="SvBnk"></div>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button class="btn px-3 btnsty" id="SubmitBankInfo">Submit<i class="fa-solid fa-right-to-bracket ml-2"></i></button>
+                                        <button type="button" class="btn btn-danger" style="display: none;">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card p-1 my-3 contents align-items-center p-3">
+                            <div>
+                                <span class="btn themebtn px-3"><i class="fa-solid fa-wallet"></i></span>
+                            </div>
+                            <div class="justify-end">
+                                <a href="#" class="linkclr" id="dropdown3">Change Wallet Address<i class="fa-solid fa-chevron-right ml-2"></i></a>
+                            </div>
+                        </div>
+                        <div class="dropdown-box" id="panel3">
+                            <!--<form class="form-horizontal form-material" onsubmit="return SaveTRONInfo(),!1" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12">Wallet-Address(TRC20)*</label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" class="form-control form-control-line" id="txtTRONAddress" placeholder="e.g. 0x9bb56c2b4dbe5a06d79911c9899b6f817696acfc" autocomplete="off" maxlength="50" required>
+                                        <span class="input-group-text" id="passwordIcon1"><i class="fa-regular fa-gem iconsty"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="divTRXOtp" style="display: none;">
+                                    <label class="col-md-12" style="color: Red;">OTP Password*</label>
+                                    <div class="col-md-12">
+                                        <input type="text" id="txtTRXOtp" maxlength="15" placeholder="Please enter your otp for update your USDT address" class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div id="SvTRX"></div>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button class="btn px-3 btnsty" id="submitTronadd">Submit<i class="fa-solid fa-right-to-bracket ml-2"></i></button>
+                                        <button type="button" class="btn btn-danger" style="display: none;">Cancel</button>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="txtTRXAdds">
+                            </form>-->
+                            <form class="form-horizontal form-material" onsubmit="SaveBinanceInfo(); return false;" action="#">
+                                <div class="form-group mb-3">
+                                    <label class="col-md-12">USDT.BEP20 Wallet-Address*</label>
+                                    <div class="col-md-12 input-group">
+                                        <input type="text" class="form-control form-control-line" id="txtBinanceAddress" placeholder="e.g. 0x9bb56c2b4dbe5a06d79911c9899b6f817696acfc" autocomplete="off" maxlength="50" required>
+                                        <span class="input-group-text" id="passwordIcon1"><i class="fa-regular fa-gem iconsty"></i></span>
+                                    </div>
+
+                                </div>
+                                <div class="form-group" id="divbnbotp" style="display: none;">
+                                    <label class="col-md-12" style="color: Red;">OTP Password*</label>
+                                    <div class="col-md-12">
+                                        <input type="text" id="txtBnbOtp" maxlength="15" placeholder="Please enter your otp for update your USDT address" class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <span id="SvBNB"></span>
+                                <div class="form-group d-flex justify-content-center mb-0">
+                                    <div>
+                                        <button class="btn px-3 btnsty" id="submitBNBadd">Submit<i class="fa-solid fa-right-to-bracket ml-2"></i></button>
+                                        <button type="button" class="btn btn-danger" style="display: none;">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+            <div id="footer-bar" class="row footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen pt-2 pb-0" style="transform: translateX(0);">
+                <a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                <a href="invite.html" class="">
+                    <div class="footer-ball">
+                        <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                    </div>
+                    <div class="footer-daimond-text">Promotion</div>
+                </a>
+                <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                <a href="profile.html" class="active-nav"><i class="fa-solid fa-user"></i><span>Account</span></a>
+            </div>
+        </div>
+    </div>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="Handler_js/Account-Setting.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js?ver=1.1"></script>
+    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dropdown1').click(function () {
+                $(this).children().toggleClass("rotate");
+                $("#panel1").slideToggle("slow");
+            })
+            $('#dropdown2').click(function () {
+                $(this).children().toggleClass("rotate");
+                $("#panel2").slideToggle("slow");
+            })
+            $('#dropdown3').click(function () {
+                $(this).children().toggleClass("rotate");
+                $("#panel3").slideToggle("slow");
+            })
+            $('#dropdown4').click(function () {
+                $(this).children().toggleClass("rotate");
+                $("#panel4").slideToggle("slow");
+            })
+        });
+        function myoldPsw() {
+            var Oldpsw = document.getElementById("txtoldpass");
+            var icon1 = document.getElementById("passwordIcon1");
+            if (Oldpsw.type === "password") {
+                Oldpsw.type = "text";
+                icon1.innerHTML = '<i class="fa fa-eye" style="font-size: 16px; color: #e2981b;" onclick="myoldPsw()"></i>';
+            } else {
+                Oldpsw.type = "password";
+                icon1.innerHTML = '<i class="fa fa-eye-slash" style="font-size: 16px; color: #e2981b;" onclick="myoldPsw()"></i>';
+            }
+        }
+        function mynewPsw() {
+            var Newpsw = document.getElementById("txtnewpass");
+            var icon2 = document.getElementById("passwordIcon2");
+            if (Newpsw.type === "password") {
+                Newpsw.type = "text";
+                icon2.innerHTML = '<i class="fa fa-eye" style="font-size: 16px; color: #e2981b;" onclick="mynewPsw()"></i>';
+            } else {
+                Newpsw.type = "password";
+                icon2.innerHTML = '<i class="fa fa-eye-slash" style="font-size: 16px; color: #e2981b;" onclick="mynewPsw()"></i>';
+            }
+        }
+        function secoldPsw() {
+            var SQoldpsw = document.getElementById("txtoldsecPWD");
+            var icon3 = document.getElementById("passwordIcon3");
+
+            if (SQoldpsw.type === "password") {
+                SQoldpsw.type = "text";
+                icon3.innerHTML = '<i class="fa fa-eye" style="font-size: 16px; color: #e2981b;" onclick="secoldPsw()"></i>';
+            } else {
+                SQoldpsw.type = "password";
+                icon3.innerHTML = '<i class="fa fa-eye-slash" style="font-size: 16px; color: #e2981b;" onclick="secoldPsw()"></i>';
+            }
+        }
+        function secnewPsw() {
+            var SQnewpsw = document.getElementById("txtNewsecPWD");
+            var icon4 = document.getElementById("passwordIcon4");
+
+            if (SQnewpsw.type === "password") {
+                SQnewpsw.type = "text";
+                icon4.innerHTML = '<i class="fa fa-eye" style="font-size: 16px; color: #e2981b;" onclick="secnewPsw()"></i>';
+            } else {
+                SQnewpsw.type = "password";
+                icon4.innerHTML = '<i class="fa fa-eye-slash" style="font-size: 16px; color: #e2981b;" onclick="secnewPsw()"></i>';
+            }
+        }
+    </script>
+</body>
+</html>

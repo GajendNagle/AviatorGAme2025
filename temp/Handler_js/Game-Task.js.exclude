@@ -1,0 +1,433 @@
+﻿function DashboardSummary() {
+
+    $.getJSON('../Handlers/Inner_Page_Summary.ashx',
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                var wa = '';
+                for (var i = 0; i < OrjsonDS.length; i++) {
+                    //$('#GMwalletBalance').html(OrjsonDS[i].cWalletBal + "TRX");
+                    //$('#gmwltbal').html(OrjsonDS[i].GMWalletBal);
+                    //$('#MemberId').html(OrjsonDS[i].MemID);
+                    $('#prof_pic').attr('src', "../../" + OrjsonDS[i].Mem_Profl_Pic + "");
+
+                }
+            }
+        });
+}
+//////////////
+function taskAddfundwlt(Tasktype) {
+    var btnid = "";
+    var Type = "";
+    var chngcssid = "";
+    if (Tasktype == 'taskaddfund') {
+        btnid = "taskaddfund";
+        Type = "1";
+        chngcssid = "successwidthAF";
+    }
+    else if (Tasktype == 'taskfirstinvite') {
+        btnid = "taskfirstinvite";
+        Type = "3";
+        chngcssid = "successwidthFI";
+    }
+
+    //$('#Msgs').html('<div class="modal-wrapper"><div class="userimage"><img class="imageseted" src="../UserProfileImg/103.gif" width="35" height="35" /><span class="loading-texted" >Loading...</span> <div class="wait-plese"><i class="fa fa-cogs" aria-hidden="true"></i> Please wait....</div></div></div>');
+
+    document.getElementById(btnid).disabled = true;
+    //$("#taskaddfund").html('Please wait...');
+    $("#" + btnid + "").html('Please wait...');
+
+    /* var txttxnpass = $("#txnpass").val();*/
+
+    var od = new FormData();
+
+    od.append("Type", Type);
+
+    $.ajax({
+        url: "Handlers/Game-Task.ashx?Vs=" + btnid,
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                //$('#Msgs').html('');
+
+                $("#" + btnid + "").addClass('disabled');
+                $("#" + btnid + "").removeClass('bg-theme');
+                $("#" + btnid + "").addClass('bg-themegray');
+                $("#" + chngcssid + "").addClass('successwidth');
+                //document.getElementById("taskaddfund").disabled = false;
+                document.getElementById(btnid).disabled = false;
+                //$("#taskaddfund").html('Start Task');
+                $("#" + btnid + "").html('Received');
+                swal({
+                    title: "Congratulation!",
+                    text: Response.Message,
+                    type: "success"
+                },
+                    function () {
+                        location.href = "../Game-Wallet-TxnHistory.html";
+                    });
+
+            }
+            else {
+                //$('#Msgs').html('');
+                document.getElementById(btnid).disabled = false;
+                $("#" + btnid + "").html('Start Task');
+                if (Response.detail == "1") {
+                    swal({
+                        title: "Alert!",
+                        text: Response.Message,
+                        type: "warning"
+                    });
+
+                }
+                else {
+                    location.href = Response.Message;
+                }
+            }
+        },
+        error: function (err) {
+            //$('#Msgs').html('');
+            swal({
+                title: "Ooops!",
+                text: err.statusText,
+                type: "error"
+            });
+            document.getElementById(btnid).disabled = false;
+            $("#" + btnid + "").html('Start Task');
+        }
+    });
+
+}
+///////////////
+function loadtaskaddfund(Tasktype) {
+    var btnid = "";
+    var Type = "";
+
+    if (Tasktype == 'loadtaskaddfund') {
+        btnid = "taskaddfund";
+        Type = "2";
+    }
+    var od = new FormData();
+
+    od.append("Type", Type);
+
+    $.ajax({
+        url: "Handlers/Game-Task.ashx?Vs=loadtaskaddfund",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                $('#taskaddfund').addClass('disabled');
+                $('#taskaddfund').removeClass('bg-theme');
+                $('#taskaddfund').addClass('bg-themegray');
+                $('#successwidthAF').addClass('successwidth');
+                $("#taskaddfund").html('Received');
+            }
+            else {
+                //location.href = Response.Message;
+            }
+        },
+        error: function (err) {
+            //$('#Msgs').html('');
+            //swal({
+            //    title: "Ooops!",
+            //    text: err.statusText,
+            //    type: "error"
+            //});
+
+        }
+    });
+
+}
+//////
+function loadtaskfirstinvite(Tasktype) {
+    var btnid = "";
+    var Type = "";
+
+    if (Tasktype == 'loadtaskfirstinvite') {
+        btnid = "taskfirstinvite";
+        Type = "4";
+    }
+    var od = new FormData();
+
+    od.append("Type", Type);
+
+    $.ajax({
+        url: "Handlers/Game-Task.ashx?Vs=loadtaskfirstinvite",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                $('#taskfirstinvite').addClass('disabled');
+                $('#taskfirstinvite').removeClass('bg-theme');
+                $('#taskfirstinvite').addClass('bg-themegray');
+                $('#successwidthFI').addClass('successwidth');
+                $("#taskfirstinvite").html('Received');
+            }
+            else {
+                //location.href = Response.Message;
+            }
+        },
+        error: function (err) {
+            //$('#Msgs').html('');
+            //swal({
+            //    title: "Ooops!",
+            //    text: err.statusText,
+            //    type: "error"
+            //});
+
+        }
+    });
+
+}
+////////
+function tasklrnrchg(type) {
+
+    var Type = type;
+    var Qusone = "";
+    var Qustwo = "";
+    var Qusthree = "";
+    if (Type == "Stepone") {
+        Qusone = $('#QstnOne').val();
+        Qustwo = $('#QstnTwo').val();
+        Qusthree = $('#QstnThree').val();
+       // alert('Qusone: ' + Qusone + ', Qustwo: ' + Qustwo + ', Qusthree: ' + Qusthree);
+
+        if (Qusone == "1" && Qustwo == "2" && Qusthree == "") {
+
+            // location.href = "task.html";
+            $('#quesstpone').addClass('d-none')
+            $('#quesstptwo').removeClass('d-none')
+            $('#quesstptwo').addClass('d-block')
+            $('#Msg').html('');
+        }
+        else if (Qusone == "1" && Qusthree == "3") {
+            $('#Msg').html('The answer is wrong, please select again');
+            return;
+        }
+        else if (Qustwo == "2" && Qusthree == "3") {
+            $('#Msg').html('The answer is wrong, please select again');
+            return;
+        }
+        else {
+            $('#Msg').html('The answer is wrong, please select again');
+            return;
+        }
+    }
+    if (Type == "Steptwo") {
+        Qusone = $('#QstnstOne').val();
+        Qustwo = $('#QstnstTwo').val();
+        Qusthree = $('#QstnstThree').val();
+        //alert('Qusone: ' + Qusone + ', Qustwo: ' + Qustwo + ', Qusthree: ' + Qusthree);
+
+        if (Qusone == "1" && Qusthree == "3" && Qustwo == "") {
+            $('#Msg2').html('The answer is wrong, please select again');
+            return;
+        }
+        else if (Qusone == "" && Qustwo == "2" && Qusthree == "3") {
+            $('#Msg2').html('The answer is wrong, please select again');
+            return;
+        }
+        else if (Qusone == "1" && Qustwo == "2" && Qusthree == "") {
+            $('#Msg2').html('The answer is wrong, please select again');
+            return;
+        }
+        else if (Qusone == "1" && Qustwo == "2" && Qusthree == "3") {
+            $('#Msg2').html('');
+            Type = "5";
+            var od = new FormData();
+
+            od.append("Type", Type);
+
+            $.ajax({
+                url: "Handlers/Game-Task.ashx?Vs=tasklrnrchg",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: od,
+                dataType: "json",
+                success: function (Response) {
+                    if (Response.Success) {
+                        swal({
+                            title: "Congratulation!",
+                            text: Response.Message,
+                            type: "success"
+                        },
+                            function () {
+                                location.href = "task.html";
+                            });
+                        $('#tasklrnaddfund').addClass('disabled');
+                        $('#tasklrnaddfund').removeClass('bg-theme');
+                        $('#tasklrnaddfund').addClass('bg-themegray');
+                        $('#successwidthLAW').addClass('successwidth');
+                        $("#tasklrnaddfund").html('Received');
+                    }
+                    else {
+                        
+                        swal({
+                            title: "Alert!",
+                            text: Response.Message,
+                            type: "error"
+                        });
+                    }
+                },
+                error: function (err) {
+                    //$('#Msgs').html('');
+                    swal({
+                        title: "Ooops!",
+                        text: err.statusText,
+                        type: "error"
+                    });
+
+                }
+            });
+        }
+        else {
+            $('#Msg2').html('The answer is wrong, please select again');
+            return;
+        }
+    }
+}
+////////////
+function loadtasklrnaddfund(Tasktype) {
+    var btnid = "";
+    var Type = "6";
+
+    var od = new FormData();
+
+    od.append("Type", Type);
+
+    $.ajax({
+        url: "Handlers/Game-Task.ashx?Vs=loadtasklrnaddfund",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                $('#tasklrnaddfund').addClass('disabled');
+                $('#tasklrnaddfund').removeClass('bg-theme');
+                $('#tasklrnaddfund').addClass('bg-themegray');
+                $('#successwidthLAW').addClass('successwidth');
+                $("#tasklrnaddfund").html('Received');
+            }
+            else {
+                //location.href = Response.Message;
+            }
+        },
+        error: function (err) {
+            //$('#Msgs').html('');
+            //swal({
+            //    title: "Ooops!",
+            //    text: err.statusText,
+            //    type: "error"
+            //});
+
+        }
+    });
+
+}
+///////////////////////
+function taskMoreorders(Tasktype) {
+    var btnid = "";
+    var Type = "";
+    var chngcssid = "";
+    if (Tasktype == '100') {
+        btnid = "taskorders";
+        Type = "7";
+        chngcssid = "sucswdthmo";
+    }
+    else if (Tasktype == '1000') {
+        btnid = "taskthsndorders";
+        Type = "8";
+        chngcssid = "sucswdthmtho";
+    }
+    else if (Tasktype == '10000') {
+        btnid = "tasktenthsndorders";
+        Type = "9";
+        chngcssid = "sucswdthmtntho";
+    }
+
+    //$('#Msgs').html('<div class="modal-wrapper"><div class="userimage"><img class="imageseted" src="../UserProfileImg/103.gif" width="35" height="35" /><span class="loading-texted" >Loading...</span> <div class="wait-plese"><i class="fa fa-cogs" aria-hidden="true"></i> Please wait....</div></div></div>');
+
+    document.getElementById(btnid).disabled = true;
+    //$("#taskaddfund").html('Please wait...');
+    $("#" + btnid + "").html('Please wait...');
+
+    /* var txttxnpass = $("#txnpass").val();*/
+
+    var od = new FormData();
+
+    od.append("Type", Type);
+
+    $.ajax({
+        url: "Handlers/Game-Task.ashx?Vs=" + btnid,
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                //$('#Msgs').html('');
+
+                $("#" + btnid + "").addClass('disabled');
+                $("#" + btnid + "").removeClass('bg-theme');
+                $("#" + btnid + "").addClass('bg-themegray');
+                $("#" + chngcssid + "").addClass('successwidth');
+                //document.getElementById("taskaddfund").disabled = false;
+                document.getElementById(btnid).disabled = false;
+                //$("#taskaddfund").html('Start Task');
+                $("#" + btnid + "").html('Received');
+                swal({
+                    title: "Congratulation!",
+                    text: Response.Message,
+                    type: "success"
+                },
+                    function () {
+                        location.href = "../Game-Wallet-TxnHistory.html";
+                    });
+
+            }
+            else {
+                //$('#Msgs').html('');
+                document.getElementById(btnid).disabled = false;
+                $("#" + btnid + "").html('Start Task');
+                if (Response.detail == "1") {
+                    swal({
+                        title: "Alert!",
+                        text: Response.Message,
+                        type: "warning"
+                    });
+
+                }
+                else {
+                    location.href = Response.Message;
+                }
+            }
+        },
+        error: function (err) {
+            //$('#Msgs').html('');
+            swal({
+                title: "Ooops!",
+                text: err.statusText,
+                type: "error"
+            });
+            document.getElementById(btnid).disabled = false;
+            $("#" + btnid + "").html('Start Task');
+        }
+    });
+
+}

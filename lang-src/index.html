@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Converter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index-assets/css/new-style.css">
+    <link rel="stylesheet" href="index-assets/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="row">
+        <p>Convert into other <mark>languages.</mark></p>
+        <div class="option-lang-item">
+            <a href="javascript:void(0)" class="menu-lang-converter"><div id="headerLanguages"></div></a>
+        </div>
+    </div>
+        <script src="index-assets/js/jquery-1.12.4.min.js"></script>
+        <!-- language converter script -->
+        <script>$(document).ready(function () { $(window).width(), $("#headerLanguages").click(function () { $(".dropdown-menu-s1").toggleClass("show") }), $("#headerLanguages").click(function (n) { $(".menu-lang-converter").addClass("show"), n.stopPropagation() }), $(document).click(function () { $(".dropdown-menu-s1").removeClass("show"), $(".collapse").removeClass("show") }), $(window).resize(function () { $(this).width() < 767 && $(".dropdown-menu-s1").removeClass("show") }) }); var parts = window.location.href.split("/")[3]; $.get("lang-src/languages.html?ver=1.4", function (n) { $("#headerLanguages").html(n) })</script>
+</body>
+</html>

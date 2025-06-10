@@ -1,0 +1,165 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    StylesheetTheme="mySkin" CodeFile="AdminUserAutoTriBonusTree.aspx.cs" Inherits="Adm962xts21qtj_AdminUserAutoTriBonusTree"
+    Title="Untitled Page" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr>
+            <td style="width: 100%; height: 53px; background-color: White" valign="top">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="width: 100%; height: 30px; text-align: right;" valign="top">
+                            
+                            <div style="float:right; text-align: right;margin-right:-165px;padding-top:5px; width: 50%">
+                                <asp:ImageButton ID="btnexporttoexport" runat="server" OnClick="btnexporttoexport_Click"
+                                    ImageUrl="../UserPanel_Images/excel_icon.gif" />
+                                <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png"
+                                    OnClientClick="return CallPrint('divPrint')" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="width: 100%; height: 30px" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" class="MtblCntReg" style="width: 100%">
+                                <tr>
+                                    <td class="lbl">
+                                        From Date :</td>
+                                    <td style="height: 21px">
+                                        <asp:TextBox ID="txtFromDate" runat="server" MaxLength="12" Width="87px"></asp:TextBox></td>
+                                    <td class="lbl">
+                                        To Date :</td>
+                                    <td style="height: 21px">
+                                        <asp:TextBox ID="txtToDate" runat="server" MaxLength="12" Width="87px"></asp:TextBox></td>
+                                    <td class="lbl">
+                                        Select One:</td>
+                                    <td>
+                                        <asp:DropDownList ID="DDLDownPos" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx"
+                                            OnSelectedIndexChanged="DDLDownPos_SelectedIndexChanged" Width="102px">
+                                            <asp:ListItem>All</asp:ListItem>
+                                            <asp:ListItem Value="md.MemID">Member ID</asp:ListItem>
+                                            <asp:ListItem Value="md.MName">Name</asp:ListItem>
+                                            <asp:ListItem Value="ATT.Slab">Slab</asp:ListItem>
+                                            <asp:ListItem Value="ATT.SlabSts">Slab Status</asp:ListItem>
+                                        </asp:DropDownList></td>
+                                    <td style="height: 21px">
+                                        <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px"
+                                            MaxLength="30" Text="" Width="87px" Visible="False"></asp:TextBox>
+                                        <asp:DropDownList ID="DDLFillItems" runat="server" CssClass="ComposeTxtBx"  Visible="False" Width="80px">
+                                            
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td style="height: 21px">
+                                        <asp:Button ID="btnSearch" runat="server" CssClass="OuterBtn" OnClick="btnSearch_Click"
+                                            Text="GO" /></td>
+                                    <td style="height: 21px" class="lblr">
+                                        <%=PageNo%>
+                                        -
+                                        <%=Pagesize %>
+                                        of &nbsp;<asp:Label ID="lblTotRec" runat="server" Font-Bold="True"></asp:Label>
+                                        &nbsp;<asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana"
+                                            Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx">
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                            </table>
+                            <asp:Label ID="lblMsg" runat="server" Font-Bold="True"></asp:Label></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" class="BoardStructure" style="padding-top: 10px;">
+                <div id="divPrint">
+                    <asp:Label ID="lblgvrecord" runat="server" Text=""></asp:Label>
+                    <asp:GridView ID="grdUserDtl" runat="server" Font-Bold="False" Width="100%" Font-Names="verdana"
+                        OnRowDataBound="grdUserDtl_RowDataBound" ShowFooter="True" PageSize="25" AutoGenerateColumns="False">
+                        <RowStyle Height="22px" HorizontalAlign="Center" VerticalAlign="Middle"></RowStyle>
+                        <Columns>
+                            <asp:TemplateField HeaderText="SrNo.">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex +1  %>
+                                    .
+                                </ItemTemplate>
+                                <ControlStyle Width="100px" />
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Slab($)">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "slab")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                               <asp:TemplateField HeaderText="Date">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Achievdt")%>
+                                </ItemTemplate>
+                               
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Down ID">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Downid")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                             <asp:TemplateField HeaderText="Slab Status">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "SlabSts")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Member ID">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "MemID")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Name">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "MName")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Mobile">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Mobile")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="EMAIL ID">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "EMAIL")%>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                         
+                           
+                           
+                        </Columns>
+                        <FooterStyle BorderStyle="None" Height="20px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        </FooterStyle>
+                        <PagerStyle Font-Size="12px"></PagerStyle>
+                        <EmptyDataTemplate>
+                            <span style="color: Red;">---!!! Ooops, Amount Withdrawn Details Not Found !!!---</span>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy"
+        PopupButtonID="txtFromDate" TargetControlID="txtFromDate">
+    </ajaxToolkit:CalendarExtender>
+    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy"
+        PopupButtonID="txtToDate" TargetControlID="txtToDate">
+    </ajaxToolkit:CalendarExtender>
+
+    <script language="javascript" type="text/javascript">
+function CallPrint(strid)
+{
+ var prtContent = document.getElementById(strid);
+ var WinPrint = window.open('','','letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+ WinPrint.document.write(prtContent.innerHTML);
+ WinPrint.document.close();
+ WinPrint.focus();
+ WinPrint.print();
+ WinPrint.close();
+ prtContent.innerHTML=strOldOne;
+}
+
+
+    </script>
+
+</asp:Content>

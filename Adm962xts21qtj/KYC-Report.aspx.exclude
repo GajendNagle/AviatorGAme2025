@@ -1,0 +1,211 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="KYC-Report.aspx.cs" Inherits="Adm962xts21qtj_KYC_Report" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" StylesheetTheme="MySkin" Title="KYC Report" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="width: 100%; height: 30px; text-align: right;" valign="top">
+                <asp:ImageButton ID="btnexporttoexport" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif" OnClick="btnexporttoexport_Click" />
+                &nbsp;
+                <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="ScrollBar">
+                            <div style="width: 100%; height: 100%; scrollbar-base-color: #ffeaff">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="MtblCntReg">
+                                    <tr>
+                                        <td align="center" valign="top">
+                                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: White;">
+                                                <tr>
+                                                    <td align="center" valign="top">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; font-family: 'Poppins', sans-serif; width: 100%;">
+                                                            <tr>
+                                                                <td class="lbl" style="width: 1%;">From Date</td>
+                                                                <td class="lbl" style="width: 1%;">To Date</td>
+                                                                <td class="lbl" style="width: 50%;">Show Results By</td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtFromDate" runat="server" Font-Names="Verdana" Font-Size="11px" Width="87px" Height="25px" style="position: relative;"></asp:TextBox>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtToDate" runat="server" Width="87px" Height="25px" style="position: relative;"></asp:TextBox>
+                                                                </td>
+                                                                <td>
+                                                                    &nbsp
+                                                                    <asp:DropDownList ID="DDLSrchByDjGt" runat="server" Font-Names="Verdana" Font-Size="11px" CssClass="ComposeTxtBx" AutoPostBack="True" OnSelectedIndexChanged="DDLSrchByDjGt_SelectedIndexChanged" Width="150px" Height="35px" style="position: relative;"></asp:DropDownList>
+                                                                    &nbsp
+                                                                    <asp:DropDownList ID="DDLDownPos" runat="server" Font-Names="Verdana" Font-Size="11px" Width="90px" CssClass="ComposeTxtBx" Visible="false" Height="35px" style="position:relative;"></asp:DropDownList>
+                                                                    <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Visible="false" Text="" Width="87px" Height="25px" style="position: relative;"></asp:TextBox>
+                                                                    &nbsp
+                                                                    <asp:Button ID="btnSearch" runat="server" Text="Go" CssClass="OuterBtn" OnClick="btnSearch_Click" style="position:relative;"/>
+                                                                </td>
+                                                                <td class="lblr">&nbsp;
+                                                                    <asp:Label ID="lblRecordNo" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                                    <asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                                    &nbsp;
+                                                                    <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx" Height="35px"></asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td style="width: 20%; height: 19px;"></td>
+                                                                <td style="width: 60%; height: 19px; text-align: center;">
+                                                                    <asp:Label ID="lblTotalSum" runat="server" Font-Bold="True" ForeColor="#FF0000"></asp:Label>
+                                                                </td>
+                                                                <td align="right" style="padding-left: 5px; width: 182px; height: 26px;">
+                                                                    <div style="text-align: center; float: left;"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 100%;" valign="top" class="BoardStructure">
+                                                        <div id="divPrint">
+                                                            <asp:GridView ID="gvinvoiceno" runat="server" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" OnPageIndexChanging="gvinvoiceno_PageIndexChanging" PageSize="100" ShowFooter="True" Width="100%" AutoGenerateColumns="False" OnRowEditing="gvinvoiceno_RowEditing" OnRowUpdating="gvinvoiceno_RowUpdating" OnRowCancelingEdit="gvinvoiceno_RowCancelingEdit" OnRowDataBound ="gvinvoiceno_RowDataBound">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Sr.">
+                                                                        <ItemTemplate>
+                                                                            <%# Container.DataItemIndex+1 %>
+                                                                            .
+                                                                        </ItemTemplate>
+                                                                        <ControlStyle Width="100px" />
+                                                                        <ItemStyle HorizontalAlign="Center" Width="50px" />
+                                                                        <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="Edit" CausesValidation="false" CommandName="Edit" />
+                                                                        </ItemTemplate>
+                                                                        <EditItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="Update" CausesValidation="false" CommandName="Update" />
+                                                                            <asp:LinkButton ID="lnkbtnCancel" runat="server" Text="Cancel" CausesValidation="false" CommandName="Cancel" />
+                                                                        </EditItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="User">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "MNAME")%>
+                                                                            <br />
+                                                                            <b><asp:Label ID="lblid" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "USERID")%>'></asp:Label></b>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="KYC Date">
+                                                                        <ItemTemplate>
+                                                                           <b><%# DataBinder.Eval(Container.DataItem, "KYC_DATE")%></b><br />
+                                                                           Acc Hlder: <%# DataBinder.Eval(Container.DataItem, "mBankName")%>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Approval Status">
+                                                                        <ItemTemplate>
+                                                                           <asp:Label ID="lblstat" runat="server" Text='<%#Eval("STATUS") %>'></asp:Label>
+                                                                           <%--<%# DataBinder.Eval(Container.DataItem, "STATUS")%>--%>
+                                                                        </ItemTemplate>
+                                                                        <EditItemTemplate>
+                                                                            <asp:DropDownList ID="ddlstats" runat="server" AutoPostBack="false" Width="100px">
+                                                                            <asp:ListItem Text="Pending" Value="Pending"></asp:ListItem>
+                                                                            <asp:ListItem Text="Reject" Value="Reject"></asp:ListItem>
+                                                                            <asp:ListItem Text="Approved" Value="Approved"></asp:ListItem>
+                                                                            </asp:DropDownList>
+                                                                         <asp:TextBox ID="txtRemark" runat="server" MaxLength="50" placeholder="Enter Remark (Maximum 50 character)"></asp:TextBox>
+                                                                        </EditItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Pancard No">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "PAN_NO")%>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Pancard">
+                                                                        <ItemTemplate>
+                                                                            <a href="<%# DataBinder.Eval(Container.DataItem, "PAN_PATH")%>" target="_blank"><img src="<%# DataBinder.Eval(Container.DataItem, "PAN_PATH")%>" style="width:50px; height:50px;"  /></a>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Add Type">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "ADD_TYPE")%>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Add. Proof No">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "ADD_NO")%>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Add Prrof">
+                                                                        <ItemTemplate>
+                                                                            <a href="<%# DataBinder.Eval(Container.DataItem, "ADD_PATH")%>" target="_blank"><img src="<%# DataBinder.Eval(Container.DataItem, "ADD_PATH")%>" style="width:50px; height:50px;"  /></a>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Cancel Cheq">
+                                                                        <ItemTemplate>
+                                                                            <a href="<%# DataBinder.Eval(Container.DataItem, "Cheque_PATH")%>" target="_blank"><img src="<%# DataBinder.Eval(Container.DataItem, "Cheque_PATH")%>" style="width:50px; height:50px;"  /></a>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtFromDate" TargetControlID="txtFromDate"></ajaxToolkit:CalendarExtender>
+                                            <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtToDate" TargetControlID="txtToDate"></ajaxToolkit:CalendarExtender>--%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+        $(function () {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+        $(function () {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+    </script>
+</asp:Content>

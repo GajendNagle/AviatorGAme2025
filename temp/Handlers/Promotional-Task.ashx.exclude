@@ -1,0 +1,106 @@
+<%@ WebHandler Language="C#" Class="Promotional_Task" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public class Promotional_Task : IHttpHandler {
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    public bool sc; public string msg, dtl, strJson, UserID = "", OrderId;
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds; DataTable dt;
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        ////////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString().Trim();
+            /////////
+            //context.Response.Write(ds.Tables[0]);
+            this.BindResult();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+        /////////
+    }
+    private void BindResult()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("dbo.[PostPromotionalLinks]", new string[] { "PageTitle", "PageLink", "Flag", "UID" },
+                 new string[] { "", "", "ViewLink", UserID.ToString() }, "ByDataset");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    StringBuilder jsonBuilder = new StringBuilder("");
+
+                    if (ds.Tables[1].Rows.Count > 0)
+                    {
+                        response.Write("<div>" + ds.Tables[1].Rows[0]["CntLink"].ToString() + " " + ds.Tables[1].Rows[0]["PndLink"].ToString() + " " + ds.Tables[1].Rows[0]["ConfLink"].ToString() + "</div>");
+                    }
+                    response.Write("<ul id='demoFour' class='demo'>");
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        response.Write("<li class='ln-a' style='padding-bottom:5px;'>");
+                        response.Write("<a style='height:80px;' title='Click here for view link' href=#note" + dt.Rows[i]["ID"].ToString() + " data-toggle='tab' onclick=popupCenter('" + dt.Rows[i]["PageLink"].ToString() + "','myPop1',450,450,'" + dt.Rows[i]["LinkID"].ToString() + "')>");
+                        response.Write((i + 1) + ". <b>" + dt.Rows[i]["PageTitle"].ToString());
+                        response.Write("</b></br># " + dt.Rows[i]["PostDate"].ToString() + "# " + dt.Rows[i]["Sts"].ToString());
+                        response.Write("</a></li>");
+
+                        //response.Write("<div class='panel-body note-link'>");
+                        //response.Write("<a href=#note" + dt.Rows[i]["ID"].ToString() + " data-toggle='tab' onclick=popupCenter('" + dt.Rows[i]["PageLink"].ToString() + "','myPop1',450,450,'" + dt.Rows[i]["LinkID"].ToString() + "')>");
+                        //response.Write("<h5>" + (i + 1) + ". " + dt.Rows[i]["PageTitle"].ToString() + "</h5>");
+                        //response.Write("<small class='pull-right text-muted'>" + dt.Rows[i]["PostDate"].ToString() + "</small>");
+                        //response.Write(" <div class='small'>");
+                        //response.Write(dt.Rows[i]["Sts"].ToString());
+                        //response.Write("</div>");
+                        //response.Write("</a>");
+                        //response.Write("</div>");
+                    }
+                    response.Write("</ul>");
+                    response.Write(jsonBuilder);
+                }
+            }
+            else
+            {
+                response.Write("<h2>Sorry ! Links will coming soon !!</h2><h1> Please visit Later...</h1><span style='color:Red'>**</span> Links will come from Monday-Friday Only.<br><br> <span style='color:Red'>**</span> <u>Links will come accoarding to your plan.</U>");  
+            }
+                
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+            if (dt != null) { dt.Dispose(); }
+        }
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

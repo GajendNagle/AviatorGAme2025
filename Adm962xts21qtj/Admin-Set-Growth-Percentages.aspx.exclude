@@ -1,0 +1,331 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" StylesheetTheme="MySkin" AutoEventWireup="true" CodeFile="Admin-Set-Growth-Percentages.aspx.cs" Inherits="Adm962xts21qtj_Admin_Set_Growth_Percentages" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <style>
+        .form-horizontal .form-group {
+            margin-bottom: 0;
+        }
+        .flex-img-link-wrapper {
+            margin-top: 20px;
+        }
+        @media only screen and (max-width: 600px) {
+            .ComposeTxtBx {
+                margin-bottom: 0px;
+            }
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-6 col-12 form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-5">From Amonut :*</label>
+                    <div class="col-sm-7">
+                        <asp:TextBox ID="FromAmount" runat="server" ValidationGroup="g" MaxLength="15" AutoPostBack="True" autocomplete="off" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="FromAmount" ErrorMessage="Please enter user id." Text="*"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5">To Amount :*</label>
+                    <div class="col-sm-7">
+                        <asp:TextBox ID="Toamount" runat="server" ValidationGroup="g" MaxLength="15" AutoPostBack="True" autocomplete="off" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="g" runat="server" ControlToValidate="Toamount" ErrorMessage="Please enter user id." Text="*"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5">Date :*</label>
+                    <div class="col-sm-7">
+                        <asp:TextBox ID="txtDate" runat="server" ValidationGroup="g" MaxLength="15" AutoPostBack="True" autocomplete="off" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="g" runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter user id." Text="*"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5">Bonus Reward Perc.(%):</label>
+                    <div class="col-sm-7">
+                        <asp:TextBox ID="txtRoiPerc" runat="server" ValidationGroup="g" MaxLength="6" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ValidationGroup="g" runat="server" ControlToValidate="txtRoiPerc" ErrorMessage="Please enter amount." Text="*"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5"></label>
+                    <div class="col-sm-7">
+                        <asp:Button ID="btnSubmit" runat="server" Text="Submit" ValidationGroup="g" CssClass="OuterBtn form-control" OnClick="btnSubmit_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="flex-img-link-wrapper">
+                    <div class="flex-img-link-in text-right">
+                        <span>
+                            <asp:Image ID="Image1" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" />
+                            <asp:LinkButton ID="LinkButton3" runat="server" CssClass="Uparmenu" OnClientClick="return CallPrint('divPrint')">Print</asp:LinkButton>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-wrap">
+            <div class="col-md-3 col-12">
+                <div class="form-group">
+                    <label>From Date </label>
+                    <asp:TextBox ID="txtFromDate" autocomplete="off" runat="server" Font-Names="Verdana" CssClass="form-control" placeholder="DD/MM/YYYY"></asp:TextBox>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="form-group">
+                    <label>To Date </label>
+                    <asp:TextBox ID="txtToDate" autocomplete="off" runat="server" CssClass="form-control" placeholder="DD/MM/YYYY"></asp:TextBox>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <asp:Button ID="btnSearch" runat="server" Text="Go" CssClass="OuterBtn blnk-input" OnClick="btnSearch_Click" />
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="form-group text-right blnk-input">
+                    <label>Page No</label>
+                    <%--<asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" CssClass="ComposeTxtBx" OnSelectedIndexChanged="PageChanged" Width="58px"></asp:DropDownList>--%>
+                    <asp:Label ID="lblRecordNo" runat="server" Font-Bold="True"></asp:Label>
+                    &nbsp;
+                    <asp:Label ID="Label1" runat="server" Font-Bold="True"></asp:Label>
+                    &nbsp;
+                    <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageChanged" CssClass="ComposeTxtBx" Width="80px"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlGrpageSz" runat="server" Width="80px" OnSelectedIndexChanged="PageChangedPz" AutoPostBack="True" CssClass="ComposeTxtBx">
+                        <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                        <asp:ListItem Text="200" Value="200"></asp:ListItem>
+                        <asp:ListItem Text="300" Value="300"></asp:ListItem>
+                        <asp:ListItem Text="500" Value="500"></asp:ListItem>
+                        <asp:ListItem Text="1000" Value="1000"></asp:ListItem>
+                        <asp:ListItem Text="2500" Value="2500"></asp:ListItem>
+                        <asp:ListItem Text="5000" Value="5000"></asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+            </div>
+            <div class="col-md-12 col-12">
+                <div class="form-group text-center" style="margin-top: 20px;">
+                    <asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Visible="false" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                    <asp:Label ID="lblTotalSum" runat="server" Font-Bold="True" ForeColor="#FF0000"></asp:Label>
+                    <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                </div>
+            </div>
+        </div>
+        <div id="divPrint">
+            <asp:GridView ID="gvinvoiceno" runat="server" AutoGenerateColumns="False" DataKeyNames="ID" HorizontalAlign="Center" OnRowCancelingEdit="gvinvoiceno_RowCancelingEdit" OnRowEditing="gvinvoiceno_RowEditing" OnRowUpdating="gvinvoiceno_RowUpdating" Width="100%" ShowFooter="True" CssClass="gvMain table-stage">
+                <Columns>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="EDIT" CausesValidation="false" Visible="false" CommandName="Edit" />
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="UPDATE" ValidationGroup="ll" CommandName="Update" />
+                            <asp:LinkButton ID="lnkbtnCancel" runat="server" Text="CANCEL" CausesValidation="false" CommandName="Cancel" />
+                        </EditItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Label runat="server" ID="lblID" Text='<%# Eval("ID") %>' Visible="false"></asp:Label>
+                            <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" OnClick="lnkDelete_Deleting"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="SrNo">
+                        <ItemTemplate>
+                            <%#Eval("SrNo")%>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="FromAmout">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtFromAmout" runat="server" Text='<%#Eval("FromAmount")%>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <%#Eval("FromAmount")%>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="ToAmount">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtToAmount" runat="server" Text='<%#Eval("ToAmount")%>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <%#Eval("ToAmount")%>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                            <%#Eval("Date")%>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Growth Percent">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtGrowthPerc" runat="server" Text='<%#Eval("GrowthPerc")%>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <%#Eval("GrowthPerc")%>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <%--<asp:TemplateField HeaderText="Token Rate">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtTokenRate" runat="server" Text='<%#Eval("TokenRate")%>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <%#Eval("TokenRate")%>
+                        </ItemTemplate>
+                    </asp:TemplateField>--%>
+                </Columns>
+                <EmptyDataTemplate>
+                    <span style="font: bold 13px verdana; color: Red;">---Oooops, Record Not Found---</span>
+                </EmptyDataTemplate>
+            </asp:GridView>
+        </div>
+        <div>&nbsp;</div>
+    </div>
+    <table width="100%" cellspacing="0" style="display: none;">
+        <tr>
+            <%--<div class="col-md-9 col-md-offset-3 col-12">
+                <div class="pwdchnge">
+                    <div class="row form-group">
+                        <div class="col-md-2 col-12">
+                            <label>From Amount:*</label>
+                        </div>
+                        <asp:TextBox ID="FromAmount" runat="server" MaxLength="10" AutoComplete="Off" CssClass="form-control" ReadOnly="true" placeholder="From Amount"></asp:TextBox>
+                        <div class="col-md-4 col-12"></div>
+                    </div>
+                    <div class="row form-group mrgbtm">
+                        <div class="col-md-2 col-12">
+                            <label>To Amount:*</label>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <asp:TextBox ID="Toamount" runat="server" MaxLength="10" AutoComplete="Off" CssClass="form-control" placeholder="To Amount"></asp:TextBox>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter date." Text="*" ValidationGroup="AA"></asp:RequiredFieldValidator>
+                        </div>
+                    </div>
+                    <div class="row form-group mrgbtm">
+                        <div class="col-md-2 col-12">
+                            <label>Date:*</label>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <asp:TextBox ID="txtDate" runat="server" MaxLength="10" AutoComplete="Off" CssClass="form-control" placeholder="DD/MM/YYYY"></asp:TextBox>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter date." Text="*" ValidationGroup="AA"></asp:RequiredFieldValidator>
+                        </div>
+                    </div>
+                    <div class="row form-group mrgbtm">
+                        <div class="col-md-2 col-12">
+                            <label>Bonus Reward Perc.(%):*</label>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <asp:TextBox ID="txtRoiPerc" runat="server" MaxLength="6" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtRoiPerc" ErrorMessage="Please enter growth percentage" Text="*" ValidationGroup="AA"></asp:RequiredFieldValidator>
+                        </div>
+                    </div>
+                    <div class="row form-group mrgbtm">
+                        <div class="col-md-2 col-md-offset-2 col-12">
+                            <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="OuterBtn" OnClick="btnSubmit_Click" ValidationGroup="AA" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12 col-12">
+                            <asp:Label ID="Label2" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+            </div>--%>
+        </tr>
+        <tr>
+            <td style="width: 100%; height: 30px; text-align: right;" valign="top">&nbsp;
+                <%--<asp:LinkButton ID="LinkButton3" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" Style="font-size: 12px;" OnClick="LinkButton3_Click">$$ Calculate V-Up Bonus $$</asp:LinkButton>
+                &nbsp;&nbsp;--%>
+                &nbsp;
+                &nbsp; &nbsp;  
+                <%--<asp:LinkButton ID="LinkButton2" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" OnClick="btnexporttoexport_Click" Style="font-size: 12px;">Export to Excel</asp:LinkButton>--%>
+                <%--<asp:ImageButton ID="btnexporttoexport" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif" OnClick="btnexporttoexport_Click" />--%>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td class="ScrollBar" style="display:none">
+                <div style="width: 100%; height: 100%; scrollbar-base-color: #ffeaff">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: 'Poppins', sans-serif; font-size: 11px;">
+                        <tr>
+                            <td align="center" valign="top">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                                    <tr>
+                                        <td align="center" style="width: 100%; padding-top: 5px; height: 80px; background-image: url(../UserPanel_Images/MsgDetailHdr_Bg.jpg)" valign="top">
+                                            <table width="100%" border="0" cellpadding="0"></table>
+                                            <table align="center" border="0" cellpadding="0" class="MtblCntReg">
+                                                <tr>
+                                                    <td class="lbl" valign="middle"><%--Income Type :--%></td>
+                                                    <td align="left" valign="middle" style="display: none">
+                                                        <asp:DropDownList ID="ddlSearchPackage" runat="server" CssClass="form-control">
+                                                            <asp:ListItem Value="ALL">Select Package</asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <%--<td class="lbl" valign="middle">Show Results By :</td>--%>
+                                                    <td align="left" valign="middle">
+                                                        <%--<asp:DropDownList ID="DDLSrchByDjGt" runat="server" Font-Names="Verdana" CssClass="ComposeTxtBx" AutoPostBack="True" OnSelectedIndexChanged="DDLSrchByDjGt_SelectedIndexChanged" Width="100"></asp:DropDownList>--%>
+                                                    </td>
+                                                    <%--<td align="left" style="width: 254px; height: 24px;" valign="middle">&nbsp;By Position :</td>--%>
+                                                    <td align="left" valign="middle">
+                                                        <%--<asp:DropDownList ID="DDLDownPos" runat="server" CssClass="ComposeTxtBx" Width="73px" Visible="false"></asp:DropDownList--%>
+                                                    </td>
+                                                    <td align="left" valign="middle">
+                                                        <%--<asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Visible="false" Text="" Width="87px"></asp:TextBox>--%>
+                                                    </td>
+                                                    <td align="left" valign="middle"></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="width: 100%" valign="top" class="BoardStructure"></td>
+                        </tr>
+                    </table>
+                    <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtFromDate" TargetControlID="txtFromDate"></ajaxToolkit:CalendarExtender>
+                    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtToDate" TargetControlID="txtToDate"></ajaxToolkit:CalendarExtender>--%>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#<%=txtDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+    </script>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+        $(function () {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+    </script>
+</asp:Content>

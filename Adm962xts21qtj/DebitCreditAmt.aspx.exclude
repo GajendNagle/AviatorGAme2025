@@ -1,0 +1,111 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="~/Adm962xts21qtj/DebitCreditAmt.aspx.cs"
+    Inherits="Admin_DebitCreditAmt" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+  
+    <style type="text/css">
+    body
+    {
+    margin:0px;
+    font:normal 11px verdana;
+    }
+    </style>
+    <link href="../UserPanel_css/Prostyle.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="../UserPanel_css/EMailInbox.css" rel="stylesheet" type="text/css" />
+    <link href="../UserPanel_css/Homestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../UserPanel_css/User_Section.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <table width="100%" cellspacing="0">
+                <tr>
+                    <td align="right" class="Header_Top1">
+                        <samp class="Header_Top">
+                            DEBIT / CREDIT AMOUNT
+                            <img src="../UserPanel_Images/nav-arrow-down1.png" width="20" height="16" /></samp></td>
+                </tr>
+                <tr>
+                    <td class="ScrollBar">
+                        <table cellspacing="0" cellpadding="0" style="width: 488px">
+                            <tr>
+                                <td align="center" style="width: 674px">
+                                    &nbsp;<table border="0" cellpadding="0" cellspacing="0" style="width: 521px">
+                                        <tr>
+                                            <td align="center" style="font-weight: bold; font-size: 13px; width: 241px; color: #ff0000;
+                                                height: 16px">
+                                                <asp:Label ID="lblTotalCredit" runat="server" Width="174px"></asp:Label></td>
+                                            <td align="center" style="width: 111px; height: 16px">
+                                                <asp:Label ID="lblTotalDebit" runat="server" Font-Bold="True" Font-Size="13px" ForeColor="Red"
+                                                    Width="174px"></asp:Label></td>
+                                            <td align="center" style="width: 100px; height: 16px" valign="middle">
+                                                <asp:Label ID="lblBal" runat="server" Font-Bold="True" Font-Size="13px" ForeColor="Red"
+                                                    Width="174px"></asp:Label></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="middle" style="width: 674px">
+                                    <br />
+                                    <table border="1" cellpadding="2" cellspacing="5" bordercolor="#f0f0f0" class="datalevel"
+                                        style="width: 470px; font-size: 13px;">
+                                        <tr>
+                                            <td align="right" class="datalevel" style="width: 212px;" valign="middle">
+                                                USER ID:</td>
+                                            <td align="left" class="datalevel" colspan="2" style="width: 140px;" valign="middle">
+                                                <asp:TextBox ID="TextBox1" runat="server" Width="184px" ReadOnly="true" CssClass="ComposeTxtBx"></asp:TextBox>
+                                            </td>
+                                            <td align="left" class="datalevel" colspan="1" valign="middle">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right" class="datalevel" style="width: 212px;" valign="middle">
+                                                SELECT TRANSACTION TYPE:</td>
+                                            <td align="left" class="datalevel" colspan="2" style="width: 140px;" valign="middle">
+                                                <asp:DropDownList ID="ddlTranType" runat="server" CssClass="ComposeTxtBx" Width="178px">
+                                                    <asp:ListItem Value="DR">DEBIT</asp:ListItem>
+                                                    <asp:ListItem Value="CR">CREDIT</asp:ListItem>
+                                                </asp:DropDownList></td>
+                                            <td align="left" class="datalevel" colspan="1" valign="middle">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" class="datalevel" colspan="4" valign="middle">
+                                                </td>
+                                        </tr>
+                                        <tr style="color: #000000">
+                                            <td align="right" class="datalevel" style="width: 212px;" valign="middle">
+                                                ENTER AMOUNT(in $):</td>
+                                            <td align="left" class="datalevel" colspan="2" style="width: 140px;" valign="middle">
+                                                <asp:TextBox ID="txtAmt" runat="server" Width="184px" CssClass="ComposeTxtBx"></asp:TextBox>
+                                            </td>
+                                            <td align="left" class="datalevel" colspan="1" valign="middle">
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAmt"
+                                                    ErrorMessage="Please Enter Amount" SetFocusOnError="true">*</asp:RequiredFieldValidator>
+                                                <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtAmt"
+                                                    ErrorMessage="Please Enter Amount in Numbers" Operator="GreaterThan" SetFocusOnError="True"
+                                                    Type="Double" ValueToCompare="0">*</asp:CompareValidator></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" class="datalevel" colspan="4" valign="middle">
+                                                <asp:Button ID="btnpass" runat="server" OnClick="btnpass_Click" Text="SUBMIT" Width="180px"
+                                                    CssClass="Btn" Font-Size="11px" /></td>
+                                        </tr>
+                                    </table>
+                                    <asp:Label ID="lblmsg" runat="server" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"
+                                        Width="100%" Font-Bold="True"></asp:Label>
+                                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true"
+                                        ShowSummary="False" Width="240px" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

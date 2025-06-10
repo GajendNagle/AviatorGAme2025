@@ -1,0 +1,241 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+using System.Net;
+using System.Text;
+
+public partial class SendEmails : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    SqlCommand cmd;
+    SqlDataReader drMobNo;
+    ArrayList id = new ArrayList();
+    SendEmail objSendEmail = new SendEmail();
+    DynamicDtls objgdb = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        objgdb.FillWebSiteEmailCompany();
+        if (Session["Khbfy897ft36Gv"] != null)
+        {
+            if (!IsPostBack)
+            {
+                if (Request.QueryString["Em"] != null)
+                {
+                    txtEmail.Text = objgdb.base64Decod(Request.QueryString["Em"].ToString());
+                }
+            }
+        }
+        else
+        {
+            Response.Redirect("../CtrlP2nL_Akdvv3jshLG.aspx", false);
+        }
+
+    }
+
+    protected void ddlstatus_SelectedIndexChanged1(object sender, EventArgs e)
+    {
+
+        GridView1.Visible = true;
+
+        this.BindGridForPackage();
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        if (ddlstatus.SelectedIndex == 0)
+        {
+            btnsearch_Click(sender, e);
+        }
+        else
+        {
+            this.BindGrid();
+        }
+    }
+    private void BindGrid()
+    {
+        string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,Convert(VarChar(10),MemDetail.DOB,103) AS DOB, Genealogy.SponserID AS SPID, MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.greendate,103) as [GREEN DATE]  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE  MemDetail.Email <> ''  and MemDetail.status='" + ddlstatus.SelectedItem.Text.Trim() + "'";
+        SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+        DataSet ds = new DataSet();
+        adp.Fill(ds);
+        GridView1.DataSource = ds;
+        GridView1.DataBind();
+    }
+
+
+
+    private void BindGridForPackage()
+    {
+        string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,PACKAGE,Convert(VarChar(10),MemDetail.DOB,103) AS DOB, Genealogy.SponserID AS SPID, MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.greendate,103) as [GREEN DATE]  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE  MemDetail.Email <> ''  and MemDetail.package='" + DdlPackage.SelectedItem.Text.ToString() + "'";
+        SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+        DataSet ds = new DataSet();
+        adp.Fill(ds);
+        if (ds.Tables[0].Rows.Count == 0) { }
+        GridView1.DataSource = ds;
+        GridView1.DataBind();
+    }
+
+    protected void ddlstatus_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        GridView1.Visible = true;
+        BindGrid();
+    }
+    //protected void rbSendSmsToAll_CheckedChanged123(object sender, EventArgs e)
+    //{
+    //    GridView1.Visible = false;
+    //    cn.Open();
+    //    //  this.GetRedMobile();
+    //    cn.Close();
+
+    //    lblSmsMsg.Text = "";
+
+    //}
+    protected void btnsearch_Click(object sender, EventArgs e)
+    {
+        lblSmsMsg.Text = "";
+
+        GridView1.Visible = true;
+
+
+        GridView1.AllowPaging = true;
+
+
+        if (txtmemid.Text != "")
+        {
+            string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,Convert(VarChar(10),MemDetail.DOB,103) AS DOB,  MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.activationdate,103) as ACDATE  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE MemDetail.Email <> '' and MemDetail.MemID ='" + txtmemid.Text.ToUpper().Trim() + "'";
+            SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0) { }
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+
+        if (txtmemname.Text != "")
+        {
+            string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,Convert(VarChar(10),MemDetail.DOB,103) AS DOB,  MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.activationdate,103) as ACDATE  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE  MemDetail.Email <> '' and MemDetail.mname like '%" + txtmemname.Text.ToUpper().Trim() + "%'";
+            SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0) { }
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+
+
+
+        if (txtcity.Text != "")
+        {
+            string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,Convert(VarChar(10),MemDetail.DOB,103) AS DOB, MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.activationdate,103) as ACDATE  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE  MemDetail.Email <> '' and MemDetail.City LIKE '" + txtcity.Text.Trim() + "%'";
+
+            SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0) { }
+
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+        if (txtfromdate.Text != "" && txttodate.Text != "")
+        {
+
+            string fromdate = string.Format("{0:dd/MM/yyyy}", txtfromdate.Text);
+            string todate = string.Format("{0:dd/MM/yyyy}", txttodate.Text);
+            string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,Convert(VarChar(10),MemDetail.DOB,103) AS DOB,  MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.activationdate,103) as ACDATE  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE  MemDetail.Email <> '' and MemDetail.DOJ between convert(datetime,'" + txtfromdate.Text.Trim() + "',103) and convert(datetime,'" + txttodate.Text.Trim() + "',103)";
+
+            SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0) { }
+
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+        if (txtdateofbirth.Text.Trim() != "")
+        {
+            string dateofbirth = string.Format("{0:dd/MM/yyyy}", txtdateofbirth.Text);
+            string oldbsearch = "SELECT MemDetail.MemID AS 'Member ID',MemDetail.MName AS MNAME,MemDetail.Email AS Email,Convert(VarChar(10),MemDetail.DOB,103) AS DOB,  MemDetail.City AS CITY,Convert(varchar(12),MemDetail.Doj,103) AS DOJ, MemDetail.status AS STATUS, convert(varchar,MemDetail.activationdate,103) as ACDATE  FROM MemDetail INNER JOIN Genealogy ON MemDetail.MemID = Genealogy.MemID WHERE  MemDetail.Email <> '' and MemDetail.DOB =convert(datetime,'" + txtdateofbirth.Text.Trim() + "',103)";
+            SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0) { }
+
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+
+        if (txtcity.Text != "" && txtdateofbirth.Text != "" && (txtfromdate.Text != "" && txttodate.Text != ""))
+        {
+            string dateofbirth = string.Format("{0:dd/MM/yyyy}", txtdateofbirth.Text);
+            string fromdate = string.Format("{0:dd/MM/yyyy}", txtfromdate.Text);
+            string todate = string.Format("{0:dd/MM/yyyy}", txttodate.Text);
+            string oldbsearch = "select MemID 'Member ID',firstname+' '+lastname [Member Name],ph_m Mobile,City,Blocked,convert(varchar(10),doj,103) Doj,convert(varchar(10),activationdate,103) ActivationDate from memdetail where   ph_m not in(select ph_m from memdetail where ph_m like '0%' or ph_m like '+%')  and City like '" + txtcity.Text.Trim() + "%' AND DoB =Convert(DateTime,'" + dateofbirth + "',103) AND DoJ  BETWEEN Convert(DateTime,'" + fromdate + "',103) AND Convert(DateTime,'" + todate + "',103) order by memid desc";
+            SqlDataAdapter adp = new SqlDataAdapter(oldbsearch, cn);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0) { }
+
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+
+    }
+    protected void btnReset_Click(object sender, EventArgs e)
+    {
+        txtdateofbirth.Text = "";
+        txtcity.Text = "";
+        txtfromdate.Text = "";
+        txtmemid.Text = "";
+        txttodate.Text = "";
+        txtmemname.Text = "";
+        ddlstatus.SelectedIndex = 0;
+    }
+    private void GetSelectEmail()
+    {
+        for (Int32 i = 0; i < GridView1.Rows.Count; i++)
+        {
+            int count = 0;
+            CheckBox ck = (CheckBox)GridView1.Rows[i].FindControl("chkMemID");
+            if (ck.Checked == true)
+            {
+                count = 1;
+                string ID = Convert.ToString(GridView1.DataKeys[i].Value);
+                id.Add(ID);
+            }
+        }
+        foreach (string a in id)
+        {
+            cn.Open();
+            cmd = new SqlCommand("select email as email_m from  memdetail with(nolock) where memid='" + a + "'", cn);
+            SqlDataReader drMsgdetail = cmd.ExecuteReader();
+            while (drMsgdetail.Read())
+            {
+                txtEmail.Text += drMsgdetail["email_m"].ToString() + ",";
+            }
+            cn.Close();
+        }
+    }
+
+
+    protected void btnSendEmail_Click(object sender, EventArgs e)
+    {
+
+        objSendEmail.SendMailMessage(DynamicDtls.Email, txtSubject.Text, txtEmailMsg.Text, txtEmail.Text);
+        lblMsg.Text = objgdb.UpdateMessage("Email Sent Sucessfully to the selected EMAIL IDs !!");
+    }
+    protected void btnSelectEMailIds_Click(object sender, EventArgs e)
+    {
+        txtEmail.Text = "";
+        GetSelectEmail();
+    }
+}

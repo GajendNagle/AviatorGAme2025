@@ -1,0 +1,344 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class AdminEMailInbox : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    SqlDataReader dr; SqlCommand cmd; SqlDataAdapter da;
+    DataSet ds;
+    string UserID;
+    ArrayList MsgID = new ArrayList();
+    string myStringVariable, ID, ErrorMsg, SqlGetMsg, SqlDltMsg, SqlUnreadMsg, SqlUnreadSentMsg, SqlUnreadTrashMsg;
+    DB objdb = new DB();
+    EmailboxCS ObjEmailbox = new EmailboxCS();
+    public string SentFriendCount = "0";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            UserID = DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value);
+            if (!IsPostBack)
+            {
+                this.GetMsgfill();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    public void GetMsgfill()
+    {
+        try
+        {
+            ds = ObjEmailbox.ADminINBOXMsgDetails(UserID);
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+            ds.Dispose();
+
+
+            ds = new DataSet();
+            ds = ObjEmailbox.ADminInboxRdUnrdMsg(UserID);
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                lnkbtnInbox.Text = "<span class='links1Selected'>Inbox (" + dr["TotMsg"].ToString() + ", " + dr["TotUnreadMsg"].ToString() + " UnRead)</span>";
+                Page.Title = "Inbox (" + dr["TotMsg"].ToString() + ", " + dr["TotUnreadMsg"].ToString() + " UnRead)-" + "ADMIN";
+            }
+            ds.Dispose();
+
+
+            ds = new DataSet();
+            ds = ObjEmailbox.ADminTOTSENTMsg(UserID);
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                lnkbtnSentbox.Text = "Sent (" + dr["TotMsg"].ToString() + ")";
+
+            }
+            ds.Dispose();
+
+
+
+            ds = new DataSet();
+            ds = ObjEmailbox.ADminTOTTRASHMsg(UserID);
+            if (ds.Tables[0].Rows[0]["TotMsg"] == null)
+            { lnkbtnTrash.Text = "Trash (0)"; }
+            else
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lnkbtnTrash.Text = "Trash (" + dr["TotMsg"].ToString() + ")";
+
+                }
+            }
+            ds.Dispose();
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+    }
+
+    protected void lnkbtnSentbox_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminEMailSentInbox.aspx");
+    }
+    protected void lnkbtnTrash_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminEmailTrash.aspx");
+    }
+    protected void lnkbtnDltMail_Click(object sender, EventArgs e)
+    {
+        GetSelectMsgDtls();
+
+    }
+    protected void lnkbtnRplyMail_Click(object sender, EventArgs e)
+    {
+
+    }
+
+
+    private void GetSelectMsgDtls()
+    {
+        bool GetSelectMsg = false;
+        try
+        {
+            for (Int32 i = 0; i < GridView1.Rows.Count; i++)
+            {
+                CheckBox ck = (CheckBox)GridView1.Rows[i].FindControl("chkMemID");
+                if (ck.Checked == true)
+                {
+                    ID = Convert.ToString(GridView1.DataKeys[i].Value);
+                    MsgID.Add(ID);
+                }
+            }
+            foreach (string a in MsgID)
+            {
+                SqlDltMsg = "UPDATE Gladulas_UserEMailInbox SET DltByToUser='YES' where MsgID='" + a + "'  and Touser<>'All'";
+                ds = new DataSet();
+                new DB().SelectRows(ds, SqlDltMsg);
+                ds.Dispose();
+                GetSelectMsg = true;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            MsgID.Clear();
+        }
+
+        if (GetSelectMsg)
+        {
+            this.GetMsgfill();
+        }
+        else
+        {
+            myStringVariable = "You must select at least one Message to perform this action.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+        }
+
+    }
+    protected void lnkbtnInbox_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminEMailInbox.aspx");
+    }
+
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            e.Row.Attributes.Add("onmouseover", "this.style.backgroundColor='#E2EBF1'");
+            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=''");
+            e.Row.Attributes.Add("style", "cursor:pointer;");
+            //string abc = GridView1.DataKeys[e.Row.RowIndex].Value.ToString();
+            //e.Row.Attributes.Add("onclick", "location='UserEMailMsgDtl.aspx?MsgID=" + abc + "'");
+
+            try
+            {
+
+                int width = 0, height = 0, newWidth = 0, newHeight = 0, check = 0, wHStatus = 0;
+
+
+
+                Image ImagePath = (Image)e.Row.FindControl("imgUserPhoto");
+                System.Drawing.Image image101 = System.Drawing.Image.FromFile(this.Server.MapPath(ImagePath.ImageUrl));
+                width = image101.Width;
+                height = image101.Height;
+
+                if (width > height)
+                { wHStatus = 1; }
+                if (width < height)
+                { wHStatus = 2; }
+                if (width == height)
+                { wHStatus = 3; }
+
+                if (wHStatus == 1)
+                {
+                    if (width > 28)
+                    {
+                        ImagePath.Width = 28;
+                        double ratioX = (double)28 / image101.Width;
+                        double ratioY = (double)28 / image101.Height;
+                        double ratio1 = Math.Min(ratioX, ratioY);
+
+                        newWidth = (int)(image101.Width * ratio1);
+                        newHeight = (int)(image101.Height * ratio1);
+                        ImagePath.Height = newHeight;
+                        //check = 1;
+                    }
+                    else
+                    {
+                        ImagePath.Width = width;
+
+                        if (height > 28)
+                        {
+                            double ratioX = (double)28 / image101.Width;
+                            double ratioY = (double)28 / image101.Height;
+                            double ratio1 = Math.Min(ratioX, ratioY);
+
+                            newWidth = (int)(image101.Width * ratio1);
+                            newHeight = (int)(image101.Height * ratio1);
+                            ImagePath.Height = newHeight;
+                            ImagePath.Width = newWidth;
+                        }
+                        else
+                        {
+                            ImagePath.Height = height;
+                        }
+                    }
+                }
+                if (wHStatus == 2)
+                {
+                    if (height > 28)
+                    {
+                        double ratioX = (double)28 / image101.Width;
+                        double ratioY = (double)28 / image101.Height;
+                        double ratio1 = Math.Min(ratioX, ratioY);
+
+                        newWidth = (int)(image101.Width * ratio1);
+                        newHeight = (int)(image101.Height * ratio1);
+                        ImagePath.Height = newHeight;
+                        ImagePath.Width = newWidth;
+                    }
+                    else
+                    {
+                        ImagePath.Height = height;
+                        if (width > 28)
+                        {
+                            ImagePath.Width = 28;
+                            double ratioX = (double)28 / image101.Width;
+                            double ratioY = (double)28 / image101.Height;
+                            double ratio1 = Math.Min(ratioX, ratioY);
+
+                            newWidth = (int)(image101.Width * ratio1);
+                            newHeight = (int)(image101.Height * ratio1);
+                            ImagePath.Height = newHeight;
+                            //check = 1;
+                        }
+                        else
+                        {
+                            ImagePath.Width = width;
+                        }
+                    }
+                }
+                if (wHStatus == 3)
+                {
+                    if (width > 28)
+                    {
+                        ImagePath.Width = 28;
+                        double ratioX = (double)28 / image101.Width;
+                        double ratioY = (double)28 / image101.Height;
+                        double ratio1 = Math.Min(ratioX, ratioY);
+
+                        newWidth = (int)(image101.Width * ratio1);
+                        newHeight = (int)(image101.Height * ratio1);
+                        ImagePath.Height = newHeight;
+                        //check = 1;
+                    }
+                    else
+                    {
+                        ImagePath.Width = width;
+
+                        if (height > 28)
+                        {
+                            double ratioX = (double)28 / image101.Width;
+                            double ratioY = (double)28 / image101.Height;
+                            double ratio1 = Math.Min(ratioX, ratioY);
+
+                            newWidth = (int)(image101.Width * ratio1);
+                            newHeight = (int)(image101.Height * ratio1);
+                            ImagePath.Height = newHeight;
+                            ImagePath.Width = newWidth;
+                        }
+                        else
+                        {
+                            ImagePath.Height = height;
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+    }
+
+
+    protected void lnkbtnFrwdMail_Click(object sender, EventArgs e)
+    {
+
+    }
+    public void GetTrashValue()
+    {
+
+        try
+        {
+            ds = new DataSet();
+
+            ds = ObjEmailbox.UserTRASHMsgDetails(UserID);
+
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                objdb.ByText("UPDATE Gladulas_UserEMailInbox SET DltByToUser='Trash' where MsgID='" + ds.Tables[0].Rows[i]["MsgID"].ToString() + "'");
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+    }
+    protected void lnkTrash_Click(object sender, EventArgs e)
+    {
+        GetTrashValue();
+    }
+    protected void lnkbtnRplyMail_Click1(object sender, EventArgs e)
+    {
+
+    }
+    protected void lnkbtnFrwdMail_Click1(object sender, EventArgs e)
+    {
+
+    }
+}

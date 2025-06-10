@@ -1,0 +1,400 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Transfer To member</title>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="css/loading.css" rel="stylesheet" />
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .w-1 {
+            z-index: 0;
+        }
+        .main-content {
+            padding: 0px;
+            height: auto;
+            margin-bottom: 55px;
+        }
+        #submitfgsecpin {
+            font-size: smaller;
+        }
+        form {
+            margin-top: -53px;
+        }
+        #MemNameFt > div {
+            margin: 0px !important;
+        }
+        .text-orange {
+            color: #ff535c;
+        }
+        .bg-orange {
+            border-radius: 0;
+        }
+        .trans-his {
+            text-align: center;
+            font-size: 16px;
+            color: #009688;
+            padding: 10px 0px;
+        }
+        .historylink {
+            text-decoration: underline !important;
+        }
+        .balancebubble {
+            height: 111px !important;
+            top: -57px !important;
+        }
+        .icons {
+            top: 9px;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg>
+    </div>
+    <div class="container-fluid">
+        <div class="row background-body-color pt-5">
+            <div class="col-md-4 col-12 m-auto mobile_screen mt-4">
+                <div class="main-content pb-3">
+                    <div class="col-md-4 m-md-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="btn-toggle-mobile-side-bar">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </a>
+                        <a href="#" class="text-white fs-20 ml-2" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a>
+                        <a href="#" class="logo flex flex-ai-c absolute-center">
+                            Transfer To member
+                            <div class="loged-in"></div>
+                        </a>
+                    </div>
+                    <div class="mobile-side-bar">
+                        <nav class="menu-box-1">
+                            <div class="text-center pt-2">
+                                <img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;">
+                            </div>
+                            <hr class="mt-2 bg-white">
+                            <ul class="list">
+                                <li>
+                                    <a href="game-index.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-house m-1"></i>
+                                        </div>Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-user m-1"></i>
+                                        </div>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa-solid fa-file-import m-1"></i>
+                                        </div>Affiliate
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-team.html" class="block menui2">My Team</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-directs.html" class="block menui2">My Directs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-wave m-1"></i>
+                                        </div>Deposit
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance-history.html" class="block menui2">Deposit History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Main Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transfer-to-user" class="block menui2">Transfer to user</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Growth Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="invite.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope-open-text m-1"></i>
+                                        </div>Promotion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-1 m-1"></i>
+                                        </div>Withdraw
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-history.html">Withdraw History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="inbox.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope m-1"></i>
+                                        </div>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="news.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-newspaper m-1"></i>
+                                        </div>News
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Sign-Out.aspx" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-right-from-bracket m-1"></i>
+                                        </div>Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="bubblecard"></div>
+                    <div class="px-3 pb-5">
+                        <div class="col-11 m-auto text-center balancebubble">
+                            <p class="my-2 text-muted fs-1">Main Wallet Balance</p>
+                            <div class="p-0">
+                                <h3 class="d-inline-block">
+                                    <i class="fa fa-wallet wallet"></i>
+                                </h3>
+                                <h3 class="text-theme d-inline-block" id="cWalletBal">...</h3>
+                                <h6 class="d-inline-block usd ml-1">$</h6>
+                            </div>
+                            <hr class="hrbalance">
+                        </div>
+                        <form role="form" class="pt-3" onsubmit="return TransferToUser(),!1" action="#">
+                            <label class="form-label fs-md mb-1" for="default-03">Member Id</label>
+                            <div class="col-sm-12 text-secondary mb-3 px-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control w-1" id="txttomem" placeholder="Enter Member-Id" maxlength="15" autofocus="" required="">
+                                    <span id="MemNameFt" class="col-12 text-danger px-0"></span>
+                                </div>
+                            </div>
+                            <label class="form-label fs-md mb-1" for="default-03">Transfer Amount</label>
+                            <div class="col-sm-12 text-secondary mb-3 mt-0 px-0">
+                                <div class="input-group">
+                                    <input type="number" class="form-control w-1" id="txtDepositAmount" placeholder="Enter Amount" maxlength="6" autofocus="" required="" onchange="getamt()" oninput="this.value.length>this.maxLength&&(this.value=this.value.slice(0,this.maxLength))">
+                                    <span class="input-group-text bg-orange text-white">$</span>
+                                </div>
+                            </div>
+                            <div class="d-none">
+                                <label class="form-label fs-md mb-2" for="default-03">Net Payable</label>
+                                <div class="col-sm-12 text-secondary mb-3 mt-0 px-0">
+                                    <h5 class="info-header mb-0 mt-0" id="NetWithAmt">...</h5>
+                                    <div class="input-group">
+                                        <label id="Deduction" class="mb-3">0000 $ with transaction fee<span class="fa fa-info-circle"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="otpdtl">
+                                <label class="form-label fs-md text-danger mb-1">Enter OTP</label>
+                                <div class="col-sm-12 text-secondary mb-3 mt-0 px-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtOtp" placeholder="Enter Otp Ex.:123456" maxlength="10">
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="form-label fs-md mb-1" for="default-03">Your Txn Password</label>
+                            <div class="col-sm-12 text-secondary mb-3 mt-0 px-0">
+                                <div class="input-group">
+                                    <input id="txttxnpwd" name="txttxnpwd" type="password" class="form-control" placeholder="Enter Txn Password" data-type="password" maxlength="15" autofocus="" required="" autocomplete="off">
+                                    <i class="fa fa-eye-slash icons toggle-password" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-sm-8 pl-0">
+                                    <a href="#" class="form-label text-orange forgot_txn_up" for="buysell-amount" id="submitfgsecpin" onclick="return forgotsecpin(),!1"><i class="fa fa-lock mr-1"></i>Forgot Txn Password</a>
+                                </div>
+                            </div>
+                            <div class="my-3">
+                                <button class="btn btns-theme btn-block mt-1 mt-md-2 logoutHover" type="submit" id="submitTrnasferNow">Submit<span class="fa-solid fa-right-to-bracket ml-2"></span></button>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 trans-his">
+                                    <a href="From-up-history.html?IncType=Transfer-to-user" class="historylink"><i class="fa fa-history mr-1"></i>Transfer to member History</a>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row mx-3">
+                                                <div class="col-sm-6 col-12 border">
+                                                    <div class="p-2">
+                                                        <h4 id="fmin" class="mb-0">...</h4>
+                                                        <span class="mb-0">Minimum</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-12 border">
+                                                    <div class="p-2">
+                                                        <h4 id="fmax" class="mb-0">...</h4>
+                                                        <span class="mb-0">Maximum</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mx-3">
+                                                <div class="col-sm-6 col-12 border">
+                                                    <div class="p-2">
+                                                        <h4 id="fmlt" class="mb-0">...</h4>
+                                                        <span class="mb-0">Multiple</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-12 border">
+                                                    <div class="p-2">
+                                                        <h4 id="Diduction" class="mb-0">...</h4>
+                                                        <span class="mb-0">Deduction</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Msgs"></div>
+                        </form>
+                    </div>
+                </div>
+                <a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+                <div id="footer-bar" class="footer-bar-1 col-md-4 m-auto mobile_screen" style="transform: translateX(0);">
+                    <a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                    <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                    <a href="invite.html">
+                        <div class="footer-ball">
+                            <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                        </div>
+                        <div class="footer-daimond-text">Promotion</div>
+                    </a>
+                    <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="WallBal" />
+    <input type="hidden" id="txncharge1" />
+    <input type="hidden" id="transferuserDeduc" />
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js?v=1.0"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="Handler_js/Game-LoadCounter.js?ver=1.0"></script>
+    <script src="Handler_js/Transfer-to-User.js?1.2"></script>
+    <script type="text/javascript">
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye-slash fa-eye");
+            input = $(this).parent().find("input");
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+    <script>
+        $("#txtDepositAmount").change(function () {
+            $(".d-none").removeClass("d-none");
+        });
+    </script>
+</body>
+</html>

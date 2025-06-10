@@ -1,0 +1,185 @@
+<%@ WebHandler Language="C#" Class="Get_e_Currency_Confirm" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Security.Cryptography;
+
+public class Get_e_Currency_Confirm : IHttpHandler
+{
+
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, strJson, UserID,
+        PAYMENT_ID = "", PAY_AMT = "", PAYEE_ACCOUNT = "", PAYMENT_AMOUNT = "", ORDER_NO = "",
+        PAYMENT_UNITS = "", PAYMENT_BATCH_NUM = "", PAYER_ACCOUNT = "", TIMESTAMPGMT = "", PAYEE_NAME = "",
+        SUGGESTED_MEMO = "", PAYEE_MEMID = "", ToMem_Id = "", lblSUGGESTED_MEMO="",
+        lblPayee_Account="", lblPAYMENT_BATCH_NUM="", lblPayer_Account="", Mem_Name="", lblPAYMENT_AMOUNT="", lblPAYMENT_UNITS="", lblPAYMENT_ID="";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds;
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        //////////
+        GetConfirmDetails();
+        //////////
+    }
+   
+    
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+    private void GetConfirmDetails()
+    {
+        bool NotValid = false;
+
+        try
+        {
+            if (context.Request.HttpMethod == "GET")
+            {
+                PAYMENT_ID = context.Request.Form["PAYMENT_ID"];
+                PAYEE_ACCOUNT = context.Request.Form["PAYEE_ACCOUNT"];
+                PAYMENT_AMOUNT = context.Request.Form["PAYMENT_AMOUNT"];
+                PAYMENT_UNITS = context.Request.Form["PAYMENT_UNITS"];
+                PAYMENT_BATCH_NUM = context.Request.Form["PAYMENT_BATCH_NUM"];
+                PAYER_ACCOUNT = context.Request.Form["PAYER_ACCOUNT"];
+                TIMESTAMPGMT = context.Request.Form["TIMESTAMPGMT"];
+                PAYEE_NAME = "valuegold";
+                SUGGESTED_MEMO = context.Request.Form["SUGGESTED_MEMO"];
+                PAYEE_MEMID = context.Request.Form["PAYEE_MEMID"];
+                ToMem_Id = context.Request.Form["ToMem_Id"];
+                PAY_AMT = context.Request.Form["PAY_AMT"];
+            }
+            else if (context.Request.HttpMethod == "POST")
+            {
+                PAYMENT_ID = context.Request.Form["PAYMENT_ID"];
+                PAYMENT_AMOUNT = context.Request.Form["PAYMENT_AMOUNT"];
+                PAYMENT_UNITS = context.Request.Form["PAYMENT_UNITS"];
+                PAYEE_ACCOUNT = context.Request.Form["PAYEE_ACCOUNT"];
+                PAYMENT_BATCH_NUM = context.Request.Form["PAYMENT_BATCH_NUM"];
+                PAYER_ACCOUNT = context.Request.Form["PAYER_ACCOUNT"];
+                TIMESTAMPGMT = context.Request.Form["TIMESTAMPGMT"];
+                PAYEE_NAME = "valuegold";
+                SUGGESTED_MEMO = context.Request.Form["SUGGESTED_MEMO"];
+                PAYEE_MEMID = context.Request.Form["PAYEE_MEMID"];
+                ToMem_Id = context.Request.Form["ToMem_Id"];
+                PAY_AMT = context.Request.Form["PAY_AMT"];
+            }
+
+            int index = 0;
+            lblSUGGESTED_MEMO = SUGGESTED_MEMO;
+            lblPayee_Account = PAYEE_ACCOUNT;
+            lblPAYMENT_BATCH_NUM = PAYMENT_BATCH_NUM;
+            lblPayer_Account = PAYER_ACCOUNT;
+            lblPAYMENT_AMOUNT = PAYMENT_AMOUNT;
+            Mem_Name = PAYEE_NAME;
+
+            index = SUGGESTED_MEMO.IndexOf(',');
+            if (index >= 0)
+            {
+                lblSUGGESTED_MEMO = SUGGESTED_MEMO.Substring(0, index);
+                index = 0;
+            }
+            else
+            {
+                lblSUGGESTED_MEMO = SUGGESTED_MEMO.ToString();
+                index = 0;
+            }
+
+            index = PAYMENT_AMOUNT.IndexOf(',');
+            if (index >= 0)
+            {
+                lblPAYMENT_AMOUNT = PAYMENT_AMOUNT.Substring(0, index);
+                index = 0;
+            }
+            else
+            {
+                lblPAYMENT_AMOUNT = PAYMENT_AMOUNT.ToString();
+                index = 0;
+            }
+
+
+            index = PAYMENT_UNITS.IndexOf(',');
+            if (index >= 0)
+            {
+                lblPAYMENT_UNITS = PAYMENT_UNITS.Substring(0, index);
+                index = 0;
+            }
+            else
+            {
+                lblPAYMENT_UNITS = PAYMENT_UNITS.ToString();
+                index = 0;
+            }
+
+
+            index = PAYMENT_ID.IndexOf(',');
+            if (index >= 0)
+            {
+                lblPAYMENT_ID = PAYMENT_ID.Substring(0, index);
+                index = 0;
+            }
+            else
+            {
+                lblPAYMENT_ID = PAYMENT_ID.ToString();
+                index = 0;
+            }
+
+            if (lblPAYMENT_UNITS == "")
+            {
+                lblPAYMENT_UNITS = "TRX";
+            }
+
+            NotValid = true;
+        }
+        catch (Exception ex)
+        {
+            msg = ex.Message.ToString();
+        }
+        if (NotValid)
+        {
+            try
+            {
+                ds = objgdb.ByProcedure("ProcByPerfectMoneyConfirm",
+                   new string[] { "Memid", "Amt", "AmtDis", "TransId", "BatchNo", "PaymentId", "PayerAcc", "PayeeAcc" },
+                   new string[] { PAYEE_MEMID.Trim(), lblPAYMENT_AMOUNT.Trim(), lblSUGGESTED_MEMO.Trim(), lblPAYMENT_ID.Trim(), lblPAYMENT_BATCH_NUM.Trim(), lblPAYMENT_ID.Trim(), lblPayer_Account.Trim(), lblPayee_Account.Trim() }, "das");
+                if (ds.Tables[0].Rows[0]["SubmitStatus"].ToString() == "Ok")
+                {
+                    msg = ds.Tables[0].Rows[0]["Error"].ToString() + " " + lblSUGGESTED_MEMO + " Done, Details are: <br>Payee Account Name: " + lblPayee_Account + "<br>Batch No: " + lblPAYMENT_BATCH_NUM + "<br>Amount : " + lblPAYMENT_AMOUNT + "<br>In Units : " + lblPAYMENT_UNITS;
+                }
+                else
+                {
+                    msg = ds.Tables[0].Rows[0]["Error"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message.ToString();//"Your request could not be completed.";
+            }
+        }
+        //StringBuilder jsonBuilder = new StringBuilder("");
+        //jsonBuilder.Append("<input type='hidden' name='BAGGAGE_FIELDS' id='BAGGAGEId' value='PAYMENT_ID PAYMENT_UNITS PAYMENT_AMOUNT PAYEE_MEMID MAININV_AMT OLDWALLET_AMT'>");
+        //jsonBuilder.ToString();
+        
+        response.Write(msg);
+    }
+}

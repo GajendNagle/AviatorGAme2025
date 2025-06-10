@@ -1,0 +1,67 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Adm962xts21qtj_AdminDepstReqstDtl : System.Web.UI.Page
+{
+    DataSet ds; string rqID;
+    SearchReports objSearchReports = new SearchReports();
+    DB objdb = new DB();
+
+    public string ReqID, UserID, MName, CrReqDt, DipositeDt, PayMode, PayModeNo, BankName, BranchName, City, State, Amount,
+        Approved_Amt, Reject_Amt, Balance_Amt, TransactionID, Status, Remark;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            if (Request.QueryString["ReqID"] != null && Request.QueryString["ReqID"] != "")
+            {
+                rqID = Request.QueryString["ReqID"].ToString();
+                getData();
+            }
+        }
+    }
+    public void getData()
+    {
+        ds = objdb.ByDataSet(@"SELECT crr.RepID AS ReqID, crr.MemID AS UserID, m.MName, CONVERT(varchar(10), crr.CrReqDt, 103) AS CrReqDt, CONVERT(varchar(10), crr.DipositeDt, 103)
+AS DipositeDt, crr.PayMode, crr.PayModeNo, crr.BankName, crr.BranchName, crr.City, crr.State, crr.Amount,Isnull(crr.ApprovedAmt,0) Approved_Amt,
+IsNull(crr.RejectedAmt,0) as Reject_Amt,cast(isnull(crr.Amount,0)-isnull(crr.ApprovedAmt,0)-isnull(crr.RejectedAmt,0) as varchar) 'Balance_Amt',
+crr.TransactionID, crr.Status, crr.Remark, crr.ATTACHMENT FROM dbo.CreditRequest AS crr INNER JOIN  dbo.MemDetail AS m ON crr.MemID = m.MemID where Crr.RepID='" + rqID + "'");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            ReqID = ds.Tables[0].Rows[0]["ReqID"].ToString();
+            UserID = ds.Tables[0].Rows[0]["UserID"].ToString();
+            MName = ds.Tables[0].Rows[0]["MName"].ToString();
+            CrReqDt = ds.Tables[0].Rows[0]["CrReqDt"].ToString();
+            DipositeDt = ds.Tables[0].Rows[0]["DipositeDt"].ToString();
+            PayMode = ds.Tables[0].Rows[0]["PayMode"].ToString();
+            PayModeNo = ds.Tables[0].Rows[0]["PayModeNo"].ToString();
+            BankName = ds.Tables[0].Rows[0]["BankName"].ToString();
+            BranchName = ds.Tables[0].Rows[0]["BranchName"].ToString();
+            City = ds.Tables[0].Rows[0]["City"].ToString();
+            State = ds.Tables[0].Rows[0]["State"].ToString();
+            Amount = ds.Tables[0].Rows[0]["Amount"].ToString();
+            Approved_Amt = ds.Tables[0].Rows[0]["Approved_Amt"].ToString();
+            Reject_Amt = ds.Tables[0].Rows[0]["Reject_Amt"].ToString();
+            Balance_Amt = ds.Tables[0].Rows[0]["Balance_Amt"].ToString();
+            TransactionID = ds.Tables[0].Rows[0]["TransactionID"].ToString();
+            Status = ds.Tables[0].Rows[0]["Status"].ToString();
+            Remark = ds.Tables[0].Rows[0]["Remark"].ToString();
+            Image1.ImageUrl = "../Upload_Amount_Deposit_Recipt/" + ds.Tables[0].Rows[0]["ATTACHMENT"].ToString();
+        }
+        else
+        {
+            Response.Redirect("Admin_ViewDepositeRequest.aspx?mid=User Section&sid=View Deposit Request");
+        }
+    }
+}

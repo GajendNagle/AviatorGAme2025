@@ -1,0 +1,2170 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="Copy of AdminTreeView.aspx.cs" Inherits="AdminTreeView" Title=":: Genealogy (AdminTreeView.aspx) ::" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="800" height="433" border="0" align="center" cellpadding="0" cellspacing="0"
+        class="NewGenealogyLink">
+        <tr>
+            <td align="left" valign="top" style="width: 998px; height: 18px;">
+            </td>
+        </tr>
+        <tr>
+            <td align="center"  style="width: 803px" valign="middle">
+                <%--<table align="center" border="0" cellpadding="0" cellspacing="0" height="13" style="width: 798px">
+                     <tr>
+                        <td align="left" class="PopupHding" style="width: 50px; height: 13px;" valign="middle">
+                            Tree View</td>
+                        <td align="right" style="height: 13px; width: 448px; padding-right: 60px" valign="middle">
+                            <img align="absMiddle" height="12" src="../New_Genealogy/SILVER PACKAGE.png" width="12" />
+                            SILVER PCKG |
+                            <img align="absMiddle" height="12" src="../New_Genealogy/GOLD PACKAGE.png" width="12" />
+                            GOLD PCKG |
+                            <img align="absMiddle" height="12" src="../New_Genealogy/DIAMOND PACKAGE.png" width="12" />
+                            DIAMOND PCKG |
+                         <img align="absMiddle" height="12" src="../New_Genealogy/FREE REGISTRATION.png" width="12" />
+                            FREE REGISTRATION |
+                            <img align="absMiddle" height="12" src="../New_Genealogy/GRAY.png" width="12" />
+                            VACANT
+                        </td>
+                    </tr>
+                </table>--%>
+                     <asp:DataList ID="DLPkg" runat="server" RepeatDirection="Horizontal">
+                                <ItemTemplate>
+                                    <img align="absMiddle" height="16" width="16" src='../New_Genealogy/<%#Eval("PkgColor") %>.png' /> 
+                                    <%#Eval("PackageName")%> 
+                                </ItemTemplate>
+                            </asp:DataList>
+            </td>
+        </tr>
+        <tr>
+            <td  align="center" valign="middle" style="width: 803px; background-repeat: no-repeat">
+                <table width="709" height="12" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr align="left" valign="middle">
+                        <td width="265" style="height: 12px" align="left" valign="middle">
+                            View Network Summary Of: <a href="#?w=550" rel="popup305" class="poplight" title="View Network Summary">
+                                <asp:Label ID="lblNetworkList" runat="server"></asp:Label>
+                            </a>
+                        </td>
+                        <td width="10" style="height: 12px" align="left" valign="middle">
+                            |</td>
+                        <td width="211" style="height: 12px" align="left" valign="middle">
+                            Downline List Of:
+                            <asp:Label ID="lblDownlineList" runat="server"></asp:Label>
+                        </td>
+                        <td width="10" style="height: 12px" align="left" valign="middle">
+                            |</td>
+                        <td width="213" style="height: 12px" align="left" valign="middle">
+                            Direct UserList Of: <a href="#?w=720" rel="popup3" class="poplight" title="Direct UserList (SponserID List)">
+                                <asp:Label ID="lblDirectList" runat="server"></asp:Label>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0"  class="MtblCntReg">
+                    <tr>
+                        <td class="lblr">
+                            Search Team Member:
+                        </td>
+                        <td  >
+                            <asp:TextBox ID="txtuserid" runat="server"  MaxLength="15"></asp:TextBox></td>
+                        <td >
+                            <asp:Button ID="btnGo" runat="server" CssClass="Btn" Text="Go" OnClick="btnGo_Click" />
+                        </td>
+                         <td>
+                       <asp:Label ID="lblmsg" runat="server" Font-Bold="True" Font-Size="11px" ForeColor="Red"></asp:Label>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="385" align="center" valign="top" style="width: 803px">
+                <table width="800" height="375" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="800" height="375" align="center" valign="top" background="../New_Genealogy/Genealogy.png">
+                            <table width="800" height="372" border="0" align="center" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td width="800" height="14" align="center" valign="middle">
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="30" align="center" valign="middle">
+                                        <table width="800" height="30" border="0" align="center" cellpadding="0" cellspacing="0">
+                                            <tr align="center" valign="middle">
+                                                <td width="381" align="left" valign="middle">
+                                                </td>
+                                                <td width="41" height="30" runat="server" id="bImgWTName">
+                                                    <a href="#" id="trigger0">
+                                                        <asp:Image ID="ImgWTName" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" /></a></td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td align="left" colspan="2" valign="top">
+                                                    <asp:Label ID="lblWTName" runat="server"></asp:Label>&nbsp;
+                                                    </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="center" valign="middle">
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="30" align="center" valign="middle">
+                                        <table width="800" height="30" border="0" cellpadding="0" cellspacing="0">
+                                            <tr align="center" valign="middle">
+                                                <td width="192">
+                                                    &nbsp;</td>
+                                                <td width="41" height="30" runat="server" id="bImgLeft1">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL1 %>" id="trigger1">
+                                                        <asp:Image ID="ImgLeft1" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="100" align="left">
+                                                    <asp:Label ID="lblLeft1" runat="server" Width="45px"></asp:Label></td>
+                                                <td width="227">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight1">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR1 %>" id="trigger2">
+                                                        <asp:Image ID="ImgRight1" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="100" align="left">
+                                                    <asp:Label ID="lblRight1" runat="server"></asp:Label></td>
+                                                <td width="79">
+                                                    &nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="64" align="center" valign="middle">
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="middle" style="height: 29px">
+                                        <table width="800" height="30" border="0" cellpadding="0" cellspacing="0">
+                                            <tr align="center" valign="middle">
+                                                <td width="98">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgLeft21">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL21 %>" id="trigger3">
+                                                        <asp:Image ID="ImgLeft21" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="100" align="left">
+                                                    <asp:Label ID="lblLeft21" runat="server"></asp:Label></td>
+                                                <td width="38">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight22">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR22 %>" id="trigger4">
+                                                        <asp:Image ID="ImgRight22" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="100" align="left">
+                                                    <asp:Label ID="lblRight22" runat="server"></asp:Label></td>
+                                                <td width="37">
+                                                    &nbsp;</td>
+                                                <td width="41" height="30" runat="server" id="bImgLeft23">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL23 %>" id="trigger5">
+                                                        <asp:Image ID="ImgLeft23" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="138" align="left">
+                                                    <asp:Label ID="lblLeft23" runat="server"></asp:Label></td>
+                                                <td width="41" runat="server" id="bImgRight24">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR24 %>" id="trigger6">
+                                                        <asp:Image ID="ImgRight24" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="6">
+                                                    &nbsp;</td>
+                                                <td width="89" align="left">
+                                                    <asp:Label ID="lblRight24" runat="server"></asp:Label></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="64" align="center" valign="middle">
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="30" align="center" valign="middle">
+                                        <table width="800" height="30" border="0" align="center" cellpadding="0" cellspacing="0">
+                                            <tr align="center" valign="middle">
+                                                <td width="51" height="30">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgLeft31">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL31 %>" id="trigger7">
+                                                        <asp:Image ID="ImgLeft31" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="53">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight32">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR32 %>" id="trigger8">
+                                                        <asp:Image ID="ImgRight32" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="54">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgLeft33">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL33 %>" id="trigger9">
+                                                        <asp:Image ID="ImgLeft33" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td style="width: 53px">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight34">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR34 %>" id="trigger10">
+                                                        <asp:Image ID="ImgRight34" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="53">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgLeft35">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL35 %>" id="trigger11">
+                                                        <asp:Image ID="ImgLeft35" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="54">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight36">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR36 %>" id="trigger12">
+                                                        <asp:Image ID="ImgRight36" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="53">
+                                                    &nbsp;</td>
+                                                <td width="41" height="30" runat="server" id="bImgLeft37">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblL37 %>" id="trigger13">
+                                                        <asp:Image ID="ImgLeft37" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="53">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight38">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lblR38 %>" id="trigger14">
+                                                        <asp:Image ID="ImgRight38" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="48">
+                                                    &nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="33" align="center" valign="middle">
+                                        <table width="800" height="30" border="0" align="center" cellpadding="0" cellspacing="0">
+                                            <tr align="center" valign="middle">
+                                                <td width="29" height="30">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblLeft31" runat="server"></asp:Label></td>
+                                                <td width="17">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblRight32" runat="server"></asp:Label></td>
+                                                <td width="11">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblLeft33" runat="server"></asp:Label></td>
+                                                <td width="12">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblRight34" runat="server"></asp:Label></td>
+                                                <td width="14">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblLeft35" runat="server"></asp:Label></td>
+                                                <td width="15">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblRight36" runat="server"></asp:Label></td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblLeft37" runat="server"></asp:Label></td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="83">
+                                                    <asp:Label ID="lblRight38" runat="server"></asp:Label></td>
+                                                <td width="18">
+                                                    &nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="30" align="center" valign="middle">
+                                        <table width="800" height="30" border="0" align="center" cellpadding="0" cellspacing="0">
+                                            <tr align="center" valign="middle">
+                                                <td width="12" height="30">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight39">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl39 %>" id="trigger15">
+                                                        <asp:Image ID="ImgRight39" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="6">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgLeft40">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl40 %>" id="trigger16">
+                                                        <asp:Image ID="ImgLeft40" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="11">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight41">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl41 %>" id="trigger17">
+                                                        <asp:Image ID="ImgRight41" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="5">
+                                                    &nbsp;</td>
+                                                <td width="41" height="30" runat="server" id="bImgLeft42">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl42 %>" id="trigger18">
+                                                        <asp:Image ID="ImgLeft42" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="12">
+                                                    &nbsp;</td>
+                                                <td width="42" runat="server" id="bImgRight43">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl43 %>" id="trigger19">
+                                                        <asp:Image ID="ImgRight43" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="5">
+                                                    &nbsp;</td>
+                                                <td width="41" id="bImgLeft44" runat="server">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl44 %>" id="trigger20">
+                                                        <asp:Image ID="ImgLeft44" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="13">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight45">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl45 %>" id="trigger21">
+                                                        <asp:Image ID="ImgRight45" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="6">
+                                                    &nbsp;</td>
+                                                <td width="41" id="bImgLeft46" runat="server">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl46 %>" id="trigger222">
+                                                        <asp:Image ID="ImgLeft46" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="12">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight47">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl47 %>" id="trigger23">
+                                                        <asp:Image ID="ImgRight47" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="5">
+                                                    &nbsp;</td>
+                                                <td width="41" id="bImgLeft48" runat="server">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl48 %>" id="trigger24">
+                                                        <asp:Image ID="ImgLeft48" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="12">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight49">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl49 %>" id="trigger25">
+                                                        <asp:Image ID="ImgRight49" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="5">
+                                                    &nbsp;</td>
+                                                <td width="41" id="bImgLeft50" runat="server">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl50 %>" id="trigger26">
+                                                        <asp:Image ID="ImgLeft50" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="11">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight51">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl51 %>" id="trigger27">
+                                                        <asp:Image ID="ImgRight51" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="6">
+                                                    &nbsp;</td>
+                                                <td width="41" id="bImgLeft52" runat="server">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl52 %>" id="trigger28">
+                                                        <asp:Image ID="ImgLeft52" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="10">
+                                                    &nbsp;</td>
+                                                <td width="41" runat="server" id="bImgRight53">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl53 %>" id="trigger29">
+                                                        <asp:Image ID="ImgRight53" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="5">
+                                                    &nbsp;</td>
+                                                <td width="41" id="bImgLeft54" runat="server">
+                                                    <a href="AdminTreeView.aspx?MemID=<%=lbl54 %>" id="trigger30">
+                                                        <asp:Image ID="ImgLeft54" runat="server" ImageUrl="~/UserProfileImg/Open_User.png"
+                                                            Width="25" Height="25" />
+                                                    </a>
+                                                </td>
+                                                <td width="6">
+                                                    &nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="12">
+                                        &nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!--MouseOver Popup-->
+    <div id="pop-up0">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImg1" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserOpen.jpg"
+                        Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft00Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft000SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft000Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft000Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft000GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft000TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft000TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <%--<div id="pop-up3111">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="86" align="left" valign="middle"><img src="../New_Genealogy/User2_Big.jpg" class="PopupImgBor"></td>
+    <td width="264" align="right" valign="middle"><table width="260" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="20" align="left" valign="middle"><h3>Abhitesh Sisodia [MahaveerJain786]</h3></td>
+  </tr>
+  <tr>
+    <td height="20" align="left" valign="middle"><span class="PopupHding">SponserID:</span> 79317, <span class="PopupHding">City:</span> BHOPAL</td>
+  </tr>
+  <tr>
+    <td height="20" align="left" valign="middle"><span class="PopupHding">Sign-Up Type:</span> SWP, <span class="PopupHding">Sign-Up On:</span> 08-03-2008</td>
+  </tr>
+  <tr>
+    <td height="20" align="left" valign="middle"><span class="PopupHding">Total Left User:</span> 58 ,<span class="PopupHding">Total Right User:</span> 14</td>
+  </tr>
+  <tr>
+    <td height="20" align="left" valign="middle"><span class="PopupHding">Status Update:</span> Goodmorning</td>
+  </tr>
+</table>
+</td>
+  </tr>
+</table>
+      </div>--%>
+    <div id="pop-up1">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft1" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft11Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft111SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft111Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft111Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft111GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft111TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft111TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up2">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight1" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight11Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight11SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight11Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight11Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight11GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight11TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight11TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up3">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft21" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft21Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft21SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft21Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft21Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft21GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft21TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft21TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up4">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight22" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight22Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight22SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight22Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight22Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight22GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight22TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight22TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up22">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <img src="../New_Genealogy/UserOpen.jpg" class="PopupImgBor">
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="Label56" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="Label57" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="Label58" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="Label59" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="Label60" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="Label61" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="Label62" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up5">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft23" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft23Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft23SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft23Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft23Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft23GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft23TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft23TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up6">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight24" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight24Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight24SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight24Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight24Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight24GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight24TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight24TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up7">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft31" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft31Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft31SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft31Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft31Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft31GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft31TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft31TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up8">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight32" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight32Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight32SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight32Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight32Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight32GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight32TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight32TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up9">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft33" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft33Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft33SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft33Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft33Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft33GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft33TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft33TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up10">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight34" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight34Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight34SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight34Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight34Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight34GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight34TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight34TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up11">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft35" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft35Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft35SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft35Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft35Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft35GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft35TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft35TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up12">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight36" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight36Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight36SPID" runat="server" Text=""></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight36Package" runat="server" Text=""></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight36Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight36GreenDate" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight36TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight36TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up13">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft37" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft37Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft37SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft37Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft37Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft37GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft37TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft37TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up14">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight38" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight38Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight38SPID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight38Package" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight38Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight38GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight38TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight38TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up15">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight39" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight39Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight39SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight39JoiPak" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight39Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight39Greendate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight39TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight39TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up16">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft40" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft40Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft40SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft40JoinPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft40DOJ" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft40GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft40TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft40TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up17">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight41" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight41Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight41SponID" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight41JoinPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight41Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight41GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight41TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight41TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up18">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft42" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft42Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft42SponId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft42JoiDate" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft42Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft42GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft42TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft42TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up19">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight43" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight43Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight43SponId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight43JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight43DOJ" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight43GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight43TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight43TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up20">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft44" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft44Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft44SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft44JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft44Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft44GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft44TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft44TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up21">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight45" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight45Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight45SponId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight45JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight45Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight45Greendate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight45TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight45TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up222">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft46" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft46Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft46SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft46JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft46DOJ" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft46GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft46TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft46TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up23">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight47" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight47Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight47SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight47JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight47Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight47GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight47TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight47TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up24">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft48" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft48Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft48SponId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft48JOiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft48DOj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft48GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft48TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft48TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up25">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight49" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight49Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight49SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight49JOiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight49Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight49Greendate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight49TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight49TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up26">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft50" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft50Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft50SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft50JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft50Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft50GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft50TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft50TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up27">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight51" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight51Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight51SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight51JOiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight51Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight51GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight51TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight51TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up28">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft52" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft52Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft52SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft52JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft52Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft52GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft52TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft52TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up29">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgRight53" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblRight53Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblRight53SponId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblRight53JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblRight53Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblRight53GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblRight53TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblRight53TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop-up30" style="left: 0px; top: 0px">
+        <table width="350" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="86" align="left" valign="middle">
+                    <asp:Image ID="BigImgLeft54" runat="server" BorderWidth="1" CssClass="PopupImgBor"
+                        ImageUrl="~/UserProfileImg/UserOpen.jpg" Width="80" Height="80" />
+                </td>
+                <td width="264" align="right" valign="middle">
+                    <table width="260" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <h3>
+                                    <asp:Label ID="lblLeft54Name" runat="server" Text=""></asp:Label></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">SponserID:</span>
+                                <asp:Label ID="lblLeft54SpoId" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up Type:</span>
+                                <asp:Label ID="lblLeft54JoiPkg" runat="server" Text=""></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Sign-Up On:</span>
+                                <asp:Label ID="lblLeft54Doj" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Actived On:</span>
+                                <asp:Label ID="lblLeft54GreenDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total LeftUser:</span>
+                                <asp:Label ID="lblLeft54TotLft" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td height="20" align="left" valign="middle">
+                                <span class="PopupHding">Total RightUser:</span>
+                                <asp:Label ID="lblLeft54TotRgt" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <%--<div id="popup3" class="popup_block">
+        <iframe src="DirectUserList.aspx" width="720px" height="200px" style="border: 1px solid #fff;"
+            frameborder="0"></iframe>
+    </div>
+    <div id="popup305" class="popup_block">
+        <iframe src="AdminDownLineNewtworkSummary.aspx" width="550px" height="150px" style="border: 1px solid #fff;"
+            frameborder="0"></iframe>
+    </div>--%>
+    <!--END POPUP-->
+    <%--<script type="text/javascript">
+
+$(document).ready(function(){						   		   
+
+	//When you click on a link with class of poplight and the href starts with a # 
+	$('a.poplight[href^=#]').click(function() {
+		var popID = $(this).attr('rel'); //Get Popup Name
+		var popURL = $(this).attr('href'); //Get Popup href to define size
+		//Pull Query & Variables from href URL
+		var query= popURL.split('?');
+		var dim= query[1].split('&');
+		var popWidth = dim[0].split('=')[1]; //Gets the first query string value
+		//Fade in the Popup and add close button
+		$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"><img src="../images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>');
+
+		//Define margin for center alignment (vertical + horizontal) - we add 80 to the height/width to accomodate for the padding + border width defined in the css
+
+		var popMargTop = ($('#' + popID).height() + 80) / 2;
+		var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		//Apply Margin to Popup
+		$('#' + popID).css({ 
+			'margin-top' : -popMargTop,
+			'margin-left' : -popMargLeft
+		});	
+		//Fade in Background
+		$('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
+		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer 
+		return false;
+	});
+	//Close Popups and Fade Layer
+	$('a.close, #fade').live('click', function() { //When clicking on the close or fade layer...
+	  	$('#fade , .popup_block').fadeOut(function() {
+			$('#fade, a.close').remove();  
+
+	}); //fade them both out
+		return false;
+	});
+
+});
+
+    </script>--%>
+</asp:Content>

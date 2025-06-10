@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>My Directs</title>
+    <link href="//cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .main-content {
+            padding: 0px 0px 40px;
+        }
+        .col-md-4.col-12.m-auto.mobile_screen {
+            margin-bottom: 55px !important;
+        }
+        .date-range-picker > .form-label {
+            margin-bottom: 0;
+            margin-right: 0.5rem;
+        }
+        .form-control[readonly] {
+            background-color: unset !important;
+        }
+        .btns-theme {
+            border-radius: 7px;
+        }
+        .dataTables_info {
+            text-align: center;
+        }
+        @media screen and (max-width: 767px) {
+            div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+                justify-content: start !important;
+                overflow-x: scroll;
+            }
+            .dataTables_paginate {
+                width: 100%;
+            }
+        }
+        @media(min-width: 600px) {
+            div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+                justify-content: center !important;
+            }
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg></div><div class="container-fluid"><div class="row background-body-color"><div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen"><div class="mt-5 pb-3"><div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c"><a href="#" class="text-white ml-2 fs-20" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a><a href="#" class="btn-toggle-mobile-side-bar"><div></div><div></div><div></div></a><a href="#" class="logo flex flex-ai-c absolute-center">My Directs<div class="loged-in"></div></a></div><div class="mobile-side-bar"><nav class="menu-box-1"><div class="text-center pt-2"><img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;"></div><hr class="mt-2 bg-white"><ul class="list"><li><a href="game-index.html" class="block menui"><div class="icircles"><i class="fa fa-house m-1"></i></div>Home</a></li><li><a href="profile.html" class="block menui"><div class="icircles"><i class="fa fa-user m-1"></i></div>Profile</a></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa-solid fa-file-import m-1"></i></div>Affiliate<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="My-team.html" class="block menui2">My Team</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="My-directs.html" class="block menui2">My Directs</a></li></ul></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-money-bill-wave m-1"></i></div>Deposit<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="add-balance-history.html" class="block menui2">Deposit History</a></li></ul></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-building-columns m-1"></i></div>Main Wallet<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="Transfer-to-User.html" class="block menui2">Transfer to user</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a></li></ul></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-building-columns m-1"></i></div>Growth Wallet<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a></li><li><i class="fa-solid fa-diamond ds"></i><a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a></li></ul></li><li><a href="invite.html" class="block menui"><div class="icircles"><i class="fa fa-envelope-open-text m-1"></i></div>Promotion</a></li><li><a href="#" class="block menui"><div class="icircles"><i class="fa fa-money-bill-1 m-1"></i></div>Withdraw<i class="fa-solid fa-chevron-down cheviconr"></i></a><ul class="list pl-1"><li><i class="fa-solid fa-diamond ds"></i><a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a></li><li><i class="fa-solid fa-diamond ds"></i><a class="block menui2" href="withdraw-history.html">Withdraw History</a></li></ul></li><li><a href="inbox.html" class="block menui"><div class="icircles"><i class="fa fa-envelope m-1"></i></div>Inbox</a></li><li><a href="news.html" class="block menui"><div class="icircles"><i class="fa fa-newspaper m-1"></i></div>News</a></li><li><a href="Sign-Out.aspx" class="block menui"><div class="icircles"><i class="fa fa-right-from-bracket m-1"></i></div>Log Out</a></li></ul></nav></div><div class="main-content"><div class="row section_row_inner"><div class="col-md-12 mt-3"><div class="card card-bordered card-full box4 mt-2"><div class="card-inner"><div class="nk-block-between-md table-responsive"><div class="table-filter"><table class="table"><tr><td style="display: none;"><select id="ddlPos" name="select" class="positionall btn btn-filter thmes-buttoncolor" style="font-size: 15px !important; text-align: left; border-radius: 5px; border: 1px solid #cdd4da; color: #495057; width: 170px;"><option value="ALL">Positions-All</option><option value="left">Left</option><option value="Right">Right</option></select></td><td><select id="ddlStatus" name="select" class="form-control" aria-label="Default select example" style="font-size: 15px !important; text-align: left; border-radius: 5px; border: 1px solid #cdd4da; width: 170px;"><option value="ALL">Status-All</option><option value="Active">Active</option><option value="In-Active">In Active</option><option value="Block">Block</option></select></td><td style="display: none;"><select id="ddlrank" name="select" class="positionall btn btn-filter thmes-buttoncolor" aria-label="Default select example" style="font-size: 15px !important; text-align: left; border-radius: 5px; border: 1px solid #cdd4da; color: #495057; width: 170px;"><option value="ALL">Rank-All</option><option value="Member">Member</option><option value="Silver">Silver</option><option value="Gold">Gold</option><option value="Diamond">Diamond</option><option value="Crown">Crown</option></select></td><td style="display: none;"><select id="ddllvl" class="positionall btn btn-filter thmes-buttoncolor" aria-label="Default select example" style="font-size: 15px !important; text-align: left; border-radius: 5px; border: 1px solid #cdd4da; color: #495057; width: 170px;"><option value="ALL">Level-All</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option></select></td><td><div class="d-flex align-items-center date-range-picker From position-relative"><label class="form-label">From:</label><input type="date" class="form-control btn-group custom-select datepicker" style="width: 165px; font-size: 14px !important;" placeholder="dd-mm-yyyy" id="datepickerFrom" value=""></div></td><td><div class="d-flex align-items-center date-range-picker To position-relative"><label class="form-label">To:</label><input type="date" class="form-control btn-group custom-select datepicker" style="width: 165px; font-size: 14px !important;" placeholder="dd-mm-yyyy" id="datepickerTo" value=""></div></td><td><button type="button" class="btn btns-theme" style="font-size: 14px !important;" id="btnfrtodt" onclick="SearchDownline()">Search</button></td></tr></table></div></div></div></div></div><div class="col-12 mt-3 pb-5"><div class="card"><div class="card-inner table_section"><div class="table"><table id="example23" class="table table-responsive table-striped table-bordered table-hover" cellspacing="0" width="100%"><thead><tr><th>Team Member</th><th>DOJ</th><th>Deposit - Self</th><th>Deposit - Team</th></tr></thead><tfoot align="left"><tr><th></th><th style="text-align: right;"></th><th></th><th></th></tr></tfoot></table></div></div></div></div></div></div></div></div><a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a><div id="footer-bar" class="footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen" style="transform: translateX(0);"><a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a><a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a><a href="invite.html"><div class="footer-ball"><img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;"></div><div class="footer-daimond-text">Promotion</div></a><a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a><a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a></div><div class="card card-preview mb-0"><div class="card-inner inner-tabs bg-light-gray"></div></div></div></div>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $("#datepickerFrom").flatpickr();
+        $("#datepickerTo").flatpickr();
+    </script>
+    <script>
+        $(document).ready(function () {
+            table.draw();
+            $("#ddlPos").bind("keyup change", function () {
+                table.draw();
+            });
+            $("#ddlStatus").bind("keyup change", function () {
+                table.draw();
+            });
+            $("#ddlrank").bind("keyup change", function () {
+                table.draw();
+            });
+            $("#btnfrtodt").click(function () {
+                table.draw();
+            });
+        });
+    </script>
+    <script>
+        var inc = GetParameterValues("Inctype");
+        if (inc == "Active") {
+            $("#ddlStatus option[value=Active]").prop("selected", true)
+        }
+        else if (inc == "In-Active") {
+            $("#ddlStatus option[value=In-Active]").prop("selected", true)
+        }
+        var table = $('#example23').DataTable({
+            "pagingType": "full_numbers",
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "type": "POST",
+                "url": "Handlers/My-Referrals-Dt.ashx",
+                "dataType": "json",
+                data: function (d) {
+                    d.sts = $("#ddlStatus").val();
+                    d.pos = $("#ddlPos").val();
+                    d.rank = $("#ddlrank").val();
+                    d.lvl = $("#ddllvl").val();
+                    d.frdt = $("#datepickerFrom").val();
+                    d.todt = $("#datepickerTo").val();
+                },
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                var AMTTotal = api
+                    .column(2)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                var AMTTotal1 = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                $(api.column(1).footer()).html('Total');
+                $(api.column(2).footer()).html(AMTTotal.toFixed(3));
+         /*       $(api.column(3).footer()).html(AMTTotal1.toFixed(3));*/
+            },
+            "order": [[0, "asc"]],
+            dom: 'lBfrtip',
+            "dom": "<'row'<'col-sm-4 col-xs-4 dt-show-entry'l><'col-sm-4 col-xs-4 text-center'B><'col-sm-4 col-xs-4'f>>rt<'bottom'ip><'clear'>",
+            "lengthMenu": [[25, 50, 100, 200], [25, 50, 100, 200]],
+            buttons: [
+                { extend: 'copy', className: 'btn-sm' },
+                { extend: 'csv', title: 'My Referrals', className: 'btn-sm' },
+                { extend: 'pdf', title: 'My Referrals', className: 'btn-sm' },
+                { extend: 'print', className: 'btn-sm' }
+            ]
+        });
+        $.fn.dataTable.ext.errMode = 'throw';
+        function GetParameterValues(param) {
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (urlparam[0] == param) {
+                    return urlparam[1];
+                }
+            }
+        }
+    </script>
+</body>
+</html>

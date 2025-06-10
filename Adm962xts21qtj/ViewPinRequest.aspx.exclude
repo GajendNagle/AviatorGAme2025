@@ -1,0 +1,220 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" StylesheetTheme="MySkin"
+    AutoEventWireup="true" CodeFile="ViewPinRequest.aspx.cs" Inherits="ViewPinRequest"
+    Title="View Credit Request/Edit Credit Request !!" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table height="500" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="right" class="Header_Top1">
+                <%--<samp class="Header_Top">
+                    VIEW / APPROVE Pin Request<img src="../UserPanel_Images/nav-arrow-down1.png" width="20"
+                        height="16" /></samp>--%></td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <table border="0" cellpadding="0" cellspacing="0"  style="width: 100%">
+               
+                    <tr>
+                        <td align="center"   valign="middle" style="padding-top:10px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+                                <tr>
+                                    <td align="center" valign="middle" style="width:100%;">
+                                        <table align="center" style="font-family:Verdana; font-size: 12px;">
+                                            <tr>
+                                                <td align="left" style="height: 22px">
+                                                    Status :</td>
+                                                <td align="left" style="height: 22px">
+                                                    <asp:DropDownList ID="ddlStatus" runat="server" Width="113px"
+                                                        CssClass="ComposeTxtBx">
+                                                        <asp:ListItem>ALL</asp:ListItem>
+                                                        <asp:ListItem>PENDING</asp:ListItem>
+                                                        <asp:ListItem>REJECTED</asp:ListItem>
+                                                        <asp:ListItem>COMPLETED</asp:ListItem>
+                                                    </asp:DropDownList></td>
+                                                <td align="left" colspan="6" style="text-align: right; height: 22px;">
+                                                  Deposited Bank Name :<asp:DropDownList ID="ddlBank" runat="server" Width="190px" CssClass="ComposeTxtBx">
+                                                        <asp:ListItem>ALL</asp:ListItem>
+                                                        <asp:ListItem>CASH</asp:ListItem>
+                                                    </asp:DropDownList></td>
+                                                <td align="left" style="height: 22px" >
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="ddlBank"
+                                                        ErrorMessage="Please Select Bank Name" InitialValue="--Select  Bank--" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="middle">
+                                                    From Date&nbsp; :
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="FromDate"
+                                                        ErrorMessage="Please Enter From Date">*</asp:RequiredFieldValidator></td>
+                                                <td align="left">
+                                                    <asp:TextBox ID="FromDate" runat="server" ValidationGroup="b" Width="160px"></asp:TextBox>
+                                                    </td>
+                                                <td align="left" >
+                                                    </td>
+                                                <td align="left" >
+                                                     To Date :<asp:RequiredFieldValidator ID="RequiredFieldValidator2"
+                                                        runat="server" ControlToValidate="ToDate" ErrorMessage="Please Enter ToDate">*</asp:RequiredFieldValidator>
+                                                </td>
+                                                <td align="left">
+                                                    <asp:TextBox ID="ToDate" runat="server" Width="160px"></asp:TextBox></td>
+                                                <td align="left" >
+                                                    </td>
+                                                <td align="right">
+                                                    E-PIN Quantity :</td>
+                                                <td align="right" >
+                                                    <strong>
+                                                        <asp:TextBox ID="txtPinNo" runat="server" ValidationGroup="b" Width="105px"></asp:TextBox></strong></td>
+                                                <td align="left" >
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="middle">
+                                                </td>
+                                                <td align="left">
+                                                    <asp:Button ID="btnSearch" runat="server" CssClass="Btn" Font-Bold="True" Font-Names="Verdana"
+                                                        Font-Size="11px" OnClick="btnSearch_Click" Text="SEARCH" Width="80px" CausesValidation="False" /></td>
+                                                <td align="left" >
+                                                </td>
+                                                <td align="left" colspan="5">
+                                                    <asp:Label ID="lblMsg" runat="server" ForeColor="Red"></asp:Label></td>
+                                                <td align="left" >
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" class="BoardStructure" valign="middle" style="height: 24px">
+                                        <asp:Button ID="btnexporttoexport" runat="server" CausesValidation="False" CssClass="Btn"
+                                            Font-Bold="True" Font-Names="Verdana" Font-Size="10px" Height="20px" OnClick="btnexporttoexport_Click"
+                                            Text="EXPORT TO EXCEL" Width="127px" Visible="False" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top" class="BoardStructure" >
+                                        <asp:GridView ID="GridView1" runat="server"  ShowFooter="True" Width="100%" AutoGenerateColumns="false"  OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating">
+                                           
+                                            <Columns>
+                                                 <asp:TemplateField HeaderText="SR.">
+                                                    <ItemTemplate>
+                                                        <%# Container.DataItemIndex+1 %>
+                                                        .
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                             <asp:TemplateField>
+                                          <ItemTemplate>
+                                         <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="Edit" CausesValidation="false"
+                                                CommandName="Edit" />
+                                          </ItemTemplate>
+                                        <EditItemTemplate>
+                                      <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="UPDATE" CausesValidation="false" CommandName="Update" />
+                                      <asp:LinkButton ID="lnkbtnCancel" runat="server" Text="CANCEL" CausesValidation="false" CommandName="Cancel" />
+                                      </EditItemTemplate>
+                                   </asp:TemplateField>
+                                                
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:Panel ID="Panel1" runat="server" Visible='<%#Eval("Status").ToString() == "PENDING" ? true : false %>'>
+                                                            <a href="PinSales.aspx?mid=E-Pin Model&sid=Generate E-PIN&RID=<%#Eval("Req_No")%>">APPROVE</a>
+                                                        </asp:Panel>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                
+                                                 <asp:TemplateField HeaderText="Req_No">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Req_No")%>
+                                                  </ItemTemplate>
+                                                  <EditItemTemplate>
+                                                   <asp:Label ID="lblReq_No" runat="server" Text='<%#Eval("Req_No")%>'></asp:Label>
+                                                  <asp:TextBox ID="txtReq_No" runat="server" Text= '<%#Eval("Req_No")%>' Visible="false"></asp:TextBox>
+                                                   </EditItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                             <asp:TemplateField HeaderText="User Name">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("UserName")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                               
+                                                    <asp:TemplateField HeaderText="Name">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Name")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                                 
+                                                
+                                                <asp:TemplateField HeaderText="Requested Date">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Requested Date")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                            <asp:TemplateField HeaderText=" Deposit DATE">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("DepositeDate")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                             <asp:TemplateField HeaderText="E-Pins Requested">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("E-Pins Requested")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                             <asp:TemplateField HeaderText="Amount">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Amount")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                             <asp:TemplateField HeaderText="Package">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Package")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                             <asp:TemplateField HeaderText="Status">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Status")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>        
+                                                
+                                                <asp:TemplateField HeaderText="AccNo">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("AccNo")%>
+                                                  </ItemTemplate>
+                                               </asp:TemplateField>  
+                                              
+                                            <asp:TemplateField HeaderText="Remark">                             
+                                                  <ItemTemplate>
+                                                    <%#Eval("Remark")%>
+                                                  </ItemTemplate>
+                                                    <EditItemTemplate>
+                                                     <asp:TextBox ID="txtbxRemark" runat="server" TextMode="MultiLine" Text='<%#Eval("Remark")%>'></asp:TextBox>
+                                                       </EditItemTemplate>
+                                               </asp:TemplateField>
+                                              
+                                               
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <span class="GridEmpty">---Sorry, Record Not Found---</span>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                &nbsp; &nbsp;&nbsp;
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True"
+                    ShowSummary="False" Width="144px" />
+                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy"
+                    PopupButtonID="FromDate" TargetControlID="FromDate">
+                </ajaxToolkit:CalendarExtender>
+                
+                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy"
+                    PopupButtonID="ToDate" TargetControlID="ToDate">
+                </ajaxToolkit:CalendarExtender>
+            </td>
+        </tr>
+    </table>
+</asp:Content>

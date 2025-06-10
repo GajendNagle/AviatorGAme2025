@@ -1,0 +1,409 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin-Binary-TreeView.aspx.cs" StylesheetTheme="MySkin" Inherits="Admin_Binary_TreeView" Title="Binary-Tree-View" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+   <table width="803" border="0" style="font-size: 11px; font-family: 'Poppins', sans-serif;" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" height="30" style="width: 803px;" valign="middle">
+                <div id="PkgList">
+                    <asp:DataList ID="DLPkg" runat="server" RepeatDirection="Horizontal">
+                        <ItemTemplate>
+                            <img align="absMiddle" height="13" width="13" src='../New_Genealogy/<%#Eval("PkgColor") %>.png' />
+                            <%#Eval("PackageName")%>
+                        </ItemTemplate>
+                    </asp:DataList>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td height="30" align="center" valign="middle" background="../New_Genealogy/GenealogyHeader_Bg.png" style="width: 803px; background-repeat: no-repeat;">
+                <table width="740" height="12" border="0" cellpadding="0" cellspacing="0">
+                    <tr align="left" valign="middle" class="NewGenealogyLinkTop">
+                        <td width="265" style="height: 12px;" align="left" valign="middle">
+                            View Network Summary Of:
+                            <a href="#?w=730" rel="popup4" class="poplight" title="Network Summary">
+                                <asp:Label ID="lblNetworkList" runat="server"></asp:Label>
+                            </a>
+                        </td>
+                        <td width="10" style="height: 12px;" align="left" valign="middle">|</td>
+                        <td width="211" style="height: 12px;" align="left" valign="middle">
+                            Downline List Of:
+                            <asp:Label ID="lblDownlineList" runat="server"></asp:Label>
+                        </td>
+                        <td width="10" style="height: 12px;" align="left" valign="middle">|</td>
+                        <td width="213" style="height: 12px;" align="left" valign="middle">
+                            Direct UserList Of:     
+                            <a href="#?w=730" rel="popup3" class="poplight" title="Direct UserList (SponserID List)">
+                                <asp:Label ID="lblDirectList" runat="server"></asp:Label>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="376" align="center" valign="top" style="width: 803px;">
+                <asp:Label ID="lblmsg" runat="server" Font-Bold="True" Font-Size="11px" ForeColor="Red"></asp:Label>
+                <div style="background-image: url(../New_Genealogy/Binary-Genealogy-Back-B.png); width: 800px; height: 376px; margin-left: auto; margin-right: auto;" class="NewGenealogyLink">
+                    <div id="MemSrch">
+                        <asp:TextBox ID="txtuserid" placeholder=" Please Enter Down MemberID" runat="server" CssClass="ComposeTxtBxBT" MaxLength="20" Width="185"></asp:TextBox>
+                        <asp:Button ID="btnGo" runat="server" Text="Go" Height="28" Width="40" OnClick="btnGo_Click" CssClass="Outergo" Font-Size="11pt" />
+                    </div>
+                    <div id="Top1">
+		                <a href="#" id="trigger0">
+                            <asp:Image runat="server" width="90" height="90" ID="ImgWTName"/>
+                        </a>
+                        <div id="dlblTop1">
+                            <asp:Label ID="lblWTName" runat="server"></asp:Label>
+                        </div>
+                        <%--<div id="ddPostion">
+                            Choose Joining Position :
+                            <asp:DropDownList  ID="ddlPostion" Width="70px" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlPostion_SelectedIndexChanged" CssClass="ComposeTxtBx">
+                                <asp:ListItem Text="LEFT"></asp:ListItem>
+                                <asp:ListItem Text="RIGHT"></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>--%>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Left1">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL1 %>" id="trigger1">
+                            <asp:Image runat="server" width="78" height="78" ID="ImgLeft1"/>
+                        </a>
+                        <div id="dlblLeft1">
+                            <asp:Label ID="lblLeft1" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Right1">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR1 %>" id="trigger2">
+                            <asp:Image runat="server" width="78" height="78" ID="ImgRight1"/>
+                        </a>
+                        <div id="dlblRight1">
+                            <asp:Label ID="lblRight1" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Left21">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL21 %>" id="trigger3">
+                            <asp:Image runat="server" width="57" height="57" ID="ImgLeft21"/>
+                        </a>
+                        <div id="dlblLeft21">
+                            <asp:Label ID="lblLeft21" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Right21">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR22 %>" id="trigger4">
+                            <asp:Image runat="server" width="57" height="57" ID="ImgRight22"/>
+                        </a>
+                        <div id="dlblRight22">
+                            <asp:Label ID="lblRight22" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Left22">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL23 %>" id="trigger5">
+                            <asp:Image runat="server" width="57" height="57" ID="ImgLeft23"/>
+                        </a>
+                        <div id="dlblLeft23">
+                            <asp:Label ID="lblLeft23" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Right22">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR24 %>" id="trigger6">
+                            <asp:Image runat="server" width="57" height="57" ID="ImgRight24"/>
+                        </a>
+                        <div class="dlblRight24">
+                            <asp:Label ID="lblRight24" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Left31">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL31 %>" id="trigger7">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgLeft31"/>
+                        </a>
+                        <div class="dlblLeft31">
+                            <asp:Label ID="lblLeft31" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Right32">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR32 %>" id="trigger8">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgRight32"/>
+                        </a>
+					    <div class="dlblRight32">
+					        <asp:Label ID="lblRight32" runat="server"></asp:Label>
+					    </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Left33">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL33 %>" id="trigger9">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgLeft33"/>
+                        </a>
+					    <div class="dlblLeft33">
+					        <asp:Label ID="lblLeft33" runat="server"></asp:Label>
+					    </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Right34">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR34 %>" id="trigger10">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgRight34"/>
+                        </a>
+					    <div class="dlblRight34">
+					        <asp:Label ID="lblRight34" runat="server"></asp:Label>
+					    </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div id="Left35">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL35 %>" id="trigger11">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgLeft35"/>
+                        </a>
+					    <div class="dlblLeft35">
+					        <asp:Label ID="lblLeft35" runat="server"></asp:Label>
+					    </div>
+                    </div>
+                    <div id="Right36">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR36 %>" id="trigger12">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgRight36"/>
+                        </a>
+					    <div class="dlblRight36">
+					        <asp:Label ID="lblRight36" runat="server"></asp:Label>
+					    </div>
+                    </div>
+                    <div id="Left37">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblL37 %>" id="trigger13">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgLeft37"/>
+                        </a>
+                        <div class="dlblLeft37">
+                            <asp:Label ID="lblLeft37" runat="server"></asp:Label>
+                        </div>
+                    </div>
+                    <div id="Right38">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lblR38 %>" id="trigger14">
+                            <asp:Image runat="server" width="42" height="42" ID="ImgRight38"/>
+                        </a>
+					    <div class="dlblRight38">					
+					        <asp:Label ID="lblRight38" runat="server"></asp:Label>
+					    </div>
+                    </div>
+                    <div id="Left40">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl40 %>" id="trigger15">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft40"/>
+                        </a>
+                    </div>
+                    <div id="Right41">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl41 %>" id="trigger16">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight41"/>
+                        </a>
+                    </div>
+                    <div id="Left42">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl42 %>" id="trigger17">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft42"/>
+                        </a>
+                    </div>
+                    <div id="Right43">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl43 %>" id="trigger18">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight43"/>
+                        </a>
+                    </div>
+                    <div id="Left44">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl44 %>" id="trigger19">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft44"/>
+                        </a>
+                    </div>
+                    <div id="Right45">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl45 %>" id="trigger20">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight45"/>
+                        </a>
+                    </div>
+                    <div id="Left46">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl46 %>" id="trigger21">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft46"/>
+                        </a>
+                    </div>
+                    <div id="Right47">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl47 %>" id="trigger22">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight47"/>
+                        </a>
+                    </div>
+                    <div id="Left48">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl48 %>" id="trigger23">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft48"/>
+                        </a>
+                    </div>
+                    <div id="Right49">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl49 %>" id="trigger24">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight49"/>
+                        </a>
+                    </div>
+                    <div id="Left50">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl50 %>" id="trigger25">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft50"/>
+                        </a>
+                    </div>
+                    <div id="Right51">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl51 %>" id="trigger26">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight51"/>
+                        </a>
+                    </div>
+                    <div id="Left52">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl52 %>" id="trigger27">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft52"/>
+                        </a>
+                    </div>
+                    <div id="Right53">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl53 %>" id="trigger28">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight53"/>
+                        </a>
+                    </div>
+                    <div id="Left54">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl54 %>" id="trigger29">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgLeft54"/>
+                        </a>
+                    </div>
+                    <div id="Right55">
+		                <a href="Admin-Binary-TreeView.aspx?mid=Affiliate Program&sid=Downline Tree View&MemID=<%=lbl55 %>" id="trigger30">
+                            <asp:Image runat="server" width="27" height="27" ID="ImgRight55"/>
+                        </a>
+                    </div>
+                    <!--MouseOver Popup-->
+                    <div id="pop-up0">
+                        <asp:Image ID="BigImg1" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft00Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up1">
+                        <asp:Image ID="BigImgLeft1" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft11Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up2">
+                        <asp:Image ID="BigImgRight1" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight11Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up3">
+                        <asp:Image ID="BigImgLeft21" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft21Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up4">
+                        <asp:Image ID="BigImgRight22" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight22Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up5">
+                        <asp:Image ID="BigImgLeft23" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft23Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up6">
+                        <asp:Image ID="BigImgRight24" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight24Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up7">
+                        <asp:Image ID="BigImgLeft31" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft31Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up8">
+                        <asp:Image ID="BigImgRight32" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight32Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up9">
+                        <asp:Image ID="BigImgLeft33" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft33Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up10">
+                        <asp:Image ID="BigImgRight34" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight34Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up11">
+                        <asp:Image ID="BigImgLeft35" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft35Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up12">
+                        <asp:Image ID="BigImgRight36" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight36Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up13">
+                        <asp:Image ID="BigImgLeft37" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft37Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up14">
+                        <asp:Image ID="BigImgRight38" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight38Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up15">
+                        <asp:Image ID="BigImgLeft40" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft40Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up16">
+                        <asp:Image ID="BigImgRight41" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight41Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up17">
+                        <asp:Image ID="BigImgLeft42" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft42Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up18">
+                        <asp:Image ID="BigImgRight43" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight43Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up19">
+                        <asp:Image ID="BigImgLeft44" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft44Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up20">
+                        <asp:Image ID="BigImgRight45" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight45Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up21">
+                        <asp:Image ID="BigImgLeft46" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft46Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up22">
+                        <asp:Image ID="BigImgRight47" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight47Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up23">
+                        <asp:Image ID="BigImgLeft48" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft48Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up24">
+                        <asp:Image ID="BigImgRight49" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight49Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up25">
+                        <asp:Image ID="BigImgLeft50" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft50Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up26">
+                        <asp:Image ID="BigImgRight51" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight51Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up27">
+                        <asp:Image ID="BigImgLeft52" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft52Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up28">
+                        <asp:Image ID="BigImgRight53" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight53Name" runat="server" Text=""></asp:Label>>
+                    </div>
+                    <div id="pop-up29">
+                        <asp:Image ID="BigImgLeft54" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblLeft54Name" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div id="pop-up30">
+                        <asp:Image ID="BigImgRight55" runat="server" BorderWidth="1" CssClass="PopupImgBor" ImageUrl="~/UserProfileImg/UserProfile_Pic.jpg" Width="80" Height="80" />
+                        <asp:Label ID="lblRight55Name" runat="server" Text=""></asp:Label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br /><br /><br /><br /><br /><br />
+    <div id="popup3" class="popup_block" style="text-align: center;">
+        <center>
+            <iframe src="DirectUserList.aspx" class="ScrollBar" width="720" height="300" style="margin-top: 0PX;" frameborder="0"></iframe>
+        </center>
+    </div>
+    <div id="popup4" class="popup_block" style="text-align: center;">
+        <center>
+            <iframe src="AdminDownLineNewtworkSummary.aspx" class="ScrollBar" width="720" height="300" style="margin-top: 0PX;" frameborder="0"></iframe>
+        </center>
+    </div>
+</asp:Content>

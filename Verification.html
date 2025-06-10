@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="Website-Logo/favicon.svg">
+    <title>verification</title>
+    <link href="Jap762Btp28lyf/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Jap762Btp28lyf/assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="Jap762Btp28lyf/css/sidebar.css" rel="stylesheet" />
+    <link href="Jap762Btp28lyf/css/new-style.css?v=1.3" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="Jap762Btp28lyf/css/mobile-menu.css" rel="stylesheet" />
+    <link href="Jap762Btp28lyf/css/StyleSheet.css" rel="stylesheet" />
+    <link href="Login-css/loginpages.css" rel="stylesheet" />
+    <link href="Jap762Btp28lyf/css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .form-control {
+            line-height: 1.8 !important;
+            border-radius: 17px !important;
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg>
+    </div>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="main-content">
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="text-white fs-20" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a>
+                        <a href="#" class="logo flex flex-ai-c absolute-center">
+                            <img src="Website-Logo/logo-top.svg">
+                            <div class="new-bar"></div>
+                        </a>
+                    </div>
+                    <div class="main-wrapper page-margin">
+                        <div class="col-12">
+                            <div class="login-box">
+                                <div class="login-box-body">
+                                    <div class="head">
+                                        <i class="fa fa-mobile-alt headi"></i>
+                                        <h4 class="headh">Verification</h4>
+                                        <p>Please verify your Account</p>
+                                        <hr class="headhr">
+                                    </div>
+
+                                    <form class="form-horizontal form-material" onsubmit="return VerifyAccount()">
+                                        <div class="form-group" id="otpinput">
+                                            <input id="otp" type="number" class="form-control rounded shadow-input" placeholder="Please enter one time password" required="" maxlength="15" autocomplete="off">
+                                            <button type="submit" class="btns-theme btnss-theme btn-block mt-2">Submit<i class="fa-solid fa-right-to-bracket ml-2"></i></button>
+                                        </div>
+                                        <a href="//" class="text-center db">
+                                            <div class="col-md-12 text-black">
+                                                <div class="row text-black"></div>
+                                            </div>
+                                        </a>
+                                    </form>
+                                    <div class="form-group text-center m-t-20">
+                                        <div class="col-xs-12">
+                                            <div id="Msgs"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-preview mb-0">
+                <div class="card-inner inner-tabs bg-light-gray"></div>
+            </div>
+        </div>
+    </div>
+    <script src="Jap762Btp28lyf/assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Jap762Btp28lyf/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Jap762Btp28lyf/Handler_js/Register-Now.js?v=1.4" type="text/javascript"></script>
+    <script src="Jap762Btp28lyf/js/preloader.js"></script>
+    <script src="Jap762Btp28lyf/assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var emid = GetParameterValues('acc');
+            $("#otp").val(emid);
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+            if (emid != "" && emid != null && emid != "undefined") {
+                VerifyAccount(emid);
+            }
+            else {
+                var phn = GetParameterValues('phn');
+                if (phn != "" && phn != null && phn != "undefined") {
+                    $("#lbltxt").text("*** *** **" + phn.substring(10, 8));
+                }
+                else {
+                    $("#lbltxt").text("*** *** ****");
+                }
+                $("#dvverify").css("display", "block");
+            }
+        });
+    </script>
+</body>
+</html>

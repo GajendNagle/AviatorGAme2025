@@ -1,0 +1,13 @@
+
+<asp:TextBox  runat="server"   Font-Names="Verdana" Font-Size="11px" CssClass="ComposeTxtBx"></asp:TextBox>
+
+<asp:GridView  runat="server" HorizontalAlign="Center"  VerticalAlign="Middle"   Font-Family="'Open Sans','Segoe UI'" Font-Size="13px" ForeColor="#575757" ShowFooter="True"   CellSpacing="1" CellPadding="2" BorderStyle="None" GridLines="None"   Font-Names="'Open Sans','Segoe UI'">
+<HeaderStyle CssClass="gvhdr"  />
+<FooterStyle CssClass="gvFtr"/>
+
+<RowStyle CssClass="gvRw" />
+<PagerStyle BackColor="#f6f6f6" ForeColor="White" HorizontalAlign="Center"   Height="35px"  />
+<SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333"  Height="35px" />
+<EditRowStyle BackColor="#b5b5b5"  Height="35px" />
+<AlternatingRowStyle BackColor="#eeeeee"    Height="35px" />
+</asp:GridView>

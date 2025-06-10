@@ -1,0 +1,87 @@
+﻿/*@media(max-width: 600px) {
+    .mobile_screen {
+        min-height: 607px;
+    }
+}*/
+.agent-info {
+    background: #56ab2f; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #a8e063, #56ab2f); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #a8e063, #56ab2f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.invitebgtop {
+    /*background: linear-gradient(90deg,#009688 0%,#0096889c100%);*/
+    background: linear-gradient(90deg, #009688 0%, #00c5b1 100%) !important;
+    height: 250px;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+.contain {
+    background: #7974749c;
+    border-radius: 15px;
+    margin-bottom: 0;
+}
+.subordinat {
+    height: 280px;
+    position: relative;
+    top: -140px;
+    border-radius: 15px;
+    background: #fff;
+}
+.list-group-item {
+    border: none;
+    font-size: 14px;
+    padding: 0.35rem 1.25rem;
+}
+.table-li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contents {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.mrgin {
+    margin-top: -140px;
+}
+#TeamDepositno, #drtDepositno {
+    color: #49ce9b;
+}
+#drtDepositamt, #TeamDepositamt {
+    color: #ff8616;
+}
+.themebtn {
+    color: #fff;
+    margin-left: 5px;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #00968880 0%, #009688 100%);
+    /*background: linear-gradient(180deg, #df1c1c 0%, #9b1414 100%)*/
+}
+.themebtn:active {
+    background: linear-gradient(180deg, #00968880 0%, #009688 100%);
+}
+.btn:not(:disabled):not(.disabled).active, .btn:not(:disabled):not(.disabled):active {
+    background: linear-gradient(180deg, #f3b53885 0%, #f1ad32b8 100%);
+}
+.refcode, .linkref {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    display: block;
+}
+.linkcl {
+    color: #212529;
+}
+@media(max-width: 768px) {
+    .subordinat {
+        top: -120px;
+        height: 350px;
+    }
+    .mrgin {
+        margin-top: -120px;
+    }
+}

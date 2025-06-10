@@ -1,0 +1,42 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class AdminMaster : System.Web.UI.MasterPage
+{
+   
+    DataSet ds;
+    DynamicDtls objgdb = new DynamicDtls();
+    public string Mem_Name, UserID, SubMenu1, MainMenu;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        objgdb.FillWebSiteEmailCompany();
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            UserID = DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value);
+            Mem_Name = "Administrator";
+            if (Request.QueryString["mid"] != null && Request.QueryString["sid"] != null)
+            {
+                MainMenu = Request.QueryString["mid"].ToString();
+                SubMenu1 = Request.QueryString["sid"].ToString();
+                if (SubMenu1 == "E-Mail")
+                {
+                    SubMenu1 = "Send " + SubMenu1;
+                }
+                Page.Title = Request.QueryString["sid"].ToString();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+
+}

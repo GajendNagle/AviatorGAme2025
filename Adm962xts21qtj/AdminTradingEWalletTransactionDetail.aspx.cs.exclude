@@ -1,0 +1,199 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class AdminTradingEWalletTransactionDetail : System.Web.UI.Page
+{
+    SqlConnection cn;
+    DataTable dt; SqlDataAdapter sda; SqlCommand cmd;
+
+    static string UserID;
+    public int RemaWork = 0, ToDyCapWork = 0, TotAssing = 0, WrongCap = 0, CorrectCap = 0; 
+    DataSet ds;
+    DB objdb = new DB();
+    float Credit = 0, debit = 0;
+    public string TotCredit = "0", Totdebit = "0", Balance = "0";
+    public int PageNo;
+    public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!Page.IsPostBack)
+            {
+                ddlJumpToPage.Items.Clear();
+                int TotalRows = this.BindResult(1);
+                this.populateList(TotalRows);
+                //string uD=DB.base64Decod(Request.Cookies["Tap190Nvw92mst"].Value);
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        ddlJumpToPage.Items.Clear();
+        int TotalRows = this.BindResult(1);
+        this.populateList(TotalRows);
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text =  Convert.ToString(TotalRows);
+        PageNo = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1);
+        for (int i = 1; i <= PageNo; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(PageNo);
+    }
+
+    private int BindResult(int currentPage)
+    {
+        cn = new SqlConnection(new DB().getconnection());
+        int TotalRows = 0;
+        try
+        {
+            ds = new DataSet();
+            sda = new SqlDataAdapter();
+            //cmd = new SqlCommand("dbo.Pro_DailyPayment");
+            cmd = new SqlCommand("dbo.Admin_Pro_TradingEWaletPaymentSummary");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+            cmd.Parameters.AddWithValue("@intPageSize", Pagesize);
+            cmd.Parameters.AddWithValue("@intCurrentPage", currentPage);
+
+            cmd.Parameters.AddWithValue("@FrmDt", txtFromDate.Text.Trim());
+            cmd.Parameters.AddWithValue("@ToDt", txtToDate.Text.Trim());
+
+            cmd.Parameters.Add("@Column", SqlDbType.VarChar).Value = DDLDownPos.SelectedItem.Value;
+            if (DDLFillItems.Visible == true)
+            {
+                cmd.Parameters.Add("@SearchTxt", SqlDbType.VarChar).Value = DDLFillItems.SelectedItem.Text;
+            }
+            else
+            {
+                cmd.Parameters.Add("@SearchTxt", SqlDbType.VarChar).Value = txtSearch.Text;
+            }
+
+            cmd.Connection = cn;
+            sda.SelectCommand = cmd;
+            sda.Fill(ds);
+            TotalRows = (int)cmd.Parameters["@intTotalRecords"].Value;
+            if (TotalRows != 0)
+            {
+                lblgvRecord.Visible = false;
+                GvCaptchaWork.Visible = true;
+                GvCaptchaWork.PageIndex = currentPage - 1;
+                GvCaptchaWork.DataSource = ds;
+                GvCaptchaWork.DataBind();
+            }
+            else
+            {
+                lblgvRecord.Visible = true;
+                GvCaptchaWork.Visible = false;
+                lblgvRecord.Text = new DB().EmptyMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+            }
+
+            //TotCredit = 0, Totdebit = 0, Balance = 0;
+            if (ds.Tables[1].Rows.Count > 0)
+            {
+                Totdebit = ds.Tables[1].Rows[0]["TotalDebit"].ToString();
+                TotCredit = ds.Tables[1].Rows[0]["TotalCredit"].ToString();
+                Balance = ds.Tables[1].Rows[0]["TotalBal"].ToString();
+            }
+            else
+            {
+                Totdebit = "0";
+                TotCredit = "0";
+                Balance = "0";
+            }
+
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; }
+
+        finally
+        {
+            if (cn != null && cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+                cn.Dispose();
+            }
+            if (ds != null) { ds.Dispose(); }
+            if (sda != null) { sda.Dispose(); }
+            if (cmd != null) { cmd.Dispose(); }
+        }
+
+
+        return TotalRows;
+
+
+    }
+    protected void GvCaptchaWork_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            Label lblAmtDebit = (Label)e.Row.FindControl("lblAmtDebit");
+            Label lblAmtCredit = (Label)e.Row.FindControl("lblAmtCredit");
+            try
+            {
+                Credit = Credit + float.Parse(lblAmtCredit.Text);
+            }
+            catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; }
+            try
+            {
+                debit = debit + float.Parse(lblAmtDebit.Text);
+            }
+            catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; }
+        }
+        if (e.Row.RowType == DataControlRowType.Footer)
+        {
+            Label lblTotAmtDebit = (Label)e.Row.FindControl("lblTotAmtDebit");
+            Label lblTotAmtCredit = (Label)e.Row.FindControl("lblTotAmtCredit");
+            lblTotAmtDebit.Text = debit.ToString("0.00");
+            lblTotAmtCredit.Text = Credit.ToString("0.00");
+
+        }
+    }
+
+    protected void DDLDownPos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtSearch.Text = "";
+        if (DDLDownPos.SelectedItem.Text == "All")
+        {
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = false;
+        }
+        else if (DDLDownPos.SelectedItem.Text == "Name" || DDLDownPos.SelectedItem.Text == "UserName")
+        {
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = true;
+        }
+        else if (DDLDownPos.SelectedItem.Text == "Admin Remark")
+        {
+            DDLFillItems.Visible = true;
+            txtSearch.Visible = false;
+
+        }
+        else
+        {
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = true;
+        }
+    }
+}

@@ -1,0 +1,324 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+
+public partial class Adm962xts21qtj_AdminDailyEarningReport : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    DataTable dt;
+    SqlDataAdapter sda; DynamicDtls objgdb = new DynamicDtls();
+    SqlCommand cmd;
+    DataSet ds;
+    Double TotGwth;
+    /*
+    Decalare Variable for Total Balance and sum of record....
+    */
+    public string TotDailyEarning, TotAutoWithdrawal, TotTransfer, TotDailyEarningBal,
+        txtTotDailyEarning, txtTotAutoWithdrawal, txtTotTransfer, txtTotDailyEarningBal;
+    public int PageNo;
+    public int Pagesize = Convert.ToInt32(ConfigurationManager.AppSettings["gridPageSize"]);
+    int TotalRows = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            getTotSum();
+            if (!IsPostBack)
+            {
+
+                //txtSearch.Text = DB.base64Decod(Request.Cookies["Tap190Nvw92mst"].Value);
+
+                try
+                {
+                    ddlJumpToPage.Items.Clear();
+                    int TotalRows = this.BindResult(1);
+                    this.populateList(TotalRows);
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+
+    }
+
+    //protected void btnSearch_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        ddlJumpToPage.Items.Clear();
+    //        int TotalRows = this.BindResult(1);
+    //        this.populateList(TotalRows);
+    //        //Response.Redirect("Downlinelist.aspx?MemID=" + txtSearch.Text.Trim());
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+    //    }
+    //}
+
+    private int BindResult(int currentPage)
+    {
+        string SendValue = string.Empty;
+        if (txtValue.Visible == false && ddlchild.Visible == true)
+        {
+            SendValue = ddlchild.SelectedValue.Trim();
+        }
+        if (txtValue.Visible == true && ddlchild.Visible == false)
+        {
+            SendValue = txtValue.Text.Trim();
+        }
+        if (txtValue.Visible == false && ddlchild.Visible == false)
+        {
+            SendValue = "";
+        }
+        ds = new DataSet();
+        sda = new SqlDataAdapter();
+        cmd = new SqlCommand("dbo.PROC_MEM_DAILYEARNING");
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+        cmd.Parameters.AddWithValue("@LoginID", txtSearch.Text.Trim());
+        cmd.Parameters.AddWithValue("@intPageSize", Pagesize);
+        cmd.Parameters.AddWithValue("@intCurrentPage", currentPage);
+        cmd.Parameters.AddWithValue("@FrmDt", txtFromDt.Text.Trim());
+        cmd.Parameters.AddWithValue("@ToDt", txtToDt.Text.Trim());
+        cmd.Parameters.AddWithValue("@Filterby", ddlFilterBy.SelectedValue.Trim());
+        cmd.Parameters.AddWithValue("@Filtervalue", SendValue.Trim());
+        cmd.Connection = cn;
+        sda.SelectCommand = cmd;
+        sda.Fill(ds);
+        TotalRows = (int)cmd.Parameters["@intTotalRecords"].Value;
+        if (TotalRows != 0)
+        {
+            grdUserDtl.PageIndex = currentPage - 1;
+            grdUserDtl.DataSource = ds.Tables[0];
+            grdUserDtl.DataBind();
+            grdUserDtl.Visible = true;
+            lblrcrdTot.Visible = false;
+        }
+        else
+        {
+            lblrcrdTot.Visible = true;
+            grdUserDtl.Visible = false;
+            lblrcrdTot.Text = objgdb.EmptyMessage("Sorry, Record not found.");
+        }
+        if (ds.Tables[1].Rows.Count > 0)
+        {
+
+            //lblCr.Text = ds.Tables[1].Rows[0]["Cr"].ToString();
+            //lblDr.Text = ds.Tables[1].Rows[0]["Dr"].ToString();
+            //lblBal.Text = ds.Tables[1].Rows[0]["Bal"].ToString();
+            // Total Data
+            TotDailyEarning = ds.Tables[1].Rows[0]["TotDailyEarning"].ToString();
+            TotAutoWithdrawal = ds.Tables[1].Rows[0]["TotAutoWithdrawal"].ToString();
+            TotTransfer = ds.Tables[1].Rows[0]["TotTransfer"].ToString();
+            TotDailyEarningBal = ds.Tables[1].Rows[0]["TotDailyEarningBal"].ToString();
+            // Total Text
+            txtTotDailyEarning = ds.Tables[1].Rows[0]["txtTotDailyEarning"].ToString();
+            txtTotAutoWithdrawal = ds.Tables[1].Rows[0]["txtTotAutoWithdrawal"].ToString();
+            txtTotTransfer = ds.Tables[1].Rows[0]["txtTotTransfer"].ToString();
+            txtTotDailyEarningBal = ds.Tables[1].Rows[0]["txtTotDailyEarningBal"].ToString();
+
+
+        }
+
+
+        return TotalRows;
+
+        sda.Dispose();
+        cmd.Dispose();
+        //dt.Dispose();
+
+    }
+    public void getTotSum()
+    {
+        ds = new DataSet();
+        sda = new SqlDataAdapter();
+        cmd = new SqlCommand("dbo.PROC_MEM_DAILYEARNING");
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+        cmd.Parameters.AddWithValue("@LoginID", txtSearch.Text.Trim());
+        cmd.Parameters.AddWithValue("@intPageSize", Pagesize);
+        cmd.Parameters.AddWithValue("@intCurrentPage", 1);
+        cmd.Parameters.AddWithValue("@FrmDt", "");
+        cmd.Parameters.AddWithValue("@ToDt", "");
+        cmd.Parameters.AddWithValue("@Filterby", "");
+        cmd.Parameters.AddWithValue("@Filtervalue", "");
+        cmd.Connection = cn;
+        sda.SelectCommand = cmd;
+        sda.Fill(ds);
+        if (ds.Tables[1].Rows.Count > 0)
+        {
+
+            //lblCr.Text = ds.Tables[1].Rows[0]["Cr"].ToString();
+            //lblDr.Text = ds.Tables[1].Rows[0]["Dr"].ToString();
+            //lblBal.Text = ds.Tables[1].Rows[0]["Bal"].ToString();
+            // Total Data
+            TotDailyEarning = ds.Tables[1].Rows[0]["TotDailyEarning"].ToString();
+            TotAutoWithdrawal = ds.Tables[1].Rows[0]["TotAutoWithdrawal"].ToString();
+            TotTransfer = ds.Tables[1].Rows[0]["TotTransfer"].ToString();
+            TotDailyEarningBal = ds.Tables[1].Rows[0]["TotDailyEarningBal"].ToString();
+            // Total Text
+            txtTotDailyEarning = ds.Tables[1].Rows[0]["txtTotDailyEarning"].ToString();
+            txtTotAutoWithdrawal = ds.Tables[1].Rows[0]["txtTotAutoWithdrawal"].ToString();
+            txtTotTransfer = ds.Tables[1].Rows[0]["txtTotTransfer"].ToString();
+            txtTotDailyEarningBal = ds.Tables[1].Rows[0]["txtTotDailyEarningBal"].ToString();
+
+
+        }
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = Convert.ToString(TotalRows);
+        int PageCount = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize)) + 1));
+        for (int i = 1; i <= PageCount; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        CountingShow();
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        PageNo = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(PageNo);
+        CountingShow();
+    }
+    public void CountingShow()
+    {
+        if (ddlJumpToPage.SelectedItem.Text == "1")
+        {
+            PageNo = 1;
+            //Pagesize
+        }
+        else
+        {
+            PageNo = 1 + int.Parse(ddlJumpToPage.SelectedItem.Text);
+            Pagesize = (Pagesize * int.Parse(ddlJumpToPage.SelectedItem.Text));
+        }
+    }
+
+
+    protected void grdUserDtl_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+        //if (e.Row.RowType == DataControlRowType.DataRow)
+        //{
+
+        //    try
+        //    {
+        //        TotGwth += Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "[Investment Growth]"));
+        //    }
+        //    catch { }
+
+        //}
+        //if (e.Row.RowType == DataControlRowType.Footer)
+        //{
+        //    e.Row.Cells[3].Text = "TOTAL";
+        //    e.Row.Cells[5].Text = TotGwth.ToString();
+        //}
+    }
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+            //Response.Redirect("Downlinelist.aspx?MemID=" + txtSearch.Text.Trim());
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+    protected void ddlFilterBy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlFilterBy.SelectedValue == "All")
+        {
+            txtValue.Visible = false;
+            ddlchild.Visible = false;
+        }
+        else if (ddlFilterBy.SelectedValue == "Transfer Amount=" || ddlFilterBy.SelectedValue == "Transfer Amount<" || ddlFilterBy.SelectedValue == "Transfer Amount>")
+        {
+            txtValue.Visible = true;
+            ddlchild.Visible = false;
+        }
+        else if (ddlFilterBy.SelectedValue == "Deposit No" || ddlFilterBy.SelectedValue == "Transaction Mode")
+        {
+            txtValue.Visible = false;
+            ddlchild.Visible = true;
+            if (ddlFilterBy.SelectedValue == "Deposit No")
+            {
+                try
+                {
+                    ds = new DB().ByDataSet("SELECT DISTINCT InvestId FROM tblInvestGwthWallet WITH (NOLOCK) WHERE InvestId IS NOT NULL AND InvestId NOT LIKE 'TRN'+'%'");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ddlchild.DataSource = ds.Tables[0];
+                        ddlchild.DataTextField = "InvestId";
+                        ddlchild.DataValueField = "InvestId";
+                        ddlchild.DataBind();
+                    }
+                    else
+                    {
+                        txtValue.Visible = true;
+                        ddlchild.Visible = false;
+                    }
+                }
+                catch
+                {
+                    txtValue.Visible = true;
+                    ddlchild.Visible = false;
+                }
+            }
+            else if (ddlFilterBy.SelectedValue == "Transaction Mode")
+            {
+                try
+                {
+                    ds = new DB().ByDataSet("SELECT DISTINCT TransMode FROM tblInvestGwthWallet WITH (NOLOCK) WHERE TransMode IS NOT NULL");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ddlchild.DataSource = ds.Tables[0];
+                        ddlchild.DataTextField = "TransMode";
+                        ddlchild.DataValueField = "TransMode";
+                        ddlchild.DataBind();
+                    }
+                    else
+                    {
+                        txtValue.Visible = true;
+                        ddlchild.Visible = false;
+                    }
+                }
+                catch
+                {
+                    txtValue.Visible = true;
+                    ddlchild.Visible = false;
+                }
+            }
+            else
+            {
+                txtValue.Visible = true;
+                ddlchild.Visible = false;
+            }
+        }
+        else
+        {
+            txtValue.Visible = true;
+            ddlchild.Visible = false;
+        }
+    }
+}

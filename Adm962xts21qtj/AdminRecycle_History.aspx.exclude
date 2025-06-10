@@ -1,0 +1,162 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" CodeFile="AdminRecycle_History.aspx.cs" Inherits="Adm962xts21qtj_AdminRecycle_History" StylesheetTheme="MySkin" Title="Recycle!!" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellspacing="0">
+        <tr>
+            <%--<td align="right" width="100%">
+                <asp:Panel ID="PrintPanel" runat="server">
+                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family:Verdana; font-size:11px;">
+                        <tbody>
+                            <tr>
+                                <td align="left" style="width: 20px">
+                                    <asp:Image ID="Image1" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" />
+                                </td>
+                                <td align="center" style="width: 47px" valign="middle">
+                                    <asp:LinkButton ID="LinkButton1" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" OnClientClick="return CallPrint('divPrint')" Width="24px">Print</asp:LinkButton>
+                                </td>
+                                <td align="left" style="width: 28px">
+                                    <asp:Image ID="Image4" runat="server" ImageUrl="../UserPanel_Images/excel_icon.GIF" />
+                                </td>
+                                <td align="left" style="width: 111px" valign="middle">
+                                    <asp:LinkButton ID="LinkButton2" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" OnClick="btnexporttoexport_Click" OnClientClick="return CallPrint('divPrint')" Width="104px">Export to Excel</asp:LinkButton>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </asp:Panel>
+            </td>--%>
+            <td style="width: 100%; height: 30px; text-align: right;" valign="top">&nbsp;
+                <asp:LinkButton ID="LinkButton3" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" Style="font-size: 12px;" OnClick="LinkButton3_Click">$$ Calculate Recycle $$</asp:LinkButton>
+                &nbsp;&nbsp;
+                <asp:LinkButton ID="LinkButton1" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" OnClientClick="return CallPrint('divPrint')" Style="font-size: 12px;">Print</asp:LinkButton>
+                <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')" />
+                &nbsp;
+                &nbsp; &nbsp;    
+                <asp:LinkButton ID="LinkButton2" runat="server" CssClass="Uparmenu" Font-Bold="False" Font-Names="Verdana" OnClick="btnexporttoexport_Click" Style="font-size: 12px;">Export to Excel</asp:LinkButton>
+                <asp:ImageButton ID="btnexporttoexport" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif" OnClick="btnexporttoexport_Click" />
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td class="ScrollBar">
+                <div style="width: 100%; height: 100%; scrollbar-base-color: #ffeaff">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: 'Poppins', sans-serif; font-size: 11px;">
+                        <tr>
+                            <td align="center" valign="top">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                                    <tr>
+                                        <td align="center" style="width: 100%; padding-top: 5px; height: 80px; background-image: url(../UserPanel_Images/MsgDetailHdr_Bg.jpg);" valign="top">
+                                            <table width="100%" border="0" cellpadding="0"></table>
+                                            <table align="center" border="0" cellpadding="0" class="MtblCntReg">
+                                                <tr>
+                                                    <td class="lbl" valign="middle">From Date :</td>
+                                                    <td align="left" valign="middle">
+                                                        <asp:TextBox ID="txtFromDate" runat="server" Font-Names="Verdana" Font-Size="11px" Width="87px" AutoComplete="off"></asp:TextBox>
+                                                    </td>
+                                                    <td class="lbl" valign="middle">To Date :</td>
+                                                    <td align="left" valign="middle">
+                                                        <asp:TextBox ID="txtToDate" runat="server" Font-Names="Verdana" Font-Size="11px" Width="87px" AutoComplete="off"></asp:TextBox>
+                                                    </td>
+                                                    <td class="lbl" valign="middle">Income Type :</td>
+                                                    <td align="left" valign="middle">
+                                                        <asp:DropDownList ID="ddl_IncType" runat="server" CssClass="ComposeTxtBx" Width="150"></asp:DropDownList>
+                                                    </td>
+                                                    <td class="lbl" valign="middle">Show Results By :</td>
+                                                    <td align="left" valign="middle">
+                                                        <asp:DropDownList ID="DDLSrchByDjGt" runat="server" Font-Names="Verdana" CssClass="ComposeTxtBx" AutoPostBack="True" OnSelectedIndexChanged="DDLSrchByDjGt_SelectedIndexChanged" Width="100"></asp:DropDownList>
+                                                    </td>
+                                                    <%--<td align="left" style="width: 254px; height: 24px;" valign="middle">&nbsp;By Position :</td>--%>
+                                                    <td align="left" valign="middle">
+                                                        <asp:DropDownList ID="DDLDownPos" runat="server" CssClass="ComposeTxtBx" Width="73px" Visible="false"></asp:DropDownList>
+                                                    </td>
+                                                    <td align="left" valign="middle">
+                                                        <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Visible="false" Text="" Width="87px"></asp:TextBox>
+                                                    </td>
+                                                    <td align="left" valign="middle">
+                                                        <asp:Button ID="btnSearch" runat="server" Font-Names="Verdana" Font-Size="13px" Height="35px" Text="GO" CssClass="OuterBtn" OnClick="btnSearch_Click" />
+                                                    </td>
+                                                    <td align="left" valign="middle" style="width: 60px"></td>
+                                                    <td align="left" class="lbl" valign="middle">Page No :
+                                                        <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" CssClass="ComposeTxtBx" OnSelectedIndexChanged="PageChanged" Width="58px"></asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td align="left" style="width: 20%; height: 19px">
+                                                        <asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                    </td>
+                                                    <td align="left" style="width: 60%; height: 19px; text-align: center">
+                                                        <asp:Label ID="lblTotalSum" runat="server" Font-Bold="True" ForeColor="#FF0000"></asp:Label>
+                                                    </td>
+                                                    <td align="right" style="width: 20%; height: 19px"></td>
+                                                </tr>
+                                            </table>
+                                            <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 100%" valign="top" class="BoardStructure">
+                                            <div id="divPrint">
+                                                <asp:GridView ID="gvinvoiceno" runat="server" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="USERID" AllowPaging="True" OnPageIndexChanging="gvinvoiceno_PageIndexChanging" PageSize="100" ShowFooter="True" Width="100%">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="SNO.">
+                                                            <ItemTemplate>
+                                                                <%--<%# DataBinder.Eval(Container.DataItem, "id")%>--%>
+                                                                <%# Container.DataItemIndex+1 %>
+                                                                    .
+                                                            </ItemTemplate>
+                                                            <ControlStyle Width="100px" />
+                                                            <ItemStyle HorizontalAlign="Center" Width="50px" />
+                                                            <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtFromDate" TargetControlID="txtFromDate"></ajaxToolkit:CalendarExtender>
+                                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtToDate" TargetControlID="txtToDate"></ajaxToolkit:CalendarExtender>--%>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+        $(function () {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+    </script>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+    </script>
+</asp:Content>

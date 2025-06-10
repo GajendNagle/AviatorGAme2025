@@ -1,0 +1,356 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" CodeFile="Trace-Transaction-Hash-BTC.aspx.cs" Inherits="Adm962xts21qtj_Trace_Transaction_Hash_BTC" StylesheetTheme="MySkin" Title="Account Setting User !!" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <style>
+        .heading {
+            float: right;
+            margin-top: 4px;
+        }
+        .form-horizontal {
+            margin-top: 10px;
+        }
+        @media only screen and (max-width: 600px) {
+            .OuterBtn {
+                margin-top: 10px;
+            }
+            .form-horizontal {
+                margin-top: 10px;
+            }
+            .heading {
+                float: left;
+                margin-top: 0px;
+            }
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-10 col-12 form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label class="heading">Show Results By</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <asp:DropDownList ID="ddl_IncType" runat="server" CssClass="ComposeTxtBx form-control"></asp:DropDownList>
+                    </div>
+                    <div class="col-sm-4">
+                        <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Text="" Style="position: relative;" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="col-sm-2">
+                        <asp:Button ID="btnSearch" runat="server" Text="Go" CssClass="OuterBtn" OnClick="btnSearch_Click" OnClientClick="return checkstring();" Style="position: relative;" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lblGVDeposit" runat="server" Visible="false" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Chocolate" BorderColor="chocolate" BorderStyle="Solid" BorderWidth="1px" Width="100%" Height="25px" cellpadding="0" cellspacing="0" Style="margin-bottom: 3px;"></asp:Label>
+                <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+            </div>
+            <div id="divPrint">
+                <asp:GridView ID="gvdepositrequest" runat="server" CellPadding="0" Width="100%" AutoGenerateColumns="False" Style="margin-left: 2px;" ShowFooter="false" OnRowCreated="gvdepositrequest_RowCreated">
+                    <Columns>
+                        <asp:TemplateField HeaderText="Sr.">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex+1 %>
+                                .
+                            </ItemTemplate>
+                            <ControlStyle Width="100px" />
+                            <ItemStyle HorizontalAlign="Center" Width="50px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="User">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "MNAME")%>
+                                <br />
+                                <b><%# DataBinder.Eval(Container.DataItem, "USERID")%></b>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Payment ID">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PAYMENTID")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Transaction Has/Receiver BTC/Sender BTC">
+                            <ItemTemplate>
+                                <a style="color: Blue;" target="_blank" href="https://blockchain.info/tx/<%# DataBinder.Eval(Container.DataItem, "TXNHAS")%>"><%# DataBinder.Eval(Container.DataItem, "TXNHAS")%></a>
+                                <br />
+                                <b>Receiver BTC-</b> <%# DataBinder.Eval(Container.DataItem, "RECEIVERBTC")%>
+                                <br />
+                                <b>Sender BTC-</b> <%# DataBinder.Eval(Container.DataItem, "SENDERBTC")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Paid Amt">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "AMOUNT")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Req Amt">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PLANAMOUNT")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Status">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "STATUS")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Req Type">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "REQUEST_TYPE")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Pay Date">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PAYMENTDT")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Req Date">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "REQUESTDT")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lblGVTransConfirm" runat="server" Visible="false" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Chocolate" BorderColor="chocolate" BorderStyle="Solid" BorderWidth="1px" Width="100%" Height="25px" cellpadding="0" cellspacing="0" Style="margin-bottom: 3px;"></asp:Label>
+                <asp:Label ID="LblMsg1" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+            </div>
+            <div id="div1">
+                <asp:GridView ID="gvtransconfirmation" runat="server" CellPadding="0" Width="100%" AutoGenerateColumns="False" Style="margin-left: 2px;" ShowFooter="false" OnRowCreated="gvtransconfirmation_RowCreated">
+                    <Columns>
+                        <asp:TemplateField HeaderText="Sr.">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex+1 %>
+                                .
+                            </ItemTemplate>
+                            <ControlStyle Width="100px" />
+                            <ItemStyle HorizontalAlign="Center" Width="50px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Payment ID">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PAYMENTID")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Paid Value">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PAID_VALUE")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Confirmations">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "CONFIRMATIONS")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Paid Address / Transaction Hash">
+                            <ItemTemplate>
+                                <b>Paid Address-</b> <%# DataBinder.Eval(Container.DataItem, "PAID_ADDRESS")%>
+                                <br />
+                                <a style="color: Blue;" target="_blank" href="https://blockchain.info/tx/<%# DataBinder.Eval(Container.DataItem, "TRANSACTION_HASH")%>"><%# DataBinder.Eval(Container.DataItem, "TRANSACTION_HASH")%></a>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Paid on">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PAID_ON")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Paid">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PAID")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lblGVTopup" runat="server" Visible="false" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Chocolate" BorderColor="chocolate" BorderStyle="Solid" BorderWidth="1px" Width="100%" Height="25px" cellpadding="0" cellspacing="0" Style="margin-bottom: 3px;"></asp:Label>
+                <asp:Label ID="lblMsg2" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+            </div>
+            <div id="div2">
+                <asp:GridView ID="gvtopuphistory" runat="server" CellPadding="0" Width="100%" AutoGenerateColumns="False" Style="margin-left: 2px;" OnRowCreated="gvtopuphistory_RowCreated" ShowFooter="false">
+                    <Columns>
+                        <asp:TemplateField HeaderText="Sr.">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex+1 %>
+                                .
+                            </ItemTemplate>
+                            <ControlStyle Width="100px" />
+                            <ItemStyle HorizontalAlign="Center" Width="50px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Deposit No">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "InvestId")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Member ID">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "MemID")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Name">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "Name")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Deposit Date">
+                            <ItemTemplate>
+                                <b>Paid Address-</b> <%# DataBinder.Eval(Container.DataItem, "DATE")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Amount">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "Amt")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Pay Mode">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "PaymentMode")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Days">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "Days")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Per">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "Per")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Remark">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "Remark")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Deposit Mode">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "InstMode")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Transaction Hash">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "Comment")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+                <asp:GridView ID="gvmemberBTC" runat="server" CellPadding="0" Width="100%" AutoGenerateColumns="False" Style="margin-left: 2px;" ShowFooter="false">
+                    <Columns>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <asp:CheckBox ID="CBDeleteAll" runat="server" onclick="checkAll(this);" />
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="CBDelete" runat="server" />
+                                <asp:Label ID="lb" runat="server" Visible="False" Text='<%# DataBinder.Eval(Container.DataItem, "BANKDETAILID")%>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Sr.">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex+1 %>
+                                .
+                            </ItemTemplate>
+                            <ControlStyle Width="100px" />
+                            <ItemStyle HorizontalAlign="Center" Width="50px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="User">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "MNAME")%>
+                                <br />
+                                <b><%# DataBinder.Eval(Container.DataItem, "USERID")%></b>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Bank Name">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "BANKNAME")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="BTC Address ">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "ACCOUNTNO")%>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+    </div>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+        function checkstring() {
+            if (document.getElementById("<%=txtSearch.ClientID %>").value != "" && document.getElementById("<%=txtSearch.ClientID %>").value != null) {
+                return true;
+            }
+            alert('Enter Search value');
+            return false;
+        }
+    </script>
+</asp:Content>

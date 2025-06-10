@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Play Now</title>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="../index-assets/css/new-style.css" rel="stylesheet" />
+    <link href="../index-assets/bootstrap/css/bootstap.min.css" rel="stylesheet" />
+    <link href="css/game-index.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .gameimg{
+            width:80px;
+            height:80px;
+            margin-left:10px;
+            margin-top:-20px;
+            
+        }
+        @media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (min-device-height: 740px) and (max-device-height: 740px) and (-webkit-min-device-pixel-ratio: 4) {
+
+            .gameimg {
+                width: 70px;
+                height: 66px !important;
+                margin-left: 0;
+                margin-top: -17px;
+            }
+        }
+
+        
+    </style>
+</head>
+
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg>
+    </div>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen main-content">
+                <div class="mt-5 pb-3">
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="flex flex-ai-c"><img src="../Website-Logo/logo-top.svg" class="mobile-logo-size"></a>
+                        <div class="option-lang-item">
+                            <a href="javascript:void(0)" class="menu-lang-converter">
+                                <div id="headerLanguages"></div>
+                            </a>
+                            <i class="fa-solid fa-chevron-down languagechev"></i>
+                        </div>
+                    </div>
+                    <div class="mobile-side-bar">
+                        <nav class="menu-box-1">
+                            <div class="text-center pt-2">
+                                <img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;">
+                            </div>
+                            <hr class="mt-2 bg-white">
+                            <ul class="list">
+                                <li>
+                                    <a href="game-index.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-house m-1"></i>
+                                        </div>Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-user m-1"></i>
+                                        </div>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa-solid fa-file-import m-1"></i>
+                                        </div>Affiliate
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-team.html" class="block menui2">My Team</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-directs.html" class="block menui2">My Directs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-wave m-1"></i>
+                                        </div>Deposit
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance-history.html" class="block menui2">Deposit History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Main Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-User.html" class="block menui2">Transfer to user</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Growth Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="invite.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope-open-text m-1"></i>
+                                        </div>Promotion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-1 m-1"></i>
+                                        </div>Withdraw
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-history.html">Withdraw History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="inbox.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope m-1"></i>
+                                        </div>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="news.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-newspaper m-1"></i>
+                                        </div>News
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Sign-Out.aspx" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-right-from-bracket m-1"></i>
+                                        </div>Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="">
+                        <div class="row section_row_inner">
+                            <div class="col-12 py-2">
+                                <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <!--<div class="carousel-item pt-3">
+                    <img src="img/game-index-icons/slide-youtube-one.png" class="d-block w-100">
+                    <div class="slidelink2 pl-2">
+                        <a href="https://t.me/wintrongames" target="_blank"><span class="text-warning">https://t.me/wintrongames</span></a>
+                    </div>
+                </div>-->
+                                            <!--<div class="carousel-item pt-3">
+                    <img src="img/game-index-icons/telegram.png" class="d-block w-100">
+                    <div class="slidelink pl-2">
+                        <a href="https://t.me/wintrongames" target="_blank"><span class="text-warning"><img src="img/game-index-icons/icons8-telegram-100.png" style="width: 40px;">https://t.me/wintrongames</span></a>
+                    </div>
+                </div>-->
+                                            <div class="carousel-item pt-3">
+                                                <img src="img/game-index-icons/growthbanner-three.jpg" class="d-block w-100">
+                                            </div>
+                                            <div class="carousel-item active pt-3">
+                                                <img src="img/game-index-icons/DEPOSITEB.jpg" class="d-block w-100">
+                                            </div>
+                                            <div class="carousel-item pt-3">
+                                                <img src="img/game-index-icons/claimrewards-two.jpg" class="d-block w-100">
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
+                                    </div>
+                                </div>
+                                <div class="alert alert-warning d-flex align-items-center mt-3" role="alert">
+                                    <img src="img/game-index-icons/ann.png" style="width: 36px;">
+                                    <marquee class="marq px-2" scrollamount="1" behavior="scroll" direction="up" loop="">
+                                        <p id="newsalert"></p>
+                                    </marquee>
+                                    <a href="news.html"><button class="btn wingo-btn">More<span class=""><i class="fa-solid fa-arrow-right go2 ml-1"></i></span></button></a>
+                                </div>
+                                <div class="row px-2">
+                                    <div class="col-3 p-0 text-center">
+                                        <a href="Add-Balance-Crypto-api.html">
+                                            <div class="card p-1 m-2 bg-secondary-theme shadow">
+                                                <img src="img/game-index-icons/icons8-deposit-100.png" class="cards-images">
+                                                <span class="fonts pt-2 xs-block text-white">Deposit</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 p-0 text-center">
+                                        <a href="withdraw-CAPI.html">
+                                            <div class="card p-1 m-2 bg-secondary-theme shadow">
+                                                <img src="img/game-index-icons/icons8-card-payment-100.png" class="cards-images">
+                                                <span class="fonts pt-2 xs-block text-white">Withdraw</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 p-0 text-center">
+                                        <a href="invite.html">
+                                            <div class="card p-1 m-2 bg-secondary-theme shadow promobox">
+                                                <img src="img/game-index-icons/icons8-gift-100.png" class="cards-images">
+                                                <span class="fonts pt-2 xs-block text-white">Promotion</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 p-0 text-center">
+                                        <a href="../apk/wintron.apk">
+                                            <div class="card p-1 m-2 bg-secondary-theme shadow">
+                                                <img src="img/game-index-icons/icons8-download-100.png" class="cards-images">
+                                                <span class="fonts pt-2 xs-block text-white">Download</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="vl">
+                                    <span class="text-design pl-1">Lottery</span>
+                                </div>
+                                <div class="tab-pane active" id="tabItemwingo" role="tabpanel">
+                                    <div class="row flex-nowrap overflow-auto gx-1 mt-3 mb-3">
+
+                                        <!-- Box 1 -->
+                                        <a href="parity.html" class="col-4 me-2 text-white">
+                                            <div class="new-game-card text-center" style="height:115px; background:#f8f9fa; border-radius:8px; padding:8px;">
+                                                <div class="d-inline-block">
+                                                    <img src="img/game-index-icons/wingo1.547e5345.png" class="gameimg" style="height:70px;">
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="d-block fw-bold">Win Go</span>
+                                                    <span>1 Min</span>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <!-- Box 2 -->
+                                        <a href="parity2.html" class="col-4 me-2 text-white">
+                                            <div class="new-game-card text-center" style="height:115px; background:#f8f9fa; border-radius:8px; padding:8px;">
+                                                <div class="d-inline-block">
+                                                    <img src="img/game-index-icons/wingo3.png" class="gameimg" style="height:70px;">
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="d-block fw-bold">Win Go</span>
+                                                    <span>3 Min</span>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <!-- Box 3 -->
+                                        <a href="../Aviator_Game/Aviator.html" class="col-4 me-2 text-white">
+                                            <div class="new-game-card text-center" style="height:115px; background:#f8f9fa; border-radius:8px; padding:8px;">
+                                                <div class="d-inline-block">
+                                                    <img src="img/game-index-icons/aviater.png" class="gameimg" style="height:70px;">
+                                                </div>
+                                                <div class="mt-1">
+                                                    <span class="d-block fw-bold">Original</span>
+                                                    <span>Aviator</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                       
+                                    </div>
+
+                                </div>
+
+
+                                <!--<div class="row px-4">
+        <div class="pt-1 card-preview w-100 inner-tabs mb-2 divback" id="lottery">
+            <div class="tab-content text-center pt-0 px-2 pb-2">
+                <div class="tab-pane active" id="tabItemwingo" role="tabpanel">
+                    <div class="row mt-3">
+                        <div class="col-12 new-game-card">
+                            <div class="row">
+                                <div class="col-4 text-start-wingo">
+                                    <div class="s1">3 Min</div>
+                                    <div class="s2">Win Go</div>
+                                </div>
+                                <div class="col-4">
+                                    <a href="parity.html" class="d-inline-block"><img src="img/game-index-icons/wingo3.png" class="ball-img"></a>
+                                </div>
+                                <div class="col-4 text-end-wingo">
+                                    <div class="e2">Green/Purple/Red</div>
+                                    <div class="e1 pb-2">Guess the Number</div>
+                                    <a href="parity2.html"><img src="img/game-index-icons/button.gif"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row px-4">
+        <div class="pt-1 card-preview w-100 inner-tabs mb-2 divback" id="lottery">
+            <div class="tab-content text-center pt-0 px-2 pb-2">
+                <div class="tab-pane active" id="tabItemwingo" role="tabpanel">
+                    <div class="row mt-3">
+                        <div class="col-12 new-game-card">
+                            <div class="row">
+                                <div class="col-4 text-start-wingo">
+                                    <div class="s1">Aviater</div>
+                                    <div class="s2">Win Go</div>
+                                </div>
+                                <div class="col-4">
+                                    <a href="parity.html" class="d-inline-block"><img src="img/game-index-icons/aviater.png" class="ball-img" style="height: 81px; margin-top: 10px; left: -15px; position: relative;"></a>
+                                </div>
+
+                                <div class="col-4 text-end-wingo">
+                                    <div class="e2">Bet/Cash Out/Win</div>
+                                    <div class="e1 pb-2">Guess the Cash Out</div>
+                                    <a href="../Aviator_Game_17_05_25/Aviator.html"><img src="img/game-index-icons/button.gif"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+                                <div class="row px-3">
+                                    <div class="vl">
+                                        <span class="text-design pl-1">Winning Information</span>
+                                    </div>
+                                    <div class="col-12 my-2 mt-2" id="winninginfo"></div>
+                                </div>
+                                <div class="row px-3 mt-2">
+                                    <div class="px-3 mb-4">
+                                        <div class="vl">
+                                            <span class="text-design pl-1">Today's Ranking Income</span>
+                                        </div>
+                                    </div>
+                                    <div id="todaysrankinfo" class="col-12 mt-5 stage"></div>
+                                </div>
+                                <div class="row my-3 mx-1 p-2 pt-2 mt-100 bg-light-black cards-shadow text-muted">
+                                    <p class="mt-3">
+                                        <i class="fa-solid fa-diamond points mr-1"></i>
+                                        <span class="fs">The Wintron platform advocates fairness, justice, and openness. We mainly operate fair lottery, blockchain games, live casinos, and slot machine games.</span>
+                                    </p>
+                                    <p>
+                                        <i class="fa-solid fa-diamond points mr-1"></i>
+                                        <span class="fs">Wintron works with more than 10'000 online live game dealers and slot games, all of which are verified fair games.</span>
+                                    </p>
+                                    <p>
+                                        <i class="fa-solid fa-diamond points mr-1"></i>
+                                        <span class="fs">Wintron supports fast deposit and withdrawal, and looks forward to your visit.</span>
+                                    </p>
+                                    <span class="points">Gambling can be addictive, please play rationally.</span>
+                                    <span class="points">Wintron only accepts customers above the age of 18.</span>
+                                </div>
+                                <div class="row mx-1 p-2 pt-2 bg-light-black cards-shadow last-menu">
+                                    <div class="col-12 p-0">
+                                        <a href="news.html" class="lastmenu-items p-2 mb-1"><span class="lastmenu-color"><img src="img/game-index-icons/ann-g.png" class="pr-1" style="height: 30px; width: 35px;"> Notification</span><span><i class="fa-solid fa-chevron-right lastmenu-i lastmenu-color"></i></span></a>
+                                        <a href="inbox.html" class="lastmenu-items p-2 mb-1"><span class="lastmenu-color"><img src="img/game-index-icons/serviceCenter-ed250156.png" class="pr-1" style="height: 30px; width: 35px;"> 24/7 Customer service</span><span><i class="fa-solid fa-chevron-right lastmenu-i lastmenu-color"></i></span></a>
+                                        <a href="about-us.html" class="lastmenu-items p-2 mb-1"><span class="lastmenu-color"><img src="img/game-index-icons/about-f4c85138.png" class="pr-1" style="height: 30px; width: 35px;">About us Wintron</span><span><i class="fa-solid fa-chevron-right lastmenu-i lastmenu-color"></i></span></a>
+                                    </div>
+                                </div>
+                                <div class="pdfbtn" id="pdfhide">
+                                    <a class="Btn text-white btnaaa" href="../Business-plan/wintron.pdf" target="_blank"><i class="fa-solid fa-file-pdf mr-2" style="font-size: 16px;"></i>Download PDF</a>
+                                    <buton id="pdfcbtn" class="Btn"><i class="fa-regular fa-circle-xmark text-white"></i></buton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="onload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content p-0 m-auto">
+                                <div class="modal-header bg-black justify-content-center">
+                                    <h4 class="text-white mb-0">Notification</h4>
+                                </div>
+                                <div class="modal-info py-3">
+                                    <div id="notifications"></div>
+                                    <a data-bs-dismiss="modal" class="btn btns-theme btn-block mt-1" onclick="popupClose()"><span class="Confirm">Confirm</span></a>
+                                </div>
+                                <div class="" id="overlay"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+            <div id="footer-bar" class="footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen" style="transform: translateX(0);">
+                <a href="game-index.html" class="active-nav"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                <a href="invite.html">
+                    <div class="footer-ball">
+                        <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                    </div>
+                    <div class="footer-daimond-text">Promotion</div>
+                </a>
+                <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                <a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a>
+            </div>
+        </div>
+    </div>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js?ver=1.1"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="Handler_js/game-index.js"></script>
+    <script>
+        $(document).ready(function () {
+    /*        newsnoifications();*/
+            winninginfo();
+            todaysrankinfo();
+            DashboardSummary();
+
+            $("#pdfcbtn").click(function () {
+                $("#pdfhide").hide();
+            });
+        });
+
+    </script>
+    <script>
+        function popupClose() {
+            document.getElementById("onload").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+    <script src="../index-assets/js/jquery-1.12.4.min.js"></script>
+    <script>$(document).ready(function () { $(window).width(), $("#headerLanguages").click(function () { $(".dropdown-menu-s1").toggleClass("show") }), $("#headerLanguages").click(function (n) { $(".menu-lang-converter").addClass("show"), n.stopPropagation() }), $(document).click(function () { $(".dropdown-menu-s1").removeClass("show"), $(".collapse").removeClass("show") }), $(window).resize(function () { $(this).width() < 767 && $(".dropdown-menu-s1").removeClass("show") }) }); var parts = window.location.href.split("/")[3]; $.get("../lang-src/languages.html?ver=1.4", function (n) { $("#headerLanguages").html(n) })</script>
+</body>
+</html>

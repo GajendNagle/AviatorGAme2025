@@ -1,0 +1,189 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+
+using System.Web.UI.HtmlControls;
+
+public partial class Admin_AdminPinTransferHistoryView : System.Web.UI.Page
+{
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    DataSet ds; string SqlFillStatus;
+    string SearchText;
+
+    Double Totalnoofpins = 0;
+    Int32 Totalcnttranspin = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!IsPostBack)
+            {
+                try
+                {
+                    ddlJumpToPage.Items.Clear();
+                    int TotalRows = this.BindResult(1);
+                    this.populateList(TotalRows);
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+
+
+    }
+
+    private int BindResult(int currentPage)
+    {
+        int TotalRows = 0;
+        ds = objDynamicDtls.ByProcedure("[PIN_PROC_TRANS_REPORT]", new string[] { "FROM_DATE", "TO_DATE", "COLUMN_NAME", "VALUE", "PAGE_LENGTH", "PAGE_NUMBER" } , new string[] { txtFromDate.Text.Trim(), txtToDate.Text.Trim(), DDLDownPos.SelectedItem.Value, txtSearch.Text.Trim(), Convert.ToString(ConfigurationManager.AppSettings["gridPageSize"]), currentPage.ToString() }, "BY DATASET");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            gv1.DataSource = ds;
+            gv1.DataBind();
+
+            TotalRows = Convert.ToUInt16(ds.Tables[1].Rows[0][0].ToString());
+        }
+        else
+        {
+            lblMsg.Text = new DB().ErrorMessage("Oops..No Record Found..!");
+        }
+        return TotalRows;
+
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = "Total Records Found :" + Convert.ToString(TotalRows);
+        int PageCount = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Convert.ToInt32(ConfigurationManager.AppSettings["gridPageSize"])))) + 1); ;
+        for (int i = 1; i <= PageCount; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+    }
+
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+    }
+
+    protected void gv1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            Totalcnttranspin += Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "NO_OF_EPINS_TRANSFERED"));
+        }
+        else if (e.Row.RowType == DataControlRowType.Footer)
+        {
+            e.Row.Cells[1].Text = "TOTALS:";
+
+            e.Row.Cells[5].Text = Totalcnttranspin.ToString("d");
+            e.Row.Font.Bold = true;
+        }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        HtmlForm form = new HtmlForm();
+        string attachment = "attachment; filename=SearchUserList.xls";
+        Response.ClearContent();
+        Response.AddHeader("content-disposition", attachment);
+        Response.ContentType = "application/ms-excel";
+        StringWriter stw = new StringWriter();
+        HtmlTextWriter htextw = new HtmlTextWriter(stw);
+        form.Controls.Add(gv1);
+        this.Controls.Add(form);
+        form.RenderControl(htextw);
+        Response.Write(stw.ToString());
+        Response.End();
+        form.Dispose();
+        stw.Dispose();
+        htextw.Dispose();
+    }
+
+    protected void DDLDownPos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtSearch.Text = "";
+        if (DDLDownPos.SelectedItem.Text == "Transfered From" || DDLDownPos.SelectedItem.Text == "Transfered To")
+        {
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = true;
+        }
+        else if (DDLDownPos.SelectedItem.Text == "All")
+        {
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = false;
+        }
+        //else if (DDLDownPos.SelectedItem.Text == "Package".Trim())
+        //{
+        //    DDLFillItems.Visible = true;
+        //    txtSearch.Visible = false;
+        //    SqlFillStatus = "select distinct PackageName from PackageMaster where packagename not in('REGISTRATION PACKAGE')";
+
+        //    ds = new DataSet();
+        //    DDLFillItems.Items.Clear();
+
+        //    foreach (DataRow dr in new DB().SelectRows(ds, SqlFillStatus).Tables[0].Rows)
+        //    {
+        //        DDLFillItems.Items.Add(dr[0].ToString());
+        //    }
+        //}
+        else
+        {
+            txtSearch.TextMode = TextBoxMode.SingleLine;
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = true;
+        }
+    }
+    protected void grdUserDtl_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            // add the UnitPrice and QuantityTotal to the running total variables
+
+            Totalnoofpins += Convert.ToDouble(DataBinder.Eval(e.Row.DataItem, "noofpins"));
+
+        }
+        else if (e.Row.RowType == DataControlRowType.Footer)
+        {
+            e.Row.Cells[1].Text = "Totals:";
+            // for the Footer, display the running totals
+
+            e.Row.Cells[4].Text = Totalnoofpins.ToString();
+
+
+            //e.Row.Cells[1].HorizontalAlign =e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+            e.Row.Font.Bold = true;
+        }
+    }
+}

@@ -1,0 +1,221 @@
+<%@ WebHandler Language="C#" Class="Transfer_to_user" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Transfer_to_user : IHttpHandler {
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, strJson, UserID, ddlInvOn, txtInvQty, txtMemId,typ,
+        txtTransPWD, txtTopUpAmount, InvWallet,FrmName,ToName,FrmEmail,ToEmail;
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            if (context.Request.QueryString["TDs"] != null)
+            {
+                GetTopupDescription();
+            }
+            else if (context.Request.QueryString["MN"] != null)
+            {
+                txtMemId = context.Request.QueryString["MN"].ToString();
+                GetMemberName();
+                handleRequest();
+            }
+            else
+            {
+                txtMemId = context.Request["txttomem"].Trim();
+                txtTransPWD = context.Request["txttxnpwd"].Trim();
+                txtTopUpAmount = context.Request["txtDepositAmount"].Trim();
+                typ = context.Request["type"].Trim();
+                /////////
+                GiveHelpOrder();
+                ////////
+                handleRequest();
+            }
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public void GetMemberName()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("GetMemberName_Transfer", new string[] { "MemID", "Flg" }, new string[] { txtMemId.ToString().Trim(), UserID.Trim() }, "GetDetail");
+            if (ds.Tables[0].Rows[0]["Mname"].ToString() != "")
+            {
+                //response.Write(ds.Tables[0].Rows[0]["Mname"].ToString());
+                sc = true;
+                msg = ds.Tables[0].Rows[0]["Mname"].ToString();
+                dtl = "MemDetail";
+            }
+            else
+            {
+                sc = false;
+                //response.Write("Please enter correct transfer to Member-ID.");
+                msg = "0";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            response.Write(ex.Message);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            if (txtMemId != "" && txtTransPWD != "" && txtTopUpAmount != "")
+            {
+                ds = objgdb.ByProcedure("Wlt_PayoutTnsfrtoUsers", new string[] { "TfrmMemId", "TToMemId", "Amt", "Flag", "SecPWD" },
+                    new string[] { UserID.Trim().ToUpper(), txtMemId.ToString().Trim(), txtTopUpAmount.ToString().Trim(), typ, txtTransPWD.ToString().Trim()}, "BYdatase");
+                if (ds.Tables[0].Rows[0]["TMsg"].ToString() == "IsOk")
+                {
+                    sc = true;
+                    //msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString() ;
+                    FrmName = ds.Tables[0].Rows[0]["FrmName"].ToString() + " {" + UserID.ToString().Trim() + "} ";
+                    ToName = ds.Tables[0].Rows[0]["ToName"].ToString() + " {" + txtMemId.ToString().Trim()+"} ";
+                    FrmEmail = ds.Tables[0].Rows[0]["FrmEmail"].ToString();
+                    ToEmail = ds.Tables[0].Rows[0]["ToEmail"].ToString();
+
+                    string Message1234 =
+                   // @"<table style='width:100% ; background-color:#fafafa;'><tr><td><center><table style='margin:0 auto; width:600px; height:100%; background-color: #fff; font-family:verdana;'><tr><td><table style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; height:100%; margin:0 auto' ;><table Style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; height:100%; background-color:#1e88e5; ; margin:0 auto' ;><tbody style='font-family:Helvetica;color:#fff;'><tr><td><table Style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:564px; height:100%; background-color: #1e88e5; margin:0 auto ; font-family:Helvetica;color:#fff; padding:0px' ;><tr><td><img src='http://" + DynamicDtls.WebSite + "/website-logo/email-logo.png' style='height: 45px;'></td><td valign='top' style='padding: 18px 0px; font-size:10px; text-align:left ; color:#fff;valign:top; margin-right:160px' ;>Welcome to " + DynamicDtls.TopCompName + "</td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/1.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/2.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/4.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/3.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/5.png' width='18px' ;></a></td></tr></table></td></tr></tbody></table><table style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; height:100%; background-color:transparent; margin:0 auto' ;><tr><td><table style=' width:564px; height:100%; background-color:transparent; margin:0 auto' ;><tr><td style='font-size:12px;color:#4d4e4f' ;><b><span style='color:Green;'>Hi, " + FrmName + ".</span></b> <br /> <br /> <br />Congratulations !!!<br />Your have been successfully transferred of  <b>Rs. " + txtTopUpAmount.Trim() + "</b> To <b>" + ToName.Trim() + "</b> from your <b>" + typ.Trim() + "</b>.<br/><br/>Yours Truly<br/>Team " + DynamicDtls.TopCompName + "<br/><br/><br/><b>Important:</b>This is an Auto generated mails, Please do not reply.<br/>Send your query here " + DynamicDtls.Registration + "<br/><br/></td></tr></table></td></tr></table><table border='0' cellpadding='0' cellspacing='0' width='600px' ;><tr><td style='border-bottom:2px solid #eaeaea; padding:13px' ;></td></tr></table><table border='0' cellpadding='0' cellspacing='0' width='600px' text-align='left'><tbody><tr></tr></tbody></table><table style='background-color:#EEE; padding:18px;align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; margin:0 auto;font-family: Helvetica' ;><tr><td style='text-align: center' ;><img src='http://" + DynamicDtls.WebSite + "/website-logo/logo-light-icon.png' style='width: 50px;height: 50px;margin: 0px;border: 0;outline: none;text-decoration: none' ;></td></tr><tr><td style='text-align:center; color: #0c0202; font-family: Helvetica; font-size: 12px' ;>Copyright &copy; 2018 " + DynamicDtls.TopCompName + ", All rights reserved.<br><br>You can reach us at<br><a href='#' style='text-decoration: none; color:blue' ;>" + DynamicDtls.Registration + "</a></td></tr><tr><td style='font-size:9px' ;><span style='line-height:16.8px' ;><br><span style='text-decoration:underline;font-weight:700';>Note:</span> You have received this mail because you have registered with <a href='#' style='text-decoration: none; color:blue' ;>http://" + DynamicDtls.WebSite + " </a> </span><br style='line-height: 20.8px;'/> <span style='line-height:20.8px;text-decoration:underline;font-weight:700' ;> Legal Disclaimer:&nbsp;</span><span style='line-height: 16.8px;color: #656565;font-weight: normal;text-decoration: none' ;> This Website/ E-mail are vulnerable to data corruption, interception, tampering, viruses as well as delivery errors and we do not accept liability for any consequence that may arise there from.</span></td></tr></table></table></td></tr></table></center></td></tr></table>";
+                   @"<div style='margin: 0;padding: 0;'><div style='width: 100%;height: 100%;background-color:#fafafa ;'><div style='margin:0 auto; width:600px; height:100%; font-family:verdana;'><div style='background-color: #1d1d1d; padding: 10px 0 10px;'> <img src='http://" + DynamicDtls.WebSite2 + "/Website-Logo/logo-1.svg?v=1.1' alt='logo' style=' margin-left: 10px; height: auto; width: auto; ' /> <span style='float: right; margin-top: 15px; color: #fff;'><strong style='padding-right: 10px;font-size: 15px;margin-top: 6px;'>For 24/7 support </strong><br /><span style='margin-top: -20px;text-align: right;font-family: sans-serif;font-size: 14px;'>" + DynamicDtls.Email + "</span></span></div><div style=' width: 100%; background-color: white; border-top: 3px solid #000000; padding: 20px 0 25px; '><h3 style=' font-size:29px;margin: 0; text-align: center; '> <span style='color: #000000; font-weight: bolder'>Hi,</span> " + FrmName + "</h3><p style=' text-align: center; font-size: 17px;margin: 5px;font-family: sans-serif;'> Congratulations !!!</p><p style=' text-align: center;font-size: 17px;margin: 5px;font-family: sans-serif;'> Your have been successfully transferred of <span style='color: #e85038;'>" + txtTopUpAmount.Trim() + "</span> To <span style='color: #e85038;'>" + ToName.Trim() + "</span> from your <span style='color: #e85038;'>" + typ.Trim() + "</span></p></div><div style=' background-color: #000000; width: 100%; padding: 5px 0 5px; text-align: left; '><p style='font-family:Verdana;font-size: 15px; color:#fff; margin-left:22px;'> Thanks & Regards <br /> Support Team " + DynamicDtls.CompName + " <br> <small style='font-size:11px;'> Please do not reply to this email. Email send to this address will not be answered. </small></p></div></div><div style='display:none;background-color: #E9E9E9; margin-top: -12px;padding: 5px;width: 592px;margin: 0px auto;'><div style='margin:0 auto; width:600px; height:100%; font-family:verdana; text-align:center;'><div><p style=' color: gray; font-size: 12px; padding-top: 10px; '> Please do not reply to this email. Email send to this address will not be answered.</p></div></div></div></div></div>";
+
+                    //this.SendEmailToUser(FrmEmail, "Bizzevo - " + typ + " Fund Transfer Confirmation !", Message1234);
+
+                    string Message12345 =
+                   //   @"<table style='width:100% ; background-color:#fafafa;'><tr><td><center><table style='margin:0 auto; width:600px; height:100%; background-color: #fff; font-family:verdana;'><tr><td><table style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; height:100%; margin:0 auto' ;><table Style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; height:100%; background-color:#1e88e5; ; margin:0 auto' ;><tbody style='font-family:Helvetica;color:#fff;'><tr><td><table Style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:564px; height:100%; background-color: #1e88e5; margin:0 auto ; font-family:Helvetica;color:#fff; padding:0px' ;><tr><td><img src='http://" + DynamicDtls.WebSite + "/website-logo/email-logo.png' style='height: 45px;'></td><td valign='top' style='padding: 18px 0px; font-size:10px; text-align:left ; color:#fff;valign:top; margin-right:160px' ;>Welcome to " + DynamicDtls.TopCompName + "</td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/1.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/2.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/4.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/3.png' width='18px' ;></a></td><td style='display:inline-block; padding-left:5px;padding-top:15px' ;><a href='#'><img src='http://" + DynamicDtls.WebSite + "/UserProfileImg/5.png' width='18px' ;></a></td></tr></table></td></tr></tbody></table><table style='align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; height:100%; background-color:transparent; margin:0 auto' ;><tr><td><table style=' width:564px; height:100%; background-color:transparent; margin:0 auto' ;><tr><td style='font-size:12px;color:#4d4e4f' ;><b><span style='color:Green;'>Hi, " + ToName + ".</span></b> <br /> <br /> <br />Congratulations !!!<br />Your have been successfully received of  <b>Rs. " + txtTopUpAmount.Trim() + "</b> from <b>" + FrmName.Trim() + "</b> to your <b>" + typ.Trim() + "</b>.<br/><br/>Yours Truly<br/>Team " + DynamicDtls.TopCompName + "<br/><br/><br/><b>Important:</b>This is an Auto generated mails, Please do not reply.<br/>Send your query here " + DynamicDtls.Registration + "<br/><br/></td></tr></table></td></tr></table><table border='0' cellpadding='0' cellspacing='0' width='600px' ;><tr><td style='border-bottom:2px solid #eaeaea; padding:13px' ;></td></tr></table><table border='0' cellpadding='0' cellspacing='0' width='600px' text-align='left'><tbody><tr></tr></tbody></table><table style='background-color:#EEE; padding:18px;align:center; border:0; cellpadding:0 ;cellspacing:0; width:600px; margin:0 auto;font-family: Helvetica' ;><tr><td style='text-align: center' ;><img src='http://" + DynamicDtls.WebSite + "/website-logo/logo-light-icon.png' style='width: 50px;height: 50px;margin: 0px;border: 0;outline: none;text-decoration: none' ;></td></tr><tr><td style='text-align:center; color: #0c0202; font-family: Helvetica; font-size: 12px' ;>Copyright &copy; 2018 " + DynamicDtls.TopCompName + ", All rights reserved.<br><br>You can reach us at<br><a href='#' style='text-decoration: none; color:blue' ;>" + DynamicDtls.Registration + "</a></td></tr><tr><td style='font-size:9px' ;><span style='line-height:16.8px' ;><br><span style='text-decoration:underline;font-weight:700';>Note:</span> You have received this mail because you have registered with <a href='#' style='text-decoration: none; color:blue' ;>http://" + DynamicDtls.WebSite + " </a> </span><br style='line-height: 20.8px;'/> <span style='line-height:20.8px;text-decoration:underline;font-weight:700' ;> Legal Disclaimer:&nbsp;</span><span style='line-height: 16.8px;color: #656565;font-weight: normal;text-decoration: none' ;> This Website/ E-mail are vulnerable to data corruption, interception, tampering, viruses as well as delivery errors and we do not accept liability for any consequence that may arise there from.</span></td></tr></table></table></td></tr></table></center></td></tr></table>";
+                   @"<div style='margin: 0;padding: 0;'><div style='width: 100%;height: 100%;background-color:#fafafa ;'><div style='margin:0 auto; width:600px; height:100%; font-family:verdana;'><div style='background-color: #1d1d1d; padding: 10px 0 10px;'> <img src='http://" + DynamicDtls.WebSite2 + "/Website-Logo/logo-1.svg?v=1.1' alt='logo' style=' margin-left: 10px; height: auto; width: auto; ' /> <span style='float: right; margin-top: 15px; color: #fff;'><strong style='padding-right: 10px;font-size: 15px;margin-top: 6px;'>For 24/7 support </strong><br /><span style='margin-top: -20px;text-align: right;font-family: sans-serif;font-size: 14px;'>" + DynamicDtls.Email + "</span></span></div><div style=' width: 100%; background-color: white; border-top: 3px solid #000000; padding: 20px 0 25px; '><h3 style=' font-size:29px;margin: 0; text-align: center; '> <span style='color: #000000; font-weight: bolder'>Hi,</span> " + ToName + "</h3><p style=' text-align: center; font-size: 17px;margin: 5px;font-family: sans-serif;'> Congratulations !!!</p><p style=' text-align: center;font-size: 17px;margin: 5px;font-family: sans-serif;'> Your have been successfully received of  <span style='color: #e85038;'>" + txtTopUpAmount.Trim() + "</span> <br /> from <span style='color: #e85038;'>" + FrmName.Trim() + "</span> to your <span style='color: #e85038;'>" + typ.Trim() + "</span></p></div><div style=' background-color: #000000; width: 100%; padding: 5px 0 5px; text-align: left; '><p style='font-family:Verdana;font-size: 15px; color:#fff; margin-left:22px;'> Thanks & Regards <br /> Support Team " + DynamicDtls.CompName + " <br> <small style='font-size:11px;'> Please do not reply to this email. Email send to this address will not be answered. </small></p></div></div><div style='display:none;background-color: #E9E9E9; margin-top: -12px;padding: 5px;width: 592px;margin: 0px auto;'><div style='margin:0 auto; width:600px; height:100%; font-family:verdana; text-align:center;'><div><p style=' color: gray; font-size: 12px; padding-top: 10px; '> Please do not reply to this email. Email send to this address will not be answered.</p></div></div></div></div></div>";
+                    //this.SendEmailToUser(ToEmail, "Bizzevo - " + typ + " Fund Received Confirmation !", Message12345);                    
+                }
+                else
+                {
+                    sc = false;
+                    //msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg =  ds.Tables[0].Rows[0]["Msg"].ToString() ;
+                }
+
+            }
+            else
+            {
+                sc = false;
+                //msg = "<span style='color:#FF8A00;'>Please fill required fields in transfer form !</span>";
+                msg = "Please fill required fields in transfer form !";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = ex.Message;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+    public void GetTopupDescription()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("Wlt_PayoutTnsfrtoUsers", new string[] { "TfrmMemId", "TToMemId", "Amt", "Flag", "SecPWD" },
+                    new string[] { UserID.Trim(), "", "", "GetBal", "" }, "BYdatase");
+            if (ds.Tables[0].Rows[0]["TMsg"].ToString() == "IsOk")
+            {
+                StringBuilder jsonBuilder = new StringBuilder("");
+                jsonBuilder.Append(" <p> <i class='fa fa-cog'></i> Your t-wallet balance : <span style='font-size:20px; color:#494242;font-weight:bold'>$" + ds.Tables[0].Rows[0]["Msg"].ToString() + "</p>");
+                response.Write(jsonBuilder);
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            response.Write(ex.Message);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    protected void SendEmailToUser(string EmailId, string Subjects, string Message)
+    {
+        objgdb.FillWebSiteEmailCompany();
+        MailSenderByEmail mailsend = new MailSenderByEmail();
+
+        try
+        {
+            mailsend.SendMailMessage(DynamicDtls.Email, Subjects, Message, EmailId);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+}

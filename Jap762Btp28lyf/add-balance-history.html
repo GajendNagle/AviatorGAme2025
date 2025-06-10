@@ -1,0 +1,386 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Deposit History</title>
+    <link href="//cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .btns-theme {
+            border-radius: 7px;
+        }
+        .date-range-picker > .form-label {
+            margin-bottom: 0;
+            margin-right: 0.5rem;
+        }
+        .form-control[readonly] {
+            background-color: unset !important;
+        }
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg>
+    </div>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="mt-5 pb-3">
+                    <div class="pr-3 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar fixed-top flex-ai-c">
+                        <div class="row pt-3">
+                            <a href="#" class="col-2 text-white ml-2 fs-20" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a>
+                            <a href="#" class="btn-toggle-mobile-side-bar">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </a>
+                            <div class="col-8 d-flex justify-content-center">
+                                <a href="#" class="logo flex flex-ai-c">
+                                    Deposit History
+                                    <div class="loged-in"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mobile-side-bar">
+                        <nav class="menu-box-1">
+                            <div class="text-center pt-2">
+                                <img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;">
+                            </div>
+                            <hr class="mt-2 bg-white">
+                            <ul class="list">
+                                <li>
+                                    <a href="game-index.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-house m-1"></i>
+                                        </div>Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-user m-1"></i>
+                                        </div>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa-solid fa-file-import m-1"></i>
+                                        </div>Affiliate
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-team.html" class="block menui2">My Team</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-directs.html" class="block menui2">My Directs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-wave m-1"></i>
+                                        </div>Deposit
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Add-Balance-Crypto-api.html" class="block menui2">Deposit Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance-history.html" class="block menui2">Deposit History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Main Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-User.html" class="block menui2">Transfer to member</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Growth Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="invite.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope-open-text m-1"></i>
+                                        </div>Promotion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-1 m-1"></i>
+                                        </div>Withdraw
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-CAPI.html">Withdraw Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-history.html">Withdraw History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="inbox.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope m-1"></i>
+                                        </div>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="news.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-newspaper m-1"></i>
+                                        </div>News
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Sign-Out.aspx" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-right-from-bracket m-1"></i>
+                                        </div>Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="main-content mb-0">
+                        <div class="row section_row_inner">
+                            <div class="col-md-12 col-12 mt-4">
+                                <div class="card card-bordered">
+                                    <div class="card-inner">
+                                        <div class="nk-block-between-md table-responsive">
+                                            <div class="table-filter">
+                                                <table class="table">
+                                                    <tr>
+                                                        <td>
+                                                            <select id="ddlStatus" name="select" class="form-control" aria-label="Default select example" style="font-size: 14px !important; text-align: left; border-radius: 5px; border: 1px solid #cdd4da; width: 90px;">
+                                                                <option value="ALL">Status</option>
+                                                                <option value="PENDING">Pending</option>
+                                                                <option value="APPROVED">Approved</option>
+                                                                <option value="REJECTED">Rejected</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center date-range-picker From position-relative">
+                                                                <label class="form-label">From:</label>
+                                                                <input type="date" class="form-control btn-group custom-select datepicker" style="width: 165px; font-size: 14px !important;" placeholder="dd-mm-yyyy" id="datepickerFrom" value="">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center date-range-picker To position-relative">
+                                                                <label class="form-label">To:</label>
+                                                                <input type="date" class="form-control btn-group custom-select datepicker" style="width: 165px; font-size: 14px!important;" placeholder="dd-mm-yyyy" id="datepickerTo" value="">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btns-theme" style="font-size: 14px !important;" id="btnfrtodt" onclick="SearchDownline()">Search</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4 pb-4">
+                                <div class="card">
+                                    <div class="card-inner table_section">
+                                        <div class="table">
+                                            <table id="example23" class="table table-responsive display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Request-Details</th>
+                                                        <th>Amount</th>
+                                                        <th>Pay_Mode</th>
+                                                        <th>Txn-Hash</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot align="left">
+                                                    <tr>
+                                                        <th style="text-align: right;"></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+            <div id="footer-bar" class="footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen" style="transform: translateX(0);">
+                <a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                <a href="invite.html">
+                    <div class="footer-ball">
+                        <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                    </div>
+                    <div class="footer-daimond-text">Promotion</div>
+                </a>
+                <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                <a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a>
+            </div>
+            <div class="card card-preview mb-0">
+                <div class="card-inner inner-tabs bg-light-gray"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $("#datepickerFrom").flatpickr();
+        $("#datepickerTo").flatpickr();
+    </script>
+    <script>
+        $(document).ready(function () {
+           
+            var table = $('#example23').DataTable({
+                "pagingType": "full_numbers",
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": "Handlers/AddBalancestatus-Txnhash.ashx",
+                    "dataType": "json",
+                    data: function (d) {
+                      
+                        d.frdt = $("#datepickerFrom").val();
+                        d.todt = $("#datepickerTo").val();
+                        d.IncTyp = $("#ddlStatus").val();
+                        console.log(d);
+                    },
+                },
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+                    var AMTTotal = api.column(1).data().reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                    $(api.column(0).footer()).html('Total');
+                    $(api.column(1).footer()).html(AMTTotal.toFixed(3));
+                },
+                dom: 'lBfrtip',
+                "dom": "<'row'<'col-sm-4 col-xs-4 dt-show-entry'l><'col-sm-4 col-xs-4 text-center'B><'col-sm-4 col-xs-4'f>>rt<'bottom'ip><'clear'>",
+                "lengthMenu": [[25, 50, 100, 200], [25, 50, 100, 200]],
+                buttons: [
+                    { extend: 'copy', className: 'btn-sm' },
+                    { extend: 'csv', title: 'ADD Balance status', className: 'btn-sm' },
+                    { extend: 'pdf', title: 'ADD Balance status', className: 'btn-sm' },
+                    { extend: 'print', className: 'btn-sm' }
+                ]
+            });
+            table.draw();
+            $("#btnfrtodt").click(function () {
+                table.draw();
+            });
+            $("#ddlStatus").bind("keyup change", function () {
+                debugger;
+                table.draw();
+            });
+            $.fn.dataTable.ext.errMode = 'throw';
+        });
+    </script>
+</body>
+</html>

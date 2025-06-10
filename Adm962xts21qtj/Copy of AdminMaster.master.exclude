@@ -1,0 +1,256 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Copy of AdminMaster.master.cs"
+    Inherits="AdminMaster" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Welcome To
+        <%=DynamicDtls.TopCompName %>
+    </title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="../UserPanel_css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../UserPanel_css/skin.css" />
+
+    <script type="text/javascript" src="../UserPanel_js/jquery-1.6.1.min.js"></script>
+
+    <script type="text/javascript" src="../UserPanel_js/superfish.js"></script>
+
+    <link href="../UserPanel_css/MyRegisCss.css" rel="stylesheet" type="text/css" />
+    <link href="../UserPanel_css/GridStyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../UserPanel_css/tooltip.css" />
+    <link type="text/css" href="../UserPanel_css/ModelPopup.css" rel="stylesheet" />
+
+    <script src="../UserPanel_js/tooltip.js" type="text/javascript"></script>
+
+    <link href="../UserPanel_css/colorbox.css" rel="stylesheet" type="text/css" />
+
+    <script src="../UserPanel_js/jquery.colorbox.js" type="text/javascript"></script>
+
+    <link href="../New_Genealogy/New_tree.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../UserPanel_css/EMailInbox.css" />
+
+    <script language="javascript" type="text/javascript" src="../New_Genealogy/JqueryPopup.js"></script>
+
+    <link href="../New_Genealogy/GenealogyPopup.css" rel="stylesheet" type="text/css" />
+
+    <script language="javascript" type="text/javascript" src="../New_Genealogy/JqueryPopup.js"></script>
+
+    <script>
+			$(document).ready(function(){
+				//Examples of how to assign the Colorbox event to elements
+				$(".group1").colorbox({rel:'group1'});
+				$(".group2").colorbox({rel:'group2', transition:"fade"});
+				$(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
+				$(".group4").colorbox({rel:'group4', slideshow:true});
+				$(".ajax").colorbox();
+				$(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
+				$(".vimeo").colorbox({iframe:true, innerWidth:500, innerHeight:300});
+				$(".iframe").colorbox({iframe:true, width:"750", height:"500"});
+				$(".CrDr").colorbox({iframe:true, width:"600", height:"550"});
+				$(".AutoWith").colorbox({iframe:true, width:"800", height:"600"});
+				$(".Drctuserlbl").colorbox({iframe:true, width:"620", height:"300"});
+				$(".Drctuser").colorbox({iframe:true, width:"750", height:"300"});
+				$(".inline").colorbox({inline:true, width:"50%"});
+				$(".callbacks").colorbox({
+					onOpen:function(){ alert('onOpen: colorbox is about to open'); },
+					onLoad:function(){ alert('onLoad: colorbox has started to load the targeted content'); },
+					onComplete:function(){ alert('onComplete: colorbox has displayed the loaded content'); },
+					onCleanup:function(){ alert('onCleanup: colorbox has begun the close process'); },
+					onClosed:function(){ alert('onClosed: colorbox has completely closed'); }
+				});
+
+				$('.non-retina').colorbox({rel:'group5', transition:'none'})
+				$('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
+				
+				//Example of preserving a JavaScript event for inline calls.
+				$("#click").click(function(){ 
+					$('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
+					return false;
+				});
+			});
+    </script>
+
+    <script language="javascript" type="text/javascript">
+var win=null;
+function NewWindow(mypage,myname,w,h,scroll,pos){
+if(pos=="random"){LeftPosition=(screen.width)?Math.floor(Math.random()*(screen.width-w)):100;TopPosition=(screen.height)?Math.floor(Math.random()*((screen.height-h)-75)):100;}
+if(pos=="center"){LeftPosition=(screen.width)?(screen.width-w)/2:100;TopPosition=(screen.height)?(screen.height-h)/2:100;}
+else if((pos!="center" && pos!="random") || pos==null){LeftPosition=0;TopPosition=20}
+settings='width='+w+',height='+h+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no,resizable=no';
+win=window.open(mypage,myname,settings);}
+
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <!--==============================header=================================-->
+        <div class="block1">
+            <div class="main">
+                <header>
+            <h1><a class="logo" href="#"><%=DynamicDtls.TopCompName %></a></h1>
+            <nav>
+                <ul class="sf-menu">
+                    <li><a href="AdminHome.aspx?mid=Dashboard&sid=Dashboard">Dashboard</a></li>
+                    
+                     <li><a href="#">User Section</a>
+                  <ul>
+                                 <li><a href="CustomizeUserSearch.aspx?mid=User Section&sid=Edit User Profile">Edit User Profile</a></li>
+                            <li><a href="BlockUnblockSetting.aspx?mid=User Section&sid=Block / Unblock User">Block / Unblock User</a></li>
+                            <li><a href="SendEmails.aspx?mid=User Section&sid=E-Mail">Send E-Mail</a></li>  
+                           
+                                  </ul> 
+                    </li>
+                     <li> <a href="#">D-Wallet</a>
+                        <ul>
+                        
+                         <li><a href="AdminCCTransactionReport.aspx?mid=User Account&sid=D-Wallet History">D-Wallet History</a></li> 
+                            <li><a href="AdminDipositNow.aspx?mid=User Section&sid=Deposit Now">Deposit Now</a></li>  
+                            <li><a href="AdminDepositHistory.aspx?mid=User Section&sid=Deposit History">Deposit History</a></li>
+                           <li><a href="AdminGrowthReport.aspx?mid=User Account&sid=I-Wallet History&Flag=By weekly earning(ROI)">Weekly Earning(ROI)</a></li> 
+                           <%--<li><a href="AdminDailyEarningReport.aspx?mid=User Section&sid=Auto Withdrawal">Auto Withdrawal</a></li> --%>
+                           <li><a class="CrDr" href="DebitCreditAmt.aspx?mid=User Account&sid=Credit/Debit Amount" >Credit/Debit Amount</a></li>
+                           
+                        </ul>
+                    </li>
+                    
+                     <li> <a href="#">I-Wallet</a>
+                        <ul>
+                            <li><a href="AdminGrowthReport.aspx?mid=User Account&sid=I-Wallet History">I-Wallet History</a></li>
+                             <li><a href="AdminViewFundRequest.aspx?mid=User Account&sid=Withdrawal Request's">Withdrawal Request's</a></li>
+                          <%--  <li><a class="CrDr" href="DebitCreditAmt.aspx?mid=User Account&sid=Credit/Debit Amount" >Credit/Debit Amount</a></li>
+                               <li><a href="AdminGrowthReport.aspx?mid=User Account&sid=Auto Withdrawal">Auto Withdrawal</a></li> --%>
+                            
+                            
+                        </ul>
+                    </li>
+                    
+                    <%-- <li> <a href="#">CC-Wallet</a>
+                        <ul>
+                            
+                           
+                            <li><a href="Admin_ViewDepositeRequest.aspx?mid=User Section&sid=View Credit Request">View Credit Request</a></li>
+                           <li><a class="CrDr" href="DebitCreditAmt.aspx?mid=User Account&sid=Credit/Debit Amount" >Credit/Debit Amount</a></li>
+                            
+                            
+                        </ul>
+                    </li>--%>
+                    
+                    
+                    
+                   
+                   
+                  <li><a href="#">Affiliate</a>
+                  <ul>
+                            <li><a href="AdminCurrentLevelStatus.aspx?mid=Affiliate Program&sid=User Direct's">User Direct's</a></li>
+                            <li><a href="AdminDownlineList.aspx?mid=Affiliate Program&sid=User Downlines">User Downlines</a></li>
+                            <li><a href="AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View">User Tree View</a></li>  
+                            <li><a href="TotPairSummary.aspx?mid=User Account&sid=Pair Matching Details">Binary Matching Details</a></li>  
+                            <li><a href="#">Residual Matching Details</a></li>  
+                            <li><a href="#">Auto Tri-nary Details</a></li> 
+                             <li><a href="#">Auto Tri-nary Matching Details</a></li>   
+                                 </ul> 
+                    </li>
+                  
+              <li ><a href="#">Others</a>
+                  <ul>
+                            <li><a href="AdminComposeMail.aspx?mid=Message&sid=Reply Message">Live Chat</a></li>
+                            <li><a href="ViewContactEnquiry.aspx?mid=User Section&sid=Enquiry Report">Enquiry Report</a></li> 
+                               <li><a href="AdminAddNews.aspx?mid=User Account&sid=Add/Remove News">Add/Remove News</a></li>
+                               <li><a href="Admin_Change_PWD.aspx?mid=Administrator&sid=Change Admin Password">Change Admin Password</a></li>
+                               
+                               
+                               
+                        </ul> 
+                    </li>
+                     <li ><a href="adminlogout.aspx">Logout</a>
+                     </li>
+                </ul>
+            </nav>
+            <div class="clear"></div>
+        </header>
+            </div>
+        </div>
+        <!--==============================content start================================-->
+        <div id="tabs">
+            <div class="block2">
+                <div class="main relative">
+                    <div class="heading">
+                        <img src="../UserPanel_Images/Dashboard.png" width="30px" height="30px" class="smalpic"
+                            alt="" />
+                        <%=SubMenu1 %>
+                    </div>
+                    <div class="tool_box" style="width: 555px; left: 17px;">
+                        <div class="call">
+                            <asp:Image ID="ProPix" runat="server" class="smalpic" ImageUrl="~/UserProfileImg/Open_User.jpg"
+                                Width="30" Height="30" />
+                            <span style="color: #fff;">Welcome To </span><a href="#">
+                                <%=Mem_Name %>
+                            </a><a href="AdminLogout.aspx" style="float: right; color: #000; margin-top: -2px;
+                                width: 40px;" class="login">Logout</a> <a href="Admin_Change_PWD.aspx?mid=Administrator&sid=Change Administrator Password"
+                                    style="float: right; color: #000; margin-top: -2px; width: 80px;" class="login">
+                                    Change Pwd</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block4">
+                <div class="main relative">
+                    <div class="secmidl">
+                        <div class="carousel_box" style="background-color: White;">
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                            </asp:ContentPlaceHolder>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--==============================content end================================-->
+        <div class="main">
+            <!--==============================footer=================================-->
+            <footer>
+    	<table cellpadding="0" cellspacing="0" align="center" width="100%"><tr>
+    	<td>
+            	<div class="column">
+                	<h4 class="foohad">Deposit Section</h4>
+                    <ul class="list1">
+                       <li><a href="AdminDipositNow.aspx?mid=Deposit Section&sid=Deposit Now">Deposit Now</a></li>  
+                            <li><a href="AdminDepositHistory.aspx?mid=Deposit Section&sid=Deposit History">Deposit History</a></li>
+                                            
+                    </ul>
+                </div>
+           </td>
+    	<td>   
+                <div class="column">
+                	<h4 class="foohad">User Profile</h4>
+                    <ul class="list1">
+                        <li><a href="CustomizeUserSearch.aspx?mid=User Section&sid=Edit User Profile">View Profile</a></li>
+                        <li class="last"><a href="CustomizeUserSearch.aspx?mid=User Section&sid=Edit User Profile">Edit User Profile</a></li>                                        
+                    </ul>
+                </div>
+                </td>
+        <td>   
+                <div class="column">
+                	<h4 class="foohad">User Account</h4>
+                    <ul class="list1">
+                    	<li><a href="AdminGrowthReport.aspx?mid=User Account&sid=Account Summary">Account Summary</a></li>
+                        <li class="last"><a href="AdminViewFundRequest.aspx?mid=User Account&sid=Withdrawal Request's">Withdrawal Request's</a></li>                                       
+                    </ul>
+                </div>
+                </td>
+    	<td>
+                <div class="column">
+                	<h4 class="foohad">Affiliate</h4>
+                    <ul class="list1">
+                        <li><a href="AdminDownlineList.aspx?mid=Affiliate Program&sid=User Downlines">User Downlines</a></li>
+                        <li class="last"><a href="AdminTreeView.aspx?mid=Affiliate Program&sid=User Tree View">User Tree View</a></li>                                                    
+                    </ul>
+                </div>
+            </td>
+      </tr></table>
+    </footer>
+        </div>
+    </form>
+</body>
+</html>

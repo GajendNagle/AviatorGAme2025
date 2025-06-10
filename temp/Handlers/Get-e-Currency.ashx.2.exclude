@@ -1,0 +1,128 @@
+<%@ WebHandler Language="C#" Class="Get_e_Currency" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Security.Cryptography;
+
+public class Get_e_Currency : IHttpHandler
+{
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, strJson, UserID, MainAmt, ConfirmLink, TransID;
+    DynamicDtls objgdb = new DynamicDtls();
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            objgdb.FillWebSiteEmailCompany();
+            //////////
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            MainAmt = context.Request["PAYMENT_AMOUNT"].Trim();
+            /////////
+            TransID = GetUniqueKey(6);
+            /////////
+            GetReferralLink();
+            ////////
+            handleRequest();
+        }
+        else
+        {
+            
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+    public static string GetUniqueKey(int maxSize)
+    {
+        char[] chars = new char[62];
+        chars =
+        "1234567890".ToCharArray();
+        byte[] data = new byte[1];
+        RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
+        crypto.GetNonZeroBytes(data);
+        data = new byte[maxSize];
+        crypto.GetNonZeroBytes(data);
+        StringBuilder result = new StringBuilder(maxSize);
+        foreach (byte b in data)
+        {
+            result.Append(chars[b % (chars.Length)]);
+        }
+        return result.ToString();
+    }
+    private void GetReferralLink()
+    {
+        ConfirmLink = "https://www.valuegold.club/UsrDashBoard0699/Get-e-Currency-Confirm.aspx";
+        StringBuilder jsonBuilder = new StringBuilder("");
+        jsonBuilder.Append("<input type='hidden' name='PAYMENT_ID' value='" + TransID.ToString() + "'>");
+        jsonBuilder.Append("<input type='hidden' name='PAYEE_ACCOUNT' value='U10577997'>");
+        jsonBuilder.Append("<input type='hidden' name='PAYMENT_UNITS' value='USD'>");
+        jsonBuilder.Append("<input type='hidden' name='PAYEE_MEMID' value='" + UserID.ToString() + "'>");
+        jsonBuilder.Append("<input type='hidden' name='PAYEE_NAME' value='valuegold'>");
+        jsonBuilder.Append("<input type='hidden' name='STATUS_URL' value='" + ConfirmLink + "'>");
+        jsonBuilder.Append("<input type='hidden' name='PAYMENT_URL' value='" + ConfirmLink + "'>");
+        jsonBuilder.Append("<input type='hidden' name='MAININV_AMT' value='" + MainAmt + "'>");
+        jsonBuilder.Append("<input type='hidden' name='OLDWALLET_AMT' value='" + MainAmt + "'>");
+        jsonBuilder.Append("<input type='hidden' name='PAYMENT_URL_METHOD' value='POST'>");
+        jsonBuilder.Append("<input type='hidden' name='NOPAYMENT_URL' value='https://www.valuegold.club/UsrDashBoard0699/Get-e-Currency-Cancel.aspx'>");
+        jsonBuilder.Append("<input type='hidden' name='NOPAYMENT_URL_METHOD' value='POST'>");
+        jsonBuilder.Append("<input type='hidden' name='SUGGESTED_MEMO' value='Get e-Currency for top-up wallet'>");
+        jsonBuilder.Append("<input type='hidden' name='BAGGAGE_FIELDS' id='BAGGAGEId' value='PAYMENT_ID PAYMENT_UNITS PAYMENT_AMOUNT PAYEE_MEMID MAININV_AMT OLDWALLET_AMT'>");
+
+        sc = true;
+        msg = jsonBuilder.ToString();
+    }
+}

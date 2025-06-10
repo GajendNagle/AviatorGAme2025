@@ -1,0 +1,108 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+public partial class Admin_DebitCreditAmt : System.Web.UI.Page
+{
+    SqlConnection cn;
+    SqlCommand cmd;
+    SqlDataAdapter da;
+    DataSet ds;
+    SqlDataReader dr;
+    string MemberName;
+    String UserID;
+    string str;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            TextBox1.Text = UserID = Request.QueryString["UserId"].ToString();
+            GetEWalInfo();
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+
+    private void GetEWalInfo()
+    {
+
+        cn = new SqlConnection(new DB().getconnection());
+        cn.Open();
+        cmd = new SqlCommand("select Round(isnull(sum(dr),0),2,2) TotDr,Round(isnull(sum(cr),0),2,2) TotCr,Round(isnull(sum(cr)-sum(dr),0),2,2) Bal from ewallet where memid='" + UserID + "'", cn);
+        dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            lblBal.Text = "Balance: " + dr["bal"].ToString();
+            lblTotalCredit.Text = "Total Credit: " + dr["totCr"].ToString();
+            lblTotalDebit.Text = "Total Debit: " + dr["TotDr"].ToString();
+        }
+        cn.Close();
+        dr.Dispose();
+    }
+
+
+
+    protected void btnpass_Click(object sender, EventArgs e)
+    {
+        cn = new SqlConnection(new DB().getconnection());
+        try
+        {
+            if (ddlTranType.SelectedItem.Text == "DEBIT")
+            {
+
+                cmd = new SqlCommand("INSERT INTO EWALLET (MEMID, DR,CR, REMARK ,TRANSACTIONDT) VALUES ('" + UserID + "'," + txtAmt.Text + ",0,'DEBITED BY ADMIN', getdate() )  ", cn);
+            }
+            else
+            {
+                cmd = new SqlCommand("INSERT INTO EWALLET (MEMID, CR,DR, REMARK ,TRANSACTIONDT) VALUES ('" + UserID + "'," + txtAmt.Text + ",0,'CREDITED BY ADMIN', getdate() ) ", cn);
+            }
+            cn.Open();
+            int Rslt = cmd.ExecuteNonQuery();
+            if (Rslt > 0)
+            {
+                lblmsg.Text = "Amount Successfully " + ddlTranType.SelectedItem.Text + "ED ..!!";
+                clears();
+                GetEWalInfo();
+            }
+            else
+            {
+                lblmsg.Text = "Oops..Some problem Arised..! Transaction not completed..!";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+        }
+
+        finally
+        {
+            if (cn != null && cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+                cn.Dispose();
+            }
+
+            if (cmd != null) { cmd.Dispose(); }
+        }
+
+
+    }
+
+
+
+    private void clears()
+    {
+        txtAmt.Text = "";
+    }
+
+
+}

@@ -1,0 +1,311 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Adm962xts21qtj_Trace_Transaction_Hash_BTC : System.Web.UI.Page
+{
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; string searchText;
+    public int PageNo;
+    public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+
+            fill_ColumnFilter();
+            ddl_IncType.ClearSelection();
+            if (Request.QueryString["Flag"] != null)
+            {
+                try
+                {
+                    ddl_IncType.Items.FindByText(Request.QueryString["Flag"].ToString()).Selected = true;
+                }
+                catch { }
+            }
+
+
+        }
+    }
+    public DataSet METHOD(string FILTERTYPE, string VALUE, string FLAG, string PG_SIZE, string CURRENT_PG)
+    {
+        try
+        {
+            //int TotalRecords = 0;
+            ds = new DataSet();
+            ds = objgdb.ByProcedure("Trace_Transaction_Hash_BTC", new string[] { "FILTERTYPE", "VALUE", "FLAG", "PG_SIZE", "CURRENT_PG" }, new string[] { FILTERTYPE, VALUE, FLAG, PG_SIZE, CURRENT_PG }, "ByDataset");
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = new DB().EmptyMessage("Sorry, Something is wrong please try later !"); }
+        finally
+        {
+            ds.Dispose();
+        }
+        return ds;
+    }
+    public void fill_ColumnFilter()
+    {
+        try
+        {
+            ddl_IncType.DataSource = METHOD("", "", "SELECT_ONE", "", "");
+            ddl_IncType.DataTextField = "SELECT_ONE_TXT";
+            ddl_IncType.DataValueField = "SELECT_ONE_VALUE";
+            ddl_IncType.DataBind();
+        }
+        catch
+        { }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+        }
+    }
+    protected void ColumnFilterChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void populateList(int TotalRows)
+    {
+
+    }
+    private int BindResult(int currentPage)
+    {
+        int DepositTotalRows = 0;
+        int TransConfirmTotalRows = 0;
+        int TopUpHistoryTotalRows = 0;
+        int MemBerBTCTotalRows = 0;
+        //gvmemberBTC
+        searchText = "";
+        try
+        {
+            if (ddl_IncType.SelectedValue.ToString().TrimEnd() == "TransactionHash")
+            {
+                ds = new DataSet();
+                ds = METHOD(ddl_IncType.SelectedValue, txtSearch.Text.ToString(), "ReportData", (ConfigurationManager.AppSettings["gridPageSize"]).ToString(), currentPage.ToString());
+                DepositTotalRows = Convert.ToInt32(ds.Tables[0].Rows.Count);
+                TransConfirmTotalRows = Convert.ToInt32(ds.Tables[1].Rows.Count);
+                TopUpHistoryTotalRows = Convert.ToInt32(ds.Tables[2].Rows.Count);
+                if (DepositTotalRows == 0)
+                {
+                    lblMsg.Visible = true;
+                    gvdepositrequest.Visible = false;
+                    lblMsg.Text = new DB().EmptyMessage("Sorry ... No Records found !!");
+                    lblGVDeposit.Text = "Transaction Hash on Fund Request History";
+                    lblGVDeposit.Visible = true;
+                }
+                else
+                {
+                    lblMsg.Visible = false;
+                    lblMsg.Text = "";
+                    gvdepositrequest.Visible = true;
+                    gvdepositrequest.DataSource = ds.Tables[0];
+                    gvdepositrequest.DataBind();
+                    lblGVDeposit.Text = "Transaction Hash on Fund Request History";
+                    lblGVDeposit.Visible = true;
+                }
+                if (TransConfirmTotalRows == 0)
+                {
+                    LblMsg1.Visible = true;
+                    gvtransconfirmation.Visible = false;
+                    LblMsg1.Text = new DB().EmptyMessage("Sorry ... No Records found !!");
+                    lblGVTransConfirm.Text = "Transaction Hash on Block Chain API Transaction Confirmation History";
+                    lblGVTransConfirm.Visible = true;
+                }
+                else
+                {
+                    LblMsg1.Visible = false;
+                    LblMsg1.Text = "";
+                    gvtransconfirmation.Visible = true;
+                    gvtransconfirmation.DataSource = ds.Tables[1];
+                    gvtransconfirmation.DataBind();
+                    lblGVTransConfirm.Text = "Transaction Hash on Block Chain API Transaction Confirmation History";
+                    lblGVTransConfirm.Visible = true;
+                }
+                if (TopUpHistoryTotalRows == 0)
+                {
+                    lblMsg2.Visible = true;
+                    gvtopuphistory.Visible = false;
+                    lblMsg2.Text = new DB().EmptyMessage("Sorry ... No Records found !!");
+                    lblGVTopup.Text = "Transaction Hash on Member BTC Address List";
+                    lblGVTopup.Visible = true;
+                }
+                else
+                {
+                    lblMsg2.Visible = false;
+                    lblMsg2.Text = "";
+                    gvtopuphistory.Visible = true;
+                    gvtopuphistory.DataSource = ds.Tables[2];
+                    gvtopuphistory.DataBind();
+                    lblGVTopup.Text = "Transaction Hash on Member BTC Address List";
+                    lblGVTopup.Visible = true;
+                }
+            }
+            else
+            {
+                ds = new DataSet();
+                ds = METHOD(ddl_IncType.SelectedValue, txtSearch.Text.ToString(), "ReportData", (ConfigurationManager.AppSettings["gridPageSize"]).ToString(), currentPage.ToString());
+                DepositTotalRows = Convert.ToInt32(ds.Tables[0].Rows.Count);
+                TransConfirmTotalRows = Convert.ToInt32(ds.Tables[1].Rows.Count);
+                MemBerBTCTotalRows = Convert.ToInt32(ds.Tables[2].Rows.Count);
+                if (DepositTotalRows == 0)
+                {
+                    lblMsg.Visible = true;
+                    gvdepositrequest.Visible = false;
+                    lblMsg.Text = new DB().EmptyMessage("Sorry ... No Records found !!");
+                    lblGVDeposit.Text = "BTC Address on Fund Request History";
+                    lblGVDeposit.Visible = true;
+                }
+                else
+                {
+                    lblMsg.Visible = false;
+                    lblMsg.Text = "";
+                    gvdepositrequest.Visible = true;
+                    gvdepositrequest.DataSource = ds.Tables[0];
+                    gvdepositrequest.DataBind();
+                    lblGVDeposit.Text = "BTC Address on Fund Request History";
+                    lblGVDeposit.Visible = true;
+                }
+                if (TransConfirmTotalRows == 0)
+                {
+                    LblMsg1.Visible = true;
+                    gvtransconfirmation.Visible = false;
+                    LblMsg1.Text = new DB().EmptyMessage("Sorry ... No Records found !!");
+                    lblGVTransConfirm.Text = "BTC Address on Block Chain API Transaction Confirmation History";
+                    lblGVTransConfirm.Visible = true;
+                }
+                else
+                {
+                    LblMsg1.Visible = false;
+                    LblMsg1.Text = "";
+                    gvtransconfirmation.Visible = true;
+                    gvtransconfirmation.DataSource = ds.Tables[1];
+                    gvtransconfirmation.DataBind();
+                    lblGVTransConfirm.Text = "BTC Address on Block Chain API Transaction Confirmation History";
+                    lblGVTransConfirm.Visible = true;
+                }
+                if (MemBerBTCTotalRows == 0)
+                {
+                    lblMsg2.Visible = true;
+                    gvtopuphistory.Visible = false;
+                    lblMsg2.Text = new DB().EmptyMessage("Sorry ... No Records found !!");
+                    lblGVTopup.Text = "BTC Address on Member BTC Address List";
+                    lblGVTopup.Visible = true;
+                    gvmemberBTC.Visible = false;
+                }
+                else
+                {
+                    gvtopuphistory.Visible = false;
+
+                    lblMsg2.Visible = false;
+                    lblMsg2.Text = "";
+                    gvmemberBTC.Visible = true;
+                    gvmemberBTC.DataSource = ds.Tables[2];
+                    gvmemberBTC.DataBind();
+                    lblGVTopup.Text = "BTC Address on Member BTC Address List";
+                    lblGVTopup.Visible = true;
+                }
+
+            }
+
+            return DepositTotalRows;
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !"; }
+        finally { ds.Dispose(); }
+        return DepositTotalRows;
+    }
+
+
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        //Response.ClearContent();
+        //Response.Buffer = true;
+        //Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Report.xls"));
+        //Response.ContentType = "application/ms-excel";
+        //StringWriter sw = new StringWriter();
+        //HtmlTextWriter htw = new HtmlTextWriter(sw);
+        //gvinvoiceno.AllowPaging = false;
+
+        //ddlJumpToPage.Items.Clear();
+        //int TotalRows = this.BindResult(1);
+        //this.populateList(TotalRows);
+
+        ////Change the Header Row back to white color
+        //gvinvoiceno.HeaderRow.Style.Add("background-color", "#FFFFFF");
+        ////Applying stlye to gridview header cells
+        //for (int i = 0; i < gvinvoiceno.HeaderRow.Cells.Count; i++)
+        //{
+        //    gvinvoiceno.HeaderRow.Cells[i].Style.Add("background-color", "#df5015");
+        //}
+        //gvinvoiceno.RenderControl(htw);
+        //Response.Write(sw.ToString());
+        //Response.End();
+    }
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+    protected void gvdepositrequest_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        //if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    GridView HeaderGrid = (GridView)sender;
+        //    GridViewRow HeaderGridRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Insert);
+        //    TableCell HeaderCell = new TableCell();
+        //    HeaderCell.Text = "<span style="+"'"+"color:#FF0303; font-weight:bold;"+"'"+"> Transaction Hash for Deposit Request</span>";
+        //    HeaderCell.ColumnSpan = 10;
+        //    HeaderGridRow.Cells.Add(HeaderCell);
+
+        //    gvdepositrequest.Controls[0].Controls.AddAt(0, HeaderGridRow);
+
+        //} 
+    }
+    protected void gvtopuphistory_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        //if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    GridView HeaderGrid = (GridView)sender;
+        //    GridViewRow HeaderGridRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Insert);
+        //    TableCell HeaderCell = new TableCell();
+        //    HeaderCell.Text = "<span style="+"'"+"color:#FF0303; font-weight:bold;"+"'"+"> Transaction Hash for Top Up History</span>";
+        //    HeaderCell.ColumnSpan = 12;
+        //    HeaderGridRow.Cells.Add(HeaderCell);
+        //    gvtopuphistory.Controls[0].Controls.AddAt(0, HeaderGridRow);
+
+        //} 
+    }
+    protected void gvtransconfirmation_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        //if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    GridView HeaderGrid = (GridView)sender;
+        //    GridViewRow HeaderGridRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Insert);
+        //    TableCell HeaderCell = new TableCell();
+        //    HeaderCell.Text = "<span style="+"'"+"color:#FF0303; font-weight:bold;"+"'"+"> Transaction Hash for Confirmation</span>";
+        //    HeaderCell.ColumnSpan = 7;
+        //    HeaderGridRow.Cells.Add(HeaderCell);
+        //    gvtransconfirmation.Controls[0].Controls.AddAt(0, HeaderGridRow);
+
+        //} 
+    }
+}

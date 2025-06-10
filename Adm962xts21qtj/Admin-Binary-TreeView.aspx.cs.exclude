@@ -1,0 +1,487 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Admin_Binary_TreeView : System.Web.UI.Page
+{
+    DynamicDtls Objgdb = new DynamicDtls();
+    DataSet ds;
+   string UserID, DLMemID, DLMemID1, DecodeUID;
+    //SqlDataReader drchkmemid;
+    public string img39 = "", lblTopMem = "", lbl39 = "", lbl40 = "", lbl41 = "", 
+        lbl42 = "", lbl43 = "", lbl44 = "", lbl45 = "", lbl46 = "", lbl47 = "", 
+        lbl48 = "", lbl49 = "", lbl50 = "", lbl51 = "", lbl52 = "", lbl53 = "", 
+        lbl54 = "",lbl55="", lblL1 = "", lblR1 = "", lblL21 = "", lblR22 = "", lblL23 = "", 
+        lblR24 = "", lblL31 = "", lblR32 = "", lblL33 = "", lblR34 = "", 
+        lblL35 = "", lblR36 = "", lblL37 = "", lblR38 = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            ds = Objgdb.ByDataSet("select MemID from memdetail  WITH(NOLOCK) where acmemid in(select max(acmemid) from memdetail WITH(NOLOCK))");
+            UserID = ds.Tables[0].Rows[0]["MemID"].ToString();
+           if (!IsPostBack)
+            getPkgs();
+            if (Request.QueryString["MemID"] == null)
+            {
+                DLMemID = UserID;
+                Session["UserID"] = DLMemID;
+
+                GetWorkingTree(DLMemID);
+                lblDirectList.Text = Session["UserID"].ToString();
+                link();
+                lblNetworkList.Text = Session["UserID"].ToString();
+            }
+            else
+            {
+                if (UserID == DB.base64Decod(Request.QueryString["MemID"].ToString()))
+                {
+                    DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+                    Session["UserID"] = DLMemID;
+                }
+
+                else
+                {
+                    DLMemID1 = DB.base64Decod(Request.QueryString["MemID"].ToString());
+                    try
+                    {
+
+                        ds = Objgdb.ByDataSet("select MemID from memdetail WITH(NOLOCK) where acmemid in(select max(acmemid) from memdetail)");
+                        Int32 CntDownID = Convert.ToInt32(ds.Tables[0].Rows.Count.ToString());
+                        if (CntDownID > 0)
+                        {
+                            DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+                            Session["UserID"] = DLMemID;
+
+                        }
+                        else
+                        {
+                            DLMemID = UserID;
+                            Session["UserID"] = UserID;
+                            lblmsg.Text = "Ooops, Record Not Available !!";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+                    }
+                    finally
+                    {
+                        ds.Dispose();
+                    }
+
+                }
+
+                if (DLMemID == "Vacant")
+                {
+                    Response.Redirect("Admin-Binary-TreeView.aspx");
+                }
+                else
+                {
+                    GetWorkingTree(DLMemID);
+                    lblDirectList.Text = Session["UserID"].ToString();
+                    link();
+                    lblNetworkList.Text = Session["UserID"].ToString();
+
+                }
+
+            }
+
+
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+    private void getPkgs()
+    {
+        ds = Objgdb.ByProcedure("GetPkgForTree", "BY DATASET");
+        DLPkg.DataSource = ds;
+        DLPkg.DataBind();
+
+        ds.Dispose();
+    }
+
+    protected void btnGo_Click(object sender, EventArgs e)
+    {
+        if (txtuserid.Text != "")
+        {
+            lblmsg.Text = "";
+            try
+            {
+                ds = Objgdb.ByDataSet("select count(dd.id) from downlinedetails dd  WITH (NOLOCK)  where dd.memid='" + txtuserid.Text.Trim() + "'");
+                Int32 DnID = Convert.ToInt32(ds.Tables[0].Rows.Count.ToString());
+                if (DnID >= 1)
+                {
+
+                    Response.Redirect("Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(txtuserid.Text.Trim()), false);
+                    DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+
+                    GetWorkingTree(txtuserid.Text.Trim());
+                    lblDirectList.Text = Session["UserID"].ToString();
+                    link();
+                    lblNetworkList.Text = Session["UserID"].ToString();
+
+                }
+                else if (txtuserid.Text.Trim().ToUpper() == UserID.ToUpper())
+                {
+                    Response.Redirect("Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(txtuserid.Text.Trim()), false);
+                    DLMemID = DB.base64Decod(Request.QueryString["MemID"].ToString());
+
+                    GetWorkingTree(txtuserid.Text.Trim());
+                    lblDirectList.Text = Session["UserID"].ToString();
+                    link();
+                    lblNetworkList.Text = Session["UserID"].ToString();
+                    lblmsg.Text = "";
+                }
+                else
+                {
+                    lblmsg.Text = "Oops , UserID Are Not Available !!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+            }
+            finally
+            {
+                ds.Dispose();
+            }
+        }
+        else
+        {
+            lblmsg.Text = "Please Enter User ID!!";
+        }
+
+    }
+    private void GetWorkingTree(string UserID)
+    {
+        try
+        {
+            ds = Objgdb.ByProcedure("[Get_BinaryTree_Adm]", new string[] { "Memid" } , new string[] { UserID }, "BY DATASET");
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                switch (Convert.ToInt32(dr[0].ToString()))
+                {
+                    case 1:
+                        lblTopMem = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft00Name.Text=(dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        lblWTName.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString() + " {" + dr[5].ToString() + "}";
+                        ImgWTName.ImageUrl=(dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImg1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 2:
+                        lblLeft1.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft11Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft1.ImageUrl =(dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 3:
+                        lblRight1.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight11Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight1.ImageUrl =(dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight1.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 4:
+                        lblLeft21.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft21Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft21.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft21.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 5:
+                        lblRight22.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight22Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight22.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight22.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 6:
+                        lblLeft23.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft23Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft23.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft23.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 7:
+                        lblRight24.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight24Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight24.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight24.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 8:
+                        lblLeft31.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft31Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft31.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft31.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 9:
+                        lblRight32.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight32Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight32.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight32.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 10:
+                        lblLeft33.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft33Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft33.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft33.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 11:
+                        lblRight34.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight34Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight34.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight34.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 12:
+                        lblLeft35.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft35Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft35.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft35.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 13:
+                        lblRight36.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight36Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight36.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight36.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 14:
+                        lblLeft37.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblLeft37Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft37.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft37.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 15:
+                        lblRight38.Text = (dr[1].ToString() == "") ? "Vacant" : dr[1].ToString();
+                        lblRight38Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight38.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight38.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 16:
+                        lbl40 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft40Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft40.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft40.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 17:
+                        lbl41 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight41Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight41.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight41.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 18:
+                        lbl42 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft42Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft42.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft42.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 19:
+                        lbl43 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight43Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight43.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight43.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 20:
+                        lbl44 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft44Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft44.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft44.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 21:
+                        lbl45 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight45Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight45.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight45.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 22:
+                        lbl46 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft46Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft46.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft46.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 23:
+                        lbl47 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight47Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight47.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight47.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 24:
+                        lbl48 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft48Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft48.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft48.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 25:
+                        lbl49 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight49Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight49.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight49.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 26:
+                        lbl50 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft50Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft50.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft50.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 27:
+                        lbl51 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight51Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight51.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight51.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 28:
+                        lbl52 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft52Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft52.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft52.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 29:
+                        lbl53 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight53Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight53.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight53.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 30:
+                        lbl54 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblLeft54Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgLeft54.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgLeft54.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+                    case 31:
+                        lbl55 = (dr[1].ToString() == "") ? "Vacant" : new EncryDecry().base64Encode(dr[1].ToString());
+                        lblRight55Name.Text = (dr[1].ToString() == "") ? "Vacant" : dr[14].ToString();
+                        ImgRight55.ImageUrl = (dr["PkgColor"].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : (dr[3].ToString() == "") ? "../New_Genealogy/GRAY.PNG" : "../New_Genealogy/" + dr["PkgColor"].ToString() + ".PNG";
+                        BigImgRight55.ImageUrl = (dr[8].ToString() == "") ? "../UserProfileImg/Open_User.png" : "../UserProfileImg/" + dr[8].ToString();
+                        break;
+
+                }
+
+            }
+
+            lblL1 = DB.base64Encode(lblLeft1.Text);
+            lblR1 = DB.base64Encode(lblRight1.Text);
+            lblL21 = DB.base64Encode(lblLeft21.Text);
+            lblR22 = DB.base64Encode(lblRight22.Text);
+            lblL23 = DB.base64Encode(lblLeft23.Text);
+            lblR24 = DB.base64Encode(lblRight24.Text);
+            lblL31 = DB.base64Encode(lblLeft31.Text);
+            lblR32 = DB.base64Encode(lblRight32.Text);
+            lblL33 = DB.base64Encode(lblLeft33.Text);
+            lblR34 = DB.base64Encode(lblRight34.Text);
+            lblL35 = DB.base64Encode(lblLeft35.Text);
+            lblR36 = DB.base64Encode(lblRight36.Text);
+            lblL37 = DB.base64Encode(lblLeft37.Text);
+            lblR38 = DB.base64Encode(lblRight38.Text);
+
+
+            lblLeft1.Text = (lblLeft1.Text == "Vacant") ? "<a href=\'../JoinNow.aspx?RT=FReg&UserId=" + DB.base64Encode(lblTopMem) + "&Position=LEFT\' style=\"font-size:11PX; font-family:verdana; color:RED; text-decoration:none; text-transform:uppercase;\" onclick=\"NewWindow(this.href,\'MList\',\'900\',\'500\',\'yes\',\'center\');return false\"\r\n  onfocus=\"this.blur()\">Vacant</a> " : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft1.Text) + "'>" + lblLeft1.Text + "</a>";
+            lblRight1.Text = (lblRight1.Text == "Vacant") ? "<a href=\'../JoinNow.aspx?RT=FReg&UserId=" + DB.base64Encode(lblTopMem) + "&Position=RIGHT\' style=\"font-size:11PX; font-family:verdana; color:RED; text-decoration:none; text-transform:uppercase;\" onclick=\"NewWindow(this.href,\'MList\',\'900\',\'500\',\'yes\',\'center\');return false\"\r\n  onfocus=\"this.blur()\">Vacant</a> " : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight1.Text) + "'>" + lblRight1.Text + "</a>";
+            lblLeft21.Text = (lblLeft21.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft21.Text) + "'>" + lblLeft21.Text + "</a>";
+            lblRight22.Text = (lblRight22.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight22.Text) + "'>" + lblRight22.Text + "</a>";
+            lblLeft23.Text = (lblLeft23.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft23.Text) + "'>" + lblLeft23.Text + "</a>";
+            lblRight24.Text = (lblRight24.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight24.Text) + "'>" + lblRight24.Text + "</a>";
+            lblLeft31.Text = (lblLeft31.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft31.Text) + "'>" + lblLeft31.Text + "</a>";
+            lblRight32.Text = (lblRight32.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight32.Text) + "'>" + lblRight32.Text + "</a>";
+            lblLeft33.Text = (lblLeft33.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft33.Text) + "'>" + lblLeft33.Text + "</a>";
+            lblRight34.Text = (lblRight34.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight34.Text) + "'>" + lblRight34.Text + "</a>";
+            lblLeft35.Text = (lblLeft35.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft35.Text) + "'>" + lblLeft35.Text + "</a>";
+            lblRight36.Text = (lblRight36.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight36.Text) + "'>" + lblRight36.Text + "</a>";
+            lblLeft37.Text = (lblLeft37.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblLeft37.Text) + "'>" + lblLeft37.Text + "</a>";
+            lblRight38.Text = (lblRight38.Text == "Vacant") ? "Vacant" : "<a href='Admin-Binary-TreeView.aspx?MemID=" + DB.base64Encode(lblRight38.Text) + "'>" + lblRight38.Text + "</a>";
+
+            if (lblL1 == "Vacant" || lblL1 == "")
+            { lblL1 = DB.base64Encode(lblTopMem); }
+            if (lblR1 == "Vacant" || lblR1 == "")
+            { lblR1 = DB.base64Encode(lblTopMem); }
+            if (lblL21 == "Vacant" || lblL21 == "")
+            { lblL21 = DB.base64Encode(lblTopMem); }
+            if (lblR22 == "Vacant" || lblR22 == "")
+            { lblR22 = DB.base64Encode(lblTopMem); }
+            if (lblL23 == "Vacant" || lblL23 == "")
+            { lblL23 = DB.base64Encode(lblTopMem); }
+            if (lblR24 == "Vacant" || lblR24 == "")
+            { lblR24 = DB.base64Encode(lblTopMem); }
+            if (lblL31 == "Vacant" || lblL31 == "")
+            { lblL31 = DB.base64Encode(lblTopMem); }
+            if (lblR32 == "Vacant" || lblR32 == "")
+            { lblR32 = DB.base64Encode(lblTopMem); }
+            if (lblL33 == "Vacant" || lblL33 == "")
+            { lblL33 = DB.base64Encode(lblTopMem); }
+            if (lblR34 == "Vacant" || lblR34 == "")
+            { lblR34 = DB.base64Encode(lblTopMem); }
+            if (lblL35 == "Vacant" || lblL35 == "")
+            { lblL35 = DB.base64Encode(lblTopMem); }
+            if (lblR36 == "Vacant" || lblR36 == "")
+            { lblR36 = DB.base64Encode(lblTopMem); }
+            if (lblL37 == "Vacant" || lblL37 == "")
+            { lblL37 = DB.base64Encode(lblTopMem); }
+            if (lblR38 == "Vacant" || lblR38 == "")
+            { lblR38 = DB.base64Encode(lblTopMem); }
+            if (lbl40 == "Vacant" || lbl40 == "")
+            { lbl40 = DB.base64Encode(lblTopMem); }
+            if (lbl41 == "Vacant" || lbl41 == "")
+            { lbl41 = DB.base64Encode(lblTopMem); }
+            if (lbl42 == "Vacant" || lbl42 == "")
+            { lbl42 = DB.base64Encode(lblTopMem); }
+            if (lbl43 == "Vacant" || lbl43 == "")
+            { lbl43 = DB.base64Encode(lblTopMem); }
+            if (lbl44 == "Vacant" || lbl44 == "")
+            { lbl44 = DB.base64Encode(lblTopMem); }
+            if (lbl45 == "Vacant" || lbl45 == "")
+            { lbl45 = DB.base64Encode(lblTopMem); }
+            if (lbl46 == "Vacant" || lbl46 == "")
+            { lbl46 = DB.base64Encode(lblTopMem); }
+            if (lbl47 == "Vacant" || lbl47 == "")
+            { lbl47 = DB.base64Encode(lblTopMem); }
+            if (lbl48 == "Vacant" || lbl48 == "")
+            { lbl48 = DB.base64Encode(lblTopMem); }
+            if (lbl49 == "Vacant" || lbl49 == "")
+            { lbl49 = DB.base64Encode(lblTopMem); }
+            if (lbl50 == "Vacant" || lbl50 == "")
+            { lbl50 = DB.base64Encode(lblTopMem); }
+            if (lbl51 == "Vacant" || lbl51 == "")
+            { lbl51 = DB.base64Encode(lblTopMem); }
+            if (lbl52 == "Vacant" || lbl52 == "")
+            { lbl52 = DB.base64Encode(lblTopMem); }
+            if (lbl53 == "Vacant" || lbl53 == "")
+            { lbl53 = DB.base64Encode(lblTopMem); }
+            if (lbl54 == "Vacant" || lbl54 == "")
+            { lbl54 = DB.base64Encode(lblTopMem); }
+            if (lbl55 == "Vacant" || lbl55 == "")
+            { lbl55 = DB.base64Encode(lblTopMem); }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+        }
+      
+    }
+    public void link()
+    {
+        DecodeUID = new EncryDecry().base64Encode(DLMemID);
+        lblDownlineList.Text = "<a style='font-size:13px;' href='AdminDownlineList.aspx?mid=Affiliate Program&sid=My Downline list&MemID=" + DecodeUID + "'/>" + DLMemID + "</a>";
+    }
+
+    //protected void ddlPostion_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        Objgdb.ByText("Update Memdetail set Position='" + ddlPostion.SelectedItem.Text + "'  where memid='" + UserID + "'");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+    //    }
+    //}
+
+  
+}

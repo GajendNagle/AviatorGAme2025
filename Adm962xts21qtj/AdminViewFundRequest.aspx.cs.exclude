@@ -1,0 +1,244 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+
+public partial class ControlSection_AdminViewFundRequest : System.Web.UI.Page
+{
+    SqlConnection cn;
+    DataTable dt; SqlDataAdapter sda; SqlCommand cmd;
+    DataSet ds; string SqlFillStatus;
+    string SearchText;
+    float TotalAmt = 0;
+    Double Totalnoofpins = 0;
+    public int PageNo;
+    public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!IsPostBack)
+            {
+                ddlJumpToPage.Items.Clear();
+                int TotalRows = this.BindResult(1);
+                this.populateList(TotalRows);
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    private int BindResult(int currentPage)
+    {
+        int TotalRows = 0;
+        try
+        {
+            if (txtSearch.Text == "")
+            {
+
+                if (DDLFillItems.Items.Count != 0)
+                {
+                    SearchText = DDLFillItems.SelectedItem.Text;
+                }
+                else
+                {
+                    SearchText = "";
+                }
+            }
+            else
+            {
+                SearchText = txtSearch.Text.Trim();
+            }
+
+            cn = new SqlConnection(new DB().getconnection());
+            dt = new DataTable();
+            sda = new SqlDataAdapter();
+            cmd = new SqlCommand("dbo.Pro_AdminBankPayoutDetails");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.AddWithValue("@strSearchText", SearchText);
+            cmd.Parameters.AddWithValue("@intPageSize", Pagesize);
+            cmd.Parameters.AddWithValue("@intCurrentPage", currentPage);
+            cmd.Parameters.AddWithValue("@SrchByDjGt", "All");
+            cmd.Parameters.AddWithValue("@FrmDt", txtFromDate.Text.Trim());
+            cmd.Parameters.AddWithValue("@ToDt", txtToDate.Text.Trim());
+            cmd.Parameters.Add("@ColumnName", SqlDbType.VarChar).Value = DDLDownPos.SelectedItem.Value;
+            cmd.Connection = cn;
+            sda.SelectCommand = cmd;
+            sda.Fill(dt);
+            TotalRows = (int)cmd.Parameters["@intTotalRecords"].Value;
+            if (TotalRows != 0)
+            {
+                lblgvrecord.Visible = false;
+                grdUserDtl.PageIndex = currentPage - 1;
+                grdUserDtl.DataSource = dt;
+                grdUserDtl.DataBind();
+            }
+            else
+            {
+                lblgvrecord.Visible = true;
+                lblgvrecord.Text = new DB().EmptyMessage(dt.Rows[0]["MSG"].ToString());
+                grdUserDtl.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            sda.Dispose();
+            cmd.Dispose();
+            dt.Dispose();
+            cn.Close();
+            cn.Dispose();
+        }
+        return TotalRows;
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text =   Convert.ToString(TotalRows);
+        PageNo = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1); ;
+        for (int i = 1; i <= PageNo; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(PageNo);
+    }
+    protected void DDLDownPos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtSearch.Text = "";
+        if (DDLDownPos.SelectedValue == "pai.Status")
+        {
+            DDLFillItems.Items.Clear();
+            DDLFillItems.Items.Insert(0, "PENDING");
+            DDLFillItems.Items.Insert(1, "COMPLETED");
+            DDLFillItems.Items.Insert(2, "REJECTED");
+            DDLFillItems.Visible = true;
+            txtSearch.Visible = false;
+        }
+        else if (DDLDownPos.SelectedValue == "pai.IssueMode")
+        {
+            DDLFillItems.Items.Clear();
+            DDLFillItems.Items.Insert(0, "By Perfect Money");
+            DDLFillItems.Items.Insert(1, "Bank Wire");
+            DDLFillItems.Visible = true;
+            txtSearch.Visible = false;
+        }
+        else
+        {
+            txtSearch.TextMode = TextBoxMode.SingleLine;
+            DDLFillItems.Visible = false;
+            txtSearch.Visible = true;
+        }
+    }
+    protected void grdUserDtl_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblAmt = (Label)e.Row.FindControl("lblAmt");
+                try
+                {
+                    TotalAmt = TotalAmt + float.Parse(lblAmt.Text);
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+            }
+            if (e.Row.RowType == DataControlRowType.Footer)
+            {
+                Label lblTotalAmt = (Label)e.Row.FindControl("lblTotAmt");
+                lblTotalAmt.Text = TotalAmt.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        Response.Clear();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", "attachment;filename=GridViewExport.xls");
+        Response.Charset = "";
+        Response.ContentType = "application/vnd.ms-excel";
+        using (StringWriter sw = new StringWriter())
+        {
+            HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+            //To Export all pages
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+
+            grdUserDtl.HeaderRow.BackColor = Color.White;
+            foreach (TableCell cell in grdUserDtl.HeaderRow.Cells)
+            {
+                cell.BackColor = grdUserDtl.HeaderStyle.BackColor;
+            }
+            foreach (GridViewRow row in grdUserDtl.Rows)
+            {
+                row.BackColor = Color.White;
+                foreach (TableCell cell in row.Cells)
+                {
+                    if (row.RowIndex % 2 == 0)
+                    {
+                        cell.BackColor = grdUserDtl.AlternatingRowStyle.BackColor;
+                    }
+                    else
+                    {
+                        cell.BackColor = grdUserDtl.RowStyle.BackColor;
+                    }
+                    cell.CssClass = "textmode";
+                }
+            }
+
+            grdUserDtl.RenderControl(hw);
+
+            //style to format numbers to string
+            string style = @"<style> .textmode { } </style>";
+            Response.Write(style);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+        }
+    }
+
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+}

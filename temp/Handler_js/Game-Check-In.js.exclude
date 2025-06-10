@@ -1,0 +1,81 @@
+﻿function DashboardSummary() {
+
+    $.getJSON('../Handlers/Inner_Page_Summary.ashx',
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                var wa = '';
+                for (var i = 0; i < OrjsonDS.length; i++) {
+                    //$('#GMwalletBalance').html(OrjsonDS[i].cWalletBal + "TRX");
+                    //$('#gmwltbal').html(OrjsonDS[i].GMWalletBal);
+                    //$('#MemberId').html(OrjsonDS[i].MemID);
+                    $('#prof_pic').attr('src', "../../" + OrjsonDS[i].Mem_Profl_Pic + "");
+
+                }
+            }
+        });
+}
+//////////////
+function carouselCheckin() {
+    $('#carouselCheckin').load("Handlers/Game-Check-In.ashx?Vs=carouselCheckin");
+}function carouselCheckinscnd() {
+    $('#carouselCheckinscnd').load("Handlers/Game-Check-In.ashx?Vs=carouselCheckinscnd");
+}
+
+////////
+function Checkedin() {
+    document.getElementById("btncheckin").disabled = true;
+    $("#btncheckin").html('Please wait...');
+
+    var Type = "1";// $('#fastparitamt').val();
+
+    var od = new FormData();
+
+    od.append("Type", Type);
+
+    $.ajax({
+        url: "Handlers/Game-Check-In.ashx?Vs=Sbmtcheckin",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: od,
+        dataType: "json",
+        success: function (Response) {
+            if (Response.Success) {
+                //$('#Msgs').html('');
+                swal({
+                    title: "Congratulation!",
+                    text: Response.Message,
+                    type: "success"
+                },
+                    function() {
+                        parent.location.reload();
+                    }
+                );
+                document.getElementById("btncheckin").disabled = false;
+                $("#btncheckin").html('Confirm');
+            }
+            else {
+                //$('#Msgs').html('');
+                swal({
+                    title: "Alert!",
+                    text: Response.Message,
+                    type: "warning"
+                });
+                document.getElementById("btncheckin").disabled = false;
+                $("#btncheckin").html('Confirm');
+            }
+        },
+        error: function (err) {
+            //$('#Msgs').html('');
+            swal({
+                title: "Ooops!",
+                text: err.statusText,
+                type: "error"
+            });
+            document.getElementById("btncheckin").disabled = false;
+            $("#btncheckin").html('Confirm');
+        }
+    });
+}

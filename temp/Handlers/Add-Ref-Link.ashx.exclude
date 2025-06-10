@@ -1,0 +1,126 @@
+<%@ WebHandler Language="C#" Class="Add_Ref_Link" %>
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Add_Ref_Link : IHttpHandler {
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, strJson, Banner = "", UserID = "", LinkName = "", Linkurl = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            //////
+
+            LinkName = context.Request["txtLinkName"].Trim();
+            Linkurl = context.Request["txtLinkurl"].Trim();
+           
+
+            SaveBankFundReq();
+            handleRequest();
+
+
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+
+    public void SaveBankFundReq()
+    {
+        try
+        {
+            if (Linkurl != "" )
+            {
+
+                ds = objgdb.ByProcedure("Inst_Dash_Ref_Link", new string[] { "ID", "Memid", "LinkType", "Link", "Type", "intPageSize", "intCurrentPage", "intTotalRecords", "FormDate", "ToDate", "Column", "SearchTxt" }
+            , new string[] { "", UserID, LinkName.Trim(), Linkurl.Trim(), "INSERT", "", "", "","","","","" }, "das");
+
+
+                if (ds.Tables[0].Rows[0]["Rlt"].ToString() == "Ok")
+                {
+                    sc = true;
+                    //msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+                else
+                {
+                    sc = false;
+                    //msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+            }
+            else
+            {
+                sc = false;
+                //msg = "<span style='color:#FF8A00;'>Please fill required fields !</span>";
+                msg = "Please fill required fields !";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = "<span style='color:#FF8A00;'>" + ex.Message + "</span>";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+ 
+    public bool IsReusable {
+        get {
+            return false;
+        }
+    }
+
+}

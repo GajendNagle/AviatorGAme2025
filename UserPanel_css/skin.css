@@ -1,0 +1,60 @@
+.ooffer_box{ width:278px; right:-2px; top:20px; z-index:999; position:absolute;}
+
+.carousel_box
+{
+	border-radius:6px; 
+	background:#ededed;
+	 box-shadow: inset 0 0 21px #ededed; 
+	border: 1px solid #f6f6f6; 
+	padding:0px 10px 25px 10px;
+	 min-height:200px;
+	  /*position:relative; */
+	  z-index:0;
+	 /*background:url(../Index-Images/glow_top1.png);
+	 background-position: top center; background-repeat:no-repeat;*/
+	 width:97.5%; height:100%;
+	 margin-right:auto; margin-left:auto;
+	  }
+	  
+	  
+	.carousel_box a{ color:#048ab1;}
+ 
+	  
+	  
+	  
+	  
+.carousel_box1{ padding:26px 18 35px 18px !important;}
+.carousel_box .title{ font-size:13px; font-weight:bold; color:#0c0c0c; margin-bottom:17px; padding-left:6px}
+
+.carousel_block{width:230px !important; overflow:hidden; position:relative;height:279px !important;}
+.height{height:538px !important;}
+.height1{height:455px !important;}
+.carousel_block>ul>li{ float:left; overflow:hidden; width:230px; overflow:hidden;}
+/**
+ *  Horizontal Buttons
+ */
+.car_next{
+    background: url(../Index-Images/carousel_next.png) no-repeat;
+	right:32px;
+}
+
+.car_prev{
+    background: url(../Index-Images/carousel_prev.png) no-repeat;
+	right:54px;
+}
+.car_prev, .car_next{width: 11px; height: 18px; position:absolute; top:-35px; z-index:999; cursor:pointer;}
+.buttons .disabled, .car_prev:hover, .car_next:hover{ background-position: 0 -18px !important;}
+
+.buttons{ position:relative;}
+
+
+.news, .news1{ margin-left:-2px; margin-bottom:10px;}
+.news{ margin-left:0px; overflow:hidden;}
+.news>div{width:140px; font-size:11px; padding-top:13px; float:left; margin-left:7px;}
+.news>figure{ float:left; display:inline-block;}
+
+
+.news1{ margin-bottom:12px;}
+.news1>div{width:119px; font-size:11px; padding-top:13px;}
+.news1>div p{ margin-bottom:6px;}
+.p_bot{ padding-bottom:15px !important;}

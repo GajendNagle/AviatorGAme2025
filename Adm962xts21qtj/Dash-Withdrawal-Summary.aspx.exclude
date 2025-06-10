@@ -1,0 +1,83 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Dash-Withdrawal-Summary.aspx.cs" Inherits="Adm962xts21qtj_Dash_Withdrawal_Summary" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Wallet-Summary</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div class="MtblCntRegBdr" style="width: 100%; height:100%">
+            <table width="100%" cellspacing="0" class="MtblCntReg">
+                <tr>
+                    <td class="hdrtblReg">
+                        <span>
+                            <center>
+                                <b style="font-size: 25px;">Withdrawal Summary </b>
+                            </center>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                        <asp:GridView ID="gvwalletsummary" runat="server" BorderStyle="None" BorderWidth="1px" CellPadding="3" AllowPaging="True" PageSize="100" ShowFooter="True" Width="100%" AutoGenerateColumns="False">
+                            <Columns>
+                                <asp:TemplateField HeaderText="Sr.">
+                                    <ItemTemplate>
+                                         <%# Container.DataItemIndex+1 %>
+                                         .
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <FooterStyle HorizontalAlign="Center" Font-Bold="true" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Wallet - Name">
+                                    <ItemTemplate>
+                                         <%# DataBinder.Eval(Container.DataItem, "Wallet")%>
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <FooterStyle HorizontalAlign="Center" Font-Bold="true"/>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="TRON">
+                                    <ItemTemplate>
+                                         <%# DataBinder.Eval(Container.DataItem, "Ethereum")%>
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <FooterStyle HorizontalAlign="Center" Font-Bold="true"/>
+                                </asp:TemplateField>
+                                <%--<asp:TemplateField HeaderText="BankWire">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "BankWire")%>
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <FooterStyle HorizontalAlign="Center" Font-Bold="true"/>
+                                </asp:TemplateField>--%>
+                                <%--<asp:TemplateField HeaderText="Blockchain">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "Blockchain")%>
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <FooterStyle HorizontalAlign="Center" Font-Bold="true"/>
+                                </asp:TemplateField>--%>
+                                <asp:TemplateField HeaderText="Total">
+                                    <ItemTemplate>
+                                         <%# DataBinder.Eval(Container.DataItem, "Balance")%>
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle HorizontalAlign="Center" />
+                                    <FooterStyle HorizontalAlign="Center" Font-Bold="true"/>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<%@ WebHandler Language="C#" Class="Members_Growth_of_company_Pie_Graph" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public class Members_Growth_of_company_Pie_Graph : IHttpHandler {
+
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    public bool sc;
+    public static string msg, dtl, strJson, UserID = "";
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds; DataTable dt;
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        //////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            ////////
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            /////////
+            //ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult();
+            //this.populateList(TotalRows);
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('login.html','_top');</script>");
+        }
+        /////////
+        //handleRequest();
+    }
+    private int BindResult()
+    {
+        int TotalRows = 0;
+        try
+        {
+            ds = objgdb.ByProcedure("dbo.GetMemGrowth_GRAPH", new string[] { "MemId" },
+                new string[] { UserID.ToString().Trim() }, "ByDataset");
+            /////
+            TotalRows = Convert.ToInt32(ds.Tables[0].Rows.Count.ToString());
+            /////
+            if (TotalRows > 0)
+            {
+                dt = ds.Tables[0];
+                int count = TotalRows;
+                string strJson = Dataset2Json(ds, count);
+                context.Response.Write(strJson);
+                context.Response.End();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            //Msg = objgdb.ErrorMsg("Records not available !");
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+
+        return TotalRows;
+    }
+    public static string DataTable2Json(DataTable dt)
+    {
+        StringBuilder jsonBuilder = new StringBuilder();
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+
+            jsonBuilder.Append("{");
+            jsonBuilder.Append("\"label");
+            jsonBuilder.Append("\":\"");
+            jsonBuilder.Append(dt.Rows[i][2].ToString());
+            jsonBuilder.Append("\"},");
+            //for (int j = 0; j < dt.Columns.Count; j++)
+            //{
+
+            //    jsonBuilder.Append(",\"value");
+            //    jsonBuilder.Append("\":\"");
+            //    jsonBuilder.Append(dt.Rows[i][j].ToString());
+            //    jsonBuilder.Append("\"},");
+            //}
+            //if (dt.Columns.Count > 0)
+            //{
+            //    jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            //}
+
+        }
+        if (dt.Rows.Count > 0)
+        {
+            jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+        }
+
+        return jsonBuilder.ToString();
+    }
+    public static string DataTable2Json1(DataTable dt)
+    {
+        StringBuilder jsonBuilder1 = new StringBuilder();
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            jsonBuilder1.Append("{");
+            jsonBuilder1.Append("\"value");
+            jsonBuilder1.Append("\":\"");
+            jsonBuilder1.Append(dt.Rows[i][3].ToString());
+            jsonBuilder1.Append("\"},");
+        }
+        if (dt.Rows.Count > 0)
+        {
+            jsonBuilder1.Remove(jsonBuilder1.Length - 1, 1);
+        }
+
+        return jsonBuilder1.ToString();
+    }
+    public static string DataTable2Json2(DataTable dt)
+    {
+        StringBuilder jsonBuilder2 = new StringBuilder();
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            jsonBuilder2.Append("{");
+            jsonBuilder2.Append("\"value");
+            jsonBuilder2.Append("\":\"");
+            jsonBuilder2.Append(dt.Rows[i][4].ToString());
+            jsonBuilder2.Append("\"},");
+        }
+        if (dt.Rows.Count > 0)
+        {
+            jsonBuilder2.Remove(jsonBuilder2.Length - 1, 1);
+        }
+        return jsonBuilder2.ToString();
+    }
+    public static string Dataset2Json(DataSet ds, int total)
+    {
+        StringBuilder json = new StringBuilder();
+
+        foreach (DataTable dt in ds.Tables)
+        {
+            json.Append("{\"chart\":{");
+            json.Append("\"caption");
+            json.Append("\":\"");
+            json.Append("\",");
+            json.Append("\"subCaption");
+            json.Append("\":\"");
+            json.Append("\",");
+            json.Append("\"numberPrefix");
+            json.Append("\":\"$");
+            json.Append("\",");
+            json.Append("\"startingAngle");
+            json.Append("\":\"20");
+            json.Append("\",");
+            json.Append("\"showPercentValues");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"showPercentInTooltip");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"enableSmartLabels");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"enableMultiSlicing");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"decimals");
+            json.Append("\":\"1");
+            json.Append("\",");            
+            json.Append("\"bgColor");
+            json.Append("\":\"#4d4d4d");
+            json.Append("\",");
+             json.Append("\"canvasBgColor");
+            json.Append("\":\"#4d4d4d");
+            json.Append("\",");
+            json.Append("\"showBorder");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"showShadow");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"yAxisNameFontSize");
+            json.Append("\":\"12");
+            json.Append("\",");
+            json.Append("\"labelFontSize");
+            json.Append("\":\"11");
+            json.Append("\",");
+            json.Append("\"divLineDashed");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"divLineDashLen");
+            json.Append("\":\"4");
+            json.Append("\",");
+            json.Append("\"formatNumberScale");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"legendBgColor");
+            json.Append("\":\"#ffffff");
+            json.Append("\",");
+            json.Append("\"legendBgAlpha");
+            json.Append("\":\"100");
+            json.Append("\",");
+            json.Append("\"legendBorderAlpha");
+            json.Append("\":\"50");
+            json.Append("\",");
+            json.Append("\"legendBorderColor");
+            json.Append("\":\"#888888");
+            json.Append("\",");
+            json.Append("\"legendShadow");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"paletteColors");
+            json.Append("\":\"#FF9C00,#62CB31,#f2c500,#f45b00,#8e0000");
+            json.Append("\",");
+            json.Append("\"plotHoverEffect");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"plotSpacePercent");
+            json.Append("\":\"50");
+            json.Append("\",");
+            json.Append("\"pYAxisNameFontColor");
+            json.Append("\":\"#474F55");
+            json.Append("\",");
+            json.Append("\"pYAxisNameFontSize");
+            json.Append("\":\"13");
+            json.Append("\",");
+            json.Append("\"showAlternateHGridColor");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"showPlotBorder");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"showToolTipShadow");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"showValues");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"showXAxisLine");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"sYAxisNameFontColor");
+            json.Append("\":\"#474F55");
+            json.Append("\",");
+            json.Append("\"sYAxisNameFontSize");
+            json.Append("\":\"13");
+            json.Append("\",");
+            json.Append("\"useEllipsesWhenOverflow");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"usePlotGradientColor");
+            json.Append("\":\"0");
+            json.Append("\",");
+            json.Append("\"xAxisNameFontSize");
+            json.Append("\":\"11");
+            json.Append("\",");
+            json.Append("\"xAxisLineColor");
+            json.Append("\":\"#979797");
+            json.Append("\",");
+            json.Append("\"xAxisLineThickness");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"lineThickness");
+            json.Append("\":\"4");
+            json.Append("\",");
+            json.Append("\"anchorRadius");
+            json.Append("\":\"5");
+            json.Append("\",");
+            json.Append("\"anchorBorderThickness");
+            json.Append("\":\"2");
+            json.Append("\",");
+            json.Append("\"anchorTrackingRadius");
+            json.Append("\":\"15");
+            json.Append("\",");
+            json.Append("\"toolTipColor");
+            json.Append("\":\"#ffffff");
+            json.Append("\",");
+            json.Append("\"toolTipBorderColor");
+            json.Append("\":\"#ffffff");
+            json.Append("\",");
+            json.Append("\"toolTipBorderThickness");
+            json.Append("\":\"1");
+            json.Append("\",");
+            json.Append("\"toolTipBgColor");
+            json.Append("\":\"#000000");
+            json.Append("\",");
+            json.Append("\"toolTipBgAlpha");
+            json.Append("\":\"80");
+            json.Append("\",");
+            json.Append("\"toolTipBorderRadius");
+            json.Append("\":\"4");
+            json.Append("\",");
+            json.Append("\"toolTipPadding");
+            json.Append("\":\"10");
+            json.Append("\",");
+            json.Append("\"toolTipFontSize");
+            json.Append("\":\"20");
+            json.Append("\"");
+            json.Append("},\"categories\":[{");
+            json.Append("\"category\": [");
+            json.Append(DataTable2Json(dt));
+            json.Append("]}],");
+            json.Append("\"dataset\": [{");
+            json.Append("\"seriesName\": ");
+            json.Append("\"Purchased Hash($)\",");
+            json.Append("\"data\": [");
+            json.Append(DataTable2Json1(dt));
+            json.Append("]},{");
+            json.Append("\"seriesName\": ");
+            json.Append("\"Ad Pack Revenue\",");
+            json.Append("\"renderAs\": ");
+            json.Append("\"line\",");
+            json.Append("\"showValues\": ");
+            json.Append("\"0\",");
+            json.Append("\"data\": [");
+            json.Append(DataTable2Json2(dt));
+            json.Append("]}]}");
+        }
+        return json.ToString();
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

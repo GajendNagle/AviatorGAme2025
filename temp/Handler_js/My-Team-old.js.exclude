@@ -1,0 +1,524 @@
+﻿//function SearchDownline()
+//{
+////$("#txtTopUpAmount").val();  
+//var PgSz =$("#CngPageSize").val();
+//var SearchTxt =$("#SearchTxt").val();  // document.getElementById('SearchTxt');
+//loadOrders('1',PgSz,SearchTxt);
+//}
+////////
+//function PkgSearchDownline()
+//{
+////$("#txtTopUpAmount").val();  
+//var SearchTxt =$("#CngPageSize").val();  // document.getElementById('SearchTxt');
+//loadOrders('1',SearchTxt,'ALL');
+//}
+////////
+//function DwnPosSearchDownline()
+//{
+////$("#txtTopUpAmount").val();  
+//var SearchTxt =$("#DwnPos").val();  // document.getElementById('SearchTxt');
+//loadOrders('1','100',SearchTxt);
+//}
+////////
+//function ByDateSearchDownline()
+//{
+////$("#txtTopUpAmount").val();  
+//var SearchTxt =$("#SrByDate").val();  // document.getElementById('SearchTxt');
+//loadOrders('1','100',SearchTxt);
+//}
+////////
+//function BylvlSearchDownline()
+//{
+////$("#txtTopUpAmount").val();  
+//var SearchTxt =$("#demo2").val();  // document.getElementById('SearchTxt');
+//loadOrders('1','100','Lvl'+SearchTxt);
+//}
+////////
+//function loadOrders(PageIndex, PageSize,MemID) {
+//$('#ReffList').html('<img src="../UserProfileImg/loading2.gif" />');
+//    //var option = $('#partiCipantList').combo('getValue');
+//        $.getJSON('Handlers/Network-Levels.ashx?p=' + PageIndex + "&s=" + PageSize + "&u="+MemID,
+//        function (Orjson) {
+//            if (Orjson.length == 0) { 
+//            $('#ReffList').html('');                
+//                $('#ReffList').html("Sorry, Downline members record not found...!");
+//            }
+//            else {
+//                var d = formatOrder(Orjson);
+//                $('#ReffList').html(d);                
+//            }
+//        });  
+//}
+///*section load details*/
+//function formatOrder(Orjson) {
+//    var pp1='';
+    
+//    for (var i = 0; i < Orjson.length; i++) {
+    
+    
+//        pp1=pp1+"<tr>";
+//        pp1=pp1+"<td>"+Orjson[i].ReferrID+"</td>";
+//        pp1=pp1+"<td>";
+//        pp1=pp1+"<a href='javascript:void(0)'><img src='../assets/images/users/1.jpg' alt='user' class='img-circle' /> "+Orjson[i].Name+"</a>";
+//        pp1=pp1+"</td>";
+//        pp1=pp1+"<td>"+Orjson[i].email+"</td>";
+//        pp1=pp1+"<td>"+Orjson[i].Mobile+"</td>";
+//        pp1=pp1+"<td><span class='label label-warning'>"+Orjson[i].Status+"</span> </td>";
+//        pp1=pp1+"<td>"+Orjson[i].DRank+"</td>";
+//        pp1=pp1+"<td>"+Orjson[i].SignupOn+"</td>";
+//        pp1=pp1+"<td>"+Orjson[i].BuyProducts+"</td>";
+//        //pp1=pp1+"<button type='button' class='btn btn-sm btn-icon btn-pure btn-outline delete-row-btn' data-toggle='tooltip' data-original-title='Delete'><i class='ti-close' aria-hidden='true'></i></button>";
+//        //pp1=pp1+"</td>";
+//        pp1=pp1+"</tr>";
+
+//    /////
+    
+//    ////
+//    }
+//    $('#ReffList').html('');
+//    return pp1;
+//}
+
+
+var totRcds = '';
+
+function SearchDownline() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = "";
+    var sts = "";
+    var lvl = "";
+    var pos = "";
+    var Package = "";
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+
+
+function ChangePagesize() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "ALL";
+    var lvl = $("#ddlLVL").val();
+    var pos = $("#ddlpos").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+function ChangeNo() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();  // document.getElementById('SearchTxt');
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "ALL";
+    var lvl = $("#ddlLVL").val();
+    var pos = $("#ddlpos").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+
+function SrchAll() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "ALL";
+    var pos = $("#ddlpos").val();
+    var lvl = $("#ddlLVL").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+////function SrchRank()
+////{
+////getpageno();
+////var PgSz =$("#PageSize").val();
+////var Pgno =$("#PageNo").val();
+////var SearchTxt =$("#SearchTxt").val();  
+////var Fromdt =$("#datepickerFrom").val();
+////var Todt =$("#datepickerTo").val(); 
+////var drank =  $("#ddlrank").val();
+////var sts =   "ALL";
+////var lvl =  $("#ddlLVL").val();
+////var Package =  $("#ddlPackage").val();
+////loadOrders(Pgno,PgSz,SearchTxt,Fromdt,Todt,drank,sts,lvl,Package);
+//// 
+////}
+
+
+function Srchlvl() {
+    getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "ALL";
+    var lvl = $("#ddlLVL").val();
+    var pos = $("#ddlpos").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+
+
+
+function SrchActive() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "Active";
+    var lvl = $("#ddlLVL").val();
+    var pos = $("#ddlpos").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+function SrchinActive() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "In-Active";
+    var lvl = $("#ddlLVL").val();
+    var pos = $("#ddlpos").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+function Srchblock() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var drank = $("#ddlrank").val();
+    var sts = "block";
+    var lvl = $("#ddlLVL").val();
+
+    var pos = $("#ddlpos").val();
+    var Package = $("#ddlPackage").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, drank, sts, pos, Package, lvl);
+
+}
+
+
+
+
+
+//////
+function getpageno() {
+    ////
+    var TTR = Number(totRcds);
+    var ttP = TTR / Number($("#PageSize").val());
+    ////
+    if (ttP > Math.floor(ttP)) {
+        var ttP = ttP + 1;
+    }
+    /////
+    var selectField = $("#PageNo");
+    var options = '';
+    selectField.empty();
+    ///
+    for (var j = 1; j <= ttP; j++) {
+        ////
+        if (j == 1) {
+            options += '<option value="1">No</option>';
+        }
+        else {
+            options += '<option value="' + j + '">' + j + '</option>';
+        }
+    }
+    selectField.append(options);
+    ////
+}
+//////
+
+
+//////
+function loadOrders(PageIndex, PageSize, MemID, Fromdt, Todt, drank, sts, pos, Package, lvl) {
+
+   
+
+    //$('#ReffList').html('<span style="margin-top:20px;" class="three-quarters">Loading…</span>');
+    $('#ReffList').html("<div class='preloader3 loader-block'><div class='circ1 loader-warning'></div> <div class='circ2 loader-warning'></div><div class='circ3 loader-warning'></div><div class='circ4 loader-warning'></div></div>");
+    //var option = $('#partiCipantList').combo('getValue');
+    $.getJSON('Handlers/Network-Levels.ashx?p=' + PageIndex + "&s=" + PageSize + "&u=" + MemID + "&frdt=" + Fromdt + "&todt=" + Todt + "&drank=" + drank + "&sts=" + sts + "&Pos=" + pos + "&Package=" + Package + "&lvl=" + lvl,
+
+
+        function (Orjson) {
+
+            if (Orjson.length == 0) {
+                $('#ReffList').html('');
+                $('#TotRec').html('0');
+                $('#ReffList').html("<div style='margin-top:80px;' class='alert alert-warning border-warning'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='icofont icofont-close-line-circled'></i></button><strong>Sorry,</strong> My downline record not found...! </div>  ");
+
+            }
+            else {
+                var d = formatOrder(Orjson);
+                //                $('#sbar').show();
+                $('#ReffList').html(d);
+            }
+        });
+}
+
+
+function formatOrder(Orjson) {
+    var pp1 = '';
+
+    for (var i = 0; i < Orjson.length; i++) {
+
+        $('#TotRec').html(Orjson[i].TotalRec);
+
+        totRcds = Orjson[i].TotalRec;
+        //getpageno();
+
+        pp1 = pp1 + "<thead>";
+        pp1 = pp1 + "<tr>";
+        pp1 = pp1 + "<th class='alg-itm'>S.No</th>";
+        pp1 = pp1 + "<th class='alg-itm'>User</th>";
+        pp1 = pp1 + " <th class='alg-itm'>DOJ</th>";
+        pp1 = pp1 + "<th class='alg-itm'>Purchase On</th>";
+        pp1 = pp1 + "<th class='alg-itm'>Position</th>";
+        pp1 = pp1 + "<th class='alg-itm'>Level</th>";
+
+
+        pp1 = pp1 + "</tr>";
+        pp1 = pp1 + "</thead>";
+        pp1 = pp1 + "<tbody id='ref2'>";
+
+
+        for (var i = 0; i < Orjson.length; i++) {
+
+            pp1 = pp1 + "<tr class='sup2'>";
+            pp1 = pp1 + "<th scope='row'>" + (i + 1) + "</th>";
+            pp1 = pp1 + "<td class='tabledit-view-mode'>";
+            pp1 = pp1 + "<div class='user-img-1'>";
+            pp1 = pp1 + "<img src='" + Orjson[i].MemProfilePic + "' class='user-pic rounded'>";
+            pp1 = pp1 + "</div>";
+            pp1 = pp1 + "<div class='user-infostp'>";
+            pp1 = pp1 + "<h6>" + Orjson[i].Name + "</h6>";
+            pp1 = pp1 + "<span class='tabledit-span sup1'>";
+            pp1 = pp1 + "<span>(<a style='text-decoration:underline; color:#337ab7;' href='Level-Tree-View.aspx?MemID=" + Orjson[i].ReferrID + "&FrmPage=mytm'> " + Orjson[i].ReferrID + "</a>)</span>";
+
+            pp1 = pp1 + "</span>";
+            pp1 = pp1 + "</div>";
+            pp1 = pp1 + "</td>";
+
+            pp1 = pp1 + "<td class='tabledit-view-mode'>";
+            pp1 = pp1 + "<h6>" + Orjson[i].SignupOn + "</h6>";
+            pp1 = pp1 + "<span class='tabledit-span sup1'>";
+            pp1 = pp1 + "<span>Sponsor: </span><span> " + Orjson[i].SponsorID + "</span>";
+            pp1 = pp1 + "</span>";
+            pp1 = pp1 + "</td>";
+            pp1 = pp1 + "<td class='tabledit-view-mode'>";
+            pp1 = pp1 + "<h6 class='tabledit-span'>" + Orjson[i].ActivedOn + "</h6>";
+
+
+
+            if (Orjson[i].BuyProducts == "ACTIVE") {
+                pp1 = pp1 + "<span class='sup1 '>Last-Pkg: <span class='pro-act'> " + Orjson[i].BuyProducts + "</span> </span>";
+
+            }
+            else {
+                pp1 = pp1 + "<span class='sup1'>Last-Pkg: <span class='pro-act1'> " + Orjson[i].BuyProducts + "</span> </span>";
+            }
+
+            pp1 = pp1 + "</td>";
+            pp1 = pp1 + "<td class='tabledit-view-mode'>";
+            pp1 = pp1 + "<h6 style='color:red; font-weight:800;'>" + Orjson[i].Position + "</h6>";
+            pp1 = pp1 + "<span class='tabledit-span sup1'>";
+            pp1 = pp1 + "<span>Bonus:</span><span> " + Orjson[i].Bonus + "</span>";
+            pp1 = pp1 + "</span>";
+            pp1 = pp1 + "</td>";
+            pp1 = pp1 + "<td class='tabledit-view-mode'>";
+            pp1 = pp1 + "<h6 style='font-weight:800;'>" + Orjson[i].mlevel + "</h6>";
+            pp1 = pp1 + "<span class='tabledit-span sup1'>";
+            pp1 = pp1 + "<span  style='font-weight:800;'></span><span> " + Orjson[i].Drank + "</span>";
+            pp1 = pp1 + "</span>";
+            pp1 = pp1 + "</td>";
+
+
+            pp1 = pp1 + "</tr>";
+
+
+
+
+        }
+        pp1 = pp1 + "<tbody>";
+
+    }
+    getpageno();
+    $('#ReffList').html('');
+    return pp1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*section load details*/
+//function formatOrder(Orjson) {
+//    var pp1='';
+
+//    for (var i = 0; i < Orjson.length; i++) {
+
+//        $('#TotRec').html(Orjson[i].TotalRec);
+
+//        totRcds=Orjson[i].TotalRec;
+//        //getpageno();
+
+//        pp1=pp1+"<div class='widget-1'>";
+//        pp1=pp1+"<div class='records'>";
+//        pp1=pp1+"<div class='row'>";
+//        pp1=pp1+"<div class='col-md-12 col-sm-12'>";
+//        pp1=pp1+"<div class='row'>";
+//        pp1=pp1+"<div class='col-md-2 col-sm-2 user-info vin-6'>";
+//        pp1=pp1+"<span class='number'>" + (i+1) + "</span>";
+//        pp1=pp1+"<div class='user-img'>";
+
+//        pp1=pp1+"<div class='dot'></div>";
+//        pp1=pp1+"<img src='" + Orjson[i].MemProfilePic + "' class='user-pic' style='margin: 5px;' />";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"<span>";
+//        pp1=pp1+"<p class='user-id'>(" + Orjson[i].ReferrID + ")</p>";
+//        pp1=pp1+"<p class='user-name'>" + Orjson[i].Name + "</p>";
+//        pp1=pp1+"</span>";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"<div class='col-md-3 col-sm-3 vin-1'>";
+//        pp1=pp1+"<div class='flag'>";
+//        pp1=pp1+"<img width='25' height='25' src='" + Orjson[i].CountryPATH + "' >";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"<span class='mail-icon'>";
+//        pp1=pp1+"<i class='fa fa-envelope  envelope' ></i>";
+//        pp1=pp1+"<p class='mail'>...</p></span>";
+//        pp1=pp1+"<p class='location'><i class='fa fa-map-marker'></i></p>";
+//        pp1=pp1+"<p class='mobile-icon'><i class='fa fa-mobile'></i> </p>";
+//        pp1=pp1+"<span class='country'>" + Orjson[i].Country + ", ...</span>";
+//        pp1=pp1+"<span class='mobile'></span>";
+
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"<div class='col-md-3 col-sm-3  vin-3' style='color:Black;margin:0;padding:0;'>";
+//        pp1=pp1+"<div class='row'>";
+//        pp1=pp1+"<div class='col-md-6 col-sm-6 ' style='color:Black;margin:0;padding:0;'>";
+//        pp1=pp1+"<div class='signup-on'>";
+//        pp1=pp1+"<div class='heading-1'>DOJ</div>";
+//        pp1=pp1+"<p style='' class='normal-1'>" + Orjson[i].SignupOn + "</p>";
+//        pp1=pp1+"<div class='sponsor'>";
+//        pp1=pp1+"<p style='margin:0;color:Black;font-weight:bold;'>Sponsor:<span class='normal'> " + Orjson[i].SponsorID + "</span></p>";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"<div class='col-md-6 col-sm-6 vin-2 ' style='color:Black;margin:0;'>";
+//        pp1=pp1+"<div class='active-on'>";
+//        pp1=pp1+"<div class='heading-1'>Active-On</div>";
+//        pp1=pp1+"<p style='' class='normal-2'>" + Orjson[i].ActivedOn + "</p></div>";
+//        pp1=pp1+"<div class='normal-3'>";
+//        pp1=pp1+"<p style='margin:0;color:Black; font-weight:bold;' >Club:<span class='' > " + Orjson[i].Drank + "</span></p></div>";
+//        pp1=pp1+"</div>";
+
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"</div>";
+//        pp1=pp1+"<div class='col-md-1 col-sm-1  vin-4'>";
+//        pp1=pp1+"<div class='deposit'>";
+//        pp1 = pp1 + "<div class='heading-1'>Package</div>";
+
+//        if (Orjson[i].BuyProducts=="ACTIVE")
+//        {
+//            pp1 = pp1 + "<p  class='daller' style='color:green;'>" + Orjson[i].BuyProducts + "</p>";
+//        }
+//        else
+//        {
+//            pp1 = pp1 + "<p  class='daller'>" + Orjson[i].BuyProducts + "</p>";
+//        }
+
+
+
+//             pp1 = pp1 + "</div>";
+//             pp1=pp1+"<div class='sponsor-1'>";
+//             pp1=pp1+"<p style='margin:0;color:Black;'>Sponsor<p class='normal'> " + Orjson[i].SponsorID + "</p></p>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"<div class='col-md-1 col-sm-1 vin-5'>";
+//             pp1=pp1+"<div class='bonus'>";
+//             pp1=pp1+"<div class='heading-1'>Bonus</div>";
+//             pp1=pp1+"<p class='daller'>" + Orjson[i].Bonus + "</p>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"<div class='col-md-1 col-sm-1  vin-5 rr'>";
+//             pp1=pp1+"<div class='position'>";
+//             pp1=pp1+"<div class='heading-1'>Position</div>";
+//             pp1 = pp1 + "<span class = 'lbl-pos f-12'>" + Orjson[i].Position + "</span>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"<div class='col-md-1 col-sm-1  vin-5 rr'>";
+//             pp1=pp1+"<div class='circle'>";
+//             pp1=pp1+"<div class='heading-1 '>Level</div>";
+//             pp1=pp1+"<span class = 'lbl-cir'>" + Orjson[i].mlevel + "</span>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+//             pp1=pp1+"</div>";
+
+//    }
+//    getpageno(); 
+//    $('#ReffList').html('');
+//    return pp1;
+//}

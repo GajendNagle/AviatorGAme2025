@@ -1,0 +1,177 @@
+﻿function DashboardSummary() {
+
+    $.getJSON('Handlers/Inner_Page_Summary.ashx',
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                var wa = '';
+                for (var i = 0; i < OrjsonDS.length; i++) {
+
+                    $('#txtMobiUSD').html(OrjsonDS[i].Mobile);
+                    $('#txtMobiUSD1').html(OrjsonDS[i].Mobile);
+                    $('#RefLink1').html('https://wintron.online/ref/' + OrjsonDS[i].MemID);
+                    $('#Mem_Name').html(OrjsonDS[i].Mem_Name);
+                    $('#GMwalletBalance').html(OrjsonDS[i].cWalletBal + " $");
+                    $('#gmwltbal').html(OrjsonDS[i].GMWalletBal);
+                   /* $('#gmwltbalnc').html(OrjsonDS[i].cWalletBal);*/
+                    $('#prof_pic').attr('src', "../../" + OrjsonDS[i].Mem_Profl_Pic + "");
+
+                }
+            }
+        });
+}
+//////////
+function loadjackpot(Type) {
+    //alert(1);
+    $.getJSON('Handlers/Get-Jackpot-Member.ashx?type=' + Type,
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                /*   $('#gameContainer').load(' #gameContainer');*/
+                parent.location.reload();
+                //var wa = '';
+                //for (var i = 0; i < OrjsonDS.length; i++) {
+                //   // $('#jackportno').val(OrjsonDS[i].JackpotNo);
+                //    //$('#txtbanner').val(OrjsonDS[i].Banner);
+                //    // $('#txtbanner').val(OrjsonDS[i].Banner);
+
+
+                //}
+            }
+        });
+}
+function Showcounttime_1min() {
+
+    //var newTime = new Date().toISOString().substring(0, 19).replace('T', ' ');//2023 - 04 - 05 12: 51: 49
+    //$('#storetimer').val(newTime);
+    $.getJSON('Handlers/Dice-Getcount-Timer.ashx?type=Timer1min',
+        function (Orjson) {
+            if (Orjson.length == 0) {
+            }
+            else {
+                for (var i = 0; i < Orjson.length; i++) {
+                    ///
+                    $('#jackportno').val(Orjson[i].JackptNo);
+                    $('#Fastparityno').html(Orjson[i].JackptNo);
+                    $('#storetimer').val(Orjson[i].PHDate);
+
+                    if (Orjson[i].JackptNo == 0) {
+                        $('#submitplaynow').attr('disabled', 'disabled');
+                    }
+                    else {
+                        $('#submitplaynow').removeAttr('disabled');
+                    }
+
+                }
+            }
+        });
+}
+function Dice1minrslt() {
+    $('#tabItem-history').load("Handlers/Game-Parity-Values.ashx?Vs=Dice1minrslt");
+}
+function Everyonsordr1min() {
+    $('#Everyonsordr').load("Handlers/Game-Common-Values.ashx?Vs=Everyonsorder");
+}
+function Myorder1min() {
+    $('#Myorder').load("Handlers/Game-Common-Values.ashx?Vs=Myorder");
+}
+//function carouselwinId() {
+//    $('#carouselwinId').load("Handlers/Game-Common-Values.ashx?Vs=carouselwinId");
+//}
+//function carouselwinIdscnd() {
+//    $('#carouselwinIdscnd').load("Handlers/Game-Common-Values.ashx?Vs=carouselwinIdscnd");
+//}
+
+function Save_DiceParticipate1min() {
+
+    //$('#Msgs').html('<div class="modal-wrapper"><div class="userimage"><img class="imageseted" src="../UserProfileImg/103.gif" width="35" height="35" /><span class="loading-texted" >Loading...</span> <div class="wait-plese"><i class="fa fa-cogs" aria-hidden="true"></i> Please wait....</div></div></div>');
+
+    document.getElementById("submitplaynow").disabled = true;
+    $("#submitplaynow").html('Please wait...');
+
+    var txtplayAmt = $('#fastparitamt').val();
+    /* var txttxnpass = $("#txnpass").val();*/
+    var txtjackptno = $("#jackportno").val();
+    var Tradingtype = "";///$("#Tradingtype").val();
+    var gmclr = $('#gameclr').val();
+    var gmnum = $('#gamenum').val();
+    var gametype = 'Dice-1min';
+    var Type = "";
+    if (gmclr != "") {
+        Tradingtype = gmclr;
+        Type = 'Color';
+    }
+    else {
+        Tradingtype = gmnum;
+        Type = 'Number';
+    }
+    var od = new FormData();
+
+    od.append("txtplayAmt", txtplayAmt);
+    /*   od.append("txttxnpass", txttxnpass);*/
+    od.append("txtjackptno", txtjackptno);
+    od.append("Tradingtype", Tradingtype);
+    od.append("Type", Type);
+    od.append("gametype", gametype);
+    ///    alert(txtjackptno);
+    if (txtjackptno == '') {
+        document.getElementById("submitplaynow").disabled = false;
+        $("#submitplaynow").html('Confirm');
+        return
+    }
+    if (txtplayAmt > 0) {
+        $.ajax({
+            url: "Handlers/Mem-Dice-Participate.ashx?Plytyp=Dice1min",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: od,
+            dataType: "json",
+            success: function (Response) {
+                if (Response.Success) {
+                    //$('#Msgs').html('');
+                    swal({
+                        title: "Congratulation!",
+                        text: Response.Message,
+                        type: "success"
+                    });
+                    document.getElementById("submitplaynow").disabled = false;
+                    $("#submitplaynow").html('Confirm');
+                    $('#fparitymodal').modal('hide');
+                    sessionStorage.setItem('showModal', true);
+                }
+                else {
+                    //$('#Msgs').html('');
+                    swal({
+                        title: "alert!",
+                        text: Response.Message,
+                        type: "warning"
+                    });
+                    document.getElementById("submitplaynow").disabled = false;
+                    $("#submitplaynow").html('Confirm');
+                }
+            },
+            error: function (err) {
+                //$('#Msgs').html('');
+                swal({
+                    title: "Ooops!",
+                    text: err.statusText,
+                    type: "error"
+                });
+                document.getElementById("submitplaynow").disabled = false;
+                $("#submitplaynow").html('Confirm');
+            }
+        });
+    }
+    else {
+        swal({
+            title: "Alert!",
+            text: "Sorry, your play amount is less. Please choose correct amount!",
+            type: "warning"
+        });
+    }
+
+}
+

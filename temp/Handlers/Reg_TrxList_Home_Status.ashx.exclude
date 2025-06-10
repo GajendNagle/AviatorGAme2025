@@ -1,0 +1,88 @@
+﻿<%@ WebHandler Language="C#" Class="Reg_TrxList_Home_Status" %>
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+
+public class Reg_TrxList_Home_Status : IHttpHandler {
+
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds;
+    public string AssignNo = "", Paid_value = "", Confirmations = "", Paid_Address = "",
+        Transaction_Hash = "", SKey = "", Msgs = "error", RtnRlt = "NotOk", Rmrk = "", UserID="";
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        ////   
+        if (context.Request.HttpMethod == "POST")
+        {
+            //
+            //UserID = "";
+            //UserID = context.Request["ODsID"].ToString();
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            /////////
+            //SKey = "535347VTR5u1";
+            SKey = Rmrk = context.Request["Skey"].ToString();
+            AssignNo = ""; // context.Request.QueryString["ODsID"].ToString();
+            Paid_value = context.Request["value"].ToString();
+            Confirmations = context.Request["Conf"].ToString();
+            Transaction_Hash = context.Request["transaction_hash"].ToString();
+            Paid_Address = UserID; /*context.Request["address"].ToString();*/
+            //Rmrk = UserID; //context.Request.QueryString["transaction_dt"].ToString();
+            Rmrk = context.Request["ODsID"].ToString();
+            ////              
+            BTC_APIResponse();
+            ////
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('index.html','_top');</script>");
+        }
+    }
+    public void BTC_APIResponse()
+    {
+        if (Confirmations == "NaN")
+        {
+            Confirmations = "0";
+        }
+        else if (Confirmations == "true")
+        {
+            Confirmations = "1";
+        }
+        try
+        {
+            ds = objgdb.ByProcedure("[FinalInvestment_UserDetails_new]", new string[] { "AssignNo", "Paid_value", "Confirmations",
+                "Paid_Address", "Transaction_Hash", "SKey", "Rmrk" },
+            new string[] { UserID, Paid_value, Confirmations, Paid_Address, Transaction_Hash, SKey, Rmrk }, "");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                Msgs = ds.Tables[0].Rows[0]["Msg"].ToString();
+                RtnRlt = ds.Tables[0].Rows[0]["Rtrn"].ToString();
+            }
+            //context.Response.Write(Msgs);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

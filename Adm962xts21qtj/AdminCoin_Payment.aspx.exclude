@@ -1,0 +1,301 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" StylesheetTheme="mySkin" AutoEventWireup="true" CodeFile="AdminCoin_Payment.aspx.cs" Inherits="Adm962xts21qtj_AdminCoin_Payment" Title="Admi Coin Payment" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-12"></div>
+            <div class="col-md-6 col-12">
+                <div class="flex-img-link-wrapper">
+                    <div class="flex-img-link-in">
+                        <span>
+                            <asp:Image ID="Image1" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" />
+                            <asp:LinkButton ID="LinkButton3" runat="server" CssClass="Uparmenu" OnClientClick="return CallPrint('divPrint')">Print</asp:LinkButton>
+                        </span>
+                        <span>
+                            <asp:Image ID="Image4" runat="server" ImageUrl="../UserPanel_Images/excel.png" />
+                            <asp:LinkButton ID="LinkButton4" runat="server" CssClass="Uparmenu" OnClick="btnexporttoexport_Click">Export to Excel</asp:LinkButton>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-wrap">
+            <div class="form-group">
+                <div class="col-md-2 col-12">
+                    <label>From Date</label>
+                    <asp:TextBox ID="txtFromDate" runat="server" MaxLength="12" AutoComplete="Off" CssClass="form-control"></asp:TextBox>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 col-12">
+                    <label>To Date</label>
+                    <asp:TextBox ID="txtToDate" runat="server" MaxLength="12" AutoComplete="Off" CssClass="form-control"></asp:TextBox>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 col-12">
+                    <label>Select One</label>
+                    <asp:DropDownList ID="DDLDownPos" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx form-control" OnSelectedIndexChanged="DDLDownPos_SelectedIndexChanged">
+                        <asp:ListItem>All</asp:ListItem>
+                        <asp:ListItem Value="Buyer_name">Member ID</asp:ListItem>
+                        <asp:ListItem Value="txn_id">Transaction Id</asp:ListItem>
+                        <asp:ListItem Value="amount1">Amount</asp:ListItem>
+                        <asp:ListItem Value="currency2">Currency</asp:ListItem>
+                        <asp:ListItem Value="Status_text">Status</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 col-12" id="detsdv" runat="server">
+                    <div class="form-group">
+                        <asp:DropDownList ID="DDLFillItems" runat="server" CssClass="form-control blnk-input" Visible="False"></asp:DropDownList>
+                        <asp:TextBox ID="txtSearch" runat="server" MaxLength="30" Text="" CssClass="form-control blnk-input" Visible="False"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="col-md-2 col-12">
+                    <asp:Button ID="btnSearch" runat="server" CssClass="OuterBtn blnk-input" OnClick="btnSearch_Click" Text="Submit" CausesValidation="False" />
+                </div>
+                <div class="col-md-2 col-12">
+                    <div class="pgsizes">
+                        <span>
+                            <%=PageNo%>
+                            <%=Pagesize %>
+                            of
+                            <asp:Label ID="lblTotRec" runat="server"></asp:Label>
+                            &nbsp;
+                        </span>
+                        <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageChanged" CssClass="form-control" Width="58px"></asp:DropDownList>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-12">
+                 <asp:Label ID="lblTotalData" runat="server" ForeColor="Red" Font-Bold="true" Font-Size="15px" CssClass="total-record"></asp:Label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <asp:Label ID="lblMsg" runat="server" ForeColor="Red"></asp:Label>
+            </div>
+        </div>
+        <div class="col-md-12 col-12">
+            <div id="popupdiv" class="ontop">
+                <table id="popup">
+                    <tr>
+                        <td style="text-align: center;">
+                            <span style="color: Black;" id="sptxt"></span>
+                            <br />
+                            <span style="color: Black;">Enter Admin Password</span>
+                            <asp:HiddenField ID="HdnInvestId" runat="server" />
+                            <%--<span id="lblInvestId" runat="server"></span>--%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <input type="text" name="prevent_autofill" id="prevent_autofill" value="" style="display: none;" />
+                            <input type="password" name="password_fake" id="password_fake" value="" style="display: none;" />
+                            <asp:TextBox ID="MyName" runat="server" MaxLength="20" Width="120px" AutoCompleteType="disabled" TextMode="Password"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <asp:Button ID="btnDel" runat="server" Text="Delete" OnClick="DeleteRecord" OnClientClick="return ConfirmDelete();" CausesValidation="false" />
+                            <input type="button" title="Cancel" id="btcancel" value="Cancel" onclick="hide();" />
+                            <asp:HiddenField ID="HdnMsg" runat="server" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div id="divPrint">
+                    <asp:GridView ID="GvCaptchaWork" runat="server" Font-Bold="False" Font-Names="verdana" AutoGenerateColumns="False" Width="100%" ShowFooter="True" OnRowDataBound="GvCaptchaWork_RowDataBound">
+                        <Columns>
+                            <asp:TemplateField HeaderText="SrNo.">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex +1  %>
+                                    .
+                                </ItemTemplate>
+                                <ControlStyle Width="100px" />
+                                <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                                <ItemStyle HorizontalAlign="Center" Width="50px" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Member Id">
+                                <ItemTemplate>
+                                    <%--<%# DataBinder.Eval(Container.DataItem, "NAME")%>--%>
+                                    <br />
+                                    <%# DataBinder.Eval(Container.DataItem, "Buyername")%><br />
+                                    <b><%# DataBinder.Eval(Container.DataItem, "itemname")%></b>
+                                    <%--<a href="#" onclick='openPopup("<%# Eval("txnid")%>")'>Delete</a>--%>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Transaction Id">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "txnid")%>
+                                    <br />
+                                    <b>Merchant Id:  <%# DataBinder.Eval(Container.DataItem, "Merchant")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Amount">
+                                <ItemTemplate>
+                                    <%--<%# DataBinder.Eval(Container.DataItem, "Amount")%>--%>
+                                    <%# Eval("Amt")%>
+                                    <br />
+                                    <b>Amt2:  <%# Eval("TotAmt")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Currency">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "currency2")%>
+                                    <br />
+                                    <b>Currency1: <%# DataBinder.Eval(Container.DataItem, "currency1")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Status">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Status")%>
+                                    <br />
+                                    <b>Status Text: <%# DataBinder.Eval(Container.DataItem, "Statustext")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Transaction Date">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "TransDate")%>
+                                    <br />
+                                    <b>Update Date: <%# DataBinder.Eval(Container.DataItem, "UpdateDate")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Paid Amt">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "PaidAmt")%>
+                                    <br />
+                                    <b>Paid Amt2:     <%# DataBinder.Eval(Container.DataItem, "PaidTotAmt")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Confirm Trans">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "Cnfirmtns")%>
+                                    <br />
+                                    <b>Fee:  <%# DataBinder.Eval(Container.DataItem, "Fee")%></b>
+                                </ItemTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <span style="color: Red;">---!!! Ooops,Deposit History Detail Not Found !!!---</span>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </div>
+            </div>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+        $(function () {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+        $(function () {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+    </script>
+    <style>
+        .ontop {
+            z-index: 999;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: none;
+            position: fixed;
+            overflow: auto;
+            background-color: #cccccc;
+            color: #aaaaaa;
+            opacity: .9;
+            filter: alpha(opacity = 70);
+        }
+        #popup {
+            width: 300px;
+            height: 200px;
+            position: absolute;
+            color: #ffffff;
+            background-color: #ec9806;
+            border-top: black thin solid;
+            border-right: black thin solid;
+            border-bottom: black thin solid;
+            border-left: black thin solid;
+            /*To align popup window at the center of screen*/
+            top: 50%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -150px;
+        }
+    </style>
+    <script type="text/javascript">
+        function openPopup(div) {
+            document.getElementById('popupdiv').style.display = 'block';
+            document.getElementById('<%=HdnInvestId.ClientID %>').value = div;
+            document.getElementById('sptxt').innerHTML = "InvestmentID: " + div;
+        }
+        function hide() {
+            document.getElementById('popupdiv').style.display = 'none';
+            document.getElementById('popupdiv').style.display = 'none';
+        }
+        //To detect escape button
+        document.onkeydown = function (evt) {
+            evt = evt || window.event;
+            if (evt.keyCode == 27) {
+                hide();
+            }
+        };
+        function ConfirmDelete() {
+            if (document.getElementById('<%=MyName.ClientID %>').value != "") {
+                if (confirm("Are you sure you want to delete this investment ID?")) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                alert("Please enter administrator password !");
+                return false;
+            }
+        }
+        function Mesag(msg) {
+            document.getElementById('<%=lblMsg.ClientID %>').innerHTML = msg;
+        }
+    </script>
+</asp:Content>

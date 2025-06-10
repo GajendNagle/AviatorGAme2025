@@ -1,0 +1,868 @@
+﻿var totRcds = '';
+
+function SearchDownline() {
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, "ALL");
+}
+
+function Searchinct() {
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#SearchTxt").val();
+
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var inc = $("#IncTp").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, inc);
+}
+
+function Searchinctbydno(dno) {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = dno;
+
+    var Fromdt = $("#datepickerFrom").val();
+    var Todt = $("#datepickerTo").val();
+    var inc = $("#IncTp").val();
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, inc);
+}
+
+//function ChangeStatus() {
+//    getpageno();
+//    var PgSz = $("#PageSize").val();
+//    var Pgno = $("#PageNo").val();
+//    var SearchTxt = $("#SearchTxt").val();
+//    var Fromdt = $("#datepickerFrom").val();
+//    var Todt = $("#datepickerTo").val();
+//    var Sts = $("#Stschng").val();
+//    alert(Sts);
+//    loadOrders(Pgno, PgSz, Sts, Fromdt, Todt, "ALL");
+
+//}
+
+
+function ChangeStatus() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#Stschng").val();
+
+    var Fromdt = "";/* $("#datepickerFrom").val();*/
+    var Todt = "";/* $("#datepickerTo").val();*/
+    var inc = ""; /*$("#Stschng").val();*/
+
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, inc);
+}
+
+
+function ChangeNo() {
+
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#Stschng").val();
+    var Fromdt = "";/* $("#datepickerFrom").val();*/
+    var Todt = "";/* $("#datepickerTo").val();*/
+
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, "ALL");
+}
+
+function ChangePagesize() {
+    getpageno();
+    var PgSz = $("#PageSize").val();
+    var Pgno = $("#PageNo").val();
+    var SearchTxt = $("#Stschng").val();
+    var Fromdt = "";/* $("#datepickerFrom").val();*/
+    var Todt = "";/* $("#datepickerTo").val();*/
+    loadOrders(Pgno, PgSz, SearchTxt, Fromdt, Todt, "ALL");
+}
+
+function getpageno() {
+    ////
+    var SlcPg = $("#PageNo").val();
+    var TTR = Number(totRcds);
+    var ttP = TTR / Number($("#PageSize").val());
+    ////
+    if (ttP > Math.floor(ttP)) {
+        var ttP = ttP + 1;
+    }
+    /////
+    var selectField = $("#PageNo");
+    var options = '';
+    selectField.empty();
+    ///
+    for (var j = 1; j <= ttP; j++) {
+        ////
+        if (j == 1) {
+            options += '<option value="1">Page No-1</option>';
+        }
+        else {
+            options += '<option value="' + j + '">' + j + '</option>';
+        }
+    }
+    selectField.append(options);
+    $("#PageNo").val(SlcPg);
+    ////
+}
+
+
+function loadOrders(PageIndex, PageSize, MemID, Fromdt, Todt, Col) {
+    $('#setwithdraw').html('<img width="40px" src="../UserProfileImg/loading3.gif" />');
+
+    $.getJSON('Handlers/Withdrawal-history.ashx?p=' + PageIndex + "&s=" + PageSize + "&u=" + MemID + "&frdt=" + Fromdt + "&todt=" + Todt + "&Col=" + Col,
+        function (Orjson) {
+            if (Orjson.length == 0) {
+
+                $('#setwithdraw').html('');
+                $('#setwithdraw').html("<div class='col-lg-12'><div class='search-sec-2' style='width: 100%;background:none; box-shadow: none;'><div class='alert alert-danger m-b-10'><strong>Sorry! </strong> record not found...! </div></div> </div>");
+             
+            }
+            else {
+                var d = withdrawalhistory(Orjson);
+                $('#setwithdraw').html(d);
+            }
+        });
+}
+function Showbaldtl() {
+
+    var pid = $("input:radio[name=PaymentMethod]:checked").val();
+    var wltad = '';
+    if (pid == 'BTC') {
+        $('#Waltnme').html('Bitcoin');
+        wltad = $('#btcadd').val();
+    }
+    if (pid == 'ETH') {
+        $('#Waltnme').html('Ethereum');
+        wltad = $('#ethadd').val();
+    }
+    if (pid == 'BNB') {
+        $('#Waltnme').html('Binance');
+        wltad = $('#BNBadd').val();
+    }
+    //if (pid == 'TRX') {
+    //    $('#Waltnme').html('USDT.TRC20');
+    //    wltad = $('#TRXadd').val();
+    //}
+    if (pid == 'USDT.TRC20') {
+        $('#Waltnme').html('USDT.TRC20');
+        wltad = $('#TRXadd').val();
+    }
+    if (pid == 'BANK') {
+        $('#Waltnme').html('Bank');
+        wltad = $('#bankdetl').val();
+    }
+    $('#Waltadrs').html(wltad);
+}
+
+function WalletSummary() {
+
+    $.getJSON('Handlers/Withdrawal-Request-Summary.ashx',
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                var wa = '';
+                for (var i = 0; i < OrjsonDS.length; i++) {
+
+                    // $('#RoyalBonus').val(OrjsonDS[i].CCBal);
+                    // $('#hdProfitSharing').val(OrjsonDS[i].DSRBal);
+                    //  $('#hddirectbonusBal').val(OrjsonDS[i].dwaltBal);
+                    // $('#hdRoyaltyBal').val(OrjsonDS[i].srwaltBal);  //used
+
+                    $('#TotRoi').html('' + OrjsonDS[i].TotRoi + '<span class="vert"> TRX</span>');
+                    $('#TotBns').html('' + OrjsonDS[i].TotBns + '<span class="vert">TRX</span>');
+
+
+                    $('#shBonus').text('' + OrjsonDS[i].CCBal);
+                    $('#shProfit').text('' + OrjsonDS[i].DSRBal);
+
+                    $('#BonusBal').html('' + OrjsonDS[i].CCBal + '<span class="vert">TRX</span>');
+                    $('#ProfitBal').html('' + OrjsonDS[i].DSRBal + '<span class="vert">TRX</span>');
+
+
+
+                    // $('#dwaltBal').html('' + OrjsonDS[i].dwaltBal+'<span class="vert">INR</span>');
+                    //$('#srwaltBal').html('' + OrjsonDS[i].srwaltBal+'<span class="vert">INR</span>');
+
+                    $('#TotWith').html('0.00<span class="vert"></span>');
+                    $('#TotDectn').html('0.00<span class="vert"></span>');
+                    $('#NetWithAmt').html('0.00 <span class="vert">TRX</span>');
+                    //$('#btcadd').html(OrjsonDS[i].BTCAcc);
+
+
+                    if (OrjsonDS[i].BTCAcc == '') {
+                        $('#btcli').hide();
+                    }
+
+
+
+                    $('#condition').html(OrjsonDS[i].WithTopMsg);
+                    ///
+                    $('#MinWith').val(OrjsonDS[i].MinWith);
+                    ///
+                    $('#MxWith').val(OrjsonDS[i].MxWith);
+                    ///
+                    $('#WithDct').val(OrjsonDS[i].WithDct);
+                    ///
+                    $('#withDdctn').html("Deduction (" + OrjsonDS[i].WithDct * 100 + "%)");
+                    ///
+                    $('#TodayWith').val(OrjsonDS[i].TodayWith);
+
+                    ///
+
+                    $('#bankadd').html(OrjsonDS[i].BankName + ' ' + OrjsonDS[i].PMAcc + ' ' + OrjsonDS[i].TransferCode);
+                    $('#bankdetl').val(OrjsonDS[i].BankName + ' ' + OrjsonDS[i].PMAcc + ' ');
+
+                    ///
+                    $('#btcadd').val(OrjsonDS[i].BTCAcc);
+                    $('#strbtcadd').val(OrjsonDS[i].BTCAcc);
+                    ///
+                    $('#ethadd').val(OrjsonDS[i].ETHAcc);
+                    $('#strethadd').html(OrjsonDS[i].ETHAcc);
+
+                    $('#TRXadd').val(OrjsonDS[i].TRXAcc);
+                  
+
+                    $('#strTRXadd').html(OrjsonDS[i].TRXAcc);
+                    $('#storeTRXadd').val(OrjsonDS[i].TRXAcc);
+
+                    $('#BNBadd').val(OrjsonDS[i].BNBAcc);
+                    $('#strBnbadd').html(OrjsonDS[i].BNBAcc);
+
+
+                    if (OrjsonDS[i].BTCAcc != '') {
+                        $('#btcli').show();
+
+                    }
+                    if (OrjsonDS[i].ETHAcc != '') {
+                        $('#ethli').show();
+                    }
+                    if (OrjsonDS[i].TRXAcc != '') {
+                        $('#TRXli').show();
+                    }
+                    if (OrjsonDS[i].BNBAcc != '') {
+                        $('#BNBli').show();
+                    }
+                    if (OrjsonDS[i].PMAcc != '') {
+                        $('#Bankli').show();
+                    }
+
+                    Showbaldtl();
+
+                }
+            }
+        });
+}
+////////// check box function
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode == 46 && evt.srcElement.value.split('.').length > 1) {
+        return false;
+    }
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+/////////
+function TotWithdrawalAmt(WW) {
+    ////
+
+    var MaxWith = $('#MxWith').val(); //checked
+    var WithDct = $('#WithDct').val();   //checked
+    ///
+    $('#totWth').val('0');
+    var totwRAmt = $('#Totalamount').val();
+    var Bonus = $('#hdRoyaltyBal').val();  // Board Income
+
+    var Profit = $('#hdProfitSharing').val();  /// Appreciation Bonus Income
+    var hddirectbonusBal = $('#hddirectbonusBal').val();
+    var hdRoyaltyBal = $('#RoyalBonus').val();   ///Referral Bonus
+
+    var txtSrwallet = "0";// $('#txtSrwallet').val();  //checked Global Pool Bonus
+    var txtDwallet = $('#txtDwallet').val();  //checked direct bonus
+    var txtProfitSharing = $('#txtProfitSharing').val();   //checked profit sharing
+    var txtBonus = "0";//$('#txtTeamProfitSharing').val();   //checked level income
+    var txtProfit = $('#txtRank').val();  //checked /// rank bonus
+    var txtAmazing = "0";// $('#txtAmazing').val();  //checked /// Board Income
+
+    var hdteamprofitsharing = $('#hdteamprofitsharing').val(); //// Appreciation Bonus Income
+
+    var TotWith = Number(txtSrwallet) + Number(txtProfitSharing) + Number(txtBonus) + Number(txtAmazing);  ////+ Number(txtProfit) + Number(txtDwallet);
+   
+    var TotW = Math.round(TotWith * 100) / 100;
+
+    $('#totWth').val(TotW);
+
+    if (WW == 'Sr' & Number(hdRoyaltyBal) < Number(txtSrwallet)) {
+        $('#Msgs').html('');
+        $('#txtSrwallet').val('');
+        $('#TotDectn').val('');
+        $('#NetWithAmt').val('');
+        $('#totWth').val('');
+
+        $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please check Global Pool Bonus Wallet balance.</div>");
+        $('.main').css({ opacity: '0.3' });
+        return;
+    }
+
+    if (WW == 'TPS' & Number(hdteamprofitsharing) < Number(txtBonus)) {
+        $('#Msgs').html('');
+        $('#txtTeamProfitSharing').val('');
+        $('#TotDectn').val('');
+        $('#NetWithAmt').val('');
+        $('#totWth').val('');
+
+        $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please check Appreciation Bonus Wallet balance.</div>");
+        $('.main').css({ opacity: '0.3' });
+        return;
+    }
+
+    if (WW == 'Dwal' & Number(hddirectbonusBal) < Number(txtDwallet)) {
+        $('#Msgs').html('');
+        $('#txtDwallet').val('');
+        $('#TotDectn').val('');
+        $('#NetWithAmt').val('');
+        $('#totWth').val('');
+
+        $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please check Direct Wallet balance.</div>");
+        $('.main').css({ opacity: '0.3' });
+        return;
+    }
+    if (WW == 'PS' & Number(Profit) < Number(txtProfitSharing)) {
+        $('#Msgs').html('');
+        $('#txtProfitSharing').val('');
+        $('#TotDectn').val('');
+        $('#NetWithAmt').val('');
+        $('#totWth').val('');
+
+        $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please check My Account Wallet balance.</div>");
+        $('.main').css({ opacity: '0.3' });
+        return;
+    }
+
+    //if (WW == 'RB' & Number(Bonus) < Number(txtAmazing))
+    //{
+    //  $('#Msgs').html('');
+    //  $('#txtRank').val('');
+    //  $('#TotDectn').val('');
+    //  $('#NetWithAmt').val('');
+    //  $('#totWth').val('');
+
+    //  $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please check Rank Wallet balance.</div>");
+    //  $('.main').css({ opacity: '0.3' });
+    //  return;
+    // }
+    if (WW == 'AI' & Number(Bonus) < Number(txtAmazing)) {
+        $('#Msgs').html('');
+        $('#txtAmazing').val('');
+        $('#TotDectn').val('');
+        $('#NetWithAmt').val('');
+        $('#totWth').val('');
+
+        $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please check Board Income Wallet balance.</div>");
+        $('.main').css({ opacity: '0.3' });
+        return;
+    }
+    else {
+        $('#Msgs').html("");
+    }
+
+
+
+
+
+    //////////check max limit
+    if (totwRAmt > Number(MaxWith)) {
+        ////  
+
+        if (WW == 'PS') {
+            $('#txtProfitSharing').val('');
+        }
+        if (WW == 'TPS') {
+            $('#txtTeamProfitSharing').val('');
+        }
+        if (WW == 'RB') {
+            $('#txtRank').val('');
+        }
+        if (WW == 'Sr') {
+            $('#txtSrwallet').val('');
+        }
+        if (WW == 'Dwal') {
+            $('#txtDwallet').val('');
+        }
+
+        $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Total withdrawal request amount can not more than $" + MaxWith + " !</div> ");
+        $('.main').css({ opacity: '0.3' });
+
+        return;
+        /// 
+    }
+
+    $('#TotWith').html(TotW + ' TRX');
+
+    $('#totWth').val(TotW);
+    $('#Totalamount').val(TotW);
+    ///
+    var TotDctn = Math.round((TotWith * (Number(WithDct))) * 100) / 100;
+    $('#TotDectn').html('' + TotDctn + ' TRX');
+    ////
+    var NetAmt = TotW - TotDctn;
+    $('#NetWithAmt').html('' + (Math.round(NetAmt * 100) / 100) +' TRX');
+
+}
+///////////
+// 
+//  function myFunction() {
+//   parent.location.reload(true);
+//  }
+
+///////////submit withdrawal ///////////////
+function SubmitRequestNow() {
+
+    $('#Msgs').html('<div class="modal-wrapper"><div class="userimage"><img class="imageseted" src="../UserProfileImg/103.gif" width="35" height="35" /><span class="loading-texted" >Loading...</span> <div class="wait-plese"><i class="fa fa-cogs" aria-hidden="true"></i> Please wait....</div></div></div>');
+    document.getElementById("SubmitWithdnow").disabled = true;
+    $("#SubmitWithdnow").html('Please wait...');
+    var MaxWith = $('#MxWith').val();
+   
+    var TdayWith = $('#TodayWith').val();
+  
+    var txtBonus = $('#txtTeamProfitSharing').val();
+    var txtOtp = $("#txtOtp").val();
+
+    if (Number(TdayWith) > 0) {
+        $("#Msgs").html('');
+        swal({
+            title: "Sorry!",
+            text: "You can make withdraw request one time in a day.",
+            type: "warning"
+
+        });
+       // $('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> You can make withdrawal request one time in a day with max. Rs" + MaxWith + " ! </div>");
+        /*$('.main').css({ opacity: '0.3' });*/
+        document.getElementById("SubmitWithdnow").disabled = false;
+        $("#SubmitWithdnow").html('Submit');
+
+        return;
+    }
+    /////
+    var MinWith = $('#MinWith').val();
+   
+    ////   
+    //var PaymentMd='BANK';   
+
+    var PaymentMd = '';
+  
+    if ($("#Bitcoin").prop('checked') == true) {
+        PaymentMd = $("#Bitcoin").val();
+    }
+    else if ($("#Ethereum").prop('checked') == true) {
+        PaymentMd = $("#Ethereum").val();
+    }
+    else if ($("#TRON").prop('checked') == true) {
+        PaymentMd = $("#TRON").val();
+    }
+    else if ($("#Bank").prop('checked') == true) {
+        PaymentMd = $("#Bank").val();
+    }
+    //else if ($("#Paytm").prop('checked') == true) {
+    //    PaymentMd = $("#Paytm").val();
+    //}
+    //else if ($("#Upi").prop('checked') == true) {
+    //    PaymentMd = $("#Upi").val();
+    //}
+    else if ($("#Binance").prop('checked') == true) {
+        PaymentMd = $("#Binance").val();
+    }
+    else {
+        $("#Msgs").html('');
+        swal({
+            title: "Sorry!",
+            text: "You need to select one Payment Method option !",
+            type: "warning"
+
+        });
+        //$('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> You need to select one Payment Method option ! ! </div>");
+      /*  $('.main').css({ opacity: '0.3' });*/
+        document.getElementById("SubmitWithdnow").disabled = false;
+        $("#SubmitWithdnow").html('Submit');
+        return;
+    }
+
+    //var totwRAmt=$('#totWth').val();
+    var totwRAmt = $('#Totalamount').val();
+    //if (Number(totwRAmt) < Number(MinWith) || totwRAmt == 'NaN') {
+
+    //    $("#Msgs").html('');
+    //    swal({
+    //        title: "Sorry!",
+    //        text: " Please enter correct withdrawal request amount !",
+    //        type: "warning"
+
+    //    });
+    //    //$('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> Please enter correct withdrawal request amount ! </div>");
+    //    //$('.main').css({ opacity: '0.3' });
+    //    document.getElementById("SubmitWithdnow").disabled = false;
+    //    $("#SubmitWithdnow").html('Submit');
+    //    return;
+    //}
+    if (PaymentMd == 'TRX' & $('#storeTRXadd').val() == '') {
+
+        $("#Msgs").html('');
+        swal({
+            title: "Sorry!",
+            text: "Please update your Tron Address in profile setting area or Change Payment Method !",
+            type: "warning"
+
+        });
+
+        document.getElementById("SubmitWithdnow").disabled = false;
+        $("#SubmitWithdnow").html('Submit');
+
+        return;
+    }
+
+    //////////////////end valiDation ////////////////
+
+    var od = new FormData();
+    var txtSecPwd = $("#txtSecPWD").val();
+    //////////
+    if (txtSecPwd != '' & PaymentMd != '' & totwRAmt != '') {
+        $('#SvPInfo').html('<img src="../UserProfileImg/103.gif" width="35" height="35"  />');
+
+        var txtSrwallet = $('#txtSrwallet').val(); //// Global Pool Bonus
+        var txtDwallet = $('#txtDwallet').val(); /// direct  
+
+        var txtProfitSharing = $('#txtProfitSharing').val();  ///profit sharing
+        var txtTeamProfitSharing = $('#txtTeamProfitSharing').val(); /// level Income
+        var txtRank = $('#txtRank').val(); /// rank bonus
+        var txtAmazing = $('#txtAmazing').val(); /// board income
+        var TRXadd = $('#storeTRXadd').val();
+
+
+
+        // alert("ok");
+        ///
+        od.append("txtTopUpAmount", totwRAmt);
+        od.append("txtSecPwd", txtSecPwd);
+        od.append("PaymentMd", PaymentMd);
+        od.append("txtBonus", txtBonus);
+
+        od.append("txtProfitSharing", txtProfitSharing);
+        od.append("txtTeamProfitSharing", txtTeamProfitSharing);
+        od.append("txtRank", txtRank);
+        od.append("txtSrwallet", txtSrwallet);
+        od.append("txtDwallet", txtDwallet);
+        od.append("txtAmazing", txtAmazing);
+        od.append("TRXadd", TRXadd);
+        od.append("txtOtp", txtOtp);
+
+        $.ajax({
+            url: "Handlers/Withdrawal-Request-Submit.ashx",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: od,
+            dataType: "json",
+            success: function (Response) {
+                if (Response.Success) {
+                    if (Response.detail == 200) {
+
+                        /*$('#otpps').show();*/
+                        $('#otpdtl').removeClass('d-none');
+                        $('#otpdtl').addClass('d-block');
+                        $('#Msgs').html('');
+
+                        swal({
+                            title: "OTP Sent",
+                            text: Response.Message,
+                            type: "success"
+                        });
+
+                    }
+                    else if (Response.detail == 1) {
+
+                        $("#totWth").val('0.00');
+                        $("#Bitcoin").val('');
+                        $("#Ethereum").val('');
+                        $("#txtSecPwd").val('');
+
+
+                        $('#txtBonus').val('');
+                        $('#txtProfit').val('');
+                        $('#txtProfit').val('');
+                        $('#txtProfitSharing').val('');
+                        $('#txtRank').val('');
+                        $('#txtDwallet').val('');
+                        $('#txtAmazing').val('');
+
+                        //$('#Msgs').html("<div class='alert alert-success text-white m-b-10'><strong>congratulation!</strong>  " + Response.Message + "</div>");
+                        //$('.main').css({ opacity: '0.3' });
+
+                        $("#Msgs").html('');
+
+                        swal({
+                            title: "Congratulation!",
+                            text: Response.Message,
+                            type: "success"
+                        },
+                            function () {
+                                parent.location.reload(true);
+                            });
+                    }
+                   
+
+                    document.getElementById("SubmitWithdnow").disabled = false;
+                    $("#SubmitWithdnow").html('Submit');
+                }
+                else {
+                    $("#Msgs").html('');
+                    swal({
+                        title: "Sorry!",
+                        text: Response.Message,
+                        type: "warning"
+
+                    });
+                    //$('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> " + Response.Message + "</div>");
+                    //$('.main').css({ opacity: '0.3' });
+                    document.getElementById("SubmitWithdnow").disabled = false;
+                    $("#SubmitWithdnow").html('Submit');
+                }
+            },
+            error: function (err) {
+
+                $("#Msgs").html('');
+                swal({
+                    title: "Sorry!",
+                    text: err.statusText,
+                    type: "warning"
+
+                });
+                //$('#Msgs').html("<div class='alert alert-danger text-white m-b-10'><strong>Sorry!</strong> " + err.statusText + "</div>");
+                //$('.main').css({ opacity: '0.3' });
+                document.getElementById("SubmitWithdnow").disabled = false;
+                $("#SubmitWithdnow").html('Submit');
+            }
+        });
+    }
+    //////
+
+
+
+}
+//////////// ///////////end submit withdrawal ///////////////
+
+
+
+
+
+// function loadOrders(PageIndex, PageSize,MemID) {
+//     $('#WithdrawalHtry').html('<img src="../UserProfileImg/103.gif" width="35" height="35"  />');
+//        $.getJSON('Handlers/Withdrawals-Status.ashx?p=' + PageIndex + "&s=" + PageSize + "&u=" + MemID,
+//        function (Orjson) {
+//            if (Orjson.length == 0) { 
+//            $('#WithdrawalHtry').html('');                
+//                $('#WithdrawalHtry').html("Sorry, record not found...!");
+//            }
+//            else {
+//                var d = formatOrder(Orjson);
+//                $('#WithdrawalHtry').html(d);
+//                
+
+//            }
+//        });
+//          
+//} 
+
+//function formatOrder(Orjson) {
+//    var pp1='';
+//       
+//    for (var i = 0; i < Orjson.length; i++) {
+//   
+//        pp1 = pp1 + "<div class='col-md-6' >";
+//        pp1 = pp1 + "<div class='widget'>";
+//        pp1 = pp1 + "<div class='ribbon-wrapper'>";
+
+//        if (Orjson[i].Status == "COMPLETED") {
+//            pp1 = pp1 + " <div class='ribbon-design sky-skin'>ACCEPTED</div>";
+//        }
+//        if (Orjson[i].Status == "PENDING") {
+//            pp1 = pp1 + " <div class='ribbon-design Yellow-skin'>PENDING</div>";
+//        }
+
+
+
+//        pp1 = pp1 + "</div><div class='text-address'>";
+//        pp1 = pp1 + "<label>1. </label><span>Request By " + Orjson[i].AccType + "</span><h5>On " + Orjson[i].Date + "</h5> </div><div class='rgt'>";
+//        pp1 = pp1 + "<div class='text-request'><span><img src='images/resource/post-gallery.jpg' /></span>	";
+//        pp1 = pp1 + "<p>" + Orjson[i].Payto + "</p>";
+//        pp1 = pp1 + "</div>";
+//         pp1 = pp1 + "<div class='text-tran-hash'>";
+//         pp1 = pp1 + "<span>Payment transaction no was</span><h5><a href='#'> </a>";
+//         pp1 = pp1 + "<a style='color:Blue;' target='_blank' href='https://blockchain.info/tx/e87145a0c9f99264f1cb01812552466e00d998c5c7e3391d667810cc21893d3b'>" + Orjson[i].TxnHash + "</a></h5></div>";
+
+//        pp1 = pp1 + "</div><div class='only-mobile'>";
+//        pp1 = pp1 + "<span><i class='fa fa-calendar'></i> Pay-On: " + Orjson[i].Date + " </span></div></div>";
+//        pp1 = pp1 + "<div class='payment-amount'><ul><li>";
+//        pp1 = pp1 + "<span> <i class='fa  ti-wallet'></i>  Net Amount</span><h3>$ " + Orjson[i].Amount + "</h3></li><li>";
+//        pp1 = pp1 + "<span><i class='fa fa-calendar'></i>   Request Amount</span><h3 style='color: #10c510;' >$ " + Orjson[i].Total + "</h3></li><li>";
+//        pp1 = pp1 + "<span> <i class='fa fa-check-square-o'></i>  Deduction Amount</span>";
+//        pp1 = pp1 + "<h3 style='color: #ff6b6b;'>Rs " + Orjson[i].Deduction + "</h3></li></ul></div></div>";
+
+//   
+//    /////
+//    //$('#WithdrawalHtry').html('');
+//    ////
+//    }
+//    return pp1;
+//}
+
+
+function opct() {
+    $('.main').css({ opacity: '1' });
+}
+
+
+
+/*===================================== START FUNCTION =================================*/
+//function getwithdrawhistory() {
+
+
+
+//    $.getJSON('Handlers/Withdrawal-history.ashx',
+//            function (Orjson) {
+
+//                if (Orjson.length == 0) {
+//                    $('#setwithdraw').html("no record found");     
+//                }
+//                else {
+
+//                    var d = withdrawalhistory(Orjson);
+
+//                    $('#setwithdraw').html(d);
+
+//                }
+//            });
+//}
+
+
+//function withdrawalhistory(Orjson) {
+//    var pp1 = '';
+//    var pasprodcode = '';
+//    
+
+
+
+
+//    for (var i = 0; i < Orjson.length; i++) 
+//    {
+//      
+////           pp1 = pp1 + "<div class='support-ticket'>";
+////           pp1 = pp1 + "<div class='st-meta'>";
+////           pp1 = pp1 + "<div class='badge badge-danger-inverted'>Total Amt</div>";
+////           pp1 = pp1 + "<i class='os-icon os-icon-ui-09'>...</i>";
+////           pp1 = pp1 + "<div class='status-pill yellow colrset'>1</div>";
+////           pp1 = pp1 + "</div>";
+////           pp1 = pp1 + "<div class='st-body'>";
+////           pp1 = pp1 + "<div class='avatar'><img alt='' src='img\avatar2.jpg'></div>";
+////           pp1 = pp1 + "<div class='ticket-content'>";
+////           pp1 = pp1 + "<h6 class='ticket-title'>Bank Address</h6>";
+////           pp1 = pp1 + "<div class='ticket-description'><span>Req Date:  " + Orjson[i].Date + "</span>| <span>Transaction No.: ... </span>| <span>Deduction Amt: ...</span></div>";
+////           pp1 = pp1 + "</div>";
+////           pp1 = pp1 + "</div>";
+////           pp1 = pp1 + "<div class='st-foot'><span class='label'>Request Amt: </span><a class='value with-avatar' href='#'><img alt='' src='img\avatar1.jpg'><span>$ " + Orjson[i].Total + "</span></a><span class='label'>Net Amt:</span><span class='value'>$ " + Orjson[i].Amount + "</span></div>";
+////           pp1 = pp1 + "</div>";
+
+
+//        pp1 = pp1 + "<div class='status-pill yellow colrset'>1tyjtuyjtuy</div>";
+//    }
+//    
+//    return pp1;
+
+//}
+
+/*===================================== END FUNCTION =================================*/
+
+
+
+/*===================================== START FUNCTION =================================*/
+//function getwithdrawhistory() {
+
+//    $('#setwithdraw').html('<img width="40px" src="../UserProfileImg/loading3.gif" />');
+
+//    $.getJSON('Handlers/Withdrawal-history.ashx',
+//        function (Orjson) {
+
+//            if (Orjson.length == 0) {
+
+//                $('#setwithdraw').html('');
+//                $('#setwithdraw').html("<div class='col-lg-12'><div class='search-sec-2' style='width: 100%;background:none; box-shadow: none;'><div class='alert alert-danger m-b-10'><strong>Sorry! </strong> record not found...! </div></div> </div>");
+//            }
+//            else {
+              
+//                var d = withdrawalhistory(Orjson);
+
+//                $('#setwithdraw').html(d);
+
+//            }
+//        });
+//}
+
+
+function withdrawalhistory(Orjson) {
+    var pp1 = '';
+    var pasprodcode = '';
+    //    pp1 = pp1 + "<table class='table table-cart'><thead><tr><th>Product Name</th><th class='text-center'>Price</th><th class='text-center'>Quantity</th><th class='text-center'>Total</th></tr></thead><tbody>";
+
+
+
+    for (var i = 0; i < Orjson.length; i++) {
+
+        totRcds = Orjson[i].TotalRec;
+
+        pp1 = pp1 + "<div class='support-ticket'>";
+        pp1 = pp1 + "<div class='st-meta'>";
+        pp1 = pp1 + "<div class='badge badge-danger-inverted'>Pay On:</div>";
+        pp1 = pp1 + "<span class='spnset'>" + Orjson[i].PayOn + "</span>";
+        pp1 = pp1 + "<div class='status-pill yellow colrset'>" + Orjson[i].SrNo + "</div>";
+        pp1 = pp1 + "</div>";
+        pp1 = pp1 + "<div class='st-body pt4'>";
+        pp1 = pp1 + "<div class='avatar'>";
+        if (Orjson[i].Status == "COMPLETED") {
+            pp1 = pp1 + " <div class='ribbon-design sky-skin'> <img alt='' src='img/confirm.png'></div>";
+        }
+
+        if (Orjson[i].Status == "PENDING") {
+            pp1 = pp1 + " <div class='ribbon-design Yellow-skin'><img alt='' src='img/pending.png'></div>";
+        }
+        pp1 = pp1 + "</div>";
+        pp1 = pp1 + "<div class='ticket-content'>";
+        pp1 = pp1 + "<h6 class='ticket-title bnk-adr'> " + Orjson[i].Payto + " </h6>";
+        pp1 = pp1 + "<div class='ticket-description'><span>Req Date:  " + Orjson[i].TDATE + "</span> | <span> Txn No.: " + Orjson[i].TxnHash + "  </span></div>";
+        pp1 = pp1 + "</div>";
+        pp1 = pp1 + "</div>";
+        pp1 = pp1 + "<div class='st-foot'><span class='label'>Total Amt: </span><a class='value with-avatar' href='#'><span> $" + Orjson[i].Total + "</span></a><span class='label'>Ded Amt:</span><span class='value'> $" + Orjson[i].Deduction + "</span><span class='label'>Net Amt:</span><span class='value'> $" + Orjson[i].Amount + "</span></div>";
+        pp1 = pp1 + "</div>";
+
+    }
+
+    getpageno();
+
+    return pp1;
+
+}
+
+function TotWithdrawalAmt() {
+    var transfamt = $('#txtProfitSharing').val();
+    var deductamt = $('#transferuserDeduc').val();
+    var netpay = (Number(transfamt) * deductamt / 100);
+    var netpay1 = (Number(transfamt) - (netpay)).toFixed(2);
+    $('#Deduction').html(netpay + ' TRX with transaction fee');
+    $('#NetWithAmt').html(netpay1);
+}

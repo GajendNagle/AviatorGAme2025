@@ -1,0 +1,114 @@
+<%@ WebHandler Language="C#" Class="Contact_Enquery" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Contact_Enquery : IHttpHandler {
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs = "", dtl, RtnRlt = "", strJson, UserID = "", fullname = "", emailaddress = "",subject="", contactno="",
+        enqdesc = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////      
+        fullname = context.Request["name"].Trim();
+        emailaddress = context.Request["emailaddress"].Trim();
+        contactno = context.Request["contactno"].Trim();
+        enqdesc = context.Request["enqdesc"].Trim();
+        subject = context.Request["subject"].Trim();
+            /////////
+            GiveHelpOrder();
+            ////////
+            handleRequest();
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+
+
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            if (fullname != "" && enqdesc != "")
+            {
+                ds = objgdb.ByProcedure("InsertEnquiryDetails", new string[] { "fullname", "emailaddress", "contactno", "enqdesc", "subject" },
+                    new string[] { fullname, emailaddress, contactno, enqdesc,subject }, "BYdatase");
+                if (ds.Tables[0].Rows[0]["Sts"].ToString() == "Ok")
+                {
+                    sc = true;
+                    msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                }
+                else
+                {
+                    sc = false;
+                    msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                }
+            }
+            else
+            {
+                sc = false;
+                msg = "<span style='color:#FF8A00;'>Please fill required fields in form !</span>";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = ex.Message;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+}

@@ -1,0 +1,158 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" StylesheetTheme="mySkin" CodeFile="Post-Ad-Links.aspx.cs" Inherits="Adm962xts21qtj_Post_Ad_Links" Title="Post Ad Links" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table style="width: 100%;">
+        <tr>
+            <td>
+                <asp:Label ID="lblMsg1" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px" ForeColor="Red"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table border="0" cellpadding="2" cellspacing="2">
+                    <tr>
+                        <td style="width: 124px;">Page Title :</td>
+                        <td align="left" class="datalevel" colspan="3">
+                            <asp:TextBox ID="txtheading" runat="server" Width="317px"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtheading" ErrorMessage="ENTER HEADING" SetFocusOnError="True" Width="1px">*</asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="datalevel" colspan="1"></td>
+                        <td align="left" class="datalevel" colspan="1" style="width: 5px; font-family: 'Poppins', sans-serif;" valign="top">
+                            <asp:Button ID="btnRepeatLnk" runat="server" Font-Bold="False" Font-Names="Verdana" OnClick="btnRepeatLnk_Click" Text="Repeat Links Today" CssClass="OuterBtn" ValidationGroup="rpt" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2 control-label no-padding-right" style="width: 124px">
+                            <span style="font-size: 13px">Post Date :</span>
+                        </td>
+                        <td align="left" class="datalevel" colspan="3">
+                            <asp:TextBox ID="txtfirstdate" runat="server" Width="155px" AutoComplete="Off"></asp:TextBox>&nbsp;
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtfirstdate" ErrorMessage="ENTER START DATE" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+                            <span style="font-size: 10px; font-weight: bold; color: red;"></span>
+                        </td>
+                        <td align="left" class="datalevel" colspan="1" valign="top"></td>
+                        <td align="left" class="datalevel" colspan="1" style="font-size: 8pt; width: 5px; color: #808080; font-family: Tahoma;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 124px">Page Links : </td>
+                        <td align="left" valign="top">
+                            <asp:TextBox ID="txtnews" runat="server" TextMode="MultiLine" Width="328px"></asp:TextBox>
+                            <br />
+                        </td>
+                        <td align="left" colspan="1" style="color: #666666; font-family: Tahoma;" valign="top"></td>
+                        <td align="left" style="width: 5px;" valign="top">
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtnews" ErrorMessage="ENTER NEWS" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 124px">Page Type : </td>
+                        <td align="left" valign="top">
+                            <asp:DropDownList ID="ddlPageType" runat="server" Width="165px" class="ComposeTxtBx">
+                                <asp:ListItem Value="Refer And Earn">Refer And Earn</asp:ListItem>
+                                <asp:ListItem Value="Sign Up And Earn">Sign Up And Earn</asp:ListItem>
+                                <asp:ListItem Value="Subscribe And Earn">Subscribe And Earn</asp:ListItem>
+                                <asp:ListItem Value="Watch Video And Earn">Watch Video And Earn</asp:ListItem>
+                                <asp:ListItem Value="Play Games And Earn">Play Games And Earn</asp:ListItem>
+                            </asp:DropDownList>
+                        </td>
+                        <td align="left" colspan="1" style="color: #666666; font-family: Tahoma;" valign="top"></td>
+                        <td align="left" style="width: 5px;" valign="top"></td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" style="width: 124px"></td>
+                        <td align="left" colspan="3" valign="top">
+                            <asp:Button ID="btnpass" runat="server" Font-Bold="False" Font-Names="Verdana" OnClick="btnpass_Click" Text="Submit" Width="78px" CssClass="OuterBtn" />&nbsp;
+                        </td>
+                        <td align="left" class="datalevel" colspan="1" valign="top"></td>
+                        <td align="left" class="datalevel" colspan="1" style="width: 5px;" valign="top"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="lblEmptyMsg" runat="server" Text=""></asp:Label>
+                <asp:GridView ID="GridView2" runat="server" AllowPaging="True" AutoGenerateColumns="False" DataKeyNames="id" EnableTheming="True" OnRowDeleting="GridView2_RowDeleting" OnRowCancelingEdit="GridView2_RowCancelingEdit" OnRowEditing="GridView2_RowEditing" OnRowUpdating="GridView2_RowUpdating" PageSize="10000" Width="100%">
+                    <Columns>
+                        <asp:TemplateField HeaderText="SrNo.">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex +1  %>
+                                    .
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="linkbtn" runat="Server" CausesValidation="false" CommandName="delete" Text="Remove"></asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lnkbtnEdit" runat="server" Text="Edit" CausesValidation="false" CommandName="Edit" />
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:LinkButton ID="lnkbtnUpdate" runat="server" Text="Update" CausesValidation="false" CommandName="Update" />
+                                <asp:LinkButton ID="lnkbtnCancel" runat="server" Text="Cancel" CausesValidation="false" CommandName="Cancel" />
+                            </EditItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Page Title">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="txtbxheading" runat="server" TextMode="MultiLine" Text='<%#Eval("PageTitle")%>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <%#Eval("PageTitle")%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Page Link">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="txtbxnews" runat="server" TextMode="MultiLine" Text='<%#Eval("PageLink")%>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <%#Eval("PageLink")%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Post Date">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="txtbxstdate" runat="server" Text='<%#Eval("PostDate")%>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <%#Eval("PostDate")%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Page Type">
+                            <EditItemTemplate>
+                                <asp:DropDownList ID="EditddlPageType" runat="server" Width="165px" class="ComposeTxtBx">
+                                    <asp:ListItem Value="Refer And Earn">Refer And Earn</asp:ListItem>
+                                    <asp:ListItem Value="Sign Up And Earn">Sign Up And Earn</asp:ListItem>
+                                    <asp:ListItem Value="Subscribe And Earn">Subscribe And Earn</asp:ListItem>
+                                    <asp:ListItem Value="Watch Video And Earn">Watch Video And Earn</asp:ListItem>
+                                    <asp:ListItem Value="Play Games And Earn">Play Games And Earn</asp:ListItem>
+                                </asp:DropDownList>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <%#Eval("PageType")%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <RowStyle HorizontalAlign="Center" VerticalAlign="Middle" Height="22px" />
+                    <EmptyDataTemplate>
+                        <span style="font: bold 13px verdana; color: Red;">---Oooops, Record Not Found---</span>
+                    </EmptyDataTemplate>
+                    <PagerStyle Font-Size="12px" />
+                    <HeaderStyle Height="22px" />
+                </asp:GridView>
+            </td>
+        </tr>
+    </table>
+    <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowMessageBox="True" ShowSummary="False" />
+    <%--<asp:ScriptManager id="ScriptManager1" runat="server"></asp:ScriptManager>--%>
+    <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="txtfirstdate" TargetControlID="txtfirstdate"></ajaxToolkit:CalendarExtender>--%>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#<%=txtfirstdate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                }
+            );
+        });
+    </script>
+</asp:Content>

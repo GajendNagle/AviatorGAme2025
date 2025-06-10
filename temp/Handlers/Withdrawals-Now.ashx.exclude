@@ -1,0 +1,120 @@
+<%@ WebHandler Language="C#" Class="Withdrawals_Now" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Withdrawals_Now : IHttpHandler {
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs = "", dtl, RtnRlt = "", strJson, UserID = "", ddlInvOn, txtInvQty, txtMemId,
+        txtTransPWD = "", txtTopUpAmount = "", InvWallet = "", BankID = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            txtTransPWD = context.Request["txtTransPWD"].Trim();
+            txtTopUpAmount = context.Request["txtTopUpAmount"].Trim();
+            /////////
+            GiveHelpOrder();
+            ////////
+            handleRequest();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+
+
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            if (txtTransPWD != "" && txtTopUpAmount != "")
+            {
+                ds = objgdb.ByProcedure("ProcWithFromUser", new string[] { "MemId", "Amt", "WtihdType" },
+                    new string[] { UserID.Trim().ToUpper(), txtTopUpAmount.ToString().Trim(), txtTransPWD.ToString().Trim() }, "BYdatase");
+                if (ds.Tables[0].Rows[0]["Sts"].ToString() == "Ok")
+                {
+                    sc = true;
+                    msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                }
+                else
+                {
+                    sc = false;
+                    msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                }
+
+            }
+            else
+            {
+                sc = false;
+                msg = "<span style='color:#FF8A00;'>Please fill required fields in transfer form !</span>";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = ex.Message;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+  
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+}

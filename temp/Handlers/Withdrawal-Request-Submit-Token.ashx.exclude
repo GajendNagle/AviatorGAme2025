@@ -1,0 +1,319 @@
+﻿<%@ WebHandler Language="C#" Class="Withdrawal_Request_Submit_Token" %>
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Withdrawal_Request_Submit_Token : IHttpHandler
+{
+
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, error = "", amount = "", result = "", AutoWithNo = "", strJson, UserID = "", getStatus = "",
+            ReqCurrcy = "", eMailAddss = "", txtTopUpAmount = "", txtSecPwd = "", PaymentMd = "", txtRsbs = "", txtLBbs = "", txtOBValbs = "", Pm = "",
+    txtRCBbs = "", TRXadd = "", txtAOBbs = "", Mem_email = "", MName = "", txtMABbs = "", txtLVLbs = "", txtGPIbs = "", Emrgn = "", Mode = "",txtMCB="",txtLVL="",txtMAB="",ACCNO="";
+    public Double TotWW = 0.00;
+    DynamicDtls objgdb = new DynamicDtls();
+    TransactionWalletAddress txnWltads = new TransactionWalletAddress();
+    DataSet ds;
+
+    //libCoinPaymentsNET.CoinPayments cp = new libCoinPaymentsNET.CoinPayments("745824300c5f3695465d5b90c1f895C8CD9158162ac2cf4d7C7beFc70acA8A1A", "813cbcb2f4a0443b01b1c6d75a7de17397c41b4c36eb1b44ec458fcdc0bf8e23"); //private key,public key
+    public class test
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string detail { get; set; }
+        public string aid { get; set; }
+        public string ReqAmt { get; set; }
+        public string Emenpjd { get; set; }
+        public string UserAddress { get; set; }
+        public test(bool sc, string msg, string dtl, string aaid, string Amt, string emgk, string ACCAddress)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+            ReqAmt = Amt;
+            aid = aaid;
+            Emenpjd = emgk;
+            UserAddress = ACCAddress;
+        }
+
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl, AutoWithNo, amount, Emrgn,ACCNO));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            PaymentMd = context.Request["PaymentMd"].Trim();
+            //txtSecPwd = context.Request["memid"].Trim();
+
+            //////
+            //txtTopUpAmount = context.Request["txtTopUpAmount"].Trim();
+            //txtSecPwd = context.Request["txtSecPwd"].Trim();
+            //PaymentMd = context.Request["PaymentMd"].Trim();
+            ////txtRsbs = context.Request["txtRsbs"].Trim();
+            ////txtLBbs = context.Request["txtLBbs"].Trim();
+            ////txtOBValbs = context.Request["txtOBValbs"].Trim();
+            ////txtRCBbs = context.Request["txtRCBbs"].Trim();
+            //txtAOBbs = context.Request["txtMCBbs"].Trim();
+            //txtMABbs = context.Request["txtMABbs"].Trim();
+            //txtLVLbs = context.Request["txtLVLbs"].Trim();
+            //txtGPIbs = context.Request["txtGPIbs"].Trim();
+            //TRXadd = context.Request["TRXadd"].Trim();
+            ////////////vvvvvvvvvvvvvvv
+
+            if (PaymentMd == "Withdrawal")
+            {
+                txtMCB = context.Request["txtMCB"].Trim(); //stakediv
+                txtLVL = context.Request["txtLVL"].Trim();// lvldiv
+                txtMAB = context.Request["txtMAB"].Trim();//rankdiv
+                txtSecPwd=context.Request["txtSecPWD"].Trim();//txnpwd
+                Pm = "TRX-Token";
+                GiveHelpOrder();
+            }
+            else if (PaymentMd == "UpdateTxnSts")
+            {
+                TRXadd = context.Request["Txnid"].Trim();
+                AutoWithNo = context.Request["WithdID"].Trim();
+                Mode = context.Request["TxnMode"].Trim();
+                BindResultUpdt(AutoWithNo, TRXadd, "PENDING", Mode);
+            }
+            else if (PaymentMd == "UnWithdrawal")
+            {
+                AutoWithNo = context.Request["WithdID"].Trim();
+                RejectRequest(AutoWithNo);
+            }
+
+
+
+            ///////// vvvvvvvvvvv
+            //GiveHelpOrder();
+            //BindResultUpdt("W92483376", "CWFC5WL7FUDDYZJS8YGRLR4OKO", "1", "19.53491429");
+            ////////
+            handleRequest();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('Admin-login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("[ProcWithFromUser_FmUP_Token]", new string[] { "Memid", "Amt", "WtihdType", "DlyWlt", "LvlWlt", "ORbitWlt", "RecpWlt", "AddOnWlt", "Pm" }
+                            , new string[] { UserID, "", txtSecPwd, "",txtMAB , txtLVL, txtMCB, "", Pm }, "das");
+            //, new string[] { UserID, txtTopUpAmount.Trim(), txtSecPwd.Trim(), txtRsbs.Trim(), txtMABbs.Trim(), txtLVLbs.Trim(), txtGPIbs.Trim(), txtAOBbs.Trim(), PaymentMd.Trim() }, "das");
+            if (ds.Tables[0].Rows[0]["Rlt"].ToString() == "IsOk")
+            {
+                sc = true;
+                msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                //msg = "<span style='color:#2E962E;'>" + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                /////////
+                Mem_email = ds.Tables[0].Rows[0]["Mem_email"].ToString();
+                MName = ds.Tables[0].Rows[0]["MName"].ToString();
+                /////////
+                Emrgn = txnWltads.getAddress(); /*"80b5741363c950622f1bd1771f13280082e1084282ff0bc0245f6cff2a80aca2";*/
+
+                context.Response.Cookies["Kdjlwl85soQwk84d"].Value = txnWltads.IssueAddress(); ////"TWTVBzkTmVNyUcJdEFAfEfe8BXHewbe6KA";
+                context.Response.Cookies["Kdjlwl85soQwk84d"].Expires = DateTime.Now.AddDays(1);
+                context.Response.Cookies["Kdjlwl85soQwk84d"].Secure = true;
+                // if (txtTopUpAmount != "" && txtSecPwd != "" && PaymentMd != "")
+                // {
+                //context.Response.Write(new PaymentGetwayPayout().TransferDlyPayout(mobile_number, amount, beneficiary_name, account_number, ifsc, channel_id, client_id, provider_id));
+                //try
+                //{
+                //    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                //    // dynamic item = serializer.Deserialize<object>(new Block_Chain().ImpsTransaction("173431885160892", mobno, beneficiaryid, amount, orderid,"", ""));
+                //    // dynamic item = serializer.Deserialize<object>(new Block_Chain().ImpsTransaction("173431885160892", mobno, beneficiaryid, CntIFSC, amount, orderid, "BONUS", "", ""));
+                //    SortedList<string, string> parms = new SortedList<string, string>();
+                //    ///
+                amount = ds.Tables[0].Rows[0]["Amt"].ToString();  //context.Request["txtReqAmt"].Trim(); //"1"
+                ReqCurrcy = ds.Tables[0].Rows[0]["Pm"].ToString(); //"TRX";// context.Request["paymode"].Trim();
+                AutoWithNo = ds.Tables[0].Rows[0]["AutoWithNo"].ToString();
+                ACCNO= ds.Tables[0].Rows[0]["ACCNO"].ToString();
+                //eMailAddss = UserID;// "TGZdrDUQDF6adwG76iWkEzb6pp9f3ytyLM";// context.Request["eMailAddss"].Trim();
+                //    ///
+                //    // parms.Add("amount", amount);
+                //    // parms.Add("currency", ReqCurrcy);
+                //    // parms.Add("currency2", "TRX");
+                //    // parms.Add("address", eMailAddss);
+                //    // parms.Add("ipn_url", "https://tronringmart.io/Ws3Ev5Wds45oKf/TRONConnect/CoinPayments-IPN-WithR.ashx");
+                //    // parms.Add("note", ds.Tables[0].Rows[0]["MemID"].ToString());
+                //    // parms.Add("auto_confirm", "1");
+                //    // //
+                //    // dynamic objValue;
+                //    // var ret = cp.CallAPI("create_withdrawal", parms);
+                //    // Dictionary<string, object> dict = new Dictionary<string, object>();
+
+                //    // ret.TryGetValue("result", out objValue);
+                //    // dict = objValue;
+                //    //// error = dict["error"].ToString();
+                //    //// result = dict["result"].ToString();
+                //    // BindResultUpdt(AutoWithNo, dict["id"].ToString(), dict["status"].ToString(), dict["amount"].ToString());
+
+                //    //if (getStatus != "")
+                //    //{
+                //    //    BindResultUpdt();
+                //    //}
+                //}
+                //catch (Exception ex)
+                //{
+                //    DB.WriteLog(this.ToString() + "\n" + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+                //    sc = false;
+                //    //msg = "<div class='alert alert-danger alert-bordered fade in' style='margin:5px;'>Sorry, Something is wrong please try later !<span class='close' data-dismiss='alert'>&times;</span></div>"; 
+                //    msg = "Sorry, Something is wrong please try later !";
+                //    RejectRequest(AutoWithNo);
+                //}
+                // }
+
+
+                /////////vvvv
+            }
+            else
+            {
+                sc = false;
+                //msg = "<div class='alert alert-danger alert-bordered fade in' style='margin:5px;'>" + ds.Tables[0].Rows[0]["Msg"].ToString() + "<span class='close' data-dismiss='alert'>&times;</span></div>";
+                msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+            }
+
+
+
+            //if (txtTopUpAmount != "" && txtSecPwd != "" && PaymentMd != "")
+            //{
+
+            //}
+            //else
+            //{
+            //    sc = false;
+            //    //msg = "<span style='color:#FF8A00;'>Please fill required fields !</span>";
+            //    msg = "Please fill required fields !";
+            //}
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            //msg = "<div class='alert alert-danger alert-bordered fade in' style='margin:5px;'>Sorry, Something is wrong please try later !<span class='close' data-dismiss='alert'>&times;</span></div>"; 
+            msg = "Sorry, Something is wrong please try later !";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+
+    private void RejectRequest(string AutoWithNo)
+    {
+        try   //Withdrawal_req_status
+        {
+
+
+            //  ds = objgdb.ByProcedure("[PROC_RESPONSE_WITHDRAWAL_REQ]", new string[] { "Req_ID", "memid", "transdt", "UplodeFile", "status", "TransId", "Type", "txtRemarkp", "inctype", "Mobile", "Benfcid" },
+            //    new string[] { wid.ToString(), UserID.ToString(), gettime.ToString(), "IMPS", getStatus.ToString(), gettxid.ToString(), "COMPLETE_AGAIN", getdesc.ToString(), "", getmobiUSD.ToString(), getbeneficiaryid.ToString() }, "");
+
+            ds = objgdb.ByProcedure("[PROC_RESPONSE_WITHDRAWAL_REQ_NEW]", new string[] { "Req_ID", "memid", "transdt", "UplodeFile", "status", "TransId", "Type", "txtRemarkp", "inctype" },
+               new string[] { AutoWithNo.ToString(), UserID.ToString(), "", "", "", "", "REJECT_REQUEST", "", "" }, "");
+
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                sc = false;
+                msg = ds.Tables[0].Rows[0]["MSG"].ToString();
+                // context.Response.Write("## Payout Sent Details ## PayoutID:" + PayoutIDs + ", Account-No: " + account_number + ", Status: " + PGStatus + ", Msg: " + PGMessage + ", Amount: " + amount);
+                //Console.WriteLine(string.Concat("Hi ", data.FirstName, " " + data.LastName)); 
+                ///{"status":2,"status_id":2,"utr":"","report_id":2124545,"orderid":"","message":"FAILURE"}
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            //msg = "<div class='alert alert-danger alert-bordered fade in' style='margin:5px;'>Sorry, Something is wrong please try later !<span class='close' data-dismiss='alert'>&times;</span></div>"; 
+            msg = "Sorry, Something is wrong please try later !";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+            context.Response.Cookies["Kdjlwl85soQwk84d"].Expires = DateTime.Now.AddDays(-1);
+        }
+    }
+
+    private void BindResultUpdt(string AutoWithNo, string TxnID, string Status, string currency2Amt)
+    {
+        try   //Withdrawal_req_status
+        {
+
+
+            //  ds = objgdb.ByProcedure("[PROC_RESPONSE_WITHDRAWAL_REQ]", new string[] { "Req_ID", "memid", "transdt", "UplodeFile", "status", "TransId", "Type", "txtRemarkp", "inctype", "Mobile", "Benfcid" },
+            //    new string[] { wid.ToString(), UserID.ToString(), gettime.ToString(), "IMPS", getStatus.ToString(), gettxid.ToString(), "COMPLETE_AGAIN", getdesc.ToString(), "", getmobiUSD.ToString(), getbeneficiaryid.ToString() }, "");
+
+            ds = objgdb.ByProcedure("[PROC_RESPONSE_WITHDRAWAL_REQ_NEW]", new string[] { "Req_ID", "memid", "transdt", "UplodeFile", "status", "TransId", "Type", "txtRemarkp", "inctype" },
+               new string[] { AutoWithNo.ToString(), UserID.ToString(), "", "", Status.ToString(), TxnID.ToString(), "COMPLETE_AGAIN", currency2Amt.ToString(), "" }, "");
+
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                sc = true;
+                msg = ds.Tables[0].Rows[0]["MSG"].ToString();
+                // context.Response.Write("## Payout Sent Details ## PayoutID:" + PayoutIDs + ", Account-No: " + account_number + ", Status: " + PGStatus + ", Msg: " + PGMessage + ", Amount: " + amount);
+                //Console.WriteLine(string.Concat("Hi ", data.FirstName, " " + data.LastName)); 
+                ///{"status":2,"status_id":2,"utr":"","report_id":2124545,"orderid":"","message":"FAILURE"}
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            //msg = "<div class='alert alert-danger alert-bordered fade in' style='margin:5px;'>Sorry, Something is wrong please try later !<span class='close' data-dismiss='alert'>&times;</span></div>"; 
+            msg = "Sorry, Something is wrong please try later !";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+            context.Response.Cookies["Kdjlwl85soQwk84d"].Expires = DateTime.Now.AddDays(-1);
+        }
+
+    }
+
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

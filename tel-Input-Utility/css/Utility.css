@@ -1,0 +1,37 @@
+﻿input[type="tel"] {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.validation-message {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+    .validation-message.valid {
+        color: green;
+    }
+
+    .validation-message.invalid {
+        color: red;
+    }
+
+.iti__search-container {
+    padding: 5px 10px;
+    background: white;
+    border-bottom: 1px solid #ccc;
+}
+
+.iti__search-input {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.iti__country.highlight {
+    background-color: #e6f7ff !important;
+}

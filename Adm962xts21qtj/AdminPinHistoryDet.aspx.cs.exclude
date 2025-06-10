@@ -1,0 +1,64 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class AdminPinHistoryDet : System.Web.UI.Page
+{
+    DataSet ds;
+    string UserID; Int32 Amt;
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (Request.QueryString["invoiceno"] != null)
+            {
+                try
+                {
+                    this.GetData();
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); Lblmsg.Text = "Your request could not be completed.";
+                }
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+
+    private void GetData()
+    {
+        invno.Text = Request.QueryString["invoiceno"].ToString().Trim();
+        ds = objDynamicDtls.ByProcedure("[Epin_GetPinDetail]", new string[] { "InvoiceNo" } , new string[] { Request.QueryString["invoiceno"].ToString().Trim() }, "BY DATASET");
+        if (ds.Tables[1].Rows.Count == 0) { Lblmsg.Text = "No Record Found!"; }
+        else
+        {
+            GridView1.DataSource = ds.Tables[1];
+            GridView1.DataBind();
+        }
+        if (ds.Tables[0].Rows.Count != 0) 
+        {
+            invdate.Text = ds.Tables[0].Rows[0]["invoicedate"].ToString();
+            noofpins.Text = ds.Tables[0].Rows[0]["noofpins"].ToString();
+           // Amt = Convert.ToInt32(drINVD["amount"].ToString());
+        }
+
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        GetData();
+    }
+}

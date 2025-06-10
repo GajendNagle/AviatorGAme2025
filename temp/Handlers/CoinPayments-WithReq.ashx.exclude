@@ -1,0 +1,146 @@
+﻿<%@ WebHandler Language="C#" Class="CoinPayments_WithReq" %>
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+public class CoinPayments_WithReq : IHttpHandler
+{
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds; DataTable dt;
+    public string ReqCurrcy = "", amount = "", eMailAddss = "", account_number = "", ifsc = "",
+        channel_id = "", client_id = "", provider_id = "", SKey = "", PayoutIDs = "", PGStatus = "", PGorderid = "", PGUTR = "", PGReportID = "", PGMessage = "";
+    public static int TotUser = 0;
+    public static string UserID = "";
+    public bool sc;
+    public string msg, Msgs, dtl, RtnRlt, strJson;
+    libCoinPaymentsNET.CoinPayments cp = new libCoinPaymentsNET.CoinPayments("CEef0d7221332626220f4a794D0c12266297529738affd5250058bECdAc526BD", "438ad700c98734843925277fe47937712a24e1ed4b99e500bfc8e778db872935");
+    public class test
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string detail { get; set; }
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString().Trim();
+            //https://github.com/CoinPaymentsNet/coinpayments-php/blob/master/src/CoinpaymentsAPI.php
+            //https://www.coinpayments.net/apidoc-balances
+            //https://github.com/mathis1337/Coinpayments-API/blob/master/coinpayments-api.cs
+            SortedList<string, string> parms = new SortedList<string, string>();
+            ///
+            amount = "10"; //context.Request["txtReqAmt"].Trim();
+            ReqCurrcy = "$";// context.Request["paymode"].Trim();
+            eMailAddss = "TGZdrDUQDF6adwG76iWkEzb6pp9f3ytyLM";// context.Request["eMailAddss"].Trim();
+            ///
+            parms.Add("amount", amount);
+            parms.Add("currency", ReqCurrcy);
+            parms.Add("currency2", "$");
+            parms.Add("address", eMailAddss);
+            parms.Add("ipn_url", "http://globaltrend.io/UrsrB8F9HcA/Handlers/CoinPayments-IPN-WithR.ashx");
+            parms.Add("note", UserID);
+            parms.Add("auto_confirm", "1");            
+            //
+            dynamic objValue;
+            var ret = cp.CallAPI("create_withdrawal", parms);
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            //
+//            {
+//   "error":"ok",
+//   "result":{
+//      "id":"hex string",
+//      "status":0,
+//      "amount":1.00, // The amount withdrawn
+//   }
+//}
+          //  ret.TryGetValue("error", "");
+            ret.TryGetValue("result", out objValue);            
+            dict = objValue;
+            //get_basic_info
+            //{"error":"ok","result":{"uername":"","username":"","merchant_id":"1552a87d07066d55b562d0b84d483168","email":"","public_name":"","time_joined":1481111704,"kyc_status":false,"swych_tos_accepted":false}}
+            //create_transaction
+            //{"error":"ok","result":{"amount":"0.00003000","txn_id":"CPEK70Y52XKFRWYZQWFZ8YAZW7","address":"39MgRyGm5NwTfSw1TfUGJXe2JCmzuRvLSN","confirms_needed":"2","timeout":28800,"checkout_url":"https:\/\/www.coinpayments.net\/index.php?cmd=checkout&id=CPEK70Y52XKFRWYZQWFZ8YAZW7&key=48ba3e1b925bb19a646427af1335b637","status_url":"https:\/\/www.coinpayments.net\/index.php?cmd=status&id=CPEK70Y52XKFRWYZQWFZ8YAZW7&key=48ba3e1b925bb19a646427af1335b637","qrcode_url":"https:\/\/www.coinpayments.net\/qrgen.php?id=CPEK70Y52XKFRWYZQWFZ8YAZW7&key=48ba3e1b925bb19a646427af1335b637"}}
+            // context.Response.Write(dict["checkout_url"]);
+           BindResultUpdt(dict["txn_id"].ToString(), dict["address"].ToString(), dict["checkout_url"].ToString(), dict["amount"].ToString());
+            handleRequest();
+            //        
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+        //mobile_number 8860181421 Employee/Vendor Mobile Number (Indian Mobile Number)
+    }
+    private void BindResultUpdt(string TxnID, string NewBTC, string checkout_url, string currency2Amt)
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("dbo.GetDepositAddress", new string[] { "NewBTC", "MemID", "AdsIndex", "XpubID", "ReqType", "Deptype", "PlnAmt", "SeqPwd" },
+                   new string[] { NewBTC.Trim(), UserID.Trim(), currency2Amt, TxnID, "Fund Request", ReqCurrcy, amount, "" }, "ByDataset");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                RtnRlt = ds.Tables[0].Rows[0]["Rlt"].ToString();
+            }
+            if (RtnRlt.ToString().Trim() == "IsOk")
+            {
+                sc = true;
+                msg = checkout_url;//ds.Tables[0].Rows[0]["RcvrAdd"].ToString();
+            }
+            else
+            {
+                sc = false;
+                msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            context.Response.Write(ex.Message);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

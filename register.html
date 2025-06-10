@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="Website-Logo/favicon.svg">
+    <title>Register</title>
+    <link href="Jap762Btp28lyf/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Jap762Btp28lyf/assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="Jap762Btp28lyf/css/sidebar.css" rel="stylesheet" />
+    <link href="Jap762Btp28lyf/css/new-style.css?v=1.3" rel="stylesheet">
+    <link href="Jap762Btp28lyf/css/loading.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="Jap762Btp28lyf/css/mobile-menu.css" rel="stylesheet" />
+    <link href="Jap762Btp28lyf/css/StyleSheet.css" rel="stylesheet" />
+    <link href="Login-css/loginpages.css" rel="stylesheet" />
+    <link href="Jap762Btp28lyf/css/NewStyleSheet.css" rel="stylesheet" />
+    <!--Fetch country by number-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
+    <link href="tel-Input-Utility/css/Utility.css" rel="stylesheet" />
+    <!--Fetch country by number-->
+    <style>
+        .form-control[readonly] {
+             background-color: rgba(0, 0, 0, 0.5) !important; 
+        }
+        .form-group1 {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically (if the container has a height) */
+            height: 100%; /* Ensure the parent has a height if you want vertical centering */
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg>
+    </div>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="main-content">
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="text-white fs-20" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a>
+                        <a href="#" class="logo flex flex-ai-c absolute-center">
+                            <img src="Website-Logo/logo-top.svg">
+                            <div class="new-bar"></div>
+                        </a>
+                    </div>
+                    <div class="main-wrapper page-margin">
+                        <div class="col-12">
+                            <div class="register-box">
+                                <div class="register-box-body">
+                                    <div class="head">
+                                        <i class="fa fa-mobile-alt headi"></i>
+                                        <h4 class="headh">Register</h4>
+                                        <p>Please Register by your e-Mail ID</p>
+                                        <hr class="headhr">
+                                    </div>
+                                    <form class="pt-1" id="loginform" action="#" onsubmit="return RegisterNow(),!1">
+                                        <div class="form-group has-feedback mb">
+                                            <input class="form-control rounded shadow-input" type="text" id="firstname_input" maxlength="50" required="" placeholder="Enter Full Name" autofocus="" autocomplete="off">
+                                            <i class="fa fa-user icons" aria-hidden="true"></i>
+                                            <span class="ion ion-person form-control-feedback"></span>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <input type="email" id="email_input" maxlength="50" required="" placeholder="Enter e-Mail" class="form-control rounded shadow-input" autocomplete="off">
+                                            <i class="fa-solid fa-envelope icons" aria-hidden="true"></i>
+                                            <span class="ion ion-email form-control-feedback"></span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group has-feedback">
+                                                    <input type="text" maxlength="10" id="phone1" placeholder="Mobile Number" class="form-control rounded shadow-input" autocomplete="off">
+                                                    <!--<i class="fa fa-mobile-alt icons" aria-hidden="true"></i>-->
+                                                </div>
+                                                <div id="message" class="validation-message"></div>
+                                            </div>
+                                            <div class="col-md-6 col-12 pl-md-0">
+                                                <div class="form-group has-feedback">
+                                                    <input class="form-control rounded shadow-input" placeholder="Country" type="text" id="Country_input" readonly autocomplete="off" autofocus="" required="">
+                                                    <i class="fa fa-globe icons"></i>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group has-feedback">
+                                                    <input class="form-control rounded shadow-input" type="password" id="password_input" maxlength="15" required="" placeholder="Login-Password" autocomplete="off">
+                                                    <i class="fa fa-eye-slash icons toggle-password" aria-hidden="true"></i>
+                                                    <span class="ion ion-key form-control-feedback"></span>
+                                                    <p id="spname" class="d-none"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12 pl-md-0">
+                                                <div class="form-group has-feedback">
+                                                    <input class="form-control rounded shadow-input" type="password" id="txtsecurityPWD" maxlength="15" required="" placeholder="Transaction Password" autocomplete="off" onkeypress="return isNumberKey(event)">
+                                                    <i class="fa fa-eye-slash icons toggle-password" aria-hidden="true"></i>
+                                                    <span class="ion ion-locked form-control-feedback"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group has-feedback" style="margin-bottom:1rem">
+                                                    <input type="text" class="form-control rounded shadow-input" id="txtSponserID" value="" maxlength="15" required="" placeholder="Sponsor-ID" onchange="getspName()" autocomplete="off">
+                                                    <i class="fa-solid fa-user-group icons" aria-hidden="true"></i>
+                                                    <span class="ion ion-person form-control-feedback"></span>
+                                                    <p id="SpName"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="checkbox">
+                                                    <input name="check" id="checkbox-signup" type="checkbox" class="form-check-input ml-1">
+                                                    <label for="basic_checkbox_1" class="ml-3" style="font-size:13px">I have read and agree<a href="Jap762Btp28lyf/confidentiality-Agreement.html"><span class="pa-color" style="font-size:12px">【Privacy Agreement】</span></a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-group1">
+                                            <div id="captcha_container" class="captchstyle"></div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <div id="Msgs"></div>
+                                        </div>
+                                        <div class="col-12 text-center form-group">
+                                            <button id="submit-Signup" type="submit" class="btn-block mt-2 btnss-theme btns-theme">Register<i class="fa-solid fa-user-plus ml-2"></i></button>
+                                        </div>
+                                        <div class="text-align-center btn-links">
+                                            <div>
+                                                <a href="login.html" class="btn-links-a">Login<i class="fa-solid fa-right-to-bracket ml-2"></i></a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="Jap762Btp28lyf/inbox.html"><img src="Jap762Btp28lyf/img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+            <div class="card card-preview mb-0">
+                <div class="card-inner inner-tabs bg-light-gray"></div>
+            </div>
+        </div>
+    </div>
+    <input id="CCode" type="hidden" />
+    <input type="hidden" id="countryCode" name="countryCode" />
+    <input id="Nubr" type="hidden" name="Phone-Number" />
+    <script src="Jap762Btp28lyf/assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Jap762Btp28lyf/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Jap762Btp28lyf/Handler_js/Register-Now.js?v=2.7" type="text/javascript"></script>
+    <script src="Jap762Btp28lyf/js/preloader.js"></script>
+    <script src="Jap762Btp28lyf/assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var emid = GetParameterValues('invitation-code');
+            if (emid != null) {
+                if (emid != '') {
+                    $("#txtSponserID").val(emid);
+                    $("#txtSponserID").attr('readonly', 'readonly');
+                    getspName();
+                }
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+        function getspName() {
+            var uid = $('#txtSponserID').val();
+            $('#SpName').html('');
+            $.getJSON("Jap762Btp28lyf/Handlers/getRefeMail.ashx?em=" + uid,
+                function (tjson) {
+                    if (tjson.length == 0) {
+                    }
+                    else {
+                        for (var i = 0; i < tjson.length; i++) {
+                            $('#SpName').html("" + tjson[i].MName);
+                        }
+                    }
+                }
+            );
+        }
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode == 46 && evt.srcElement.value.split('.').length > 1) {
+                return false;
+            }
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </script>
+    <script type="text/javascript">
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye-slash fa-eye");
+            input = $(this).parent().find("input");
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+    <script src="//www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=loadCaptcha&render=explicit" async defer></script>
+    <!--Fetch country by number-->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+    <script src="tel-Input-Utility/js/telinput-utility.js"></script>
+    <!--Fetch country by number-->
+</body>
+</html>

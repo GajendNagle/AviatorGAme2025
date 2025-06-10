@@ -1,0 +1,94 @@
+﻿.Dash-ft-box-men {
+    /*padding: 15px 16px 5px;*/
+}
+
+.searchbx {
+    background: #efefed;
+    padding: 15px 15px 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.partcss {
+    height: auto;
+    color: #fff;
+    margin: 0.5rem 1.5rem 1rem 1.5rem;
+    width: 2px;
+    border: 2px solid #fff;
+}
+.div1 {
+    height: auto;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    vertical-align: middle;
+    font-family: 'Poppins', sans-serif;
+    color: Black;
+    padding-bottom:100px;
+    padding-top: 5px;
+    padding-left: 5px;
+    margin-bottom:12px;
+    padding-right: 5px;
+    background-position: right center;
+    background-color: #cc99ff;
+}
+.div11 {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 0px auto;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    vertical-align: middle;
+    color: White;
+    margin-top: 53px;
+}
+.registrationh {
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+}
+.fsizedynamic {
+    font-size: 40px;
+    color: black
+}
+.fsize {
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+}
+.div12 {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 0px auto;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    vertical-align: middle;
+    color: White;
+}
+.div12row1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.div12row11 {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media screen and (max-width:767px) {
+    .form-control {
+        width: 100%;
+    }
+    .div12row1 {
+        flex-direction: column;
+    }
+    .partcss{
+        display:none;
+    }
+    .div1 {
+        padding-bottom: 35px;
+    }
+}

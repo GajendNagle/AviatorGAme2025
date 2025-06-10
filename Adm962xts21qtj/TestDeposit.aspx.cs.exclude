@@ -1,0 +1,120 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Adm962xts21qtj_TestDeposit : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    SqlDataAdapter da;
+    DataSet ds;
+    SqlCommand cmd;
+    SearchReports objSearchReports = new SearchReports();
+    string ReqID;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+
+            if (!IsPostBack) ;
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "BALANCE AMOUNT >=" || ddlStatus.SelectedItem.Text.Trim().ToUpper() == "BALANCE AMOUNT <=")
+        {
+            if (txtAmt.Text == "")
+            {
+                txtAmt.Text = "0";
+            }
+        }
+        try
+        {
+            GridView1.DataSource = objSearchReports.CreateViewRequest(ddlStatus.Text, ddlBank.Text, txtAmt.Text, FromDate.Text, ToDate.Text);
+            GridView1.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblmsg.Text = "Your request could not be completed.";
+        }
+
+    }
+    public string getStatus()
+    {
+
+        if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "COMPLETED")
+        {
+            return "0";
+        }
+        else
+        {
+            return "1";
+        }
+    }
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            GridViewExportUtil.Export("Search Report.xls", this.GridView1, "2");
+        }
+        catch { }
+    }
+
+    protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        if (ddlStatus.SelectedItem.Text.Trim().ToUpper() == "BALANCE AMOUNT")
+        {
+            if (txtAmt.Text == "")
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Please insert Amount')", true);
+            }
+        }
+    }
+    protected void txtAmt_TextChanged(object sender, EventArgs e)
+    {
+
+
+    }
+
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+    protected void btnexporttoexport_Click(object sender, ImageClickEventArgs e)
+    {
+
+        Response.ClearContent();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Report.xls"));
+        Response.ContentType = "application/ms-excel";
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter htw = new HtmlTextWriter(sw);
+        GridView1.AllowPaging = false;
+
+        btnSearch_Click(sender, e);
+
+        GridView1.RenderControl(htw);
+        Response.Write(sw.ToString());
+        Response.End();
+    }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        
+    }
+}

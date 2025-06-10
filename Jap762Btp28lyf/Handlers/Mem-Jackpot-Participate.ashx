@@ -1,0 +1,285 @@
+﻿<%@ WebHandler Language="C#" Class="Mem_Jackpot_Participate" %>
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Mem_Jackpot_Participate : IHttpHandler
+{
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public string plyType = "";
+    public static string msg, Msgs, dtl, RtnRlt, strJson, TrxPass = "", UserID = "", JackpotNo = "", PartcAmt = "", Tradingtype = "",
+            Type = "", GameType = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+
+    public class test
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string detail { get; set; }
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            if (context.Request["txtjackptno"] != null)
+            {
+                UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+                //////
+                JackpotNo = context.Request["txtjackptno"].Trim();
+                PartcAmt = context.Request["txtplayAmt"].Trim();
+                //TrxPass = context.Request["txttxnpass"].Trim();
+                Type = context.Request["Type"].Trim();
+                Tradingtype = context.Request["Tradingtype"].Trim();
+                GameType = context.Request["gametype"].Trim();
+
+                if (context.Request.QueryString["Plytyp"] != null)
+                {
+                    plyType = context.Request.QueryString["Plytyp"].ToString();
+
+                    if (plyType == "Parity1min")
+                    {
+                        SaveJackpotParticipate();
+                    }
+                    if (plyType == "Parity3min")
+                    {
+                        SaveParityParticipate3min();
+                    }
+                    if (plyType == "Parity5min")
+                    {
+                        SaveParityParticipate5min();
+                    }
+                    if (plyType == "Parity10min")
+                    {
+                        SaveParityParticipate10min();
+                    }
+                }
+            }
+            else
+            {
+                sc = false;
+                msg = "Something went wrong, please try after sometime.";
+            }
+            handleRequest();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../../login.html','_top');</script>");
+        }
+    }
+
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+
+    public void SaveJackpotParticipate()
+    {
+        try
+        {
+            if (Type != "" && PartcAmt != "" && plyType!="")
+            {
+
+                ds = objgdb.ByProcedure("[parityPlayers_1minSP]", new string[] { "flag", "Type", "JackpotNo", "Date", "MemID", "JackpotPlayAmt", "Status", "Trxpass", "TradingType" }
+                            , new string[] { "0", Type.ToString().Trim(), JackpotNo, "", UserID, PartcAmt.Trim(), plyType, "", Tradingtype.Trim() }, "das");
+
+                if (ds.Tables[0].Rows[0]["Rlt"].ToString() == "IsOk")
+                {
+                    sc = true;
+                    //msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+                else
+                {
+                    sc = false;
+                    //msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+            }
+            else
+            {
+                sc = false;
+                //msg = "<span style='color:#FF8A00;'>Please fill required fields !</span>";
+                msg = "Please fill required fields !";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = "<span style='color:#FF8A00;'>" + ex.Message + "</span>";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    /////// 
+    public void SaveParityParticipate3min()
+    {
+        try
+        {
+            if (Type != "" && PartcAmt != "")
+            {
+
+                ds = objgdb.ByProcedure("[parityPlayers_3minSP]", new string[] { "flag", "Type", "JackpotNo", "Date", "MemID", "JackpotPlayAmt", "Status", "Trxpass", "TradingType" }
+                            , new string[] { "0", Type.ToString().Trim(), JackpotNo, "", UserID, PartcAmt.Trim(), GameType, "", Tradingtype.Trim() }, "das");
+
+                if (ds.Tables[0].Rows[0]["Rlt"].ToString() == "IsOk")
+                {
+                    sc = true;
+                    //msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+                else
+                {
+                    sc = false;
+                    //msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+            }
+            else
+            {
+                sc = false;
+                //msg = "<span style='color:#FF8A00;'>Please fill required fields !</span>";
+                msg = "Please fill required fields !";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = "<span style='color:#FF8A00;'>" + ex.Message + "</span>";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public void SaveParityParticipate5min()
+    {
+        try
+        {
+            if (Type != "" && PartcAmt != "")
+            {
+
+                ds = objgdb.ByProcedure("[parityPlayers_5minSP]", new string[] { "flag", "Type", "JackpotNo", "Date", "MemID", "JackpotPlayAmt", "Status", "Trxpass", "TradingType" }
+                            , new string[] { "0", Type.ToString().Trim(), JackpotNo, "", UserID, PartcAmt.Trim(), GameType, "", Tradingtype.Trim() }, "das");
+
+                if (ds.Tables[0].Rows[0]["Rlt"].ToString() == "IsOk")
+                {
+                    sc = true;
+                    //msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+                else
+                {
+                    sc = false;
+                    //msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+            }
+            else
+            {
+                sc = false;
+                //msg = "<span style='color:#FF8A00;'>Please fill required fields !</span>";
+                msg = "Please fill required fields !";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = "<span style='color:#FF8A00;'>" + ex.Message + "</span>";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public void SaveParityParticipate10min()
+    {
+        try
+        {
+            if (Type != "" && PartcAmt != "")
+            {
+
+                ds = objgdb.ByProcedure("[parityPlayers_10minSP]", new string[] { "flag", "Type", "JackpotNo", "Date", "MemID", "JackpotPlayAmt", "Status", "Trxpass", "TradingType" }
+                            , new string[] { "0", Type.ToString().Trim(), JackpotNo, "", UserID, PartcAmt.Trim(), GameType, "", Tradingtype.Trim() }, "das");
+
+                if (ds.Tables[0].Rows[0]["Rlt"].ToString() == "IsOk")
+                {
+                    sc = true;
+                    //msg = "<span style='color:#2E962E;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+                else
+                {
+                    sc = false;
+                    //msg = "<span style='color:#FF8A00;'> " + ds.Tables[0].Rows[0]["Msg"].ToString() + "</span>";
+                    msg = ds.Tables[0].Rows[0]["Msg"].ToString();
+                }
+            }
+            else
+            {
+                sc = false;
+                //msg = "<span style='color:#FF8A00;'>Please fill required fields !</span>";
+                msg = "Please fill required fields !";
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = "<span style='color:#FF8A00;'>" + ex.Message + "</span>";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    //////
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

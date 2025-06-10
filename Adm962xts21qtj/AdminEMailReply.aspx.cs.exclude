@@ -1,0 +1,213 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+public partial class Admin_AdminEMailReply : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    DataSet ds;
+    string UserID;
+    ArrayList MsgID = new ArrayList();
+    SqlDataAdapter da; SqlCommand cmd;
+    EmailboxCS ObjEmailbox = new EmailboxCS();
+    public string SentFriendCount = "0";
+    string ErrorMsg, SqlUnreadMsg, SndToUserType, SqlUnreadSentMsg, SqlUnreadTrashMsg;
+    DB objdb = new DB();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            UserID = DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value);
+            txtFromUser.Text = "ADMIN";
+            lblTo.Text = Request.QueryString["To"].ToString();
+
+            if (!IsPostBack)
+            {
+
+                if (Request.QueryString["FromUser"] != "")
+                {
+                    txtToUser.Text = Request.QueryString["FromUser"].ToString();
+                    txtComSub.Text = Request.QueryString["Subject"].ToString();
+                    GetMsgfill();
+                }
+                else
+                {
+
+                }
+            }
+            Page.Title = txtComSub.Text;
+
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    public void GetTrashValue()
+    {
+
+        try
+        {
+            ds = new DataSet();
+
+            ds = ObjEmailbox.ADminTRASHMsgDetails(UserID);
+
+
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                objdb.ByText("UPDATE Gladulas_UserEMailInbox SET DltByFromUser='Trash' where MsgID='" + ds.Tables[0].Rows[i]["MsgID"].ToString() + "'");
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; 
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+    }
+    protected void lnkTrash_Click(object sender, EventArgs e)
+    {
+        GetTrashValue();
+    }
+    protected void lnkbtnInbox_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminEMailInbox.aspx");
+    }
+
+
+    public void GetMsgfill()
+    {
+        try
+        {
+            ds = new DataSet();
+            ds = ObjEmailbox.ADminInboxRdUnrdMsg(UserID);
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                lnkbtnInbox.Text = "<span class='links1Selected'>Inbox (" + dr["TotMsg"].ToString() + ", " + dr["TotUnreadMsg"].ToString() + " UnRead)</span>";
+            }
+            ds.Dispose();
+
+
+
+            ds = new DataSet();
+            ds = ObjEmailbox.ADminTOTSENTMsg(UserID);
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                lnkbtnSentbox.Text = "<span  >Sent (" + dr["TotMsg"].ToString() + ")</span>";
+
+            }
+
+            ds.Dispose();
+
+
+
+
+            ds = new DataSet();
+            ds = ObjEmailbox.ADminTOTTRASHMsg(UserID);
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                lnkbtnTrash.Text = "<span  >Trash (" + dr["TotMsg"].ToString() + ")</span>";
+
+            }
+            ds.Dispose();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; 
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+    }
+
+    protected void lnkbtnSentbox_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminEMailSentInbox.aspx");
+    }
+    protected void lnkbtnTrash_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminEmailTrash.aspx");
+    }
+
+
+    protected void lnkbtnSendMail_Click(object sender, EventArgs e)
+    {
+        SendEmailMsg();
+    }
+    protected void lnkbtnCancelMail_Click(object sender, EventArgs e)
+    {
+        if (lblTo.Text == UserID)
+        {
+            Response.Redirect("AdminEMailInbox.aspx");
+        }
+        else
+        {
+            Response.Redirect("AdminEMailSentInbox.aspx");
+        }
+    }
+    protected void lnkbtnSaveMail_Click(object sender, EventArgs e)
+    {
+
+    }
+    //private void GetSendMsgType()
+    //{
+    //    foreach (ListItem li in rblToUser.Items)
+    //    {
+    //        if (li.Selected == true)
+    //        {
+    //            SndToUserType = li.Text;
+
+    //        }
+    //    }
+    //    lblType.Text = SndToUserType;
+
+    //}
+    private void SendEmailMsg()
+    {
+        //this.GetSendMsgType();
+        //if (SndToUserType.Trim() != "")
+        //{
+        lblMsg.Text = "";
+        try
+        {
+            cmd = new SqlCommand("dbo.Gladulas_InsertEmailMsg", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FromUser", txtFromUser.Text.Trim().ToUpper());
+            cmd.Parameters.AddWithValue("@ToUser", txtToUser.Text.Trim().ToUpper());
+            cmd.Parameters.AddWithValue("@MsgSubject", txtComSub.Text.Trim().ToUpper());
+            cmd.Parameters.AddWithValue("@MsgText", Editor.Text.Trim());
+            cmd.Parameters.AddWithValue("@MsgSendType", lblType.Text.Trim());
+            da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds);
+            lblMsg.Text = "## Your Message Has Been Sent Successfully...";
+            txtToUser.Text = "";
+            Editor.Text = "";
+            txtComSub.Text = "";
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            da.Dispose();
+            ds.Dispose();
+            cmd.Dispose();
+            GetMsgfill();
+        }
+
+        //}
+    }
+}

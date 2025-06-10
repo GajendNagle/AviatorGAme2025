@@ -1,0 +1,302 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+
+
+public partial class Adm962xts21qtj_Admin_Account_Summary : System.Web.UI.Page
+{
+    DataSet ds; string searchText;
+    public int Pagesize;
+    public int PageNo;
+    //  public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+    DynamicDtls objgdb = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Pagesize = Convert.ToInt32(ddlGrpageSz.SelectedValue.Trim());
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            //UserID = DB.base64Decod(Request.Cookies["s7dxrpta6o"].Value);
+            if (!IsPostBack)
+            {
+                //ddlJumpToPage.Items.Clear();
+                //int TotalRows = this.BindResult(1);
+                //this.populateList(TotalRows);
+
+                fill_DateType();
+                //DDLDtType.ClearSelection();  
+                fill_ColumnFilter();
+                ddl_IncType.ClearSelection();
+                if (Request.QueryString["Flag"] != null)
+                {
+                    try
+                    {
+                        ddl_IncType.Items.FindByText(Request.QueryString["Flag"].ToString()).Selected = true;
+                    }
+                    catch { }
+                }
+                //fill_SelectOne();
+                ddlJumpToPage.Items.Clear();
+                int TotalRows = this.BindResult(1);
+                this.populateList(TotalRows);
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    public void fill_ColumnFilter()
+    {
+        try
+        {
+            //ddl_IncType.DataSource = METHOD("", "", "", "", "", "REQTYPE", "", "");
+            //ddl_IncType.DataTextField = "ReqType";
+            //ddl_IncType.DataValueField = "ReqType";
+            //ddl_IncType.DataBind();
+            //ddl_IncType.Items.Insert(0, "ALL");
+            ddl_IncType.DataSource = METHOD("", "", "", "", "", "", "SELECT_ONE", "", "");
+            ddl_IncType.DataTextField = "SELECT_ONE_TXT";
+            ddl_IncType.DataValueField = "SELECT_ONE_VALUE";
+            ddl_IncType.DataBind();
+        }
+        catch
+        { }
+    }
+    public void fill_DateType()
+    {
+        try
+        {
+            ddldttTyp.DataSource = METHOD("", "", "", "", "", "", "DTTYPE", "", "");
+            ddldttTyp.DataTextField = "DateType";
+            ddldttTyp.DataValueField = "DateType";
+            ddldttTyp.DataBind();
+            ddldttTyp.Items.Insert(0, "ALL");
+            //DDLDtType.DataSource = METHOD("","", "", "", "", "", "DTTYPE", "", "");
+            ////DDLDtType.DataTextField = "DateType";
+            ////DDLDtType.DataValueField = "DateType";
+            //DDLDtType.DataBind();
+            //DDLDtType.Items.Insert(0, "ALL");
+
+
+            // ddldttTyp.DataSource = METHOD("", "", "", "", "", "", "DTTYPE", "", "");
+            //ddldttTyp.DataTextField = "DateType";
+            ////ddldttTyp.DataValueField = "DateType";
+            //ddldttTyp.DataBind();
+            //ddldttTyp.Items.Insert(0, "ALL");
+            //DDLDtType.DataSource = METHOD("","", "", "", "", "", "DTTYPE", "", "");
+            ////DDLDtType.DataTextField = "DateType";
+            ////DDLDtType.DataValueField = "DateType";
+            //DDLDtType.DataBind();
+            //DDLDtType.Items.Insert(0, "ALL");
+
+
+        }
+        catch
+        { }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+        }
+    }
+    protected void ColumnFilterChanged(object sender, EventArgs e)
+    {
+        DDLDownPos.Items.Clear();
+        txtSearch.Text = "";
+        if (ddl_IncType.SelectedValue == "ALL")
+        {
+            DDLDownPos.Visible = false;
+            txtSearch.Visible = false;
+        }
+        else if (ddl_IncType.SelectedValue == "Status" || ddl_IncType.SelectedValue == "ReqType")
+        {
+
+            DDLDownPos.DataSource = METHOD("", "", "", "", "", "", ddl_IncType.SelectedValue.ToString().ToUpper(), "", "");
+            DDLDownPos.DataTextField = "TYP";
+            DDLDownPos.DataValueField = "TYP";
+            DDLDownPos.DataBind();
+            DDLDownPos.Visible = true;
+            txtSearch.Visible = false;
+        }
+        else
+        {
+            txtSearch.Visible = true;
+            DDLDownPos.Visible = false;
+        }
+        //else if (ddl_IncType.SelectedValue == ""  
+    }
+    public DataSet METHOD(string DTTYPE, string FRM_DT, string TO_DT, string INCTYPE, string COLUMN, string VALUE, string FLAG, string PG_SIZE, string CURRENT_PG)
+    {
+        try
+        {
+            int TotalRecords = 0;
+            ds = new DataSet();
+            ds = objgdb.ByProcedure("Pro_AccountSummary_Rpt_Stake", new string[] { "DTTYPE", "FRM_DT", "TO_DT", "INCTYPE", "COLUMN", "VALUE", "FLAG", "PG_SIZE", "CURRENT_PG" }, 
+                 new string[] { DTTYPE, FRM_DT, TO_DT, INCTYPE, COLUMN, VALUE, FLAG, PG_SIZE, CURRENT_PG }, "ByDataset");
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = new DB().EmptyMessage("Sorry, Something is wrong please try later !"); }
+        finally
+        {
+            ds.Dispose();
+        }
+        return ds;
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = Convert.ToString(TotalRows);
+        PageNo = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1);
+        for (int i = 1; i <= PageNo; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        CountingShow();
+    }
+    private int BindResult(int currentPage)
+    {
+        int TotalRows = 0;
+        try
+        {
+            if (DDLDownPos.Visible == false && txtSearch.Visible == false)
+            {
+                searchText = "";
+            }
+            else if (DDLDownPos.Visible == false)
+            {
+                searchText = txtSearch.Text;
+            }
+            else if (txtSearch.Visible == false)
+            {
+                searchText = DDLDownPos.SelectedValue;
+            }
+            //ds = new DataSet();
+            //ds = METHOD("", "", "", "", "", "GETTOTAL", "", "");
+            //lblTotalSum.Text = "TOTAL CREDIT : " + ds.Tables[0].Rows[0]["TOTCREDIT"].ToString() + " ,           TOTAL DEBIT : " + ds.Tables[0].Rows[0]["TOTDEBIT"].ToString() + "   ,     BALANCE :" + ds.Tables[0].Rows[0]["BALANCE"].ToString();
+            //ds.Dispose();
+            ds = new DataSet();
+            ds = METHOD(ddldttTyp.SelectedValue, txtFromDate.Text, txtToDate.Text, "ALL", ddl_IncType.SelectedValue, searchText.ToString(), "ReportData", Pagesize.ToString(), currentPage.ToString());
+            TotalRows = Convert.ToInt32(ds.Tables[1].Rows[0]["TOTALRECORD"]);
+            if (TotalRows == 0)
+            {
+                lblMsg.Visible = true;
+                gvinvoiceno.Visible = false;
+                lblMsg.Text = new DB().EmptyMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+            }
+            else
+            {
+                lblMsg.Visible = false;
+                lblMsg.Text = "";
+                gvinvoiceno.Visible = true;
+                gvinvoiceno.DataSource = ds.Tables[0];
+                gvinvoiceno.DataBind();
+            }
+            return TotalRows;
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !"; }
+        return TotalRows;
+    }
+    public void CountingShow()
+    {
+        if (ddlJumpToPage.SelectedItem.Text == "1")
+        {
+            PageNo = 1;
+            //Pagesize
+            lblRecordNo.Text = PageNo.ToString() + " - " + Pagesize.ToString() + " of "; ;
+        }
+        else
+        {
+            //PageNo = 1 + int.Parse(ddlJumpToPage.SelectedItem.Text);
+            PageNo = int.Parse(ddlJumpToPage.SelectedItem.Text);
+            //Pagesize = (Pagesize * int.Parse(ddlJumpToPage.SelectedItem.Text)); @PG_SIZE*(@CURRENT_PG-1)
+            lblRecordNo.Text = ((Pagesize * (PageNo - 1)) + 1) + " - " + (Pagesize * PageNo) + " of ";
+        }
+        if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) == 0)
+        {
+            lblRecordNo.Text = "";
+        }
+        if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) > 0)
+        {
+            if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) < (Pagesize * PageNo))
+            {
+                lblRecordNo.Text = ((Pagesize * (PageNo - 1)) + 1) + " - " + Convert.ToInt32(lblTotRec.Text.ToString().Trim()) + " of ";
+            }
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+    }
+    protected void PageChangedPz(object sender, EventArgs e)
+    {
+        Pagesize = Convert.ToInt32(ddlGrpageSz.SelectedValue.Trim());
+        this.BindResult(1);
+        CountingShow();
+    }
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        Response.ClearContent();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Account-Summary.xls"));
+        Response.ContentType = "application/ms-excel";
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter htw = new HtmlTextWriter(sw);
+        gvinvoiceno.AllowPaging = false;
+
+        ddlJumpToPage.Items.Clear();
+        int TotalRows = this.BindResult(1);
+        this.populateList(TotalRows);
+
+        //Change the Header Row back to white color
+        gvinvoiceno.HeaderRow.Style.Add("background-color", "#FFFFFF");
+        //Applying stlye to gridview header cells
+        for (int i = 0; i < gvinvoiceno.HeaderRow.Cells.Count; i++)
+        {
+            gvinvoiceno.HeaderRow.Cells[i].Style.Add("background-color", "#df5015");
+        }
+        gvinvoiceno.RenderControl(htw);
+        Response.Write(sw.ToString());
+        Response.End();
+    }
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+    protected void chkHeader_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkbox = (CheckBox)gvinvoiceno.HeaderRow.FindControl("chkHeader");
+
+        foreach (GridViewRow dr in gvinvoiceno.Rows)
+        {
+            CheckBox chkselect = (CheckBox)dr.FindControl("chkSelect");
+            if (chkbox.Checked == true)
+            {
+                chkselect.Checked = true; idChangeSts.Visible = true;
+            }
+            else
+            {
+                chkselect.Checked = false; idChangeSts.Visible = false;
+
+            }
+        }
+    }
+}

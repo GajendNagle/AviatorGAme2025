@@ -1,0 +1,82 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EditCreditRequest.aspx.cs" Inherits="Admin_EditCreditRequest" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Edit Credit Request !!</title>
+    <link href="../UserPanel_css/MyRegisCss.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        function redirectPage(Msg) {
+            alert(Msg);
+            parent.window.opener.location.reload(false);
+            window.self.close();
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="MtblCntRegBdr" style="width: 80%">
+            <table cellpadding="0" cellspacing="0"  class="MtblCntReg" style="width: 100%">
+                <tr>
+                    <td class="hdrtblReg" colspan="3">
+                        <span class="span">
+                            <center>Cash Credit Request</center>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lblr">USER ID :</td>
+                    <td align="left" colspan="2">
+                        <asp:TextBox ID="txtUserID" runat="server" Enabled="False"></asp:TextBox>
+                        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lblr">Request Amount :</td>
+                    <td align="left" colspan="2">
+                        <asp:TextBox ID="txtReqAmt" runat="server" MaxLength="10" ReadOnly="True"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtReqAmt" ErrorMessage="Please enter Request Amount." InitialValue="0">*</asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtReqAmt" ErrorMessage="Invalid Amount." ValidationExpression="[0-9]+">*</asp:RegularExpressionValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lblr">Amount :</td>
+                    <td align="left" colspan="2">
+                        <asp:TextBox ID="txtAmount" runat="server" MaxLength="10"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtAmount" ErrorMessage="Please enter amount.">*</asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtAmount" ErrorMessage="Invalid Amount." ValidationExpression="[0-9]+">*</asp:RegularExpressionValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lblr">Status :</td>
+                    <td align="left" colspan="2" style="padding-left: 10px;">
+                        <asp:DropDownList ID="ddlStatus" runat="server">
+                            <asp:ListItem>PENDING</asp:ListItem>
+                            <asp:ListItem>REJECTED</asp:ListItem>
+                            <asp:ListItem>COMPLETED</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lblr">Remark :</td>
+                    <td align="left" colspan="2">
+                        <asp:TextBox ID="txtRemark" runat="server" TextMode="MultiLine"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="left" colspan="2">
+                        <asp:Button ID="imgbtnSubmit" runat="server" OnClick="imgbtnSubmit_Click" CssClass="Btn" Text="Submit" />&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="3" style="height: 32px;">
+                        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
+                        <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

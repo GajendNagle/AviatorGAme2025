@@ -1,0 +1,85 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Adm962xts21qtj_ShowPayoutWithdrawal : System.Web.UI.Page
+{
+    DataSet ds;
+    DynamicDtls objDynamicDtls = new DynamicDtls();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!IsPostBack)
+            {
+                HoldDailyReq();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+    public void HoldDailyReq()
+    {
+        try
+        {
+            ds = objDynamicDtls.ByProcedure("ProcAutoOtherWithdrwal", "Bydataset");
+            GridView1.DataSource = ds.Tables[0];
+            GridView1.DataBind();
+            if (ds.Tables[1].Rows[0]["PayOutSts"].ToString() == "Ok")
+            {
+                btnGenerate.Visible = true;
+            }
+            else
+            {
+                btnGenerate.Visible = false;
+                lblMsg.Text = objDynamicDtls.ErrorMsg(ds.Tables[1].Rows[0]["Remark"].ToString());
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+
+        }
+    }
+    protected void btnGenerate_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string SaveSts = "No";
+            foreach (GridViewRow gv in GridView1.Rows)
+            {
+                CheckBox chkSelect = (CheckBox)gv.FindControl("chkSelect");
+                Label lblMemid = (Label)gv.FindControl("lblMemid");
+                if (chkSelect.Checked == true)
+                {
+                    SaveSts = "Ok";
+                    objDynamicDtls.ByProcedure("Hlp_ProcAutoWithOtherIncome", new string[] { "Memid"}, new string[] { lblMemid.Text } , "Bydataset");
+                }
+            }
+            if (SaveSts == "Ok")
+            {
+                lblMsg.Text = objDynamicDtls.UpdateMessage("Withdrawal has been generated.");
+                ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "<script type='text/javascript'>redirectPage(); </script>");
+                HoldDailyReq();
+            }
+            else
+            {
+                lblMsg.Text = objDynamicDtls.ErrorMsg("Please checked at leaset one check box.");
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+
+        }
+    }
+}

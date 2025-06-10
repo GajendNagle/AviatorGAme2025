@@ -1,0 +1,266 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Adm962xts21qtj_CreateUsers : System.Web.UI.Page
+{
+    DataSet ds;
+    SqlConnection cn;
+    SqlCommand cmd;
+    SqlDataAdapter adp;
+    DynamicDtls obJGlaDB = new DynamicDtls();
+    DB objgdb = new DB();
+    string str = "";
+    int M = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!Page.IsPostBack)
+            {
+
+                clear();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+    public void clear()
+    {
+        txtAddress.Text = "";
+        TxtContact.Text = "";
+        txtLoginID.Text = "";
+        txtpassword.Text = "";
+        txtuserName.Text = "";
+        Bind();
+    }
+    public void Bind()
+    {
+        try
+        {
+            ds = obJGlaDB.ByProcedure("ProcLoginMasterInsert", new string[] { "MemId", "LoginId", "Password", "Role", "Name", "ContactNo", "Address", "Status", "Type" }
+                , new string[] { txtMemId.Text.Trim(), txtLoginID.Text, txtpassword.Text.Trim(), ddlRole.SelectedValue, txtuserName.Text, TxtContact.Text.Trim(),  txtAddress.Text.Trim(), "", "2" }, "Bydataset");
+       
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                GVContent.DataSource = ds.Tables[0];
+                GVContent.DataBind();
+            }
+            else
+            {
+                GVContent.DataSource = string.Empty;
+                GVContent.DataBind();
+
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+        }
+        finally
+        {
+            ds.Dispose();
+            adp.Dispose();
+            cmd.Dispose();
+        }
+    }
+    public void fillRole()
+    {
+        try
+        {
+            str = objgdb.getconnection();
+            cn = new SqlConnection(str);
+            cmd = new SqlCommand("[ProcMasterSelection]", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Type", "2");
+            ds = new DataSet();
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                ddlRole.DataSource = ds.Tables[0];
+                ddlRole.DataTextField = "RoleName";
+                ddlRole.DataValueField = "RoleId";
+                ddlRole.DataBind();
+                ddlRole.Items.Insert(0, "--Select--");
+            }
+            else
+            {
+                ddlRole.DataSource = string.Empty;
+                ddlRole.DataBind();
+                ddlRole.Items.Insert(0, "--Select--");
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+        }
+        finally
+        {
+            ds.Dispose();
+            cmd.Dispose();
+            adp.Dispose();
+
+        }
+
+    }
+    protected void BtnSave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ds = obJGlaDB.ByProcedure("ProcLoginMasterInsert", new string[] { "MemId", "LoginId", "Password", "Role", "Name", "ContactNo", "Address", "Status", "Type" }
+                , new string[] { txtMemId.Text.Trim(), "AdSp$" + txtLoginID.Text, txtpassword.Text.Trim(), ddlRole.SelectedValue, txtuserName.Text, TxtContact.Text.Trim(), txtAddress.Text.Trim(), "Alive", "5" }, "Bydataset");
+            if (ds.Tables[0].Rows[0]["CheckAlert"].ToString() == "Exist")
+            {
+               lblMsg.Text=obJGlaDB.ErrorMsg("Login Id Already Exist. Please Enter Another One.");
+            }
+            else
+            {
+                lblMsg.Text=objgdb.UpdateMessage("Record Saved Successfully.");
+                clear();
+                fillRole();
+
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            ds.Dispose();
+            cmd.Dispose();
+            adp.Dispose();
+        }
+    }
+    protected void ddlRole_Init(object sender, EventArgs e)
+    {
+        fillRole();
+    }
+    protected void GVContent_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GVContent.EditIndex = -1;
+        Bind();
+    }
+    protected void GVContent_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GVContent.DataKeys[e.RowIndex].Value);
+            TextBox Password = (TextBox)GVContent.Rows[e.RowIndex].Cells[0].FindControl("txtPasword");
+            TextBox Name = (TextBox)GVContent.Rows[e.RowIndex].Cells[0].FindControl("txtName1");
+            TextBox txtMemId = (TextBox)GVContent.Rows[e.RowIndex].Cells[0].FindControl("txtMemId");
+            TextBox Contact = (TextBox)GVContent.Rows[e.RowIndex].Cells[0].FindControl("txtContact1");
+            TextBox Address = (TextBox)GVContent.Rows[e.RowIndex].Cells[0].FindControl("txtAddress");
+            DropDownList ddlRole1 = (DropDownList)GVContent.Rows[e.RowIndex].Cells[0].FindControl("ddlRollName1");
+            DropDownList ddlstatus1 = (DropDownList)GVContent.Rows[e.RowIndex].Cells[0].FindControl("ddlStatus");
+            str = objgdb.getconnection();
+            cn = new SqlConnection(str);
+            adp = new SqlDataAdapter();
+
+             ds =obJGlaDB.ByProcedure("ProcLoginMasterInsert", new string[] { "MemId", "LoginId", "Password", "Role", "Name", "ContactNo", "Address", "Status", "Type" }
+             , new string[] { txtMemId.Text.Trim(), id.ToString(), Password.Text.Trim(), ddlRole1.SelectedValue, Name.Text.Trim(), Contact.Text.Trim(), Address.Text.Trim(), ddlstatus1.SelectedItem.Text, "3" },"Dataset");
+            
+             lblMsg.Text=new DB().UpdateMessage("Record Updated Successfully.");
+             GVContent.EditIndex = -1;
+             clear();
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            ds.Dispose();
+            cmd.Dispose();
+            adp.Dispose();
+        }
+    }
+    protected void GVContent_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GVContent.EditIndex = e.NewEditIndex;
+        Bind();
+    }
+    protected void GVContent_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GVContent.DataKeys[e.RowIndex].Value);
+            ds = obJGlaDB.ByProcedure("ProcLoginMasterInsert", new string[] { "MemId", "LoginId", "Password", "Role", "Name", "ContactNo", "Address", "Status", "Type" }
+            , new string[] { "", id.ToString(), "", "", "", "", "", "Dead", "4" }, "Bydataset");
+            lblMsg.Text = new DB().UpdateMessage("Record Deleted successfully.");
+            GVContent.EditIndex = -1;
+            clear();
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+        finally
+        {
+            ds.Dispose();
+            cmd.Dispose();
+            adp.Dispose();
+        }
+    }
+    protected void GVContent_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+                try
+                {
+                    DropDownList ddlRoleMaster = (DropDownList)e.Row.FindControl("ddlRollName1");
+                    DropDownList ddlstatus = (DropDownList)e.Row.FindControl("ddlStatus");
+                    Label lblRole = (Label)e.Row.FindControl("lblRole");
+                    Label lblStatus = (Label)e.Row.FindControl("lblStatus");
+                    str = objgdb.getconnection();
+                    cn = new SqlConnection(str);
+                    cmd = new SqlCommand("[ProcMasterSelection]", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Type", "2");
+                    ds = new DataSet();
+                    adp = new SqlDataAdapter(cmd);
+                    adp.Fill(ds);
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ddlRoleMaster.ClearSelection();
+                        ddlRoleMaster.DataSource = ds.Tables[0];
+                        ddlRoleMaster.DataTextField = "RoleName";
+                        ddlRoleMaster.DataValueField = "RoleId";
+                        ddlRoleMaster.DataBind();
+                        ddlRoleMaster.Items.FindByValue(lblRole.Text).Selected = true;
+                        ddlstatus.Items.FindByText(lblStatus.Text).Selected = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+                    lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+                }
+                finally
+                {
+                    ds.Dispose();
+                    cmd.Dispose();
+                    adp.Dispose();
+                }
+
+            }
+        }
+    }
+}

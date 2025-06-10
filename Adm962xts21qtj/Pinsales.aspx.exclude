@@ -1,0 +1,196 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="Pinsales.aspx.cs" Inherits="Admin_Pinsales" Title="Pin Sales" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellspacing="0">
+        <tr>
+            <td align="right" class="Header_Top1">
+             <div style="float:left;padding:5px;margin-left:100px"><asp:Label ID="Label1" runat="server" Font-Bold="True" Font-Size="13px" ForeColor="Red"
+                                                        Width="435px"></asp:Label></div>
+                <%--<samp class="Header_Top">
+                    E-Pin Sales<img src="../UserPanel_Images/nav-arrow-down1.png" width="20" height="16" /></samp>--%></td>
+        </tr>
+        <tr>
+            <td class="ScrollBar" align="center">
+                <table cellpadding="0" cellspacing="0" style="width: 696px;" align="center" id="TABLE1"
+                    onclick="return TABLE1_onclick()">
+                    <tr>
+                        <td align="center" valign="top" style="height: 500px">
+                            &nbsp;<table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 639px">
+                                <tr>
+                                    <td align="right" style="width: 186px" valign="middle">
+                                        <strong style="font-weight: bold; font-size: 13px">Invoice No. : &nbsp;</strong></td>
+                                    <td align="left" style="width: 235px; height: 25px" valign="middle">
+                                        <asp:TextBox ID="txtinvoiceno" runat="server" CssClass="ComposeTxtBx" MaxLength="6"
+                                            ReadOnly="True" Width="225px" Font-Names="verdana" Font-Size="11px" BorderStyle="None"
+                                            BackColor="#F7F7F7" Height="30px"></asp:TextBox>
+                                    </td>
+                                    <td align="left" style="font-weight: normal; font-size: 11px; width: 100px; color: #ff3333;
+                                        font-family: verdana" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 186px; height: 24px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 24px" valign="middle">
+                                    </td>
+                                    <td align="left" style="font-weight: normal; font-size: 11px; width: 100px; color: #ff3333;
+                                        font-family: 'Poppins', sans-serif; height: 24px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px; height: 32px;font-size:13px" valign="middle">
+                                        <strong>Enter User ID(Only)<span style="color: #ff0000;font-size:13px">*</span> : </strong>
+                                        &nbsp;</td>
+                                    <td align="left" style="width: 235px; height: 32px" valign="middle">
+                                        <strong><span style="font-size: 9pt"> </span></strong>
+                                        <asp:TextBox ID="txtMemID" runat="server" CssClass="ComposeTxtBx" Width="225px" Font-Names="verdana"
+                                            Font-Size="11px" Height="30px" OnTextChanged="txtMemID_TextChanged" AutoPostBack="True" MaxLength="15"></asp:TextBox><br/><asp:Label ID="lblNameFill" runat="server" Font-Bold="false" Font-Names="Verdana"
+                                                    Font-Size="13px" ForeColor="Green"></asp:Label>
+                                    </td>
+                                    <td align="left" style="width: 100px; height: 32px" valign="middle">
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMemID"
+                                            ErrorMessage="Please Enter UserID" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 186px; height: 14px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 14px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 100px; height: 14px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px" valign="middle">
+                                        </td>
+                                    <td align="left" style="width: 235px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 100px" valign="middle">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px; height: 22px;Font-Size:13px;" valign="middle">
+                                        <strong>E-Pin Type</strong><strong><span style="color: #ff0000">*</span> :&nbsp; </strong>
+                                    </td>
+                                    <td align="left" class="datalevel" style="width: 235px; height: 22px" valign="middle">
+                                        <asp:DropDownList ID="ddpaid" runat="server" CssClass="ComposeTxtBx" Font-Names="verdana"
+                                            Font-Size="13px" Width="226px" AutoPostBack="True" OnSelectedIndexChanged="ddpaid_SelectedIndexChanged"
+                                            Height="30px" >
+                                        </asp:DropDownList></td>
+                                    <td align="left" style="width: 100px; height: 22px" valign="middle">
+                                    </td>
+                                    <td style="height: 22px">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height: 20px">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px" valign="middle">
+                                        <strong style="font-size: 13px">Plan<span style="color: #ff0000">*</span> :&nbsp; </strong></td>
+                                    <td align="left" style="width: 235px; height: 31px" valign="middle">
+                                        <asp:DropDownList ID="DDLPACKAGE" runat="server" CssClass="ComposeTxtBx" Font-Names="verdana"
+                                            Font-Size="13px" Width="226px" Height="30px" AutoPostBack="True" OnSelectedIndexChanged="DDLPACKAGE_SelectedIndexChanged">
+                                            <asp:ListItem Value="--Select Plan--">--Select Plan--</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td align="left" style="width: 100px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px; height: 24px;" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 24px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 100px; height: 24px;" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px" valign="middle">
+                                        <strong><span style="font-size: 13px">No. Of Pins<span style="color: #ff0000">*</span>
+                                            :&nbsp; </span></strong>
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 31px" valign="middle">
+                                        <asp:TextBox ID="txtPins" runat="server" CssClass="ComposeTxtBx" Width="225px" Font-Names="verdana"
+                                            Font-Size="11px" Height="30px" AutoPostBack="True" OnTextChanged="txtPins_TextChanged" MaxLength="3"></asp:TextBox>
+                                    </td>
+                                    <td align="left" style="width: 100px" valign="middle">
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtPins"
+                                            ErrorMessage="Please Enter No. Of Pins" SetFocusOnError="True">*</asp:RequiredFieldValidator><asp:CompareValidator
+                                                ID="CompareValidator2" runat="server" ControlToValidate="txtPins" ErrorMessage="Please Enter Correct Pin No."
+                                                Operator="GreaterThan" Type="Integer" ValueToCompare="0">*</asp:CompareValidator></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px; height: 12px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 12px" valign="middle">
+                                        <br />
+                                    </td>
+                                    <td align="left" style="width: 100px; height: 12px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px" valign="middle">
+                                        <strong style="font-size: 13px">Amount :</strong>&nbsp;</td>
+                                    <td align="left" colspan="2" valign="middle" style="height: 30px">
+                                        &nbsp;<asp:Label ID="lblamount" runat="server" Width="80px" Font-Bold="True"></asp:Label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height: 20px">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="width: 186px" valign="middle">
+                                        <strong style="font-size: 13px">Remark<span style="color: #ff0000">*</span> :&nbsp; </strong></td>
+                                    <td align="left" style="width: 235px" valign="middle">
+                                        <asp:TextBox ID="txtremark" runat="server" CssClass="ComposeTxtBx" Height="60px"
+                                            MaxLength="100" TextMode="MultiLine" Width="222px"></asp:TextBox>
+                                    </td>
+                                    <td align="left" style="width: 100px" valign="middle">
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtremark"
+                                            ErrorMessage="Please Enter Remark" SetFocusOnError="True">*</asp:RequiredFieldValidator></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 186px; height: 33px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 33px" valign="middle">
+                                        <asp:Button ID="btnGeneratePins" runat="server" CssClass="Btn" OnClick="btnGeneratePins_Click"
+                                            Text=" GENERATE E PINS" Width="155px" UseSubmitBehavior="False" Font-Bold="True" /></td>
+                                    <td align="left" style="width: 100px; height: 33px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 186px; height: 13px" valign="middle">
+                                    </td>
+                                    <td align="left" style="width: 235px; height: 13px" valign="middle">
+                                        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True"
+                                            ShowSummary="False" Width="276px" />
+                                    </td>
+                                    <td align="left" style="width: 100px; height: 13px" valign="middle">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="3" style="height: 13px" valign="middle">
+                                        </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>

@@ -1,0 +1,171 @@
+<%@ WebHandler Language="C#" Class="Get_Chat_Message" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using System.Web.SessionState;
+
+public class Get_Chat_Message : IHttpHandler {
+
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc;
+    public static string msg, Msgs, dtl, RtnRlt, strJson, UserID = "", OrderId = "";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            //////////
+            if (context.Request.QueryString["orderId"].ToString() != null)
+            {
+                OrderId = context.Request.QueryString["orderId"].ToString();
+            }
+            else
+            {
+                OrderId = "";
+            }
+            if (OrderId == "MAB98270699")
+            {
+                GiveHelpOrder();
+                handleRequest();
+            }
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('login.html','_top');</script>");
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("dbo.tkt_ProcMessageOnRequest", new string[] { "AdsId", "Username", "Comment", "Imagepath", "SenderType", "type" },
+                new string[] { "", UserID, "UTDls", "", "", "200" }, "ByDataset");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    StringBuilder jsonBuilder = new StringBuilder("");
+                    //jsonBuilder.Append("<ul class='chats'>");
+                    jsonBuilder.Append("<div class='d-flex flex-row comment-row'>");
+                    
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i]["Frm"].ToString() == "Support Team")
+                        {
+                            
+                            jsonBuilder.Append("<div class='p-2'><span class='round'><img src='../assets/images/users/1.jpg' alt='Support' width='50'></span></div>");    
+                            jsonBuilder.Append("<div class='comment-text w-100'>");
+                            jsonBuilder.Append("<h5>Support Team</h5>");
+                            
+                            
+                                 
+                            //jsonBuilder.Append("<li class='left'>");
+                            //jsonBuilder.Append("<a href='#' class='image'><img alt='' src='../website-logo/Logo_Icon.png' /></a>");
+                            //jsonBuilder.Append("<div class='message'>");
+                            //jsonBuilder.Append("<a href='#' class='name'>Support Team</a>");
+                        }
+                        else
+                        {
+
+                            jsonBuilder.Append("<div class='p-2'><span class='round'><img src='../" + dt.Rows[i]["MemPic"].ToString() + "' alt='User' width='50'></span></div>");
+                            jsonBuilder.Append("<div class='comment-text w-100'>");
+                            jsonBuilder.Append("<h5>Me</h5>");
+                            
+                            //jsonBuilder.Append("<li class='right'>");
+                            //jsonBuilder.Append("<a href='#' class='image'><img alt='' src='" + dt.Rows[i]["MemPic"].ToString() + "' /></a>");
+                            //jsonBuilder.Append("<div class='message'>");
+                            //jsonBuilder.Append("<a href='#' class='name'>Me</a>");
+                        }
+
+
+                        jsonBuilder.Append("<p class='m-b-5'>" + dt.Rows[i]["Comment"].ToString() + "</p>");
+                        jsonBuilder.Append("<div class='comment-footer'> <span class='text-muted'>" + dt.Rows[i]["PostDate"].ToString() + "</span>");
+                        jsonBuilder.Append("</div>");
+                        
+                        
+                             
+                        //jsonBuilder.Append(dt.Rows[i]["Comment"].ToString());
+                        //jsonBuilder.Append("<span class='date-time'>" + dt.Rows[i]["PostDate"].ToString() + "</span>");
+                        //jsonBuilder.Append("</div>");
+                        //jsonBuilder.Append("</li>");
+                    }
+
+                    jsonBuilder.Append("</div>");    
+                    //jsonBuilder.Append("</ul>");
+                    msg = jsonBuilder.ToString();
+                    sc = true;
+                }
+
+            }
+            else
+            {
+                msg = "Let's chat with " + DynamicDtls.WebSite2 + " Support Team !";
+                sc = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            //DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            msg = "Let's chat with " + DynamicDtls.WebSite2 + " Support Team !";
+            sc = false;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

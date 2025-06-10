@@ -1,0 +1,124 @@
+﻿<%@ WebHandler Language="C#" Class="LiveTokenrate" %>
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Net.Mail;
+using System.Configuration;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Net;
+using System.IO;
+using System.Text;
+using System.Web.Script.Serialization;
+
+public class LiveTokenrate : IHttpHandler {
+
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; DataTable dt;
+    public string PostURL = "";
+    public static int TotUser = 0;
+    public static string UserID = "";
+    public bool sc;
+    public string msg, msg1, Msgs, dtl, RtnRlt, strJson, Status = "", address = "", Cur = "";
+
+    public class test
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string Message1 { get; set; }
+        public string detail { get; set; }
+        public string aid { get; set; }
+
+        public test(bool sc, string msg, string dtl, string msg1)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+            Message1 = msg1;
+        }
+    }
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, msg1, dtl));
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        GiveHelpOrder();
+        handleRequest();
+
+
+        
+
+    }
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            
+            PostURL = "https://www.dextools.io/shared/data/pair?address=0x27da5867bc40002717f4c3dcceaf80c9d9f8fcbf&chain=bsc";
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            dynamic item = serializer.Deserialize<object>(new Block_Chain().Tokenrate(PostURL));
+
+            
+            decimal CurTrxRt = 0;
+            for (int i = 0; i < item["data"].Length; i++)
+            {
+                CurTrxRt = item["data"][i]["price"];
+            }
+            try
+            {
+                ds = objgdb.ByProcedure("[BTC_UpdateCurr_Rate_New]", new string[] {"SKey", "CurRtTrx"},
+                    new string[] { "Succes24!7H1p",CurTrxRt.ToString() }, "");
+            }
+            catch (Exception ex)
+            {
+                DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            }
+            finally
+            {
+                if (ds != null) { ds.Dispose(); }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            sc = false;
+            msg = "Sorry, Something is wrong please try later !";
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}

@@ -1,0 +1,229 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" StylesheetTheme="MySkin" CodeFile="UserSearch.aspx.cs" Inherits="Admin_UserSearch" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellspacing="0">
+        <tr>
+            <td class="ScrollBar">
+                <div style="width: 100%; height: 100%; scrollbar-base-color: #ffeaff;">
+                    <table border="0" cellpadding="0" cellspacing="0" height="36" width="100%;">
+                        <tr>
+                            <td align="center" valign="top" style="width: 100%;">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                    <tr>
+                                        <td align="left" style="width: 100%; background-color: White;" valign="top">
+                                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                <tr>
+                                                    <td align="center" style="width: 100%;" valign="top">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                            <tr>
+                                                                <td align="center" style="width: 89px; height: 21px;" valign="middle">From Date</td>
+                                                                <td align="left" style="width: 12px; height: 21px;" valign="middle"></td>
+                                                                <td align="center" style="width: 68px; height: 21px;" valign="middle">To Date</td>
+                                                                <td align="left" style="width: 6px; height: 21px;" valign="middle"></td>
+                                                                <td align="center" style="width: 102px; height: 21px;" valign="middle">&nbsp;Select One</td>
+                                                                <td align="left" style="width: 71px; height: 21px;" valign="middle"></td>
+                                                                <td align="left" style="width: 24px; height: 21px;" valign="middle"></td>
+                                                                <td align="center" style="width: 100px; height: 21px;" valign="middle"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <asp:DropDownList ID="DDLSrchByDjGt" runat="server" Font-Names="Verdana" Visible="false" Font-Size="11px" Width="84px" CssClass="ComposeTxtBx">
+                                                                    <asp:ListItem>All</asp:ListItem>
+                                                                    <asp:ListItem>Doj</asp:ListItem>
+                                                                    <asp:ListItem>GreenDate</asp:ListItem>
+                                                                    <asp:ListItem>Dob</asp:ListItem>
+                                                                </asp:DropDownList>
+                                                                <td align="center" style="width: 89px; height: 21px;" valign="middle">
+                                                                    <asp:TextBox ID="txtFromDate" runat="server" CssClass="form-control" Font-Names="Verdana" Font-Size="11px" Width="87px" MaxLength="12"></asp:TextBox>
+                                                                </td>
+                                                                <td align="left" style="width: 12px; height: 21px;" valign="middle">
+                                                                    <asp:Image ID="Image2" runat="server" ImageUrl="~/UserItems/Img/cal.png" />
+                                                                </td>
+                                                                <td align="center" style="width: 68px; height: 21px;" valign="middle">
+                                                                    <asp:TextBox ID="txtToDate" runat="server" CssClass="form-control" Font-Names="Verdana" Font-Size="11px" Width="87px" MaxLength="12"></asp:TextBox>
+                                                                </td>
+                                                                <td align="left" style="width: 6px; height: 21px;" valign="middle">
+                                                                    <asp:Image ID="Image3" runat="server" ImageUrl="~/UserItems/Img/cal.png" />
+                                                                </td>
+                                                                <td align="center" style="width: 102px; height: 21px;" valign="middle">
+                                                                    <asp:DropDownList ID="DDLDownPos" runat="server" Font-Names="Verdana" Font-Size="11px" Width="112px" AutoPostBack="True" OnSelectedIndexChanged="DDLDownPos_SelectedIndexChanged" CssClass="ComposeTxtBx">
+                                                                        <asp:ListItem>All</asp:ListItem>
+                                                                        <asp:ListItem Value="MName">Name</asp:ListItem>
+                                                                        <asp:ListItem Value="MemID">UserName</asp:ListItem>
+                                                                        <asp:ListItem Value="BLOCKROI">ROI Blocked</asp:ListItem>
+                                                                        <asp:ListItem>City</asp:ListItem>
+                                                                        <asp:ListItem>State</asp:ListItem>
+                                                                        <asp:ListItem>Mobile</asp:ListItem>
+                                                                        <asp:ListItem>AccNo</asp:ListItem>
+                                                                        <asp:ListItem Value="PAN">PAN</asp:ListItem>
+                                                                        <asp:ListItem>Status</asp:ListItem>
+                                                                        <asp:ListItem>IFSC</asp:ListItem>
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                                <td align="left" style="width: 71px; height: 21px;" valign="middle">
+                                                                    <asp:TextBox ID="txtSearch" runat="server" Font-Names="Verdana" Font-Size="11px" Text="" Width="87px" MaxLength="30" CssClass="form-control"></asp:TextBox>
+                                                                    <asp:DropDownList ID="DDLFillItems" runat="server" Font-Names="Verdana" Font-Size="11px" Visible="False" Width="91px" CssClass="ComposeTxtBx"></asp:DropDownList>
+                                                                </td>
+                                                                <td align="left" style="width: 24px; height: 21px;" valign="middle">
+                                                                    <asp:Button ID="btnSearch" runat="server" CssClass="OuterBtn" Font-Names="Verdana" Font-Size="10px" OnClick="btnSearch_Click" Text="GO" />
+                                                                </td>
+                                                                <td align="center" style="width: 100px; height: 21px;" valign="middle">
+                                                                    <div style="text-align: center; float: left;">
+                                                                        <%=PageNo%>
+                                                                        -
+                                                                        <%=Pagesize %>
+                                                                        of &nbsp;
+                                                                        <asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="11px"></asp:Label>
+                                                                        <asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx"></asp:DropDownList>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <asp:Label ID="lblMsg" runat="server" Font-Bold="True" Font-Names="Verdana" Font-Size="13px" ForeColor="Black" Width="568px"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" class="BoardStructure" style="width: 100%;" valign="top"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 100%;" valign="top" class="BoardStructure">
+                                            <div id="divPrint">
+                                                <asp:GridView ID="grdUserDtl" runat="server" PagerSettings-Visible="false" PageSize="100" ShowFooter="True" Width="100%" OnSelectedIndexChanging="grdUserDtl_SelectedIndexChanging" DataKeyNames="UserName">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="AMOUNT">
+                                                            <ItemTemplate>
+                                                                <a href='DebitCreditAmt.aspx?UserId=<%# Eval("UserName") %>' onclick="NewWindow(this.href,'MList','535','280','yes','center');return false" onfocus="this.blur()">DEBIT/CREDIT</a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <%--<asp:TemplateField HeaderText="Income">
+                                                            <ItemTemplate>
+                                                                <a href='AdminRefferalIncome.aspx?MemID=<%# Eval("UserName") %>' onclick="NewWindow(this.href,'MList','800','500','yes','center');return false"
+                                                                    onfocus="this.blur()">Referral</a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                        <%--<asp:TemplateField HeaderText="Income">
+                                                            <ItemTemplate>
+                                                                <a href='AdminIncome.aspx?UserId=<%# Eval("UserName") %>' onclick="NewWindow(this.href,'MList','800','500','yes','center');return false"
+                                                                    onfocus="this.blur()">Reports</a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                        <%--<asp:TemplateField HeaderText="Income">
+                                                            <ItemTemplate>
+                                                                <a href='AdminRoyaltyIncome.aspx?MemID=<%# Eval("UserName") %>' onclick="NewWindow(this.href,'MList','800','500','yes','center');return false"
+                                                                    onfocus="this.blur()">ROYALTY</a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                        <%--<asp:TemplateField HeaderText="Invoice">
+                                                            <ItemTemplate>
+                                                                <a href='AdminInvoice.aspx?UserID=<%# Eval("UserName") %>' onclick="NewWindow(this.href,'MList','900','500','yes','center');return false"
+                                                                    onfocus="this.blur()">Print</a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                        <%--<asp:TemplateField HeaderText="Welcome">
+                                                            <ItemTemplate>
+                                                                <a href='../WelcomeLetter.aspx?MemID=<%# Eval("UserName") %>' onclick="NewWindow(this.href,'MList','800','500','yes','center');return false"
+                                                                    onfocus="this.blur()">Letter</a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Package">
+                                                            <ItemTemplate>
+                                                                <a href='../InvestmentDetail.aspx?Memid=<%#  new EncryDecry().base64Encode(DataBinder.Eval(Container.DataItem, "UserName").ToString())%>' onclick="NewWindow(this.href,'MList','750','350','yes','center');return false" onfocus="this.blur()">Detail </a>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                        <asp:TemplateField HeaderText="SNO.">
+                                                            <ItemTemplate>
+                                                                <%#Container.DataItemIndex+1%>
+                                                                .
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <EmptyDataTemplate>
+                                                        <span style="font: Bold 13px verdana; color: Red">---!!! Ooops, Search Record Details Not Found !!!---</span>
+                                                    </EmptyDataTemplate>
+                                                    <PagerSettings Visible="False" />
+                                                    <RowStyle Height="20px" HorizontalAlign="Center" />
+                                                    <HeaderStyle Height="20px" HorizontalAlign="Center" />
+                                                </asp:GridView>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="Image2" TargetControlID="txtFromDate"></ajaxToolkit:CalendarExtender>
+    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="Image3" TargetControlID="txtToDate"></ajaxToolkit:CalendarExtender>--%>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid)
+        {
+             var prtContent = document.getElementById(strid);
+             var WinPrint = window.open('','','letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+             WinPrint.document.write(prtContent.innerHTML);
+             WinPrint.document.close();
+             WinPrint.focus();
+             WinPrint.print();
+             WinPrint.close();
+             prtContent.innerHTML=strOldOne;
+        }
+        $( function() {
+            $("#<%=txtFromDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+        $( function() {
+            $("#<%=txtToDate.ClientID%>").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy'
+                    //showOn: 'button',
+                    //buttonImageOnly: true,
+                    //buttonImage: '../UserPanel_Icon/calender.png'
+                }
+            );
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+	        //When you click on a link with class of poplight and the href starts with a # 
+	        $('a.poplight[href^=#]').click(function() {
+		        var popID = $(this).attr('rel'); //Get Popup Name
+		        var popURL = $(this).attr('href'); //Get Popup href to define size
+		        //Pull Query &amp; Variables from href URL
+		        var query= popURL.split('?');
+		        var dim= query[1].split('&amp;');
+		        var popWidth = dim[0].split('=')[1]; //Gets the first query string value
+		        //Fade in the Popup and add close button
+		        $('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"><img src="../UserPanel_Images/x.png" class="btn_close" title="Close Window" alt="Close" border="0"/></a>');
+		        //Define margin for center alignment (vertical + horizontal) - we add 80 to the height/width to accomodate for the padding + border width defined in the css
+		        var popMargTop = ($('#' + popID).height() + 80) / 2;
+		        var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		        //Apply Margin to Popup
+		        $('#' + popID).css({ 
+			        'margin-top' : -popMargTop,
+			        'margin-left' : -popMargLeft
+		        });
+		        //Fade in Background
+		        $('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
+		        $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer 
+		        return false;
+	        });
+	        //Close Popups and Fade Layer
+	        $('a.close, #fade').live('click', function() { //When clicking on the close or fade layer...
+	  	        $('#fade , .popup_block').fadeOut(function() {
+			        $('#fade, a.close').remove();  
+	        }); //fade them both out
+		        return false;
+	        });
+        });
+    </script>
+</asp:Content>

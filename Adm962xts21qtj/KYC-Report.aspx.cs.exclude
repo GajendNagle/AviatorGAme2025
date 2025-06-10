@@ -1,0 +1,320 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+using System.Net.Mail;
+
+public partial class Adm962xts21qtj_KYC_Report : System.Web.UI.Page
+{
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds; string searchText;
+    public int PageNo;
+    public bool sc;
+    public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            fill_SelectOne();
+            if (Request.QueryString["Flag"] != null)
+            {
+                try
+                {
+                    //ddl_IncType.Items.FindByText(Request.QueryString["Flag"].ToString()).Selected = true;
+                }
+                catch { }
+            }
+
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+    }
+    public DataSet METHOD(string FRM_DT, string TO_DT, string COLUMN, string VALUE, string FLAG, string PG_SIZE, string CURRENT_PG)
+    {
+        try
+        {
+            int TotalRecords = 0;
+            ds = new DataSet();
+            ds = objgdb.ByProcedure("KYC_REPORT", new string[] { "FRM_DT", "TO_DT", "COLUMN", "VALUE", "FLAG", "PG_SIZE", "CURRENT_PG" }, new string[] { FRM_DT, TO_DT, COLUMN, VALUE, FLAG, PG_SIZE, CURRENT_PG }, "ByDataset");
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = new DB().EmptyMessage("Sorry, Something is wrong please try later !"); }
+        finally
+        {
+            ds.Dispose();
+        }
+        return ds;
+    }
+
+    public void fill_SelectOne()
+    {
+        try
+        {
+            DDLSrchByDjGt.DataSource = METHOD("", "", "", "", "SELECT_ONE", "", "");
+            DDLSrchByDjGt.DataTextField = "SELECT_ONE_TXT";
+            DDLSrchByDjGt.DataValueField = "SELECT_ONE_VALUE";
+            DDLSrchByDjGt.DataBind();
+        }
+        catch
+        { }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+        }
+    }
+    protected void DDLSrchByDjGt_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLSrchByDjGt.SelectedValue == "ALL")
+        {
+            DDLDownPos.Visible = false;
+            txtSearch.Visible = false;
+        }
+        else if (DDLSrchByDjGt.SelectedValue == "AddType" || DDLSrchByDjGt.SelectedValue == "Status")
+        {
+            DDLDownPos.DataSource = METHOD("", "", "", "", DDLSrchByDjGt.SelectedValue.ToString().ToUpper(), "", "");
+            DDLDownPos.DataTextField = "TYP";
+            DDLDownPos.DataValueField = "TYP";
+            DDLDownPos.DataBind();
+            DDLDownPos.Visible = true;
+            txtSearch.Visible = false;
+        }
+        else
+        {
+            DDLDownPos.Visible = false;
+            txtSearch.Visible = true;
+        }
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = Convert.ToString(TotalRows);
+        PageNo = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1);
+        for (int i = 1; i <= PageNo; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        CountingShow();
+    }
+    private int BindResult(int currentPage)
+    {
+        int TotalRows = 0;
+        try
+        {
+            if (DDLDownPos.Visible == false && txtSearch.Visible == false)
+            {
+                searchText = "";
+            }
+            else if (DDLDownPos.Visible == false)
+            {
+                searchText = txtSearch.Text;
+            }
+            else if (txtSearch.Visible == false)
+            {
+                searchText = DDLDownPos.SelectedValue;
+            }
+
+            ds = new DataSet();
+            ds = METHOD(txtFromDate.Text, txtToDate.Text, DDLSrchByDjGt.SelectedValue, searchText.ToString(), "ReportData", (ConfigurationManager.AppSettings["gridPageSize"]).ToString(), currentPage.ToString());
+            TotalRows = Convert.ToInt32(ds.Tables[1].Rows[0]["TOTALRECORD"]);
+            if (TotalRows == 0)
+            {
+                lblMsg.Visible = true;
+                gvinvoiceno.Visible = false;
+                lblMsg.Text = new DB().EmptyMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+            }
+            else
+            {
+                lblMsg.Visible = false;
+                lblMsg.Text = "";
+                gvinvoiceno.Visible = true;
+                gvinvoiceno.DataSource = ds.Tables[0];
+                gvinvoiceno.DataBind();
+            }
+            return TotalRows;
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !"; }
+        finally { ds.Dispose(); }
+        return TotalRows;
+    }
+    public void CountingShow()
+    {
+        if (ddlJumpToPage.SelectedItem.Text == "1")
+        {
+            PageNo = 1;
+            lblRecordNo.Text = PageNo.ToString() + " - " + Pagesize.ToString() + " of "; ;
+        }
+        else
+        {
+
+            PageNo = int.Parse(ddlJumpToPage.SelectedItem.Text);
+            lblRecordNo.Text = ((Pagesize * (PageNo - 1)) + 1) + " - " + (Pagesize * PageNo) + " of ";
+        }
+        if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) == 0)
+        {
+            lblRecordNo.Text = "";
+        }
+        if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) > 0)
+        {
+            if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) < (Pagesize * PageNo))
+            {
+                lblRecordNo.Text = ((Pagesize * (PageNo - 1)) + 1) + " - " + Convert.ToInt32(lblTotRec.Text.ToString().Trim()) + " of ";
+            }
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+    }
+    protected void gvinvoiceno_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        Response.ClearContent();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Report.xls"));
+        Response.ContentType = "application/ms-excel";
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter htw = new HtmlTextWriter(sw);
+        gvinvoiceno.AllowPaging = false;
+
+        ddlJumpToPage.Items.Clear();
+        int TotalRows = this.BindResult(1);
+        this.populateList(TotalRows);
+
+        //Change the Header Row back to white color
+        gvinvoiceno.HeaderRow.Style.Add("background-color", "#FFFFFF");
+        //Applying stlye to gridview header cells
+        for (int i = 0; i < gvinvoiceno.HeaderRow.Cells.Count; i++)
+        {
+            gvinvoiceno.HeaderRow.Cells[i].Style.Add("background-color", "#df5015");
+        }
+        gvinvoiceno.RenderControl(htw);
+        Response.Write(sw.ToString());
+        Response.End();
+    }
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+    protected void gvinvoiceno_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        gvinvoiceno.EditIndex = -1;
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+
+    }
+    protected void gvinvoiceno_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        gvinvoiceno.EditIndex = e.NewEditIndex;
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+
+    }
+    protected void gvinvoiceno_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow && gvinvoiceno.EditIndex == e.Row.RowIndex)
+        {
+            DropDownList ddlst = (DropDownList)e.Row.FindControl("ddlstats");
+            Label lblst = (Label)e.Row.FindControl("lblstat");
+            ddlst.Items.FindByValue(lblst.Text).Selected = true;
+
+        }
+    }
+    protected void gvinvoiceno_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            Label lbid = (Label)gvinvoiceno.Rows[e.RowIndex].Cells[1].FindControl("lblid");
+            DropDownList ddlstat = (DropDownList)gvinvoiceno.Rows[e.RowIndex].Cells[3].FindControl("ddlstats");
+            TextBox txtRemark = (TextBox)gvinvoiceno.Rows[e.RowIndex].Cells[0].FindControl("txtRemark");
+
+            ds = objgdb.ByProcedure("pro_Account_Setting", new string[] { "MemID", "BankName", "BranchName", "AccNo",
+        "AccName","MicarCode","IFSC","pan","PerfectMoneyAccNM","PerfectMoneyAccNo","NetellerName","NetellerNo",
+        "UPDATEBLOCK","Mname","gender","dob","Address","State","City","Distrinct","Pin", "Phone","Email", "Occupation","FName", 
+        "RelCode","Nominee","NomRel","Mobile" ,"Status"
+        }, new string[] { lbid.Text,"","","","","","","","","","","","KYC STATUS",txtRemark.Text.ToString(),ddlstat.SelectedValue.ToString(),"","","","","","","","","","","","","","","",""
+        }, "ds");
+
+
+            lblMsg.Text = ds.Tables[0].Rows[0]["Msg"].ToString();
+            /////////
+            string Mem_email = ds.Tables[0].Rows[0]["Email"].ToString();
+            string MName = ds.Tables[0].Rows[0]["Mname"].ToString();
+            /////////
+            try
+            {
+                if (ddlstat.SelectedValue == "Approved")
+                {
+                    string Message123 =
+                        @"<table width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#f5f5f5' style='max-width:896px; margin: 0 auto;'> <tbody> <tr> <td align='center' width='100%'> <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-family: Roboto, Lato,Helvetica,sans; color: #354147;'> <tbody> <tr> <td valign='bottom' width='12%'> <table bgcolor='#f5f5f5' width='100%' style='width:100%'> <tbody> <tr> <td width='100%' height='550'></td></tr></tbody> </table> </td><td style='min-width:350px'> <table border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td width='100%' align='center'> <table border='0' cellspacing='0' cellpadding='0' width='100%' style='background-color: #009688;'> <tbody> <tr> <td align='center' style='padding-bottom:11px'> <a href='' style='display:inline-block' target='_blank'><img src='http://" + DynamicDtls.WebSite2 + "/Website-Logo/MailLogo.svg' alt='logo' style='padding: 15px 0 0;' border='0'></a> </td></tr></tbody> </table> </td></tr></tbody> </table><table border='0' cellspacing='0' cellpadding='0' width='100%' bgcolor='#fff'> <tbody> <tr> <td height='50'></td> </tr> <tr> <td> <table border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td> <h3 style=' font-size:29px;margin: 0; text-align: center; '> <span style='color: #009688; font-weight: bolder'>Hi,</span> " + MName.ToString() + "</h3> <br><p style=' text-align: center; font-size: 17px;margin: 5px;font-family: sans-serif;'>Congratulations !!!</p> <p style=' text-align: center;font-size: 17px;margin: 5px;font-family: sans-serif;'>Your KYC document verification status:  <b>  Approved. </b><br/><br/>  <br/>Yours Truly <br/>Team StreamConnect <br/></span></b></p> </div><br> </td> </tr> </tbody> </table> </td>  </tr> <tr> </tbody> </table> <table width='100%' border='0' cellspacing='0' cellpadding='0'> <tbody> <tr bgcolor='#009688'> <td> <table width='100%' border='0' cellspacing='0' cellpadding='0'> <tbody> <tr> <td height='23'> <img src='' width='1' height='1' alt='' style='display: block;'/> </td></tr><tr> <td valign='top' align='center' width='100%' height='100%'> <div style='display: inline-block;'> <table border='0' cellspacing='0' cellpadding='0' style='width: 100%; float: right;'> <tbody> <tr> <td height='40px'> <table style='margin:0 auto;border-collapse:collapse!important;border-spacing:0!important;table-layout:fixed!important;word-break:break-word!important;word-wrap:break-word!important' border='0' cellspacing='0' cellpadding='0' align='center'> <tbody> <tr> <td style='padding: 3px 0 6px; border-collapse: collapse' colspan='4' align='center' valign='top' width='100%'> <img src='http://" + DynamicDtls.WebSite2 + "/Website-Logo/MailLogo.svg' alt='logo' style='padding: 0; height: auto !important; outline: none; text-decoration: none' border='0'> </td></tr><tr> <td style='border-collapse:collapse' colspan='4' height='10' width='100%'></td></tr><tr style='text-align:center'> <td style='border-collapse:collapse' colspan='4' height='20' width='100%'> <font style='font-size: 13px;color: white;text-align: center'>Copyright &copy; 2024.&nbsp;All Rights Reserved. </font> </td></tr><tr> <td style='border-collapse:collapse' colspan='4' height='20' width='100%'></td></tr></tbody> </table> </td></tr></tbody> </table> </div></td></tr><tr> <td height='30'> <img src='' width='1' height='1' alt='' style='display: block;'/> </td></tr></tbody> </table> </td></tr></tbody> </table> </td><td valign='bottom' width='12%'> <table bgcolor='#f5f5f5' width='100%' style='width:100%'> <tbody> <tr> <td width='100%' height='550'></td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr></tbody> </table>";
+                    this.SendEmailToUser(Mem_email, "StreamConnect: KYC Document Verification status: Approved", Message123);
+                }
+                else if (ddlstat.SelectedValue == "Reject")
+                {
+                    string Message123 =
+                      @"<table width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#f5f5f5' style='max-width:896px; margin: 0 auto;'> <tbody> <tr> <td align='center' width='100%'> <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-family: Roboto, Lato,Helvetica,sans; color: #354147;'> <tbody> <tr> <td valign='bottom' width='12%'> <table bgcolor='#f5f5f5' width='100%' style='width:100%'> <tbody> <tr> <td width='100%' height='550'></td></tr></tbody> </table> </td><td style='min-width:350px'> <table border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td width='100%' align='center'> <table border='0' cellspacing='0' cellpadding='0' width='100%' style='background-color: #009688;'> <tbody> <tr> <td align='center' style='padding-bottom:11px'> <a href='' style='display:inline-block' target='_blank'><img src='http://" + DynamicDtls.WebSite2 + "/Website-Logo/MailLogo.svg' alt='logo' style='padding: 15px 0 0;' border='0'></a> </td></tr></tbody> </table> </td></tr></tbody> </table><table border='0' cellspacing='0' cellpadding='0' width='100%' bgcolor='#fff'> <tbody> <tr> <td height='50'></td> </tr> <tr> <td> <table border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td> <h3 style=' font-size:29px;margin: 0; text-align: center; '> <span style='color: #009688; font-weight: bolder'>Hi,</span> " + MName.ToString() + "</h3> <br><p style=' text-align: center; font-size: 17px;margin: 5px;font-family: sans-serif;'>Caution !!!</p> <p style=' text-align: center;font-size: 17px;margin: 5px;font-family: sans-serif;'>Your KYC document verification status:  <b>  Reject. </b><br/>  due to:- " + txtRemark.Text.ToString() + " <br/><br/>  <br/>Yours Truly <br/>Team StreamConnect<br/></span></b></p> </div><br> </td> </tr> </tbody> </table> </td>  </tr> <tr> </tbody> </table> <table width='100%' border='0' cellspacing='0' cellpadding='0'> <tbody> <tr bgcolor='#009688'> <td> <table width='100%' border='0' cellspacing='0' cellpadding='0'> <tbody> <tr> <td height='23'> <img src='' width='1' height='1' alt='' style='display: block;'/> </td></tr><tr> <td valign='top' align='center' width='100%' height='100%'> <div style='display: inline-block;'> <table border='0' cellspacing='0' cellpadding='0' style='width: 100%; float: right;'> <tbody> <tr> <td height='40px'> <table style='margin:0 auto;border-collapse:collapse!important;border-spacing:0!important;table-layout:fixed!important;word-break:break-word!important;word-wrap:break-word!important' border='0' cellspacing='0' cellpadding='0' align='center'> <tbody> <tr> <td style='padding: 3px 0 6px; border-collapse: collapse' colspan='4' align='center' valign='top' width='100%'> <img src='http://" + DynamicDtls.WebSite2 + "/Website-Logo/MailLogo.svg' alt='logo' style='padding: 0; height: auto !important; outline: none; text-decoration: none' border='0'> </td></tr><tr> <td style='border-collapse:collapse' colspan='4' height='10' width='100%'></td></tr><tr style='text-align:center'> <td style='border-collapse:collapse' colspan='4' height='20' width='100%'> <font style='font-size: 13px;color: white;text-align: center'>Copyright &copy; 2024.&nbsp;All Rights Reserved. </font> </td></tr><tr> <td style='border-collapse:collapse' colspan='4' height='20' width='100%'></td></tr></tbody> </table> </td></tr></tbody> </table> </div></td></tr><tr> <td height='30'> <img src='' width='1' height='1' alt='' style='display: block;'/> </td></tr></tbody> </table> </td></tr></tbody> </table> </td><td valign='bottom' width='12%'> <table bgcolor='#f5f5f5' width='100%' style='width:100%'> <tbody> <tr> <td width='100%' height='550'></td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr></tbody> </table>";
+                    this.SendEmailToUser(Mem_email, "StreamConnect: KYC Document Verification status: Reject", Message123);
+
+                }
+
+            }
+            catch { }
+            finally
+            {
+                if (ds != null) { ds.Dispose(); }
+            }
+            gvinvoiceno.EditIndex = -1;
+
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !";
+        }
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+    }
+    protected void SendEmailToUser(string EmailId, string Subjects, string Message)
+    {
+        objgdb.FillWebSiteEmailCompany();
+        MailSenderByEmail mailsend = new MailSenderByEmail();
+
+        try
+        {
+            mailsend.SendMailMessage(DynamicDtls.Email, Subjects, Message, EmailId);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+}

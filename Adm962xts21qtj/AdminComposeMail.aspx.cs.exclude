@@ -1,0 +1,128 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Adm962xts21qtj_AdminComposeMail : System.Web.UI.Page
+{
+    DataSet ds;
+    int Pagesize = 50;
+    DynamicDtls objgdb = new DynamicDtls();
+    string UserId;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            UserId = DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value);
+            if (!Page.IsPostBack)
+            {
+                GridFill();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+    }
+    public void GridFill()
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+           
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = "Your request could not be completed."; ; ;
+        }
+    }
+    //protected void btnSend_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        objgdb.ByProcedure("ProcComposeMail",
+    //            new string[] { "FromUser", "ToUser", "MsgSubject", "MsgText", "MsgSendType", "MsgId", "type" },
+    //            new string[] { UserId, "", txtSubject.Text, txtMessage.Text, "User", "", "0" }, "Bydataset");
+    //        lblMsg.Text = objgdb.UpdateMessage("Your Message Has Been Sent Successfully.");
+    //        GridFill();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+    //        lblMsg.Text = "Your request could not be completed.";
+    //    }
+    //}
+    private int BindResult(int currentPage)
+    {
+
+        int TotalRows = 0;
+        try
+        {
+            ds = objgdb.ByProcedure("ProShowComposemail", new string[] { "intPageSize", "intCurrentPage", "UserId", "Fdate", "ToDate", "Status" }
+            , new string[] { Pagesize.ToString(), currentPage.ToString(), UserId, "", "", "" }, "intTotalRecords", out  TotalRows, "bydta");
+
+            if (ds.Tables[0].Rows[0][0].ToString() == "Sorry ... No Records found !!")
+            {
+                lblMsg.Text = objgdb.EmptyMessage(ds.Tables[0].Rows[0][0].ToString());
+            }
+            else
+            {
+                GridView1.DataSource = ds;
+                GridView1.DataBind();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = objgdb.ErrorMsg("Your request could not be completed.");
+        }
+        return TotalRows;
+
+
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = "Total Records Found :" + Convert.ToString(TotalRows);
+        int PageCount = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1); ;
+        for (int i = 1; i <= PageCount; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+    }
+
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+    }
+    protected void lnkRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            LinkButton lnk = (LinkButton)sender;
+            GridViewRow gv = (GridViewRow)lnk.NamingContainer;
+            Label lblMsgId = (Label)gv.FindControl("lblMsgId");
+
+            objgdb.ByProcedure("ProcComposeMail",
+                new string[] { "FromUser", "ToUser", "MsgSubject", "MsgText", "MsgSendType", "MsgId", "type" },
+                new string[] { UserId, "", "", "", "User", lblMsgId.Text, "1" }, "Bydataset");
+            lblMsg.Text = objgdb.UpdateMessage("Your Message Has Been Deleted Successfully.");
+            GridFill();
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = objgdb.ErrorMsg("Your request could not be completed.");
+        }
+    }
+}

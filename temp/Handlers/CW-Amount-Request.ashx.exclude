@@ -1,0 +1,179 @@
+<%@ WebHandler Language="C#" Class="CW_Amount_Request" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Data;
+
+public class CW_Amount_Request : IHttpHandler {
+
+    public HttpContext context;
+    public HttpRequest request;
+    public HttpResponse response;
+    public bool sc; public string msg, Msgs, dtl, strJson, UserID, RtnRlt, ddlPaymentMode="", txtdodeposit="",
+txtamtdeposit = "", txtTransID = "", fname, chkfileEx, SDbFilePath = "", AcFileName, TRANS_ID = "", PAY_MODE_NO="";
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds;
+    public class test
+    {
+        public bool Success { get;set;}
+        public string Message { get;set;}
+        public string detail { get;set;}
+        public string aid { get; set; }
+        public test(bool sc, string msg, string dtl)
+        {
+            Success = sc;
+            Message = msg;
+            detail = dtl;
+        }
+    }
+    public static string GenerateRandomUsername()
+    {
+        string str = Path.GetRandomFileName(); //This method returns a random file name of 11 characters
+        str = str.Replace(".", "");
+        return str;
+    }
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        /////////
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+            ddlPaymentMode = context.Request["ddlPaymentMode"].ToString();
+            txtdodeposit = context.Request["txtdodeposit"].ToString();
+            txtamtdeposit = context.Request["txtamtdeposit"].ToString();
+            txtTransID = context.Request["txtTransID"].ToString();
+            PAY_MODE_NO = context.Request["PAY_MODE_NO"].ToString();
+            TRANS_ID = context.Request["TRANS_ID"].ToString();
+            /////////
+            if (context.Request.Files.Count > 0)
+            {
+                UploadProfileImg();
+            }
+            else
+            {
+                GiveHelpOrder();
+            }
+            /////////
+            handleRequest();
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+        }
+    }
+    public void handleRequest()
+    {
+        writeJson(new test(sc, msg, dtl));
+    }
+    private void UploadProfileImg()
+    {
+        if (context.Request.Files.Count > 0)
+        {
+            HttpFileCollection files = context.Request.Files;
+            for (int i = 0; i < files.Count; i++)
+            {
+                HttpPostedFile file = files[i];
+                if (HttpContext.Current.Request.Browser.Browser.ToUpper() == "IE" || HttpContext.Current.Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                {
+                    string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                    fname = testfiles[testfiles.Length - 1];
+                }
+                else
+                {
+                    fname = file.FileName;
+                }
+                chkfileEx = Path.GetExtension(fname).ToLower();
+                if (chkfileEx.ToString().Trim() == ".jpg" || chkfileEx.ToString().Trim() == ".gif" ||
+                  chkfileEx.ToString().Trim() == ".bmp" || chkfileEx.ToString().Trim() == ".jpeg" ||
+                  chkfileEx.ToString().Trim() == ".png" || chkfileEx.ToString().Trim() == ".pdf")
+                {
+                    AcFileName = GenerateRandomUsername();
+                    SDbFilePath = AcFileName + chkfileEx;
+                    fname = Path.Combine(context.Server.MapPath("~/Upload_Amount_Deposit_Recipt/"), AcFileName + chkfileEx);
+                    file.SaveAs(fname);
+                    GiveHelpOrder();
+                }
+                else
+                {
+                    msg = "Only GIF, JPEG, PNG, BMP & PDF files are allowed !";
+                    sc = false;
+                }
+            }
+            //////
+        }
+        else
+        {
+            msg = "Only GIF, JPEG, PNG, BMP & PDF files are allowed !";
+            sc = false;
+        }
+    }
+    public void GiveHelpOrder()
+    {
+        try
+        {
+            if (ddlPaymentMode != "" || txtdodeposit != "" || txtamtdeposit != "" || txtTransID != "")
+            {
+                ds = objgdb.ByProcedure("[ProcStockiestRequest]", new string[] {"TransID","WtihdType","StockiestID", "Memid", "PAYMENT_MODE", "PAY_MODE_NO", "TRANS_ID", "DEPOSITE_DATE",
+            "BNK_NAME","BRANCH","CITY","STATE","AMT","FLAG","ATTACHMENT","AccNoMemb" } ,
+                new string[] { txtTransID, ddlPaymentMode,UserID, UserID, ddlPaymentMode, PAY_MODE_NO.ToString(), TRANS_ID.ToString(),txtdodeposit, 
+            "","","", "",txtamtdeposit, "", SDbFilePath,"" }, "BY DATASET");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    RtnRlt = ds.Tables[0].Rows[0]["PayOutSts"].ToString();
+                    Msgs = ds.Tables[0].Rows[0]["Error_Msg"].ToString();
+                }
+                if (RtnRlt.ToString().Trim() == "Ok")
+                {
+                    sc = true;
+                    msg = "<span style='color:#2E962E;'> " + Msgs + "</span>";
+                }
+                else
+                {
+                    sc = false;
+                    msg = "<span style='color:#FF8A00;'> " + Msgs + "</span>";
+                }
+            }
+            else
+            {
+                msg = "Please fill required fields in request form !";
+                sc = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            msg = ex.Message;
+            sc = false;
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+    public void writeJson(object _object)
+    {
+        JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+        string jsondata = javaScriptSerializer.Serialize(_object);
+        writeRaw(jsondata);
+    }
+
+    public void writeRaw(string text)
+    {
+        context.Response.Write(text);
+    }
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+}

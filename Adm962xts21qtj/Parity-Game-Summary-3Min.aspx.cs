@@ -1,0 +1,234 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Adm962xts21qtj_Parity_Game_Summary : System.Web.UI.Page
+{
+    SqlConnection cn;
+    DataTable dt; SqlDataAdapter sda; SqlCommand cmd;
+    public int Pagesize = Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]);
+    public int PageNo;
+    string SqlFillStatus, SearchText;
+    static string UserID;
+    DataSet ds;
+    DynamicDtls objgdb = new DynamicDtls();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["Khbfy897ft36Gv"] != null)
+        {
+            if (!Page.IsPostBack)
+            {
+                detsdv.Visible = false;
+                try
+                {
+
+
+                    if (Request.QueryString["UserId"] != null)
+                    {
+                        DDLDownPos.SelectedValue = "MemID";
+                        DDLDownPos_SelectedIndexChanged(sender, e);
+                        txtSearch.Text = Request.QueryString["UserId"].ToString();
+                    }
+                    ddlJumpToPage.Items.Clear();
+                    int TotalRows = this.BindResult(1);
+                    this.populateList(TotalRows);
+                }
+                catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; }
+
+            }
+
+        }
+        else
+        {
+            Response.Redirect("../CtrlP2nL_Akdvv3jshLG.aspx", false);
+        }
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = Convert.ToString(TotalRows);
+        int PageCount = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1); ;
+        for (int i = 1; i <= PageCount; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        CountingShow();
+    }
+    public void CountingShow()
+    {
+        if (ddlJumpToPage.SelectedItem.Text == "1")
+        {
+            PageNo = 1;
+            //Pagesize
+        }
+        else
+        {
+            PageNo = 1 + int.Parse(ddlJumpToPage.SelectedItem.Text);
+            Pagesize = (Pagesize * int.Parse(ddlJumpToPage.SelectedItem.Text));
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+    }
+
+    private int BindResult(int currentPage)
+    {
+
+        if (txtSearch.Text == "")
+        {
+            if (DDLFillItems.Items.Count != 0)
+            {
+                SearchText = DDLFillItems.SelectedItem.Text;
+            }
+            else
+            {
+                SearchText = "";
+            }
+        }
+        else
+        {
+            SearchText = txtSearch.Text.Trim();
+        }
+
+        int TotalRows = 0;
+        ds = new DataSet();
+        sda = new SqlDataAdapter();
+        cn = new SqlConnection(new DB().getconnection());
+        cmd = new SqlCommand("dbo.Proc_ParitySummary_3Min");
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+        cmd.Parameters.AddWithValue("@intPageSize", Pagesize);
+        cmd.Parameters.AddWithValue("@intCurrentPage", currentPage);
+
+        cmd.Parameters.AddWithValue("@FrmDt", txtFromDate.Text.Trim());
+        cmd.Parameters.AddWithValue("@ToDt", txtToDate.Text.Trim());
+
+        cmd.Parameters.AddWithValue("@Column", DDLDownPos.SelectedItem.Value);
+
+        cmd.Parameters.AddWithValue("@SearchTxt", SearchText);
+        cmd.Connection = cn;
+        sda.SelectCommand = cmd;
+        sda.Fill(ds);
+        TotalRows = (int)cmd.Parameters["@intTotalRecords"].Value;
+        if (TotalRows == 0)
+        {
+            GvCaptchaWork.Visible = false;
+            lblMsg.Text = objgdb.EmptyMessage("Sorry ... No Records found !!");
+        }
+        else
+        {
+            lblMsg.Text = "";
+            GvCaptchaWork.Visible = true;
+            GvCaptchaWork.PageIndex = currentPage - 1;
+            GvCaptchaWork.DataSource = ds.Tables[0];
+            GvCaptchaWork.DataBind();
+        }
+        //lblTotalData.Text = ds.Tables[0].Rows[0]["TotAmount"].ToString();
+
+
+        return TotalRows;
+        sda.Dispose();
+        cmd.Dispose();
+        dt.Dispose();
+        cn.Dispose();
+
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        ddlJumpToPage.Items.Clear();
+        int TotalRows = this.BindResult(1);
+        this.populateList(TotalRows);
+    }
+    protected void GvCaptchaWork_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
+
+
+    protected void DDLDownPos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        detsdv.Visible = false;
+        txtSearch.Text = "";
+        if (DDLDownPos.SelectedIndex == 0)
+        {
+            txtSearch.Visible = false;
+            DDLFillItems.Visible = false;
+        }
+        else if (DDLDownPos.SelectedIndex == 1 || DDLDownPos.SelectedIndex == 2 || DDLDownPos.SelectedIndex == 5 || DDLDownPos.SelectedIndex == 7)
+        {
+            txtSearch.Visible = true;
+            DDLFillItems.Visible = false;
+            detsdv.Visible = true;
+
+        }
+        else if (DDLDownPos.SelectedIndex == 3 || DDLDownPos.SelectedIndex == 4)
+        {
+            txtSearch.Visible = false;
+            DDLFillItems.Visible = true;
+            if (DDLDownPos.SelectedIndex == 3)
+            {
+                SqlFillStatus = "select distinct Status from JackpotPlayers with(Nolock) WHERE Status IS NOT NULL";
+                detsdv.Visible = true;
+
+            }
+            else if (DDLDownPos.SelectedIndex == 4)
+            {
+                SqlFillStatus = "select distinct TradingType from JackpotPlayers with(Nolock)";
+                detsdv.Visible = true;
+            }
+            //else if (DDLDownPos.SelectedIndex == 5)
+            //{
+            //    SqlFillStatus = "select distinct PaymentMode from tblMemInvestmentDetails with(Nolock)";
+            //    detsdv.Visible = true;
+            //}
+            ds = new DataSet();
+            DDLFillItems.Items.Clear();
+
+            foreach (DataRow dr in new DB().SelectRows(ds, SqlFillStatus).Tables[0].Rows)
+            {
+                DDLFillItems.Items.Add(dr[0].ToString());
+                detsdv.Visible = true;
+
+            }
+
+            ds.Dispose();
+
+        }
+    }
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        Response.ClearContent();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Deposit-History.xls"));
+        Response.ContentType = "application/ms-excel";
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter htw = new HtmlTextWriter(sw);
+        GvCaptchaWork.AllowPaging = false;
+
+        ddlJumpToPage.Items.Clear();
+        int TotalRows = this.BindResult(1);
+        this.populateList(TotalRows);
+
+        GvCaptchaWork.RenderControl(htw);
+        Response.Write(sw.ToString());
+        Response.End();
+    }
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Verifies that the control is rendered */
+    }
+
+}

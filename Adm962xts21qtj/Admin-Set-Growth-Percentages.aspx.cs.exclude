@@ -1,0 +1,244 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Net.Mail;
+
+public partial class Adm962xts21qtj_Admin_Set_Growth_Percentages : System.Web.UI.Page
+{
+    DynamicDtls objgdb = new DynamicDtls();
+    DataSet ds, DS;
+    public int Pagesize = 100;
+    public int PageNo;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+    }
+
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            //if (ddlPackage.SelectedIndex > 0)
+            //{
+            ds = objgdb.ByProcedure("SpGrowthPercDetails", new string[] { "Flag", "FromAmount", "Date", "GrowthPerc", "ToAmount", "FRM_DT", "TO_DT", "PG_SIZE", "CURRENT_PG", "ID" }
+           , new string[] { "1", FromAmount.Text, txtDate.Text, txtRoiPerc.Text, Toamount.Text, "", "", "", "", "0" }, "das");
+
+            if (ds.Tables[0].Rows[0]["SubmitStatus"].ToString() == "OK")
+            {
+                lblMsg.Text = objgdb.ErrorMsg(ds.Tables[0].Rows[0]["ErrMsg"].ToString());
+                lblMsg.ForeColor = System.Drawing.Color.Green;
+
+                txtDate.Text = "";
+                txtRoiPerc.Text = "";
+                FromAmount.Text = "";
+                Toamount.Text = "";
+                btnSearch_Click(sender, e);
+            }
+            else
+            {
+                lblMsg.Text = objgdb.ErrorMsg(ds.Tables[0].Rows[0]["ErrMsg"].ToString());
+                lblMsg.Visible = true;
+            }
+            //}
+            //else
+            //{
+            //    lblMsg.Text = objgdb.ErrorMsg("Please select package first......!");
+            //    lblMsg.Visible = true;
+            //}
+        }
+        catch (Exception ex)
+        {
+            objgdb.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = objgdb.ErrorMsg("Your request could not be completed.");
+            lblMsg.Visible = true;
+        }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+        }
+    }
+
+    public DataSet METHOD(string DTTYPE, string FRM_DT, string TO_DT, string FLAG, string PG_SIZE, string CURRENT_PG)
+    {
+        try
+        {
+            int TotalRecords = 0;
+            ds = new DataSet();
+            ds = objgdb.ByProcedure("SpGrowthPercDetails", new string[] { "Flag", "FromAmount", "Date", "GrowthPerc", "ToAmount", "FRM_DT", "TO_DT", "PG_SIZE", "CURRENT_PG", "ID" }, new string[] { FLAG, DTTYPE, "", "", "", FRM_DT, TO_DT, PG_SIZE, CURRENT_PG, "0" }, "ByDataset");
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = new DB().EmptyMessage("Sorry, Something is wrong please try later !"); }
+        finally
+        {
+            ds.Dispose();
+        }
+        return ds;
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = Convert.ToString(TotalRows);
+        PageNo = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Pagesize))) + 1);
+        for (int i = 1; i <= PageNo; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        CountingShow();
+    }
+    private int BindResult(int currentPage)
+    {
+        int TotalRows = 0;
+        int NextFromAmount = 0;
+        try
+        {
+            //if (DDLDownPos.Visible == false && txtSearch.Visible == false)
+            //{
+            //    searchText = "";
+            //}
+            //else if (DDLDownPos.Visible == false)
+            //{
+            //    searchText = txtSearch.Text;
+            //}
+            //else if (txtSearch.Visible == false)
+            //{
+            //    searchText = DDLDownPos.SelectedValue;
+            //}
+
+            ds = new DataSet();
+            ds = METHOD(ddlSearchPackage.SelectedValue, txtFromDate.Text, txtToDate.Text, "2", Pagesize.ToString(), currentPage.ToString());
+            TotalRows = Convert.ToInt32(ds.Tables[1].Rows[0]["TOTALRECORD"]);
+            NextFromAmount = Convert.ToInt32(ds.Tables[2].Rows[0]["NextFromAmount"]);
+            FromAmount.Text = NextFromAmount.ToString();
+            if (TotalRows == 0)
+            {
+                //lblEmptyMsg.Visible = true;
+                gvinvoiceno.Visible = false;
+                //lblEmptyMsg.Text = new DB().EmptyMessage(ds.Tables[0].Rows[0]["MSG"].ToString());
+            }
+            else
+            {
+                //lblEmptyMsg.Visible = false;
+                //lblEmptyMsg.Text = "";
+                gvinvoiceno.Visible = true;
+                gvinvoiceno.DataSource = ds.Tables[0];
+                gvinvoiceno.DataBind();
+            }
+            return TotalRows;
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Sorry, Something is wrong please try later !"; }
+        return TotalRows;
+    }
+    public void CountingShow()
+    {
+        if (ddlJumpToPage.SelectedItem.Text == "1")
+        {
+            PageNo = 1;
+            //Pagesize
+            lblRecordNo.Text = PageNo.ToString() + " - " + Pagesize.ToString() + " of "; ;
+        }
+        else
+        {
+            //PageNo = 1 + int.Parse(ddlJumpToPage.SelectedItem.Text);
+            PageNo = int.Parse(ddlJumpToPage.SelectedItem.Text);
+            //Pagesize = (Pagesize * int.Parse(ddlJumpToPage.SelectedItem.Text)); @PG_SIZE*(@CURRENT_PG-1)
+            lblRecordNo.Text = ((Pagesize * (PageNo - 1)) + 1) + " - " + (Pagesize * PageNo) + " of ";
+        }
+        if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) == 0)
+        {
+            lblRecordNo.Text = "";
+        }
+        if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) > 0)
+        {
+            if (Convert.ToInt32(lblTotRec.Text.ToString().Trim()) < (Pagesize * PageNo))
+            {
+                lblRecordNo.Text = ((Pagesize * (PageNo - 1)) + 1) + " - " + Convert.ToInt32(lblTotRec.Text.ToString().Trim()) + " of ";
+            }
+        }
+    }
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+        CountingShow();
+    }
+    protected void PageChangedPz(object sender, EventArgs e)
+    {
+        Pagesize = Convert.ToInt32(ddlGrpageSz.SelectedValue.Trim());
+        this.BindResult(1);
+        CountingShow();
+    }
+    protected void gvinvoiceno_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        gvinvoiceno.EditIndex = -1;
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        BindResult(Page);
+    }
+    protected void gvinvoiceno_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        gvinvoiceno.EditIndex = e.NewEditIndex;
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        BindResult(Page);
+
+    }
+    protected void gvinvoiceno_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(gvinvoiceno.DataKeys[e.RowIndex].Value);
+
+            TextBox txtFromAmout = (TextBox)gvinvoiceno.Rows[e.RowIndex].Cells[4].FindControl("txtFromAmout");
+            TextBox txtToAmount = (TextBox)gvinvoiceno.Rows[e.RowIndex].Cells[5].FindControl("txtToAmount");
+            TextBox txtGrowthPerc = (TextBox)gvinvoiceno.Rows[e.RowIndex].Cells[5].FindControl("txtGrowthPerc");
+
+            ds = objgdb.ByProcedure("SpGrowthPercDetails", new string[] { "Flag", "FromAmount", "Date", "GrowthPerc", "ToAmount", "FRM_DT", "TO_DT", "PG_SIZE", "CURRENT_PG", "ID" },
+                new string[] { "3", txtFromAmout.Text, "", txtGrowthPerc.Text, txtToAmount.Text, "", "", "0", "0", id.ToString() }, "ByDataset");
+
+            lblMsg.Text = objgdb.UpdateMessage(ds.Tables[0].Rows[0][0].ToString());
+            gvinvoiceno.EditIndex = -1;
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; ; }
+        BindResult(1);
+
+    }
+    protected void lnkDelete_Deleting(object sender, EventArgs e)
+    {
+        try
+        {
+            LinkButton lnkDelete = (LinkButton)sender;
+            GridViewRow GVR = (GridViewRow)lnkDelete.NamingContainer;
+            Label lblID = (Label)GVR.FindControl("lblID");
+            ds = objgdb.ByProcedure("SpGrowthPercDetails", new string[] { "Flag", "FromAmount", "Date", "GrowthPerc", "ToAmount", "FRM_DT", "TO_DT", "PG_SIZE", "CURRENT_PG", "ID" },
+                new string[] { "4", "", "", "", "", "", "", "0", "0", lblID.Text }, "ByDataset");
+            lblMsg.Text = objgdb.UpdateMessage(ds.Tables[0].Rows[0][0].ToString());
+
+        }
+        catch (Exception ex)
+        {
+            objgdb.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = objgdb.ErrorMsg("Your request could not be completed.");
+        }
+        BindResult(1);
+    }
+}

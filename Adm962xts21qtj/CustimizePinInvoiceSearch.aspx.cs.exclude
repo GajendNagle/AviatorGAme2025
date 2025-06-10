@@ -1,0 +1,205 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+
+using System.Web.UI.HtmlControls;
+
+public partial class Admin_CustimizePinInvoiceSearch : System.Web.UI.Page
+{
+    SqlConnection cn = new SqlConnection(new DB().getconnection());
+    DataTable dt; SqlDataAdapter sda; SqlCommand cmd;
+    DataSet ds; string SqlFillStatus;
+    string SearchText;
+
+    Double Totalnoofpins = 0;
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!IsPostBack)
+            {
+                try
+                {
+                    ddlJumpToPage.Items.Clear();
+                    int TotalRows = this.BindResult(1);
+                    this.populateList(TotalRows);
+                }
+                catch (Exception ex)
+                {
+                    DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+                }
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html");
+        }
+
+
+    }
+
+    private int BindResult(int currentPage)
+    {
+
+        if (txtSearch.Text == "")
+        {
+
+            if (DDLFillItems.Items.Count != 0)
+            {
+                SearchText = DDLFillItems.SelectedItem.Text;
+            }
+            else
+            {
+                SearchText = "";
+            }
+        }
+        else
+        {
+            SearchText = txtSearch.Text.Trim();
+        }
+        int TotalRows = 0;
+        dt = new DataTable();
+        sda = new SqlDataAdapter();
+        cmd = new SqlCommand("dbo.Pro_PinInvoiceDetails");
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@intTotalRecords", SqlDbType.Int).Direction = ParameterDirection.Output;
+        cmd.Parameters.AddWithValue("@strSearchText", SearchText);
+        cmd.Parameters.AddWithValue("@intPageSize", Convert.ToInt16(ConfigurationManager.AppSettings["gridPageSize"]));
+        cmd.Parameters.AddWithValue("@intCurrentPage", currentPage);
+        cmd.Parameters.AddWithValue("@SrchByDjGt", DDLSrchByDjGt.SelectedValue.ToString());
+        cmd.Parameters.AddWithValue("@FrmDt", txtFromDate.Text.Trim());
+        cmd.Parameters.AddWithValue("@ToDt", txtToDate.Text.Trim());
+        cmd.Parameters.Add("@ColumnName", SqlDbType.VarChar).Value = DDLDownPos.SelectedItem.Value;
+        cmd.Connection = cn;
+        sda.SelectCommand = cmd;
+        sda.Fill(dt);
+        TotalRows = (int)cmd.Parameters["@intTotalRecords"].Value;
+        grdUserDtl.PageIndex = currentPage - 1;
+        grdUserDtl.DataSource = dt;
+        grdUserDtl.DataBind();
+        return TotalRows;
+        sda.Dispose();
+        cmd.Dispose();
+        dt.Dispose();
+
+    }
+    private void populateList(int TotalRows)
+    {
+        lblTotRec.Text = "Total Records Found :" + Convert.ToString(TotalRows);
+        int PageCount = Convert.ToInt32(Math.Floor(Convert.ToDouble((TotalRows / Convert.ToInt32(ConfigurationManager.AppSettings["gridPageSize"])))) + 1); ;
+        for (int i = 1; i <= PageCount; i++)
+        {
+            ddlJumpToPage.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+    }
+
+    protected void PageChanged(object sender, EventArgs e)
+    {
+        int Page = Convert.ToInt32(ddlJumpToPage.SelectedItem.Value);
+        this.BindResult(Page);
+    }
+
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlJumpToPage.Items.Clear();
+            int TotalRows = this.BindResult(1);
+            this.populateList(TotalRows);
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+
+    protected void btnexporttoexport_Click(object sender, EventArgs e)
+    {
+        HtmlForm form = new HtmlForm();
+        string attachment = "attachment; filename=SearchUserList.xls";
+        Response.ClearContent();
+        Response.AddHeader("content-disposition", attachment);
+        Response.ContentType = "application/ms-excel";
+        StringWriter stw = new StringWriter();
+        HtmlTextWriter htextw = new HtmlTextWriter(stw);
+        form.Controls.Add(grdUserDtl);
+        this.Controls.Add(form);
+        form.RenderControl(htextw);
+        Response.Write(stw.ToString());
+        Response.End();
+        form.Dispose();
+        stw.Dispose();
+        htextw.Dispose();
+    }
+
+    protected void DDLDownPos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+         txtSearch.Text = "";
+         if (DDLDownPos.SelectedItem.Text == "Remark" )
+         {
+             DDLFillItems.Visible = false;
+             txtSearch.Visible = true;
+             if (DDLDownPos.SelectedItem.Text == "Remark".Trim())
+             {
+                 txtSearch.TextMode = TextBoxMode.MultiLine;
+             }
+             
+             else if (DDLDownPos.SelectedItem.Text == "Package".Trim())
+            {
+                DDLFillItems.Visible = true;
+                txtSearch.Visible = false;
+                SqlFillStatus = "select distinct PackageName from PackageMaster where packagename not in('REGISTRATION PACKAGE')";
+
+                ds = new DataSet();
+                DDLFillItems.Items.Clear();
+
+                foreach (DataRow dr in new DB().SelectRows(ds, SqlFillStatus).Tables[0].Rows)
+                {
+                    DDLFillItems.Items.Add(dr[0].ToString());
+                }
+            }
+
+         }
+         else
+         {
+             txtSearch.TextMode = TextBoxMode.SingleLine;
+             DDLFillItems.Visible = false;
+             txtSearch.Visible = true;
+         }
+    }
+    protected void grdUserDtl_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            // add the UnitPrice and QuantityTotal to the running total variables
+
+            Totalnoofpins += Convert.ToDouble(DataBinder.Eval(e.Row.DataItem, "noofpins"));
+           
+        }
+        else if (e.Row.RowType == DataControlRowType.Footer)
+        {
+            e.Row.Cells[1].Text = "Totals:";
+            // for the Footer, display the running totals
+
+            e.Row.Cells[4].Text = Totalnoofpins.ToString();
+          
+
+            //e.Row.Cells[1].HorizontalAlign =e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+            e.Row.Font.Bold = true;
+        }
+    }
+}

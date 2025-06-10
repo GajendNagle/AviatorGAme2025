@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Win Go History</title>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/new-style.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/parity.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .profilecard {
+            height: 180px;
+            background-color: #1a1a1a;
+        }
+        .pmagin {
+            margin-bottom: 1px;
+        }
+        .margin {
+            margin: 0px 1px 0px;
+            padding: 30px 0px 10px;
+        }
+        .grayclr {
+            color: #555454;
+        }
+        .grayclr:hover {
+            color: black;
+        }
+        .grayclr:active {
+            color: black;
+        }
+        .bgstyl2 {
+            background: #6da7f4;
+        }
+        .clrs span {
+            display: inline-block !important;
+            border-radius: 15px;
+            width: 50px;
+            height: 50px;
+        }
+        .Pfon {
+            font-size: 1.1rem;
+        }
+        .danger {
+            color: #f15b20;
+        }
+        .bord2 {
+            border: 1px solid red;
+            padding: 2px;
+            border-radius: 8px;
+            font-size: small;
+        }
+        .numsty {
+            font-size: 30px;
+            font-weight: 500;
+        }
+        .timesty {
+            font-size: small;
+            color: #686868;
+        }
+        .table td {
+            padding: 0.3rem;
+        }
+        .clrs span {
+            display: inline-block !important;
+            border-radius: 15px;
+            width: 50px;
+            height: 50px;
+        }
+        .bord {
+            padding: 2px;
+            border-radius: 8px;
+            font-size: small;
+        }
+        .detailsalgns {
+            text-align: start;
+        }
+        .detailsalgne {
+            text-align: end;
+        }
+        .detailitem {
+            margin: 7px 6px;
+            color: #585555;
+            list-style: none;
+            padding: 2px 8px;
+        }
+        .child {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="main-content mt-5 pb-1">
+                    <div class="pr-3 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="logo flex flex-ai-c absolute-center">Win Go</a>
+                        <a href="#" class="pl-3 text-white fs-20 ml-2" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a>
+                    </div>
+                    <div class="main-content px-3">
+                        <div class="pt-2">
+                            <div class="col-12 p-0 card-preview w-100 inner-tabs mb-0">
+                                <ul class="nav nav-tabs nav-tabs-s2 mt-n2 py-2 mt-1" role="tablist" style="background-color: unset;">
+                                    <li class="nav-item pr-1" role="presentation">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#tabItem-e-order" aria-selected="true" role="tab" onclick="Myorder(1,10)">1 Min</a>
+                                    </li>
+                                    <li class="nav-item pr-1" role="presentation">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#tabItem-m-order" aria-selected="false" tabindex="-1" role="tab" onclick="Myorder3min(1,10)">3 Min</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card card-preview w-100 inner-tabs mb-4">
+                                <div class="card-inner">
+                                    <div class="tab-content text-center border-6 p-2">
+                                        <div class="tab-pane active continue" id="tabItem-e-order" role="tabpanel">
+                                            <div id="Myorder" class="itemsPerPage"></div>
+                                        </div>
+                                        <div class="tab-pane" id="tabItem-m-order" role="tabpanel">
+                                            <div id="Myorder3min"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer-bar" class="row footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen pt-2 pb-0" style="transform: translateX(0);">
+                        <a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                        <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                        <a href="invite.html" class="">
+                            <div class="footer-ball">
+                                <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                            </div>
+                            <div class="footer-daimond-text">Promotion</div>
+                        </a>
+                        <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                        <a href="profile.html" class=""><i class="fa-solid fa-user"></i><span>Account</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js?v=1.0"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="Handler_js/Game-LoadCounter.js?ver=2.0"></script>
+    <script>
+        $(document).ready(function () {
+            Myorder(1,10);
+            Myorder3min(1,10);
+        });
+    </script>
+    <script>
+        function opendetails(orderid) {
+            $('#c' + orderid).toggle(1000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ConfirmTxnStatus.aspx.cs" Inherits="Adm962xts21qtj_ConfirmTxnStatus" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div></div>
+    </form>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var secret = GetParameterValues('secret');
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+            //$.getJSON('../TRONConnect/Get-Orders-List-ForMemid.ashx?pmode=TRX&scr=' + secret,
+            //    function (tjson1) {
+            //        //alert(tjson1);
+            //        if (tjson1 != null) {
+            //            if (tjson1.length == 0) { }
+            //            else {
+            //                for (var i = 0; i < tjson1.length; i++) {
+            //                    init_dataTRX(tjson1[i].SndAdd, '', secret, tjson1[i].TxnHas);
+            //                    //alert(tjson1[i].TxnHas);
+            //                }
+            //            }
+            //        }
+            //    });
+            //$.getJSON('../TRONConnect/Get_Withdrawal_List_ForMemID.ashx?pmode=' + secret,
+            //    function (tjson1) {
+            //        if (tjson1 != null) {
+            //            if (tjson1.length == 0) { }
+            //            else {
+            //                for (var i = 0; i < tjson1.length; i++) {
+            //                    init_dataTRX(tjson1[i].SndAdd, tjson1[i].AutoWithNo, secret, tjson1[i].TxnHas);
+            //                }
+            //            }
+            //        }
+            //    });
+            /*$.getJSON('../TRONConnect/Get-Orders-List_ALL.ashx?pmode=ALLTRX&scr=' + secret,*/
+            $.getJSON('../Jap762Btp28lyf/Handlers/Get-Orders-List_ALL.ashx?pmode=' + secret,
+                function (tjson1) {
+                    if (tjson1.length == 0) { }
+                    else {
+                        for (var i = 0; i < tjson1.length; i++) {
+                            /*init_dataTRX(tjson1[i].SndAdd, '', secret, tjson1[i].TxnHas);*/
+                            init_dataTRX(tjson1[i].SndAdd, 'Deposit', tjson1[i].Paymentfor, tjson1[i].TxnHas);
+                            //alert(tjson1[i].TxnHas);
+                        }
+                    }
+                }
+            );
+        });
+        /////////////////////Confirm txn////////////
+        function init_dataTRX(SndAdd, latestblock, Skey, TxnHas) {
+            $.get("https://api.covalenthq.com/v1/56/transaction_v2/" + TxnHas + "/?format=JSON&key=ckey_4edc012c83ce40d4a97ecc5f8fc").done(function (a) {
+                try {
+                    var TranHas = SndAdd;
+                    var contract_address = "0xE73d20C21866B926a7dd240F8e0737d32fd3A19f";
+                    for (var i = 0; i < a.data.items.length; i++) {
+                        var to_address = a.data.items[i]['to_address'];
+                        var Tnxhash = a.data.items[i]['tx_hash'];
+                        var txndate = new Date(a.data['updated_at']).toISOString().substring(0, 19).replace('T', ' ');
+                        var confirmed = a.data.items[i]['successful'];
+                        for (var j = 0; j < a.data.items[i]['log_events'].length; j++) {
+                            var Tokenname = a.data.items[i]['log_events'][j]['sender_contract_ticker_symbol'];
+                        }
+                        if (to_address.toUpperCase() == contract_address.toUpperCase() && Tokenname.toUpperCase() == 'TRX') {
+                            if (a.data.items[i]['successful'] == true) {
+                                // Confm = 1;//(latestblock - blockheight) + 1;
+                                var amount = "0";
+                                var odReg = new FormData();
+                                odReg.append("latestblock", latestblock);
+                                odReg.append("ODsID", SndAdd);
+                                odReg.append("value", amount);
+                                odReg.append("transaction_hash", Tnxhash);
+                                odReg.append("address", TranHas);
+                                odReg.append("Conf", confirmed);
+                                odReg.append("Skey", Skey);
+                                odReg.append("transaction_dt", txndate);
+                                $.ajax({
+                                    url: "../Jap762Btp28lyf/Handlers/TRX-API-457-CB_Cnf_ALL.ashx",
+                                    type: "POST",
+                                    contentType: false,
+                                    processData: false,
+                                    data: odReg,
+                                    dataType: "json",
+                                    success: function (Response) {
+                                        if (Response.Success) {
+                                        }
+                                        else {
+                                            //alertify.alert('Alert',Response.Message);
+                                            //$.alert({ title: 'error', content: (Response.Message), type: 'red', typeAnimated: true, buttons: { tryAgain: { text: 'close', btnClass: 'btn-red', action: function(){ } }, } });
+                                        }
+                                    },
+                                    error: function (err) {
+                                        //alertify.alert('Alert',err.statusText);
+                                        //$.alert({ title: 'error', content: (err.statusText), type: 'red', typeAnimated: true, buttons: { tryAgain: { text: 'close', btnClass: 'btn-red', action: function(){ } }, } });
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                }
+                catch (err) {
+                    checkStst(TxnHas, SndAdd, Skey, err.message);
+                }
+            });
+        }
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        function delete_cookie(name) {
+            document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+    </script>
+</body>
+</html>

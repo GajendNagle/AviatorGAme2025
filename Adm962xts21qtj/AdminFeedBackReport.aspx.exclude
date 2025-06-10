@@ -1,0 +1,107 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true" CodeFile="AdminFeedBackReport.aspx.cs" Inherits="Adm962xts21qtj_AdminFeedBackReport" StylesheetTheme="mySkin" Title="FeedBack Report" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+   <table width="100%" cellspacing="0">
+        <tr>
+            <td align="left" style="width: 100%; height: 30px; text-align: right;" valign="top">
+                <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="../UserPanel_Images/excel_icon.gif"   OnClick="btnexporttoexport_Click"/>
+                &nbsp;
+                <asp:ImageButton ID="btnPrint" runat="server" ImageUrl="../UserPanel_Images/printer-icon.png" OnClientClick="return CallPrint('divPrint')"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="ScrollBar">
+                <table cellspacing="0" cellpadding="0" border="0" style="width: 100%" align="center" class="BodyBox">
+                    <tbody>
+                        <tr>
+                            <td align="left" style="height: 13px;"></td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <table border="0" cellpadding="0" cellspacing="0" style="width: 778px">
+                                    <tr>
+                                        <td align="right" style="font-weight: bold; font-size: 11px; width: 224px; color: #000; height: 25px">From :</td>
+                                        <td align="left" style="width: 194px; height: 25px" valign="middle">
+                                            <asp:TextBox ID="FromDate" runat="server" ValidationGroup="b" Width="160px" CssClass="ComposeTxtBx"></asp:TextBox>&nbsp;
+                                        </td>
+                                        <td align="right" style="font-weight: bold; font-size: 11px; width: 108px; color: #000; height: 25px">To :</td>
+                                        <td align="left" style="width: 225px; height: 25px">
+                                            <asp:TextBox ID="ToDate" runat="server" Width="160px" CssClass="ComposeTxtBx"></asp:TextBox>&nbsp;
+                                        </td>
+                                        <td align="left" style="width: 100px; height: 25px" valign="middle">
+                                            <asp:Button ID="imgbtnView" runat="server" ImageUrl="~/Images/Viewbutton.gif" OnClick="imgbtnView_Click" Text="SUBMIT" CssClass="Btn" />
+                                        </td>
+                                        <td align="left" style="width: 100px; height: 25px" valign="middle">
+                                            <asp:Button ID="btnexporttoexport" runat="server" CausesValidation="False" CssClass="Btn" Font-Bold="True" Font-Names="Verdana" Font-Size="10px" Height="20px" OnClick="btnexporttoexport_Click" Text="EXPORT TO EXCEL" Width="127px" Visible="False" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" style="font-weight: bold; font-size: 13px; width: 224px; color: #000; height: 25px"></td>
+                                        <td align="left" style="width: 194px; height: 25px" valign="middle"></td>
+                                        <td align="right" style="font-weight: bold; font-size: 13px; width: 108px; color: #000; height: 25px"></td>
+                                        <td align="left" style="width: 225px; height: 25px"></td>
+                                        <td align="left" style="width: 100px; height: 25px" valign="middle"></td>
+                                        <td align="left" style="width: 100px; height: 25px" valign="middle"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 855px">
+                                <asp:Label ID="lblMsg1" runat="server" Width="100%" Font-Names="Verdana" Font-Size="13px" ForeColor="Red"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 855px" align="left"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="left" colspan="3" class="BoardStructure" style="height: 106px">
+                                <div id="divPrint">
+                                    <asp:Label ID="lblTotal" runat="server" Text=""></asp:Label>
+                                    <asp:GridView ID="GridView2" runat="server" Width="100%" Font-Size="11px" Font-Names="Verdana" Font-Bold="False" OnPageIndexChanging="GridView2_PageIndexChanging" HorizontalAlign="Center" ShowFooter="True" DataKeyNames="Id" OnRowDeleting="GridView2_RowDeleting" AllowPaging="True" PageSize="50" OnRowDataBound="GridView2_RowDataBound">
+                                        <Columns>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="linkbtn" runat="Server" CausesValidation="false" CommandName="delete" Text="REMOVE"></asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Sr.No">
+                                                <ItemTemplate>
+                                                    <%# Container.DataItemIndex+1 %>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <span class="GridEmpty">---Today , No Enquiry Recieved ---</span>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" class="BoardStructure" colspan="3" style="height: 106px" valign="top">
+                                &nbsp;
+                                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
+                                <%--<asp:ScriptManager id="ScriptManager1" runat="server"></asp:ScriptManager>--%>
+                                <%--<ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy" PopupButtonID="ToDate" TargetControlID="ToDate"></ajaxToolkit:CalendarExtender>
+                                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy" PopupButtonID="FromDate" TargetControlID="FromDate"></ajaxToolkit:CalendarExtender>--%>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script language="javascript" type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,right=0,top=0,width=790,height=2000,toolbar=0,scrollbars=1,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+            prtContent.innerHTML = strOldOne;
+        }
+    </script>
+</asp:Content>

@@ -1,0 +1,216 @@
+﻿$(function()
+{
+    ////
+//    $('#TopJngs').html('<img src="../UserProfileImg/progress.gif" />');
+//    $('#TopJngs').load("Handlers/Common-Values.ashx?Vs=TopJngs");  
+//    ////
+//    $('#RefLink').html('<img src="../UserProfileImg/progress.gif" />');
+//   
+//    
+//    $('#RefLink').load("Handlers/Common-Values.ashx?Vs=RefLink");
+    $('#email').load("Handlers/Common-Values.ashx?Vs=RefLink1");
+//  $('#RefLink103').load("Handlers/Common-Values.ashx?Vs=RefLink3");  
+//    
+//    //// 
+//    $('#News').html('<img src="../UserProfileImg/progress.gif" />');
+//    $('#News').load("Handlers/Common-Values.ashx?Vs=News");  
+//    ////
+//    $('#AddRefBy').html('<img src="../UserProfileImg/progress.gif" />');
+//    $('#AddRefBy').load("Handlers/Common-Values.ashx?Vs=RefLinkby"); 
+    //// 
+    DashboardSummary();
+    $('#RefLink103').load("Handlers/Common-Values.ashx?Vs=RefLink3");
+    ////
+    dashFlag();
+})
+/////////
+function dashFlag() {
+       $.getJSON('Handlers/Current-Vistors.ashx?Typ=2',
+        
+        function (tst) {
+            if (tst.length == 0) { 
+            $('#DashFlag').html('');                                
+            }
+            else {
+                var dd = formatOrder(tst);
+                $('#DashFlag').html(dd);                
+            }
+        });  
+}
+//////
+function formatOrder(tst) {
+    var pp1l='';    
+    for (var i = 0; i < tst.length; i++) {   
+    
+        pp1l=pp1l+"<a class='dropdown-item' href='#'><i class='flag-icon flag-icon-"+ tst[i].Code+"'></i> "+tst[i].Country+"</a>";
+       
+    }
+    $('#DashFlag').html('');
+    return pp1l;
+}
+////////// 
+function DashboardSummary() {
+    ///////
+
+    $('#Mem_Name').html('<img src="../UserProfileImg/loading2.gif" />');
+    ///////
+    $.getJSON('Handlers/Inner_Page_Summary.ashx',
+        function (OrjsonDS) {
+            if (OrjsonDS.length == 0) {
+            }
+            else {
+                var wa = '';
+                for (var i = 0; i < OrjsonDS.length; i++) {
+                    ///// for Dashboard details...
+
+                    $('#TotTeam').html(OrjsonDS[i].TotTeam);
+                    ///
+                    $('#TOTAL_REFERRALS').html(OrjsonDS[i].TOTAL_REFERRALS);
+                    ///
+                    $('#prof_pic').attr('src', "../" + OrjsonDS[i].Mem_Profl_Pic + "");
+                    //
+                    $('#Mem_Profl_Pic').html("<img width='80' height='80' src='../" + OrjsonDS[i].Mem_Profl_Pic + "' alt='user'/>");
+                    ///
+                    $("#MemPic").attr('src', "../" + OrjsonDS[i].Mem_Profl_Pic + "");
+                    //
+                    $("#MemPic").attr('src', "../" + OrjsonDS[i].Mem_Profl_Pic + "");
+                    ///
+                    $('#Mem_Name').html(OrjsonDS[i].MemName);
+                    ///
+                    $('#Totte').html("Team " + OrjsonDS[i].TotTeam);
+                    ///
+                    $('#TotRef').html("Directs " + OrjsonDS[i].TOTAL_REFERRALS);
+                    ///
+                    //                $('#email').html(OrjsonDS[i].email);
+                    $('#email').html(OrjsonDS[i].MemID);
+                    $('#FRemail').val(OrjsonDS[i].email);
+                    ///                
+                    $('#btcadd').val(OrjsonDS[i].BTCAddress);
+                    ///Coin Payment     
+                    $('#GMwalletBalance').html(OrjsonDS[i].cWalletBal + " TRX");
+                    $('#gmwltbal').html(OrjsonDS[i].GMWalletBal);
+                    $('#gmwltbalnc').html(OrjsonDS[i].cWalletBal);
+                    $('#CPACType').html(OrjsonDS[i].CPACType + " wallet address");
+                    $('#GMACType').html(OrjsonDS[i].GMACType + " wallet address...");
+                    $('#NewBTC1').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + OrjsonDS[i].BTCAddress + "' width='150' height='150'>");
+                    $('#NewBTCGM').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + OrjsonDS[i].BTCAddress_GM + "' width='150' height='150'>");
+                    $('#paranew').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept fund request & credit amount in your wallet!");
+                    $('#paranewGM').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept fund request & credit amount in Game-Wallet!");
+                    $('#txtBTCAddress1').html(OrjsonDS[i].BTCAddress);
+                    $('#txtBTCAddressGM').html(OrjsonDS[i].BTCAddress_GM);
+                    $('#CPAmt').html(OrjsonDS[i].PlanAmt);
+                    $('#GMAmt').html(OrjsonDS[i].GMPlanAmt);
+                    //
+                    $('#CPStatus_txt').html(OrjsonDS[i].CPStatusMSG);
+                    $('#GmStatus_txt').html(OrjsonDS[i].GameStatusMSG);
+                    ///
+                    $('#fwalletBal').html("" + OrjsonDS[i].cWalletBal);
+                    $('#fwalletBalace').html("" + OrjsonDS[i].cWalletBal + " USD");
+                    $('#eWalletBalCWallet').val(OrjsonDS[i].cWalletBal);
+
+                    $('#GMwalletBal').html("" + OrjsonDS[i].GMWalletBal + " USD");
+                    $('#FndReqConfm').html(OrjsonDS[i].CntCnfFnd);
+                    $('#FndReqPndg').html(OrjsonDS[i].PendngFnd);
+                    ///
+                    $('#FndReqConfmGm').html(OrjsonDS[i].CntCnfFndGm);
+                    $('#FndReqPndgGm').html(OrjsonDS[i].PendngFndGM);
+                    ///////
+                    $('#ethadd').val(OrjsonDS[i].ETHAddress);
+                    ////
+                    $('#paytmadd').val(OrjsonDS[i].PaytmID);
+                    ///
+                    $('#upiadd').val(OrjsonDS[i].UPIID);
+                    ///
+                    $('#bankacno').val(OrjsonDS[i].BankAccNo);
+                    ///
+                    $('#bankname').val(OrjsonDS[i].BankName);
+                    ///
+                    $('#bankifsc').val(OrjsonDS[i].BankIFSC);
+                    ///
+                    $('#bankacholder').val(OrjsonDS[i].AcHolderName);
+                    ///
+                    //$('#txtmemiddeposit').val(OrjsonDS[i].MemID);
+                    ///
+                    $('#profJoin').html("<span style='color:#ffffff80;'>Registered On : </span> " + OrjsonDS[i].Sign_UpOn + " <br> <span style='color:#ffffff80;'>Purchase On : </span>" + OrjsonDS[i].Actived_On);
+                    ///
+                    $('#TotalRef').html(OrjsonDS[i].TOTAL_REFERRALS);
+                    $('#Active').html(OrjsonDS[i].ActTeam);
+                    $('#Inactive').html(OrjsonDS[i].Inactive);
+                    $('#Block').html(OrjsonDS[i].totBlock);
+                    $('#Topup').html(OrjsonDS[i].TotTeamDeposit);
+                    $('#Bonus').html(OrjsonDS[i].TotTeamBonus);
+                    $('#footertext').html(OrjsonDS[i].CompanyName);
+                    ///
+                    $('#RefErnSelfp').html(OrjsonDS[i].RefErnSelf);
+                    $('#RefErnTeamp').html(OrjsonDS[i].RefErnTeam);
+                    $('#TokenPrice').html("<b style='font-size: 16px;color: #ffc107;'>1 USD = " + OrjsonDS[i].TokenRate + " USD.</b>");
+                    $('#TPrice').val(OrjsonDS[i].TokenRate);
+                    $('#TkPrice').val(OrjsonDS[i].TokenRate);
+                    $('#txtSponserID').val(OrjsonDS[i].SponsorID);
+                    $('#showGlmrt').html("Today USD Price 1$= <span style='color:#f1951c'>" + OrjsonDS[i].TokenRate + " USD" +'<span>');
+                    ////
+                    $('#ACType_cp').html(OrjsonDS[i].ACType_cp + " wallet address...");
+                    $('#Newbtc_cp').html("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + OrjsonDS[i].Newbtc_cp + "' width='150' height='150'>");
+                    $('#messagestatus').html("Please make above payment on given Address by your crypto wallets. If all details will be correct then we will accept payment request & credit to your account!");
+                    $('#depositcoinadress').html(OrjsonDS[i].Newbtc_cp);
+                    $('#planamount').html(OrjsonDS[i].PlanAmt_cp);
+                    $('#Cpstatus').html(OrjsonDS[i].CPStatusMSG_cp);
+
+                    if (OrjsonDS[i].CPStatusMSG_cp == "") {
+                        $('#Cpstatus2').html('');
+                    }
+                    else {
+                        $('#Cpstatus2').html("<h4 class='fs-20 text-black text-align-center' style='    font-size: 13px !important;'>Last Payment status</h4><p class='mb-0 fs-13' style='color: #ffc107;     font-size: 18px!important;'>" + OrjsonDS[i].CPStatusMSG_cp + "<p>");
+                    }
+
+                    $('#totaldepsoitpayment').html(OrjsonDS[i].totaldeposit + " <span style='color:#ffffff50'>$</span> ");
+                    $('#ConfirmedDeposit').html(OrjsonDS[i].CntCnfFnd_cp + " <span style='color:#ffffff50'>$</span> ");
+                    $('#PendingDeposit').html(OrjsonDS[i].PendngFnd_cp + " <span style='color:#ffffff50'>$</span> ");
+
+                    ///
+                    //                $('#Sign_UpOn').html(OrjsonDS[i].Sign_UpOn);                
+                    //                ///
+                    //                $('#Actived_On').html(OrjsonDS[i].Actived_On);                
+                    //                ///
+                    //                $('#Last_Access').html(OrjsonDS[i].Last_Access); 
+                    //                ///
+                    //                $('#MY_EARNINGS').html("<span style='vertical-align: super; font-size:15px;'>$</span>"+OrjsonDS[i].MY_EARNINGS);                 
+                    //                ///                    
+                    //                $('#Mem_Profl_Pic').html("<img class='img-circle m-b' width='70' height='70' src='../"+OrjsonDS[i].Mem_Profl_Pic+"' alt=''/>"); 
+                    //                ///
+                    //                $('#Mem_Name').html(OrjsonDS[i].Mem_Name);
+                    //                ///
+                    //                $('#MemID').html(OrjsonDS[i].MemID);
+                    //                ///
+                    $('#Tot_Msg_Cunt').html(OrjsonDS[i].Tot_Msg_Cunt);
+                    //
+                    $('#Msg_Cunt').html(OrjsonDS[i].Msg_Cunt);
+                    //
+                    $('#Msg_CuntTP').html(OrjsonDS[i].Msg_Cunt);
+                    $('#StakeDividendsbal').html(OrjsonDS[i].StakeDividendsbal);
+                    $('#LevelDividendsbal').html(OrjsonDS[i].LevelDividendsbal);
+                    $('#RankDividends').html(OrjsonDS[i].RankDividends);
+                    $('#StakeDividendsbal1').val(OrjsonDS[i].StakeDividendsbal);
+                    $('#LevelDividendsbal1').val(OrjsonDS[i].LevelDividendsbal);
+                    $('#RankDividends1').val(OrjsonDS[i].MinTokenWithdrawal);
+                    $('#MxWith1').val(OrjsonDS[i].MaxTokenWithdrawal);
+                    $('#WithDct1').val(OrjsonDS[i].WithdrawDeduction);
+                    $('#txtmemiddeposit').val(OrjsonDS[i].MemID);
+                    $('#StakeDivi').html(OrjsonDS[i].StakeDividendsbal);
+                    //$('#TotStkBal').html(OrjsonDS[i].TotStkBal);
+                    $('#TOTAL_STAKE').html(OrjsonDS[i].TOTAL_STAKE);                   
+                    $('#LstDt').html(OrjsonDS[i].LstDt);
+                    $('#maxTokn').html(OrjsonDS[i].maxTokn);
+                    $('#StakeDividendBal').html("Balance : " + OrjsonDS[i].StakeDividendsbal + " USD");
+                    $('#LevelDividendBal').html("Balance : " + OrjsonDS[i].LevelDividendsbal + " USD");
+                    $('#RankDividendsBal').html("Balance : " + OrjsonDS[i].RankDividends + " USD");
+                    if (OrjsonDS[i].Chkday == '1') {
+                        $('#txtMCB').prop("disabled", false);
+                    }
+                    
+                    
+                }
+            }
+        });
+}
+  

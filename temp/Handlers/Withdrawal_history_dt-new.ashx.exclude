@@ -1,0 +1,198 @@
+﻿<%@ WebHandler Language="C#" Class="Withdrawal_history_dt_new" %>
+
+using System;
+using System.Data;
+using System.Text;
+using System.Web;
+
+public class Withdrawal_history_dt_new : IHttpHandler
+{
+
+    public HttpContext context; public HttpRequest request; public HttpResponse response;
+    public bool sc;
+    public string msg, dtl, strJson, DisPos, DipsType;
+    public static string UserID = "", RsltNum = "";
+    DynamicDtls objgdb = new DynamicDtls(); DataSet ds; DataTable dt;
+    public void ProcessRequest(HttpContext _context)
+    {
+        context = _context;
+        request = _context.Request;
+        response = _context.Response;
+        context.Response.ContentType = "application/json";
+        UserID = "";
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null && context.Request.QueryString["Vs"] != null)
+        {
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value);
+            DisPos = context.Request.QueryString["Vs"].ToString();
+
+            if (DisPos == "withdrwalhistorynew")
+            {
+                this.withdrwalhistorynew();
+            }
+
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../../login.html','_top');</script>");
+
+        }
+    }
+    private void withdrwalhistorynew()
+    {
+        try
+        {
+
+            //    ds = objgdb.ByProcedure("dbo.ParityUpdatesSp_1min", new string[] { "Flag", "JackpotNo", "FromDate", "ToDate", "JackpotAmt", "Status", "JockpotWinnerID", "JockpotWinAmt",
+            //            "ParticipateTotAmt","FromTime","ToTime" },
+            //           new string[] { "10", UserID.ToString(), "", "", "", "", "", "", "", "", "" }, "");
+
+            StringBuilder jsonBuilder = new StringBuilder("");
+            //if (ds.Tables[0].Rows.Count > 0)
+            //{
+            //    dt = ds.Tables[0];
+            //    if (dt.Rows.Count > 0)
+            //    {
+            //        for (int i = 0; i < dt.Rows.Count; i++)
+            //        {
+
+
+            jsonBuilder.Append("<div class='col-12 mt-3'>");
+            jsonBuilder.Append("<div class='card'>");
+            jsonBuilder.Append("<div class='card-inner table_section'>");
+            jsonBuilder.Append("<div class='card-header'>");
+            jsonBuilder.Append("<ul class='m-0 p-0 '>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-6'><button href='#' class='btn btns-theme mt-1 p-1  logoutHover'>Withdraw</button></div>");
+            jsonBuilder.Append("<div class='col-6 headingend'>Completed</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("</ul>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("<div class='card-body'>");
+            jsonBuilder.Append("<ul class='m-0 p-0 fontsty'>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Balance</div> <div class='col-8 pl-0 text-clr detailend'>1000</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Type</div><div class='col-8 pl-0  detailend'>Bank Card</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'> Time </div> <div class='col-8 pl-0  detailend'>2024-02-26 17:25:53</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Order No.</div><div class='col-8 pl-0 detailend d-flex align-items-center justify-content-between'>");
+            jsonBuilder.Append("<div class='oder-No'><span id='orderNo'>WD2024022617255364907668d</span></div>");
+            jsonBuilder.Append("<p class='btn themebtn btncopy2 mb-0' id='btnCopy2'> <i class='fa fa-clone' aria-hidden='true'></i></p>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'><div class='col-4 pr-0'>Remark</div></li>");
+            jsonBuilder.Append("</ul>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+
+            jsonBuilder.Append("<div class='col-12 mt-3'>");
+            jsonBuilder.Append("<div class='card'>");
+            jsonBuilder.Append("<div class='card-inner table_section'>");
+            jsonBuilder.Append("<div class='card-header'>");
+            jsonBuilder.Append("<ul class='m-0 p-0 '>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-6'><button href='#' class='btn btns-theme mt-1 p-1  logoutHover'>Withdraw</button></div>");
+            jsonBuilder.Append("<div class='col-6 headingend'>Completed</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("</ul>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("<div class='card-body'>");
+            jsonBuilder.Append("<ul class='m-0 p-0 fontsty'>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Balance</div> <div class='col-8 pl-0 text-clr detailend'>800</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Type</div><div class='col-8 pl-0  detailend'>Bank Card</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'> Time </div> <div class='col-8 pl-0  detailend'>2024-03-06 17:25:53</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Order No.</div><div class='col-8 pl-0 detailend d-flex align-items-center justify-content-between'>");
+            jsonBuilder.Append("<div class='oder-No'><span id='orderNo'>WD2024022611235364907668d</span></div>");
+            jsonBuilder.Append("<p class='btn themebtn btncopy2 mb-0' id='btnCopy2'> <i class='fa fa-clone' aria-hidden='true'></i></p>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'><div class='col-4 pr-0'>Remark</div></li>");
+            jsonBuilder.Append("</ul>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+
+
+            jsonBuilder.Append("<div class='col-12 mt-3'>");
+            jsonBuilder.Append("<div class='card'>");
+            jsonBuilder.Append("<div class='card-inner table_section'>");
+            jsonBuilder.Append("<div class='card-header'>");
+            jsonBuilder.Append("<ul class='m-0 p-0 '>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-6'><button href='#' class='btn btns-theme mt-1 p-1  logoutHover'>Withdraw</button></div>");
+            jsonBuilder.Append("<div class='col-6 headingend'>Completed</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("</ul>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("<div class='card-body'>");
+            jsonBuilder.Append("<ul class='m-0 p-0 fontsty'>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Balance</div> <div class='col-8 pl-0 text-clr detailend'>500</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Type</div><div class='col-8 pl-0  detailend'>Bank Card</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'> Time </div> <div class='col-8 pl-0  detailend'>2023-02-16 17:25:53</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'>");
+            jsonBuilder.Append("<div class='col-4 pr-0'>Order No.</div><div class='col-8 pl-0 detailend d-flex align-items-center justify-content-between'>");
+            jsonBuilder.Append("<div class='oder-No'><span id='orderNo'>WD2024022617255312307668d</span></div>");
+            jsonBuilder.Append("<p class='btn themebtn btncopy2 mb-0' id='btnCopy2'> <i class='fa fa-clone' aria-hidden='true'></i></p>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</li>");
+            jsonBuilder.Append("<li class='row detailitem'><div class='col-4 pr-0'>Remark</div></li>");
+            jsonBuilder.Append("</ul>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            jsonBuilder.Append("</div>");
+            //    }
+
+            //}
+            //                else
+            //{
+            //    jsonBuilder.Append("<div class='alert text-danger w-100' role='alert' style='text-decoration-line: underline; text-decoration-color: #009688;'><div class='iq-alert-icon'><i class='ri-information-line'></i></div><div class='iq-alert-text'>Sorry, record not found !</div><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='ri-close-line'></i></button></div></div>");
+            //}
+            //            }
+            //            else
+            //{
+            //    jsonBuilder.Append("<div class='alert text-danger w-100' role='alert' style='text-decoration-line: underline; text-decoration-color: #009688;'><div class='iq-alert-icon'><i class='ri-information-line'></i></div><div class='iq-alert-text'>Sorry, record not found!</div><button type='button' class='close' data-dismiss='alert' aria-label='Close'><i class='ri-close-line'></i></button></div></div>");
+            //}
+            response.Write(jsonBuilder);
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+   
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+
+}

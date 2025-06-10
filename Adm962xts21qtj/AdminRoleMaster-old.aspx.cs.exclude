@@ -1,0 +1,533 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Adm962xts21qtj_AdminRoleMaster : System.Web.UI.Page
+{
+    DataSet ds;
+    SqlConnection cn;
+    SqlCommand cmd;
+    SqlDataAdapter adp;
+    DynamicDtls objGd = new DynamicDtls();
+    DB objgdb = new DB();
+    int No = 0;
+    string Num = "";
+    string str = "";
+    int i = 0, M = 0; RoleAuthenticationCS objRole = new RoleAuthenticationCS();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.Cookies["Get563lnr43lbt"] != null)
+        {
+            if (!Page.IsPostBack)
+            {
+                objRole.CheckFormRoleAuthe(DB.base64Decod(Request.Cookies["Get563lnr43lbt"].Value), "Add News123");
+                if (objRole.RoleExist == "Admin Access")
+                {
+
+
+                }
+                else if (objRole.RoleExist == "Role Exist")
+                {
+
+                }
+                else
+                {
+                    objRole.PageRedirect();
+                }
+                clear();
+            }
+        }
+        else
+        {
+            Response.Redirect("../login.html", false);
+        }
+    }
+    protected void ddlRole_Init(object sender, EventArgs e)
+    {
+        fillRole();
+    }
+    public void fillRole()
+    {
+        try
+        {
+            str = objgdb.getconnection();
+            cn = new SqlConnection(str);
+            cmd = new SqlCommand("[ProcMasterSelection]", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Type", "2");
+            ds = new DataSet();
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                ddlRole.DataSource = ds.Tables[0];
+                ddlRole.DataTextField = "RoleName";
+                ddlRole.DataValueField = "RoleId";
+                ddlRole.DataBind();
+                ddlRole.Items.Insert(0, "--Select--");
+            }
+            else
+            {
+                ddlRole.DataSource = string.Empty;
+                ddlRole.DataBind();
+                ddlRole.Items.Insert(0, "--Select--");
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+        }
+        finally
+        {
+            ds.Dispose();
+            cmd.Dispose();
+            adp.Dispose();
+
+        }
+
+    }
+    public void clear()
+    {
+        txtAuto.Text = Autogenerate();
+        txtEnerRole.Text = "";
+        ///TextBox1.Text = "";
+        bind();
+        BtnSave.Visible = true;
+        BtnUpdate.Visible = false;
+        BtnDelete.Visible = false;
+    }
+    public void bind()
+    {
+        try
+        {
+            str = objgdb.getconnection();
+            cn = new SqlConnection(str);
+            cmd = new SqlCommand("[ProcMasterSelection]", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Type", "1");
+            ds = new DataSet();
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+
+                GVContent.DataSource = ds.Tables[0];
+                GVContent.DataBind();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+        }
+    }
+    public string Autogenerate()
+    {
+        try
+        {
+            ds = objgdb.ByDataSet("SELECT     CAST(ISNULL(MAX(SrNo), 0)AS varchar) AS SrNo    FROM    dbo.tblRoleMaster With(nolock)");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                //if (int.Parse(ds.Tables[0].Rows[0][0].ToString()) == 0)
+                //{
+                //    Num = "1";
+                //}
+                //else
+                //{
+                    No = int.Parse(ds.Tables[0].Rows[0][0].ToString()) + 1;
+                    Num = No.ToString();
+                //}
+            }
+        }
+        catch { }
+        return Num;
+    }
+    protected void BtnSave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ds = objgdb.ByDataSet("select RoleName  as c from tblRoleMaster With(nolock) where RoleName='" + txtEnerRole.Text.Trim() + "'");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                M = ds.Tables[0].Rows.Count;
+            }
+            if (M > 0)
+            {
+               lblMsg.Text=objGd.ErrorMsg("Role Name Already Exist.");
+            }
+            else
+            {
+
+                for (int i = 0; i < GVContent.Rows.Count; i++)
+                {
+                    CheckBox chkSelect = (CheckBox)GVContent.Rows[i].FindControl("chkSelect");
+                    if (chkSelect.Checked == true)
+                    {
+
+                        CheckBox chkSaveM = (CheckBox)GVContent.Rows[i].FindControl("chkSaveM");
+                        CheckBox chkUpdateM = (CheckBox)GVContent.Rows[i].FindControl("chkUpdateM");
+                        CheckBox chkDeleteM = (CheckBox)GVContent.Rows[i].FindControl("chkDeleteM");
+                        CheckBox chkPrintM = (CheckBox)GVContent.Rows[i].FindControl("chkPrintM");
+                        CheckBox chkReportM = (CheckBox)GVContent.Rows[i].FindControl("chkReportM");
+                        CheckBox chkExcelM = (CheckBox)GVContent.Rows[i].FindControl("chkExcelM");
+                        Label lblFormName = (Label)GVContent.Rows[i].FindControl("lblFormName");
+                     
+                        ds = objGd.ByProcedure("ProcMasterInsert", new string[] { "RoleName", "RoleId", "SelectA", "SaveM", "UpdateM", "DeleteM", "ExcelM", "ReportM", "PrintM", "FormNameID","type"
+                         }, new string[] { txtEnerRole.Text.Trim(), txtAuto.Text, chkSelect.Checked.ToString(), chkSaveM.Checked.ToString(), chkUpdateM.Checked.ToString(), chkDeleteM.Checked.ToString(), chkExcelM.Checked.ToString(), chkReportM.Checked.ToString(), chkPrintM.Checked.ToString(), lblFormName.Text, "1" }, "Dataset");
+
+                    }
+
+                    if (chkSelect.Checked == false)
+                    {
+
+                        CheckBox chkSaveM = (CheckBox)GVContent.Rows[i].FindControl("chkSaveM");
+                        CheckBox chkUpdateM = (CheckBox)GVContent.Rows[i].FindControl("chkUpdateM");
+                        CheckBox chkDeleteM = (CheckBox)GVContent.Rows[i].FindControl("chkDeleteM");
+                        CheckBox chkPrintM = (CheckBox)GVContent.Rows[i].FindControl("chkPrintM");
+                        CheckBox chkReportM = (CheckBox)GVContent.Rows[i].FindControl("chkReportM");
+                        CheckBox chkExcelM = (CheckBox)GVContent.Rows[i].FindControl("chkExcelM");
+                        Label lblFormName = (Label)GVContent.Rows[i].FindControl("lblFormName");
+
+                    ds = objGd.ByProcedure("ProcMasterInsert", new string[] { "RoleName", "RoleId", "SelectA", "SaveM", "UpdateM", "DeleteM", "ExcelM", "ReportM", "PrintM", "FormNameID","type"
+                    }, new string[] { txtEnerRole.Text.Trim(), txtAuto.Text, chkSelect.Checked.ToString(), chkSaveM.Checked.ToString(), chkUpdateM.Checked.ToString(), chkDeleteM.Checked.ToString(), chkExcelM.Checked.ToString(), chkReportM.Checked.ToString(), chkPrintM.Checked.ToString(), lblFormName.Text, "1" }, "Dataset");
+
+                    if (ds.Tables[0].Rows[0]["Msgsts"].ToString() == "Ok")
+                    {
+                        M = ds.Tables[0].Rows.Count;
+                    }
+                  }
+                  else
+                    {
+                        M = ds.Tables[0].Rows.Count;
+                    }
+                }
+                            
+                if (M > 0)
+                {
+                    lblMsg.Text = new DB().UpdateMessage("Record Saved Successfully...!");
+                   clear();
+                }
+                else
+                {
+                    lblMsg.Text = new DB().ErrorMessage("Please Check Atleast One Checkbox.");
+                    //    clear();
+                }
+            }
+
+            
+
+        }
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; ;}
+        finally
+        {
+
+
+        }
+    }
+    protected void BtnSearch_Click(object sender, EventArgs e)
+    {
+        BtnSave.Visible = false;
+        BtnUpdate.Visible = true;
+        BtnDelete.Visible = true;
+        try
+        {
+            if (ddlRole.SelectedItem.Text.ToUpper() == "--Select--")
+            {
+                lblMsg.Text = new DB().ErrorMessage("Please Enter Role Name.");
+            }
+            else
+            {
+                
+                ds = objGd.ByProcedure("ProcMasterInsert", new string[] { "RoleName", "RoleId", "SelectA", "SaveM", "UpdateM", "DeleteM", "ExcelM", "ReportM", "PrintM", "FormNameID","type"
+                         }, new string[] { ddlRole.SelectedItem.Text, "", "", "", "", "", "", "", "", "", "2" }, "Dataset");
+
+
+                 if (ds.Tables[0].Rows.Count > 0)
+                {
+                    lbldelete.Text=ds.Tables[0].Rows[0]["RoleId"].ToString();
+                    GVContent.DataSource = ds.Tables[0];
+                    GVContent.DataBind();
+                    BtnDelete.Visible = true;
+                    BtnUpdate.Visible = true;
+                }
+                else
+                {
+                    GVContent.DataSource = string.Empty;
+                    GVContent.DataBind();
+                    clear();
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+        }
+
+    }
+    protected void BtnUpdate_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            CheckBox chkSelect1 = (CheckBox)GVContent.Rows[0].FindControl("chkSelect");
+            if (chkSelect1.Checked == true)
+            {
+                for (int i = 0; i < GVContent.Rows.Count; i++)
+                {
+                    CheckBox chkSelect = (CheckBox)GVContent.Rows[i].FindControl("chkSelect");
+                    if (chkSelect.Checked == true)
+                    {
+                        Label lblID = (Label)GVContent.Rows[i].FindControl("lblID");
+                        CheckBox chkSaveM = (CheckBox)GVContent.Rows[i].FindControl("chkSaveM");
+                        CheckBox chkUpdateM = (CheckBox)GVContent.Rows[i].FindControl("chkUpdateM");
+                        CheckBox chkDeleteM = (CheckBox)GVContent.Rows[i].FindControl("chkDeleteM");
+                        CheckBox chkPrintM = (CheckBox)GVContent.Rows[i].FindControl("chkPrintM");
+                        CheckBox chkReportM = (CheckBox)GVContent.Rows[i].FindControl("chkReportM");
+                        CheckBox chkExcelM = (CheckBox)GVContent.Rows[i].FindControl("chkExcelM");
+                        Label lblFormName = (Label)GVContent.Rows[i].FindControl("lblFormName");
+                        ds = objGd.ByProcedure("ProcMasterInsert", new string[] { "RoleName", "RoleId", "SelectA", "SaveM", "UpdateM", "DeleteM", "ExcelM", "ReportM", "PrintM", "FormNameID","type"
+                         }, new string[] { "", lblID.Text, chkSelect.Checked.ToString() , chkSaveM.Checked.ToString(), chkUpdateM.Checked.ToString(),
+                             chkDeleteM.Checked.ToString(), chkExcelM.Checked.ToString(), chkReportM.Checked.ToString(), chkPrintM.Checked.ToString(),
+                             lblFormName.Text, "3" }, "Dataset");
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            M = ds.Tables[0].Rows.Count;
+                        }
+                    }
+
+
+                    if (chkSelect.Checked == false)
+                    {
+                        Label lblID = (Label)GVContent.Rows[i].FindControl("lblID");
+                        CheckBox chkSaveM = (CheckBox)GVContent.Rows[i].FindControl("chkSaveM");
+                        CheckBox chkUpdateM = (CheckBox)GVContent.Rows[i].FindControl("chkUpdateM");
+                        CheckBox chkDeleteM = (CheckBox)GVContent.Rows[i].FindControl("chkDeleteM");
+                        CheckBox chkPrintM = (CheckBox)GVContent.Rows[i].FindControl("chkPrintM");
+                        CheckBox chkReportM = (CheckBox)GVContent.Rows[i].FindControl("chkReportM");
+                        CheckBox chkExcelM = (CheckBox)GVContent.Rows[i].FindControl("chkExcelM");
+                        Label lblFormName = (Label)GVContent.Rows[i].FindControl("lblFormName");
+                        ds = objGd.ByProcedure("ProcMasterInsert", new string[] { "RoleName", "RoleId", "SelectA", "SaveM", "UpdateM", "DeleteM", "ExcelM", "ReportM", "PrintM", "FormNameID","type"
+                         }, new string[] { "", lblID.Text, chkSelect.Checked.ToString() , chkSaveM.Checked.ToString(), chkUpdateM.Checked.ToString(),
+                             chkDeleteM.Checked.ToString(), chkExcelM.Checked.ToString(), chkReportM.Checked.ToString(), chkPrintM.Checked.ToString(),
+                             lblFormName.Text, "3" }, "Dataset");
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            M = ds.Tables[0].Rows.Count;
+                        }
+                    }
+                
+                }
+               
+            }
+            if (M > 0)
+            {
+                lblMsg.Text = new DB().UpdateMessage("Record Updated Successfully.");
+                clear();
+            }
+            else
+            {
+                lblMsg.Text = new DB().ErrorMessage("Please Check Atleast One Checkbox.");
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            lblMsg.Text = new DB().ErrorMessage("Your request could not be completed.");
+        }
+        finally
+        {
+
+           
+        }
+
+    }
+    protected void Btnclear_Click(object sender, EventArgs e)
+    {
+        clear();
+        BtnUpdate.Visible = false;
+        BtnDelete.Visible = false;
+        BtnSave.Visible = true;
+
+    }
+    protected void chkboxSelect_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxSelect = (CheckBox)GVContent.HeaderRow.FindControl("chkboxSelect");
+
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkselect = (CheckBox)row.FindControl("chkSelect");
+            if (chkboxSelect.Checked == true)
+            {
+                chkselect.Checked = true;
+            }
+            else
+            {
+                chkselect.Checked = false;
+
+            }
+        }
+    }
+    protected void chkboxSaveM_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxSave = (CheckBox)GVContent.HeaderRow.FindControl("chkboxSaveM");
+
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkSaveM = (CheckBox)row.FindControl("chkSaveM");
+            if (chkboxSave.Checked == true)
+            {
+                chkSaveM.Checked = true;
+            }
+            else
+            {
+                chkSaveM.Checked = false;
+                }
+        }
+
+    }
+    protected void chkboxUpdateM_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxUpdate = (CheckBox)GVContent.HeaderRow.FindControl("chkboxUpdateM");
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkUpdate = (CheckBox)row.FindControl("chkUpdateM");
+            if (chkboxUpdate.Checked == true)
+            {
+                chkUpdate.Checked = true;
+            }
+            else
+            {
+                chkUpdate.Checked = false;
+                //chkboxUpdateM_CheckedChanged(sender, e);
+
+            }
+        }
+    }
+    protected void chkboxPrintM_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxPrintM = (CheckBox)GVContent.HeaderRow.FindControl("chkboxPrintM");
+
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkPrintM = (CheckBox)row.FindControl("chkPrintM");
+            if (chkboxPrintM.Checked == true)
+            {
+                chkPrintM.Checked = true;
+            }
+            else
+            {
+                chkPrintM.Checked = false;
+                //   chkboxPrintM_CheckedChanged(sender, e);
+
+            }
+        }
+
+    }
+    protected void chkboxDeleteM_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxDeleteM = (CheckBox)GVContent.HeaderRow.FindControl("chkboxDeleteM");
+
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkDeleteM = (CheckBox)row.FindControl("chkDeleteM");
+            if (chkboxDeleteM.Checked == true)
+            {
+                chkDeleteM.Checked = true;
+            }
+            else
+            {
+                chkDeleteM.Checked = false;
+                // chkboxDeleteM_CheckedChanged(sender, e);
+
+            }
+        }
+
+
+    }
+    protected void chkboxReportM_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxReportM = (CheckBox)GVContent.HeaderRow.FindControl("chkboxReportM");
+
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkReportM = (CheckBox)row.FindControl("chkReportM");
+            if (chkboxReportM.Checked == true)
+            {
+                chkReportM.Checked = true;
+            }
+            else
+            {
+                chkReportM.Checked = false;
+                // chkboxReportM_CheckedChanged(sender, e);
+
+            }
+        }
+
+    }
+    protected void BtnDelete_Click(object sender, EventArgs e)
+    {
+    try
+        {
+        
+                    ds = objGd.ByProcedure("ProcMasterInsert", new string[] { "RoleName", "RoleId", "SelectA", "SaveM", "UpdateM", "DeleteM", "ExcelM", "ReportM", "PrintM", "FormNameID","type"
+                    }, new string[] { "", lbldelete.Text, "", "", "", "", "", "", "", "", "4" }, "Dataset");
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        i = ds.Tables[0].Rows.Count;
+
+                    }
+             
+            if (i > 0)
+            {
+                lblMsg.Text = new DB().UpdateMessage("Roll Deleted Successfully.");
+                clear();
+                BtnUpdate.Visible = false;
+                BtnDelete.Visible = false;
+            }
+        }
+
+        catch (Exception ex) { DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed."; ;}
+        finally
+        {
+            if (cn != null && cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+                cn.Dispose();
+            }
+            adp.Dispose();
+            cmd.Dispose();
+        }
+    }
+    protected void chkboxExcelM_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkboxExcelM = (CheckBox)GVContent.HeaderRow.FindControl("chkboxExcelM");
+
+        foreach (GridViewRow row in GVContent.Rows)
+        {
+            CheckBox chkExcelM = (CheckBox)row.FindControl("chkExcelM");
+            if (chkboxExcelM.Checked == true)
+            {
+                chkExcelM.Checked = true;
+            }
+            else
+            {
+                chkExcelM.Checked = false;
+                // chkboxReportM_CheckedChanged(sender, e);
+
+            }
+        }
+
+    }
+}

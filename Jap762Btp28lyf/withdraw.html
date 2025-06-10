@@ -1,0 +1,534 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Website-Logo/favicon.svg">
+    <title>Withdraw</title>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="css/new-style.css?v=1.3" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/mobile-menu.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="css/NewStyleSheet.css" rel="stylesheet" />
+    <style>
+        .row {
+            flex-wrap: nowrap;
+        }
+        .w-1 {
+            z-index: 0;
+        }
+        .text {
+            color: #666666;
+            font: 12px;
+            margin-left: 10px;
+        }
+        p span {
+            color: red;
+        }
+        select.form-select option {
+            background-color: transparent !important; /* Set background color to transparent */
+        }
+        .text-container {
+            border-style: dashed;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 10px 10px 13px;
+            margin-bottom: 30px;
+            border-width: 1px;
+            border-color: gray;
+        }
+        .form-select {
+            --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            display: block;
+            width: 100%;
+            padding: .375rem 2.25rem .375rem .75rem;
+            /*-moz-padding-start: calc(0.75rem - 3px);*/
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: rgba(255, 2551, 255, 0.54) !important;
+            background-color: var(--bs-form-control-bg);
+            background-image: var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none);
+            background-repeat: no-repeat;
+            background-position: right .75rem center;
+            background-size: 16px 12px;
+            border: var(--bs-border-width) solid var(--bs-border-color);
+            border-radius: .375rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /*appearance: none;*/
+            border: 2px solid #ededed;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .bxs-info-circle:before {
+            content: "\ed49";
+        }
+        a#submitfgsecpin {
+            font-size: smaller;
+        }
+        .text-orange {
+            color: #ee9d28;
+        }
+        .label_m {
+            font-size: 13.333px;
+        }
+        .fa-lock:before {
+            content: "\f023";
+            margin-right: 3px;
+        }
+        form {
+            margin-top: -53px;
+        }
+        .form-label {
+            font-size: 14px;
+        }
+        span#usd_box {
+            background: linear-gradient(169.71deg, rgba(249,208,74,1) 0.8%, rgba(238,157,40,1) 100.86%);
+            border-top-right-radius: 4px !important;
+            border-bottom-right-radius: 4px !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            font-weight: 500;
+        }
+        .col-md-4.col-12.m-auto.mobile_screen {
+            margin-bottom: 55px !important;
+        }
+        /*.btns-theme {
+            color: #fff;
+            font-size: 14px;
+            height: 36px;
+            font-weight: 500;
+            padding: 5px;
+            text-shadow: 0 0.05333rem 0.02667rem rgba(231,65,65,.5019607843);
+            background: -webkit-linear-gradient(top, #0096880%, #009688 100%);
+            background: linear-gradient(180deg, #0096880%, #009688 100%);
+            box-shadow: 0 0.05333rem #009688;
+            border: 1px double #fb9a3a;
+            border-top-right-radius: 3px !important;
+            border-bottom-right-radius: 3px !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            width: 108px;
+        }*/
+        .bubblecard {
+            background: linear-gradient(90deg,#009688 0%,#0096889c100%);
+            border-radius: 0px 0px 0px 0px;
+            height: 100px;
+            background: #1a1a1a;
+        }
+        .box {
+            border-style: dashed;
+            border-width: 1px;
+            position: relative;
+            width: 124%;
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 2551, 255, 0.54) !important;
+            border-radius: 5px;
+            padding: 7px 0px 7px 0px !important;
+            -webkit-transition: .5s;
+            transition: .5s;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            -webkit-box-shadow: 0 0 30px 0 rgb(82 63 105 / 5%);
+            box-shadow: 0 0 30px 0 rgb(82 63 105 / 5%);
+            flex-direction: row;
+            padding: 10px 10px 10px 13px;
+        }
+        #withdraw-his {
+            text-align: end;
+            font-size: 13.333px;
+            color: #009688;
+        }
+        @media(max-width: 600px) {
+            .userimage {
+                left: 23% !important;
+            }
+            .txn {
+                text-align: end !important;
+                border-right: 1px solid #d3d3d3;
+            }
+            #withdraw-his {
+                text-align: end;
+                font-size: 13.333px;
+                color: #009688;
+            }
+        }
+        @media(min-width: 600px) {
+            .txn {
+                text-align: end !important;
+                border-right: 1px solid #d3d3d3;
+            }
+            .fa-arrow-left-long:before, .fa-long-arrow-left:before {
+                content: "\f177";
+                margin-left: 7px;
+            }
+            #withdraw-his {
+                text-align: end;
+                font-size: 13.333px;
+                color: #009688;
+            }
+        }
+        .clrred {
+            color: red;
+        }
+        .balancebubble {
+            height: 111px !important;
+            top: -56px !important;
+        }
+        .icons {
+            position: absolute;
+            top: 11px;
+            right: 123px;
+            font-size: 18px;
+            /*color: #fb9a3a;*/
+            z-index: 10;
+        }
+        .theam-bg {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+    </style>
+</head>
+<body class="fix-header fix-sidebar card-no-border logo-center">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg>
+    </div>
+    <div class="container-fluid">
+        <div class="row background-body-color">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen">
+                <div class="main-content mt-5 pb-5">
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile-top-bar visible-on-sm-down fixed-top flex flex-ai-c">
+                        <a href="#" class="btn-toggle-mobile-side-bar">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </a>
+                        <a href="#" class="text-white ml-2 fs-20" onclick="history.back()"><i class="fa fa-arrow-left-long"></i></a>
+                        <a href="#" class="logo flex flex-ai-c absolute-center">
+                            Withdraw
+                            <div class="loged-in"></div>
+                        </a>
+                    </div>
+                    <div class="mobile-side-bar">
+                        <nav class="menu-box-1">
+                            <div class="text-center pt-2">
+                                <img src="../Website-Logo/sidebar-logo.svg" style="width: 100px;">
+                            </div>
+                            <hr class="mt-2 bg-white">
+                            <ul class="list">
+                                <li>
+                                    <a href="game-index.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-house m-1"></i>
+                                        </div>Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-user m-1"></i>
+                                        </div>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa-solid fa-file-import m-1"></i>
+                                        </div>Affiliate
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-team.html" class="block menui2">My Team</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="My-directs.html" class="block menui2">My Directs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-wave m-1"></i>
+                                        </div>Deposit
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance.html" class="block menui2">Deposit Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="add-balance-history.html" class="block menui2">Deposit History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Main Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Invitation-Bonus" class="block menui2">Invitation Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Trade-Bonus" class="block menui2">Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Trade-Level-Bonus" class="block menui2">Level Trade Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Promotion-Bonus" class="block menui2">Promotion Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Deposit-Bonus" class="block menui2">Deposit Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Daily-Salary" class="block menui2">Daily Salary</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-User.html" class="block menui2">Transfer to user</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="From-up-history.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-building-columns m-1"></i>
+                                        </div>Growth Wallet
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Growth-Bonus" class="block menui2">Growth Bonus</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="Transfer-to-Mainwallet.html" class="block menui2">Transfer to Main Wallet</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a href="growthwallet.html?IncType=Transaction-History" class="block menui2">Transaction History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="invite.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope-open-text m-1"></i>
+                                        </div>Promotion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-money-bill-1 m-1"></i>
+                                        </div>Withdraw
+                                        <i class="fa-solid fa-chevron-down cheviconr"></i>
+                                    </a>
+                                    <ul class="list pl-1">
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw.html">Withdraw Now</a>
+                                        </li>
+                                        <li>
+                                            <i class="fa-solid fa-diamond ds"></i>
+                                            <a class="block menui2" href="withdraw-history.html">Withdraw History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="inbox.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-envelope m-1"></i>
+                                        </div>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="news.html" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-newspaper m-1"></i>
+                                        </div>News
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Sign-Out.aspx" class="block menui">
+                                        <div class="icircles">
+                                            <i class="fa fa-right-from-bracket m-1"></i>
+                                        </div>Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="bubblecard"></div>
+                    <div class="px-3 pb-4">
+                        <div class="col-11 m-auto text-center balancebubble">
+                            <p class="my-2 text-muted fs-1">Main Wallet Balance</p>
+                            <div class="p-0">
+                                <h3 class="d-inline-block pt-2">
+                                    <i class="fa fa-wallet wallet"></i>
+                                </h3>
+                                <h3 class="text-theme d-inline-block pt-2" id="Withbal">...</h3>
+                                <h6 class="d-inline-block usd pt-2 ml-1">$</h6>
+                            </div>
+                            <hr class="hrbalance">
+                        </div>
+                        <form role="form" onsubmit="return SubmitRequestNow(),!1" action="#">
+                            <div class="row mt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <label class="form-label fs-md mb-1" for="default-03">Payment Mode</label>
+                                    <div class="col-sm-12 text-secondary mb-3 px-0">
+                                        <div class="input-group">
+                                            <select class="form-control" id="Paymentmode" aria-label="Default select example">
+                                                <option value="TRX.TRC20">TRX.TRC20</option>
+                                            </select>
+                                        </div>
+                                        <div id="otpdtl">
+                                            <label class="text-danger mb-1">Enter OTP</label>
+                                            <div class="col-sm-12 text-secondary mb-3 mt-0 px-0">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="txtOtp" id="txtOtp" placeholder="Enter Otp Ex.:123456" maxlength="10">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <label class="form-label fs-md mb-1" for="default-03">Withdrawal Amount</label>
+                                    <div class="col-sm-12 text-secondary mb-2 mt-0 px-0">
+                                        <div class="input-group">
+                                            <input type="number" class="form-control w-1 theam-bg" name="txtProfitSharing" id="txtProfitSharing" value="" placeholder="Enter Amount" maxlength="6" onkeypress="return isNumberKey(event)" onpaste="return!1" onchange='TotWithdrawalAmt("PS")' autocomplete="off" autofocus="">
+                                            <span id="usd_box" class="input-group-text">$</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="netpaysec" class="row" style="display: none;">
+                                <div class="box mx-3 mb-2">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 txn">
+                                        <div class="">
+                                            <label id="Deduction">Transaction fee<br>0000 $<span class="fa fa-info-circle"></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-label fs-md  mb-0" for="default-03">Net Payable</label>
+                                        <h5 class="info-header mb-0 mt-0" id="NetWithAmt">...</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 text-secondary mb-3 mt-0 px-0">
+                                <label class="form-label fs-md text-light mb-0" for="default-03">Withdraw To</label>
+                                <div class="input-group mb-3">
+                                    <input class="form-control" id="txtTRONAddress" placeholder="Enter Wallet Address" autofocus="" required="" disabled="disabled" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 text-secondary mb-3 mt-4 px-0">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="txtSecPWD" placeholder="Enter Txn Password" maxlength="15" autofocus="" required="">
+                                    <i class="fa fa-eye-slash icons toggle-password" aria-hidden="true"></i>
+                                    <span><button class="btn btn-theme" type="submit" id="SubmitWithdnow" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;">Withdraw<span class="fa fa-database ml-2"></span></button></span>
+                                </div>
+                                <div class="col-sm-8 pl-0">
+                                    <a href="#" class="form-label text-orange" for="buysell-amount" id="submitfgsecpin" onclick="return forgotsecpin(),!1"><i class="fa fa-lock mr-1"></i>Forgot Txn Password</a>
+                                </div>
+                            </div>
+                            <div id="Msgs"></div>
+                        </form>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-label fs-md mb-0" for="default-03">Withdraw Conditions</label>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6" id="withdraw-his">
+                                <i class="fa fa-file mr-1 text-orange"></i>
+                                <a href="withdraw-history.html" class="text-orange">Withdraw History</a>
+                            </div>
+                        </div>
+                        <div class="text-container">
+                            <div class="">
+                                <label class="wdra_min label_m mb-0 text-muted"><span class="fa fa-stop-circle text-orange mr-1"></span>Withdrawal amount range:<span id="Minwith" class="clrred mx-1">...</span><span class="clrred">-Unlimited</span></label>
+                                <br>
+                                <label class="wdra_mult label_m mb-0 text-muted"><span class="fa fa-stop-circle text-orange mr-1"></span>Multiple:<span id="MltWith" class="mx-1 clrred">...</span></label>
+                                <br>
+                                <label class="wdra_net label_m mb-0 text-muted"><span class="fa fa-stop-circle text-orange mr-1"></span>Network Fee:<span id="Deductioncharge" class="mx-1 clrred">...</span></label>
+                                <br>
+                                <label class="wdra_net label_m mb-0 text-muted"><span class="fa fa-stop-circle text-orange mr-1"></span>Today Remaining Withdrawal Times:<span id="TodayWith" class="mx-1 clrred">...</span></label>
+                                <br>
+                                <label class="wdra_net label_m mb-0 text-muted"><span class="fa fa-stop-circle text-orange mr-1"></span>Need to bet<span id="betwithdraw" class="mx-1 clrred">...</span>to be able to withdraw</label>
+                                <br>
+                                <label class="wdra_net label_m mb-0 text-muted"><span class="fa fa-stop-circle text-orange mr-1"></span>If your first withdrawal not completed you can't make second withdrawal.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="inbox.html"><img src="img/game-index-icons/icon_sevice-chat.png" class="chat-icon-right"></a>
+                <div id="footer-bar" class="footer-bar-1 col-lg-4 col-md-6 col-sm-8 col-12 m-auto mobile_screen" style="transform: translateX(0);">
+                    <a href="game-index.html"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                    <a href="activity.html"><i class="fa-solid fa-bag-shopping"></i><span>Activity</span></a>
+                    <a href="invite.html">
+                        <div class="footer-ball">
+                            <img src="img/icons8-diamond-60.png" class="pt-2" style="width: 40px;">
+                        </div>
+                        <div class="footer-daimond-text">Promotion</div>
+                    </a>
+                    <a href="Wallet.html"><i class="fa fa-wallet"></i><span>Wallet</span></a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i><span>Account</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="WallBal" />
+    <input type="hidden" id="Deductioncharge1" />
+    <input type="hidden" id="Tokenrt" />
+    <input type="hidden" id="transferuserDeduc" />
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="Handler_js/Inner_Page_Summary.js?v=1.0"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="Handler_js/Withdraw-Request-Dapp.js?v=2.2"></script>
+    <script>
+        $("#usd_box").click(function () {
+            $("#net-pay-sec").show();
+        });
+    </script>
+    <script type="text/javascript">
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye-slash fa-eye");
+            input = $(this).parent().find("input");
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Adm962xts21qtj_Admin_WithDrawalMode_Detail : System.Web.UI.Page
+{
+    Int32 RtrnRslt;
+    DataSet ds;
+    string UserID;
+    public string Status, Usercode;
+    DynamicDtls objgdb = new DynamicDtls();
+    public string txtFirstName, txtLastName, txtEmailid, txtMobiUSD, txtConfirmEmail, Salutation, MobileCode,
+              Country, txtAccFName, txtAccLName, txtAccCity, txtBakName,
+               txtAccountNo, IFSC, SwiftCode, PerfectMoneyId, BnkAccType, BranchName;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            //this.GetPrePageInfo();
+            if (Request.QueryString["M"] != null)
+            {
+                if (Request.QueryString["M"].ToString() == "Bank Wire")
+                {
+                    PerFactMoneyShow.Visible = false;
+                    BankWireShow.Visible = true;
+                    GetPrePageInfo();
+                }
+                else if (Request.QueryString["M"].ToString() == "By Perfect Money")
+                {
+                    PerFactMoneyShow.Visible = true;
+                    BankWireShow.Visible = false;
+                    GetPrePageInfo();
+                }
+            }
+            else
+            {
+                Response.Redirect("AdminViewFundRequest.aspx");
+            }
+        }
+    }
+    protected void GetPrePageInfo()
+    {
+        try
+        {
+            ds = objgdb.ByProcedure("GetUserProfile", new string[] { "MemID" } , new string[] { Request.QueryString["U"].ToString() }, "BY DATASET");
+
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                txtFirstName = dr["mname"].ToString();
+                txtLastName = dr["MLastName"].ToString();
+                txtEmailid = dr["email"].ToString();
+                txtMobiUSD = dr["mobile"].ToString();
+                txtConfirmEmail = dr["email"].ToString();
+                Salutation = dr["Salutation"].ToString();
+                MobileCode = dr["MobileCode"].ToString();
+                Country = dr["Country"].ToString();
+                BranchName = dr["branchname"].ToString();
+                txtAccFName = dr["AccountName"].ToString();
+                txtAccLName = dr["AccLName"].ToString();
+                txtAccCity = dr["BankCity"].ToString();
+                txtBakName = dr["bankname"].ToString();
+                txtAccountNo = dr["accno"].ToString();
+                IFSC = dr["IFSC"].ToString();
+                SwiftCode = dr["SwiftCode"].ToString();
+                PerfectMoneyId = dr["PerfectMoneyId"].ToString();
+                BnkAccType = dr["BnkAccType"].ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
+            //lblmsg.Text = objgdb.ErrorMsg("Your request could not be completed.");
+        }
+        finally
+        {
+            if (ds != null) { ds.Dispose(); }
+        }
+    }
+
+
+}

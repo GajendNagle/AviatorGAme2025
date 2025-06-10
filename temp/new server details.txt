@@ -1,0 +1,39 @@
+Child Name Servers:
+ns1.wintron.online 173.208.216.27
+ns2.wintron.online 173.208.216.27
+====================================
+Name Servers:
+ns1.wintron.online
+ns2.wintron.online
+---------------------------------------
+Note: DNS propagation takes 24-48 hours to propagate globally.
+Let us know if you require further assistance.
+Best Regards,
+Shahbaz Alam | Technical Support Engineer
+www.giptechnologies.in
+======================================================
+
+RDP Login:
+Hostname: host2660.wintron.online
+Server IP: 173.208.216.27:8965
+Username: administrator
+Password: Q737q98@2ATUsg1
+========================================
+Plesk Panel:
+Login URL: http://173.208.216.27:8880
+Username : admin
+Password : Pl36@yXs#d6oCL9Drw72
+=========================================
+MSSQL Server:
+Host: localhost,8619 or 173.208.216.27,8619
+Username: sa
+Password: bjwn@g4Qi1o14
+------------------------------------------------
+
+Database details
+=================
+IP: 173.208.216.27,8619
+UID: wiNTRO98NUID
+PWD: V~C!sU82yavpuw0r
+DB Name: WIN2O0TroNDB
+

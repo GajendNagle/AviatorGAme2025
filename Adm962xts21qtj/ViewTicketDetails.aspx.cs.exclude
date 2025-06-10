@@ -1,0 +1,66 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Adm962xts21qtj_ViewTicketDetails : System.Web.UI.Page
+{
+    DB objdb = new DB();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            FillGrid();
+        }
+    }
+    protected void FillGrid()
+    {
+        try
+        {
+            if (txtFromDate.Text == "" && txtToDate.Text == "")
+            {
+                GridView2.DataSource = objdb.ByDataSet("select id ,  fullname [Full Name], emailaddress [Email Address],enqdesc [Message],enquirydate [Ticket Date] ,HelpTopic [Help Topic],MemId  [Member ID]  from EnquiryDetails order by id desc");
+                GridView2.DataBind();
+            }
+            else if (txtFromDate.Text != "" && txtToDate.Text != "")
+            {
+                GridView2.DataSource = objdb.ByDataSet("select id, fullname [Full Name], emailaddress [Email Address],enqdesc [Message],enquirydate [Ticket Date] ,HelpTopic  [Help Topic],MemId [Member ID]  from EnquiryDetails where convert(datetime,enquirydate,103) between convert(datetime,'" + txtFromDate.Text + "',103) and convert(datetime,'" + txtToDate.Text + "',103)  order by id desc");
+                GridView2.DataBind();
+            }
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }  
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        FillGrid();
+    }
+    protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            int EnqNO = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            objdb.ByText("Delete EnquiryDetails where id='" + EnqNO + "'");
+            lblMsg.Text = objdb.AdminErrorMessage("!!  Record Deleted !!");
+            lblMsg.ForeColor = System.Drawing.Color.Green;
+            FillGrid();
+        }
+        catch (Exception ex)
+        {
+            DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace); lblMsg.Text = "Your request could not be completed.";
+        }
+    }
+  
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        FillGrid();
+    }
+}

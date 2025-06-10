@@ -1,0 +1,182 @@
+<%@ Page Language="C#" MasterPageFile="~/Adm962xts21qtj/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="AdminTradingEWalletTransactionDetail.aspx.cs" Inherits="AdminTradingEWalletTransactionDetail"
+    StylesheetTheme="MySkin" Title="Repurchase E-Wallet Transaction Detail" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="padding: 10px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background-color:White">
+                    <tr>
+                        <td align="right" colspan="3">
+                            <table border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; font-family: 'Poppins', sans-serif;
+                                width: 100%;">
+                                <tr>
+                                    <td align="right" style="height: 26px;" valign="middle">
+                                        From Date:</td>
+                                    <td align="left" style="height: 26px; width: 74px;" valign="middle">
+                                        <asp:TextBox ID="txtFromDate" runat="server" CssClass="form-control" Font-Names="Verdana"
+                                            Font-Size="11px" MaxLength="12" Width="87px"></asp:TextBox></td>
+                                    <td align="left" style="height: 26px; width: 62px;" valign="middle">
+                                        &nbsp;<asp:Image ID="Image2" runat="server" ImageUrl="~/UserItems/Img/cal.png" /></td>
+                                    <td align="left" style="height: 26px; width: 82px;" valign="middle">
+                                        To Date:</td>
+                                    <td align="left" style="height: 26px; width: 85px;" valign="middle">
+                                        <asp:TextBox ID="txtToDate" runat="server" CssClass="form-control" Font-Names="Verdana"
+                                            Font-Size="11px" MaxLength="12" Width="87px"></asp:TextBox></td>
+                                    <td align="left" style="height: 26px; width: 56px;" valign="middle">
+                                        &nbsp;<asp:Image ID="Image6" runat="server" ImageUrl="~/UserItems/Img/cal.png" /></td>
+                                    <td align="left" style="width: 85px; height: 26px" valign="middle">
+                                        Select One :</td>
+                                    <td align="left" style="width: 56px; height: 26px" valign="middle">
+                                        <asp:DropDownList ID="DDLDownPos" runat="server" AutoPostBack="True" CssClass="ComposeTxtBx"
+                                            Font-Names="Verdana" Font-Size="11px" OnSelectedIndexChanged="DDLDownPos_SelectedIndexChanged"
+                                            Width="80px">
+                                            <asp:ListItem>All</asp:ListItem>
+                                            <asp:ListItem Value="MName">Name</asp:ListItem>
+                                            <asp:ListItem Value="MemID">UserName</asp:ListItem>
+                                            <asp:ListItem Value="Remark">Admin Remark</asp:ListItem>
+                                        </asp:DropDownList></td>
+                                    <td align="left" style="width: 56px; height: 26px" valign="middle">
+                                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" Font-Names="Verdana"
+                                            Font-Size="11px" MaxLength="30" Text="" Visible="False" Width="87px"></asp:TextBox><asp:DropDownList
+                                                ID="DDLFillItems" runat="server" CssClass="ComposeTxtBx" Font-Names="Verdana"
+                                                Font-Size="11px" Visible="False" Width="91px">
+                                                <asp:ListItem>DEBITED BY ADMIN</asp:ListItem>
+                                                <asp:ListItem>CREDITED BY ADMIN</asp:ListItem>
+                                            </asp:DropDownList></td>
+                                    <td align="left" style="height: 26px; padding-left: 5px;" valign="middle">
+                                        <asp:Button ID="btnSearch" runat="server" CssClass="OuterBtn" Font-Names="Verdana"
+                                            Font-Size="10px" OnClick="btnSearch_Click" Text="Show" CausesValidation="False" /></td>
+                                    <td align="left" style="padding-left: 5px; width: 182px; height: 26px" valign="middle">
+                                        <div style="text-align: center; float: left;">
+                                            <%=PageNo%>
+                                            -
+                                            <%=Pagesize %>
+                                            of &nbsp;<asp:Label ID="lblTotRec" runat="server" Font-Bold="True" Font-Names="Verdana"
+                                                Font-Size="11px"></asp:Label>
+                                        
+                                        &nbsp;<asp:DropDownList ID="ddlJumpToPage" runat="server" AutoPostBack="true" Font-Names="Verdana"
+                                            Font-Size="11px" OnSelectedIndexChanged="PageChanged" Width="58px" CssClass="ComposeTxtBx">
+                                        </asp:DropDownList></div></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="11" style="padding-left: 5px; height: 26px" valign="middle">
+                                        <table style="width: 67%">
+                                            <tr>
+                                                <td align="center" colspan="2" valign="top">
+                                                    <table width="100%" style="font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: bold;"
+                                                        cellpadding="0" cellspacing="5">
+                                                        <tr>
+                                                            <td>
+                                                                Total Credit :<span style="color: Red;">
+                                                                    <%=TotCredit%>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                Total Debit :<span style="color: Red;">
+                                                                    <%=Totdebit %>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                Balance: <span style="color: Red;">
+                                                                    <%=Balance %>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <asp:Label ID="lblMsg" runat="server" ForeColor="Red"></asp:Label></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 10px; padding-left: 10px; padding-bottom: 10px;">
+           <asp:Label ID="lblgvRecord" runat="server" Text=""></asp:Label> 
+                <asp:GridView ID="GvCaptchaWork" runat="server" Font-Bold="False" Font-Names="verdana"
+                    Width="100%" ShowFooter="True" PageSize="25" AutoGenerateColumns="False" OnRowDataBound="GvCaptchaWork_RowDataBound">
+                    <RowStyle Height="22px" HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SrNo.">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex +1  %>
+                                .
+                            </ItemTemplate>
+                            <ControlStyle Width="100px" />
+                            <HeaderStyle HorizontalAlign="Center" Width="50px" />
+                            <ItemStyle HorizontalAlign="Center" Width="50px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="MemID">
+                            <ItemTemplate>
+                                <asp:Label ID="lblMemId" runat="server" Text='<%# Eval("MemID")%>'></asp:Label>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Name">
+                            <ItemTemplate>
+                                <asp:Label ID="lblMemName" runat="server" Text='<%# Eval("NAME")%>'></asp:Label>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Trans Date">
+                            <ItemTemplate>
+                                <%# DataBinder.Eval(Container.DataItem, "TransactionDt")%>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                Page Total :
+                            </FooterTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Debit">
+                            <ItemTemplate>
+                                <asp:Label ID="lblAmtDebit" runat="server" Text='<%# Eval("Dr")%>'></asp:Label>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                <asp:Label ID="lblTotAmtDebit" runat="server"></asp:Label>
+                            </FooterTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Credit">
+                            <ItemTemplate>
+                                <asp:Label ID="lblAmtCredit" runat="server" Text='<%# Eval("Cr")%>'></asp:Label>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                <asp:Label ID="lblTotAmtCredit" runat="server"></asp:Label>
+                            </FooterTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Remark">
+                            <ItemTemplate>
+                                <asp:Label ID="lblAmtRemark" runat="server" Text='<%# Eval("Remark")%>'></asp:Label>
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                    </Columns>
+                    <FooterStyle BorderStyle="None" Height="20px" HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <PagerStyle Font-Size="12px" />
+                    <EmptyDataTemplate>
+                        <span style="color: Red;">---!!! Ooops, Account Transaction Detail Not Found !!!---</span>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="dd/MM/yyyy"
+                    PopupButtonID="Image2" TargetControlID="txtFromDate">
+                </ajaxToolkit:CalendarExtender>
+                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="dd/MM/yyyy"
+                    PopupButtonID="Image6" TargetControlID="txtToDate">
+                </ajaxToolkit:CalendarExtender>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
