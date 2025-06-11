@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="new_game_generated" %>
+﻿﻿<%@ WebHandler Language="C#" Class="new_game_generated" %>
 
 using System;
 using System.Web;
@@ -19,7 +19,7 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
     DataTable dt;
     public float BetAPending;
     public float BetBPending;
-    DynamicDtls objgdb = new DynamicDtls();
+     DynamicDtls objgdb = new DynamicDtls();
 
     public string ConDB = ConfigurationManager.ConnectionStrings["Conn"].ConnectionString;
 
@@ -32,8 +32,7 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
 
         /////////
         try
-        
-           {
+        {
             if (context.Request.Cookies["Tap190Nvw92mst"] != null)
             {
                 UserId = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
@@ -82,8 +81,10 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
 
                             if (!string.IsNullOrEmpty(CurrentRound))
                             {
+                                BetAPending = float.Parse(dt.Rows[0]["Bet_A"].ToString());
+                                BetBPending = float.Parse(dt.Rows[0]["Bet_B"].ToString());
                                 WalletBlnc = float.Parse(dt.Rows[0]["GameWalletB"].ToString());
-                                WriteJsonResponse(true, "New Round Started", CurrentRound,WalletBlnc);
+                                WriteJsonResponse(true, "New Round Started", CurrentRound, UserId, BetAPending, BetBPending,WalletBlnc);
                             }
                             else
                             {
@@ -97,19 +98,22 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
         }
         catch (Exception ex)
         {
-            WriteJsonResponse(false, "Error: " + ex.Message);
+            WriteJsonResponse(false, "Error: " + ex.Message, UserId: UserId);
         }
     }
 
 
-    private void WriteJsonResponse(bool success, string message, string roundNo = "",float Walletblnc=0)
+    private void WriteJsonResponse(bool success, string message, string roundNo = "", string UserId = "", float BetA = 0, float BetB = 0,float WalletBlnc=0)
     {
         var result = new
         {
             Success = success,
             Message = message,
             id = roundNo,
-            Walletblnc=Walletblnc
+            UserId = UserId,
+            PendingBetA = BetA,
+            PendingBetB = BetB,
+            Walletblnc=WalletBlnc
         };
         string json = new JavaScriptSerializer().Serialize(result);
         response.Write(json);

@@ -188,7 +188,7 @@ a, a:hover {
     height: 38px;
     justify-content: space-between;
     /* background: #191A1B;*/
-    background-image: url(../images/grey-texture-bg.png);
+    background-image: url(../aviator_Images/grey-texture-bg.png);
     border-bottom: 1px solid #2A2B2E;
     box-shadow: 0 6px 10px #00000080;
     align-items: center;
@@ -734,7 +734,7 @@ element.style {
     flex-direction: column;
     height: calc(100% - 40px);
     /*background: #1B1C1D;*/
-    background-image: url(../images/grey-texture-bg.png);
+    background-image: url(../aviator_Images/grey-texture-bg.png);
     border-radius: 20px 20px 0 0;
     border: 1px solid #2A2B2E;
     border-bottom: 0;
@@ -1211,7 +1211,7 @@ element.style {
         border-radius: 20px;
         border: 1px solid #2A2B2E;
         /*background: #191A1B;*/
-        background-image: url(../images/grey-texture-bg.png);
+        background-image: url(../aviator_Images/grey-texture-bg.png);
         height: 100%;
         margin: 0 auto;
     }

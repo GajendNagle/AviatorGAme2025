@@ -1,1 +1,1956 @@
-var _0x5e11c0 = _0x27d0; (function (_0x3541e4, _0x3c8aab) { var _0x29579c = _0x27d0, _0x3429c7 = _0x3541e4(); while (!![]) { try { var _0x1e3251 = parseInt(_0x29579c(0x193)) / 0x1 * (-parseInt(_0x29579c(0x235)) / 0x2) + parseInt(_0x29579c(0x1db)) / 0x3 + -parseInt(_0x29579c(0x1f2)) / 0x4 + -parseInt(_0x29579c(0x1c4)) / 0x5 + parseInt(_0x29579c(0x228)) / 0x6 + parseInt(_0x29579c(0x180)) / 0x7 * (parseInt(_0x29579c(0x1e2)) / 0x8) + -parseInt(_0x29579c(0x1e5)) / 0x9 * (-parseInt(_0x29579c(0x208)) / 0xa); if (_0x1e3251 === _0x3c8aab) break; else _0x3429c7['push'](_0x3429c7['shift']()); } catch (_0x3a027c) { _0x3429c7['push'](_0x3429c7['shift']()); } } }(_0x336a, 0x4078b)); var currency_symbol = '$', wallet_balance = 0x64, bet_list_current = []; function scrollFunction() { var _0x45b3c5 = _0x27d0; $('.list-body')['mCustomScrollbar']({ 'scrollInertia': 0x32, 'theme': _0x45b3c5(0x1a5) }); } scrollFunction(), document[_0x5e11c0(0x20a)](_0x5e11c0(0x1b8), function () { var _0x5b2123 = _0x5e11c0; const _0x3f09f4 = document[_0x5b2123(0x1ef)]('background_Audio'); document[_0x5b2123(0x1cf)] ? _0x3f09f4[_0x5b2123(0x232)]() : 0x0 == window_blur ? _0x3f09f4[_0x5b2123(0x203)]() : _0x3f09f4['pause'](); }, !0x1), $(document)['on'](_0x5e11c0(0x191), _0x5e11c0(0x214), function () { var _0x3742ba = _0x5e11c0; $(_0x3742ba(0x1a3))['remove'](); }), $(_0x5e11c0(0x1e3))[_0x5e11c0(0x1ea)](function () { var _0x73134e = _0x5e11c0; $(this)['parent']()['parent']()[_0x73134e(0x236)](_0x73134e(0x157))[_0x73134e(0x24c)](_0x73134e(0x21f)), $(this)[_0x73134e(0x1cd)](_0x73134e(0x21f)); }), $(_0x5e11c0(0x209))['click'](function () { var _0x5934f5 = _0x5e11c0; $(this)[_0x5934f5(0x241)]()[_0x5934f5(0x241)]()[_0x5934f5(0x236)](_0x5934f5(0x22a))['val'](0x1); }), $(_0x5e11c0(0x23b))[_0x5e11c0(0x1ea)](function () { var _0xef0706 = _0x5e11c0; $(this)[_0xef0706(0x241)]()[_0xef0706(0x241)]()[_0xef0706(0x236)](_0xef0706(0x22a))[_0xef0706(0x1c1)](0x0); }), $(_0x5e11c0(0x16c))[_0x5e11c0(0x1ea)](function () { var _0x29c8f3 = _0x5e11c0; $(this)[_0x29c8f3(0x241)]()[_0x29c8f3(0x236)](_0x29c8f3(0x249))[_0x29c8f3(0x24c)]('active'), $(this)[_0x29c8f3(0x1cd)](_0x29c8f3(0x21f)), _0x29c8f3(0x227) == $(this)[_0x29c8f3(0x230)]() ? $(this)[_0x29c8f3(0x241)]()[_0x29c8f3(0x241)]()[_0x29c8f3(0x241)]()[_0x29c8f3(0x236)]('.second-row')[_0x29c8f3(0x1cd)](_0x29c8f3(0x24e)) : $(this)[_0x29c8f3(0x241)]()[_0x29c8f3(0x241)]()['parent']()[_0x29c8f3(0x236)](_0x29c8f3(0x1dd))[_0x29c8f3(0x24c)](_0x29c8f3(0x24e)); }), $(_0x5e11c0(0x22d))[_0x5e11c0(0x251)](function () { var _0x5b50cf = _0x5e11c0; this[_0x5b50cf(0x1ba)] ? ($(this)['parent']()[_0x5b50cf(0x241)]()[_0x5b50cf(0x241)]()[_0x5b50cf(0x236)](_0x5b50cf(0x1ac))['attr'](_0x5b50cf(0x24b), !0x1), $(this)[_0x5b50cf(0x241)]()[_0x5b50cf(0x241)]()['parent']()[_0x5b50cf(0x241)]()['parent']()['find']('.navigation')['addClass']('stop-action')) : ($(this)[_0x5b50cf(0x241)]()[_0x5b50cf(0x241)]()[_0x5b50cf(0x241)]()[_0x5b50cf(0x236)](_0x5b50cf(0x1ac))[_0x5b50cf(0x224)](_0x5b50cf(0x24b), !0x0), $(this)[_0x5b50cf(0x241)]()['parent']()[_0x5b50cf(0x241)]()[_0x5b50cf(0x241)]()[_0x5b50cf(0x241)]()[_0x5b50cf(0x236)](_0x5b50cf(0x256))[_0x5b50cf(0x24c)](_0x5b50cf(0x1a0))); }), $(_0x5e11c0(0x1d4))[_0x5e11c0(0x1ea)](function () { var _0x499a99 = _0x5e11c0; $(_0x499a99(0x1fa))[_0x499a99(0x201)](), $('#add_extra_bet_section_btn')[_0x499a99(0x24e)](); }), $('#add_extra_bet_section_btn')[_0x5e11c0(0x1ea)](function () { var _0x28f5ce = _0x5e11c0; $(_0x28f5ce(0x1fa))[_0x28f5ce(0x24e)](), $('#add_extra_bet_section_btn')[_0x28f5ce(0x201)](); }); var current_game_count, globalAmt = 0xa; function bet_amount_incremental(_0x2a02eb, _0x362d41) { var _0x7906f = _0x5e11c0; _0x362d41[_0x7906f(0x23f)](); var _0xfc7371 = parseFloat($(_0x2a02eb)[_0x7906f(0x241)]()[_0x7906f(0x241)]()[_0x7906f(0x236)]('.input\x20#bet_amount')[_0x7906f(0x1c1)]()); (_0xfc7371 += globalAmt) <= max_bet_amount && $(_0x2a02eb)[_0x7906f(0x241)]()['parent']()[_0x7906f(0x236)](_0x7906f(0x16e))[_0x7906f(0x1c1)](_0xfc7371); } function bet_amount_decremental(_0x128182, _0x2f7750) { var _0x16d8c5 = _0x5e11c0; _0x2f7750['preventDefault'](); var _0x58f551 = parseFloat($(_0x128182)[_0x16d8c5(0x241)]()[_0x16d8c5(0x241)]()[_0x16d8c5(0x236)](_0x16d8c5(0x16e))[_0x16d8c5(0x1c1)]()); (_0x58f551 -= globalAmt) >= min_bet_amount && $(_0x128182)['parent']()['parent']()[_0x16d8c5(0x236)](_0x16d8c5(0x16e))['val'](_0x58f551); } function select_direct_bet_amount(_0x34b59f, _0x714915) { var _0x5c63b0 = _0x5e11c0; _0x714915[_0x5c63b0(0x23f)](); var _0x536105 = parseFloat($(_0x34b59f)[_0x5c63b0(0x241)]()['parent']()[_0x5c63b0(0x236)](_0x5c63b0(0x16e))[_0x5c63b0(0x1c1)]()), _0x487a38 = parseFloat($(_0x34b59f)['find'](_0x5c63b0(0x1ae))[_0x5c63b0(0x230)]()); if (globalAmt = _0x487a38, $(_0x34b59f)[_0x5c63b0(0x1f9)](_0x5c63b0(0x24a))) { var _0x4456a7 = parseFloat(parseFloat(_0x536105) + parseFloat(_0x487a38))[_0x5c63b0(0x19f)](0x2); _0x4456a7 <= max_bet_amount && $(_0x34b59f)[_0x5c63b0(0x241)]()['parent']()[_0x5c63b0(0x236)](_0x5c63b0(0x16e))[_0x5c63b0(0x1c1)](_0x4456a7); } else $(_0x34b59f)[_0x5c63b0(0x241)]()[_0x5c63b0(0x236)](_0x5c63b0(0x1fc))['removeClass'](_0x5c63b0(0x24a)), $(_0x34b59f)[_0x5c63b0(0x1cd)]('same'), $(_0x34b59f)['parent']()[_0x5c63b0(0x241)]()['find'](_0x5c63b0(0x16e))[_0x5c63b0(0x1c1)](_0x487a38); } var multiplier_limit = 0x0, stop_position = 0x0; function info_data(_0x59fe83) { var _0x2f6144 = _0x5e11c0; current_game_data = _0x59fe83[_0x2f6144(0x1d8)], show_bet_count(current_game_count = _0x59fe83[_0x2f6144(0x17b)], _0x59fe83[_0x2f6144(0x1b3)]), update_bet_list(_0x59fe83['currentGameBet'], _0x2f6144(0x1f5), 0x1), bet_list_current = _0x59fe83['currentGameBet']; } $(_0x5e11c0(0x187))[_0x5e11c0(0x1cd)](_0x5e11c0(0x24e)), $(document)[_0x5e11c0(0x215)](function () { var _0x5b7174 = _0x5e11c0; let _0x548b38 = document['getElementById'](_0x5b7174(0x1d7)); _0x548b38[_0x5b7174(0x233)] = 0.2, 0x1 == $('#music')[_0x5b7174(0x146)](_0x5b7174(0x1ba)) ? (_0x548b38['loop'] = !0x0, _0x548b38[_0x5b7174(0x225)]()) : _0x548b38[_0x5b7174(0x232)](), $(_0x5b7174(0x154))[_0x5b7174(0x230)](currency_symbol + wallet_balance), $(_0x5b7174(0x222))[_0x5b7174(0x230)](currency_symbol + wallet_balance); }); var main_counter = 0x0, extra_counter = 0x0; function cash_out_now(_0x4cdb26, _0x523548, _0x4f4913, _0x2aedb4 = '') { var _0x215f48 = _0x5e11c0; let _0x574ca6, _0x569cc1; if (_0x4f4913[_0x215f48(0x23f)](), current_cash_out = _0x2aedb4, 0x1 == bet_array[_0x215f48(0x254)] && (current_cash = !0x0), _0x574ca6 = '' != _0x2aedb4 ? _0x2aedb4 : $(_0x215f48(0x188))[_0x215f48(0x230)]()[_0x215f48(0x1ad)](0x0, -0x1), 0x0 == _0x523548 ? (enableDisable(_0x215f48(0x143)), main_cash_out = 0x0) : (enableDisable('extra_bet_section'), extra_cash_out = 0x0), 0x1 == bet_array[_0x215f48(0x254)] ? bet_array[_0x215f48(0x204)](0x0, 0x1) : 0x2 == bet_array['length'] && 0x0 == _0x523548 ? 0x0 == bet_array[0x0][_0x215f48(0x221)] ? bet_array[_0x215f48(0x204)](0x0, 0x1) : bet_array[_0x215f48(0x204)](0x1, 0x1) : 0x2 == bet_array[_0x215f48(0x254)] && 0x1 == _0x523548 && (0x1 == bet_array[0x0][_0x215f48(0x221)] ? bet_array['splice'](0x0, 0x1) : bet_array[_0x215f48(0x204)](0x1, 0x1)), 0x0 == _0x523548) { _0x569cc1 = $(_0x215f48(0x250))[_0x215f48(0x1c1)](); var _0xeef932 = $(_0x215f48(0x1be))['val'](); } else _0x569cc1 = $(_0x215f48(0x247))['val'](), _0xeef932 = $(_0x215f48(0x212))[_0x215f48(0x1c1)](); if (game_id = current_game_data['id'], 0x1 == currency_id) var _0x4cad46 = parseFloat(parseFloat(_0x574ca6) * parseFloat(_0xeef932))['toFixed'](0x2); else _0x4cad46 = parseFloat(parseFloat(_0x574ca6) * parseFloat(_0xeef932))[_0x215f48(0x19f)](0x2); ($(_0x215f48(0x1fe) + member_id + _0x523548)[_0x215f48(0x1cd)](_0x215f48(0x21f)), $(_0x215f48(0x1fe) + member_id + _0x523548 + _0x215f48(0x18a))[_0x215f48(0x1a8)](_0x215f48(0x22b) + get_multiplier_badge_class(_0x574ca6) + _0x215f48(0x159) + _0x574ca6 + _0x215f48(0x1f8)), $(_0x215f48(0x1fe) + member_id + _0x523548 + _0x215f48(0x176))[_0x215f48(0x1a8)](_0x4cad46 + currency_symbol), 0x0 == _0x523548) && ($(_0x215f48(0x19e))[_0x215f48(0x146)](_0x215f48(0x1ba)) ? ($(_0x215f48(0x19d))[_0x215f48(0x236)](_0x215f48(0x1bd))[_0x215f48(0x201)](), $('#main_bet_section')['find'](_0x215f48(0x179))[_0x215f48(0x24e)](), $(_0x215f48(0x19d))[_0x215f48(0x236)](_0x215f48(0x202))[_0x215f48(0x24e)](), $(_0x215f48(0x19d))[_0x215f48(0x236)]('#cashout_button')[_0x215f48(0x201)](), $(_0x215f48(0x234))[_0x215f48(0x24c)]('bet-border-yellow'), $(_0x215f48(0x234))[_0x215f48(0x1cd)](_0x215f48(0x229))) : ($(_0x215f48(0x19d))[_0x215f48(0x236)](_0x215f48(0x1bd))[_0x215f48(0x24e)](), $(_0x215f48(0x19d))[_0x215f48(0x236)]('#cancle_button')[_0x215f48(0x201)](), $(_0x215f48(0x19d))[_0x215f48(0x236)]('#cancle_button\x20#waiting')[_0x215f48(0x201)](), $(_0x215f48(0x19d))[_0x215f48(0x236)](_0x215f48(0x1de))['hide'](), $(_0x215f48(0x234))[_0x215f48(0x24c)](_0x215f48(0x229)), $(_0x215f48(0x234))[_0x215f48(0x24c)](_0x215f48(0x1ff))), $('#main_bet_section')[_0x215f48(0x236)](_0x215f48(0x240))[_0x215f48(0x230)](''), $(_0x215f48(0x245))[_0x215f48(0x1a8)](_0x574ca6 + 'x'), $('.cashout-toaster1\x20.out-amount')['html'](_0x4cad46 + currency_symbol), $(_0x215f48(0x1ce))[_0x215f48(0x1cd)](_0x215f48(0x24e)), firstToastr()); 0x1 == _0x523548 && ($('#extra_auto_bet')[_0x215f48(0x146)]('checked') ? ($(_0x215f48(0x1fa))[_0x215f48(0x236)]('#bet_button')[_0x215f48(0x201)](), $(_0x215f48(0x1fa))[_0x215f48(0x236)]('#cancle_button')['show'](), $(_0x215f48(0x1fa))[_0x215f48(0x236)](_0x215f48(0x202))[_0x215f48(0x24e)](), $(_0x215f48(0x1fa))[_0x215f48(0x236)](_0x215f48(0x1de))[_0x215f48(0x201)](), $(_0x215f48(0x13f))['removeClass'](_0x215f48(0x1ff)), $(_0x215f48(0x13f))[_0x215f48(0x1cd)](_0x215f48(0x229))) : ($(_0x215f48(0x1fa))[_0x215f48(0x236)](_0x215f48(0x1bd))['show'](), $('#extra_bet_section')[_0x215f48(0x236)](_0x215f48(0x179))[_0x215f48(0x201)](), $(_0x215f48(0x1fa))[_0x215f48(0x236)]('#cancle_button\x20#waiting')[_0x215f48(0x201)](), $(_0x215f48(0x1fa))['find']('#cashout_button')[_0x215f48(0x201)](), $(_0x215f48(0x13f))[_0x215f48(0x24c)]('bet-border-red'), $(_0x215f48(0x13f))[_0x215f48(0x24c)](_0x215f48(0x1ff))), $(_0x215f48(0x1fa))[_0x215f48(0x236)]('#cash_out_amount')['text'](''), $(_0x215f48(0x199))[_0x215f48(0x1a8)](_0x574ca6 + 'x'), $(_0x215f48(0x252))[_0x215f48(0x1a8)](_0x4cad46 + currency_symbol), $(_0x215f48(0x219))[_0x215f48(0x1cd)]('show'), secondToastr()); var _0x17b268 = document[_0x215f48(0x181)]('.wallet-top')['textContent'], _0x5e096e = (_0x17b268[_0x215f48(0x23e)](0x1), parseFloat(_0x17b268[_0x215f48(0x1b1)](/[^0-9.]/g, ''))); $[_0x215f48(0x1ca)]({ 'url': 'Handler/cash_out.ashx', 'data': { 'game_id': gameId, 'betAmount': _0xeef932, 'win_multiplier': _0x574ca6, 'section_no': _0x523548 }, 'type': _0x215f48(0x16b), 'dataType': _0x215f48(0x216), 'success': function (_0x4898b1) { var _0x457ba3 = _0x215f48; if ($('#all_my_bets\x20.mCSB_container')[_0x457ba3(0x236)](_0x457ba3(0x15c))[_0x457ba3(0x171)](function () { var _0x7a2130 = _0x457ba3; $(this)[_0x7a2130(0x224)]('class')['split']('\x20')['find'](_0x4a5c4d => _0x7a2130(0x1f0) !== _0x4a5c4d && _0x7a2130(0x21f) !== _0x4a5c4d), update_my_bet_Multipliers(this, parseInt(_0x4898b1[_0x7a2130(0x221)]), _0x4898b1['multiplier']); }), $['ajax']({ 'url': _0x457ba3(0x145), 'type': _0x457ba3(0x14b), 'data': { '_token': hash_id }, 'dataType': 'json', 'success': function (_0x19f2b5) { var _0x4ed67a = _0x457ba3; update_my_bet_history(_0x19f2b5[_0x4ed67a(0x24f)]); } }), _0x4898b1) { if ('' != _0x4898b1[_0x457ba3(0x167)] && NaN != _0x4898b1[_0x457ba3(0x167)]) { var _0x1c8ada = Number(_0x5e096e) + Number(_0x4898b1[_0x457ba3(0x167)]); total_bet_amounts -= _0x4898b1[_0x457ba3(0x167)], max_bet_amount = Number(max_bet_amount) + Number(_0x4898b1[_0x457ba3(0x167)]), document[_0x457ba3(0x181)]('.wallet-top')[_0x457ba3(0x14f)] = _0x1c8ada[_0x457ba3(0x19f)](0x2), $(_0x457ba3(0x154))[_0x457ba3(0x230)](currency_symbol + _0x1c8ada), $('#header_wallet_balance')[_0x457ba3(0x230)](currency_symbol + _0x1c8ada); } else $(_0x457ba3(0x154))['text'](currency_symbol + _0x457ba3(0x147)), $(_0x457ba3(0x222))[_0x457ba3(0x230)](currency_symbol + _0x457ba3(0x147)); if (0x0 == _0x523548) { $(_0x457ba3(0x19d))['find'](_0x457ba3(0x1bd))[_0x457ba3(0x24e)](), $(_0x457ba3(0x19d))[_0x457ba3(0x236)](_0x457ba3(0x179))[_0x457ba3(0x201)](), $(_0x457ba3(0x19d))[_0x457ba3(0x236)](_0x457ba3(0x202))[_0x457ba3(0x201)](), $(_0x457ba3(0x19d))['find']('#cashout_button')[_0x457ba3(0x201)](), $('#my_bet_list\x20#my_bet_section_0')[_0x457ba3(0x1cd)](_0x457ba3(0x21f)); let _0x2a2cd4 = $(_0x457ba3(0x19e))[_0x457ba3(0x146)](_0x457ba3(0x1ba)); $('#my_bet_list\x20#my_bet_section_0')['removeAttr']('id'), 0x0 == _0x2a2cd4 && ($(_0x457ba3(0x1d3))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $('#main_plus_btn')[_0x457ba3(0x146)]('disabled', !0x1), $(_0x457ba3(0x16f))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $('.main_amount_btn')[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $(_0x457ba3(0x13d))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $('#main_checkout')['prop'](_0x457ba3(0x1ba)) && $(_0x457ba3(0x20d))['prop'](_0x457ba3(0x24b), !0x1)), $(_0x457ba3(0x19e))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1); } if (0x1 == _0x523548) { $(_0x457ba3(0x1fa))[_0x457ba3(0x236)](_0x457ba3(0x1bd))['show'](), $(_0x457ba3(0x1fa))[_0x457ba3(0x236)](_0x457ba3(0x179))['hide'](), $('#extra_bet_section')[_0x457ba3(0x236)]('#cancle_button\x20#waiting')['hide'](), $(_0x457ba3(0x1fa))[_0x457ba3(0x236)]('#cashout_button')[_0x457ba3(0x201)](), $(_0x457ba3(0x1c0))[_0x457ba3(0x1cd)](_0x457ba3(0x21f)); let _0xdb80f0 = $(_0x457ba3(0x15b))[_0x457ba3(0x146)](_0x457ba3(0x1ba)); $('#my_bet_list\x20#my_bet_section_1')['removeAttr']('id'), 0x0 == _0xdb80f0 && ($('.extra_bet_amount')['prop'](_0x457ba3(0x24b), !0x1), $(_0x457ba3(0x163))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $(_0x457ba3(0x1d2))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $(_0x457ba3(0x183))[_0x457ba3(0x146)](_0x457ba3(0x24b), !0x1), $(_0x457ba3(0x152))[_0x457ba3(0x146)]('disabled', !0x1), $(_0x457ba3(0x152))['prop'](_0x457ba3(0x1ba)) && $(_0x457ba3(0x1a7))['prop']('disabled', !0x1)), $(_0x457ba3(0x15b))['prop'](_0x457ba3(0x24b), !0x1); } } } }); } function crash_plane(_0x1a4453) { var _0x2d9fb6 = _0x5e11c0; soundPlay(), window[_0x2d9fb6(0x18b)](StopPlaneIntervalID), $(_0x2d9fb6(0x19b))[_0x2d9fb6(0x24e)](), $('#auto_increment_number')[_0x2d9fb6(0x1cd)](_0x2d9fb6(0x1ec)), stopPlane(), ctx[_0x2d9fb6(0x174)](0x0, 0x0, ctx[_0x2d9fb6(0x246)][_0x2d9fb6(0x1a4)], ctx[_0x2d9fb6(0x246)]['height']), $('#running_type')['text'](_0x2d9fb6(0x231)), update_round_history(_0x1a4453), $(_0x2d9fb6(0x22f))[_0x2d9fb6(0x236)]('.custom-badge')['length'] > 0x32 && $('.round-history-list')[_0x2d9fb6(0x236)](_0x2d9fb6(0x237))['remove'](); let _0x5ba945 = $(_0x2d9fb6(0x19e))[_0x2d9fb6(0x146)](_0x2d9fb6(0x1ba)), _0x5791b2 = $('#extra_auto_bet')[_0x2d9fb6(0x146)](_0x2d9fb6(0x1ba)); const _0x1524be = $(_0x2d9fb6(0x250))[_0x2d9fb6(0x1c1)](), _0x3a2ff3 = $(_0x2d9fb6(0x247))[_0x2d9fb6(0x1c1)](); setTimeout(function () { var _0x3d21e3 = _0x2d9fb6; const _0x21d728 = $(_0x3d21e3(0x188))['text']()[_0x3d21e3(0x1ad)](0x0, -0x1); if (0x2 == main_cash_out) { $(_0x3d21e3(0x250))[_0x3d21e3(0x1c1)](_0x1524be); const _0x58f342 = main_incrementor; parseFloat(_0x21d728) >= parseFloat(_0x58f342) && cash_out_now('', 0x0, _0x58f342), $(_0x3d21e3(0x250))['val'](''); } if (0x2 == extra_cash_out) { $('#extra_bet_id')[_0x3d21e3(0x1c1)](_0x3a2ff3); const _0x5e7207 = extra_incrementor; parseFloat(_0x21d728) >= parseFloat(_0x5e7207) && cash_out_now('', 0x1, _0x5e7207), $(_0x3d21e3(0x247))[_0x3d21e3(0x1c1)](''); } main_cash_out = 0x0, extra_cash_out = 0x0; }, 0x3e8), bet_array[0x0] && null != bet_array[0x0][_0x2d9fb6(0x1f3)] && (0x0 == bet_array[0x0][_0x2d9fb6(0x221)] ? (_0x5ba945 ? ($(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1bd))['hide'](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x179))['show'](), $(_0x2d9fb6(0x19d))['find'](_0x2d9fb6(0x202))[_0x2d9fb6(0x24e)](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)]('#cashout_button')[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x234))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $(_0x2d9fb6(0x234))[_0x2d9fb6(0x1cd)](_0x2d9fb6(0x229))) : ($(_0x2d9fb6(0x19d))['find'](_0x2d9fb6(0x1bd))['show'](), $('#main_bet_section')[_0x2d9fb6(0x236)](_0x2d9fb6(0x179))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x202))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1de))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x234))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x229)), $('#main_bet_section\x20.controls')[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $('.main_bet_amount')['prop'](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x18d))[_0x2d9fb6(0x146)]('disabled', !0x1), $('#main_minus_btn')[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x239))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $('#main_checkout')[_0x2d9fb6(0x146)]('disabled', !0x1), $(_0x2d9fb6(0x13d))[_0x2d9fb6(0x146)](_0x2d9fb6(0x1ba)) && $(_0x2d9fb6(0x20d))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1)), $(_0x2d9fb6(0x250))[_0x2d9fb6(0x1c1)](''), $('#main_bet_section')['find'](_0x2d9fb6(0x240))[_0x2d9fb6(0x230)](''), $(_0x2d9fb6(0x19e))['prop'](_0x2d9fb6(0x24b), !0x1)) : 0x1 == bet_array[0x0][_0x2d9fb6(0x221)] && (_0x5791b2 ? ($(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1bd))['hide'](), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x179))[_0x2d9fb6(0x24e)](), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x202))[_0x2d9fb6(0x24e)](), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1de))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x1cd)](_0x2d9fb6(0x229))) : ($('#extra_bet_section')[_0x2d9fb6(0x236)](_0x2d9fb6(0x1bd))['show'](), $(_0x2d9fb6(0x1fa))['find'](_0x2d9fb6(0x179))['hide'](), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)]('#cancle_button\x20#waiting')[_0x2d9fb6(0x201)](), $('#extra_bet_section')[_0x2d9fb6(0x236)](_0x2d9fb6(0x1de))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x229)), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $(_0x2d9fb6(0x20c))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x163))[_0x2d9fb6(0x146)]('disabled', !0x1), $(_0x2d9fb6(0x1d2))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x183))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x152))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x152))[_0x2d9fb6(0x146)]('checked') && $(_0x2d9fb6(0x1a7))['prop']('disabled', !0x1)), $(_0x2d9fb6(0x247))[_0x2d9fb6(0x1c1)](''), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x240))['text'](''), $(_0x2d9fb6(0x15b))['prop'](_0x2d9fb6(0x24b), !0x1))), bet_array[0x1] && null != bet_array[0x1]['is_bet'] && (0x0 == bet_array[0x1][_0x2d9fb6(0x221)] ? (_0x5ba945 ? ($('#main_bet_section')[_0x2d9fb6(0x236)](_0x2d9fb6(0x1bd))['hide'](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x179))[_0x2d9fb6(0x24e)](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)]('#cancle_button\x20#waiting')[_0x2d9fb6(0x24e)](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1de))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x234))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $(_0x2d9fb6(0x234))[_0x2d9fb6(0x1cd)]('bet-border-red')) : ($(_0x2d9fb6(0x19d))['find'](_0x2d9fb6(0x1bd))[_0x2d9fb6(0x24e)](), $('#main_bet_section')[_0x2d9fb6(0x236)]('#cancle_button')['hide'](), $('#main_bet_section')[_0x2d9fb6(0x236)](_0x2d9fb6(0x202))['hide'](), $(_0x2d9fb6(0x19d))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1de))[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x234))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x229)), $(_0x2d9fb6(0x234))['removeClass']('bet-border-yellow'), $('.main_bet_amount')[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $('#main_plus_btn')[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x16f))['prop'](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x239))['prop'](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x13d))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x13d))[_0x2d9fb6(0x146)]('checked') && $(_0x2d9fb6(0x20d))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1)), $('#main_bet_id')[_0x2d9fb6(0x1c1)](''), $(_0x2d9fb6(0x19d))['find']('#cash_out_amount')[_0x2d9fb6(0x230)](''), $(_0x2d9fb6(0x19e))[_0x2d9fb6(0x146)]('disabled', !0x1)) : 0x1 == bet_array[0x1][_0x2d9fb6(0x221)] && (_0x5791b2 ? ($('#extra_bet_section')[_0x2d9fb6(0x236)]('#bet_button')[_0x2d9fb6(0x201)](), $('#extra_bet_section')[_0x2d9fb6(0x236)](_0x2d9fb6(0x179))[_0x2d9fb6(0x24e)](), $('#extra_bet_section')['find'](_0x2d9fb6(0x202))['show'](), $('#extra_bet_section')['find']('#cashout_button')[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x1cd)](_0x2d9fb6(0x229))) : ($(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)]('#bet_button')[_0x2d9fb6(0x24e)](), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x179))['hide'](), $('#extra_bet_section')['find']('#cancle_button\x20#waiting')[_0x2d9fb6(0x201)](), $(_0x2d9fb6(0x1fa))[_0x2d9fb6(0x236)](_0x2d9fb6(0x1de))['hide'](), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x229)), $(_0x2d9fb6(0x13f))[_0x2d9fb6(0x24c)](_0x2d9fb6(0x1ff)), $('.extra_bet_amount')[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x163))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x1d2))['prop']('disabled', !0x1), $('.extra_amount_btn')[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x152))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1), $(_0x2d9fb6(0x152))[_0x2d9fb6(0x146)](_0x2d9fb6(0x1ba)) && $(_0x2d9fb6(0x1a7))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1)), $(_0x2d9fb6(0x247))[_0x2d9fb6(0x1c1)](''), $(_0x2d9fb6(0x1fa))['find'](_0x2d9fb6(0x240))[_0x2d9fb6(0x230)](''), $(_0x2d9fb6(0x15b))[_0x2d9fb6(0x146)](_0x2d9fb6(0x24b), !0x1))); } function new_game_generated() { var _0x3a76ad = _0x5e11c0; if (console[_0x3a76ad(0x20f)](_0x3a76ad(0x206)), is_game_generated = 0x1, $(_0x3a76ad(0x158))[_0x3a76ad(0x23a)]('id'), $(_0x3a76ad(0x255))[_0x3a76ad(0x24e)](), $(_0x3a76ad(0x19d))[_0x3a76ad(0x236)](_0x3a76ad(0x202))[_0x3a76ad(0x201)](), $(_0x3a76ad(0x1fa))[_0x3a76ad(0x236)](_0x3a76ad(0x202))[_0x3a76ad(0x201)](), 0x1 == bet_array[_0x3a76ad(0x254)] && (0x0 == bet_array[0x0][_0x3a76ad(0x221)] && enableDisable(_0x3a76ad(0x143)), 0x1 == bet_array[0x0][_0x3a76ad(0x221)] && enableDisable('extra_bet_section')), 0x2 == bet_array[_0x3a76ad(0x254)] && (enableDisable(_0x3a76ad(0x143)), enableDisable('extra_bet_section')), $(_0x3a76ad(0x17e))[_0x3a76ad(0x201)](), $('body')[_0x3a76ad(0x24c)](_0x3a76ad(0x1c2)), document[_0x3a76ad(0x1ef)](_0x3a76ad(0x14e))[_0x3a76ad(0x1e7)] = _0x3a76ad(0x177), $(_0x3a76ad(0x187))[_0x3a76ad(0x1cd)](_0x3a76ad(0x24e)), $(_0x3a76ad(0x19b))[_0x3a76ad(0x201)](), $(_0x3a76ad(0x188))[_0x3a76ad(0x24c)](_0x3a76ad(0x1ec)), $(_0x3a76ad(0x1f5))[_0x3a76ad(0x1a8)](''), $('#running_type')[_0x3a76ad(0x230)]('bet\x20time'), $('#auto_increment_number_div')[_0x3a76ad(0x201)](), current_game_count = 0x0, $(_0x3a76ad(0x19e))[_0x3a76ad(0x146)](_0x3a76ad(0x1ba)) && 0x2 != bet_array[_0x3a76ad(0x254)] && (0x0 == bet_array['length'] || 0x1 == bet_array[_0x3a76ad(0x254)] && 0x0 != bet_array[0x0][_0x3a76ad(0x221)])) { var _0x5b4f5d = $(_0x3a76ad(0x253))[_0x3a76ad(0x241)]()[_0x3a76ad(0x241)]()['parent']()[_0x3a76ad(0x236)](_0x3a76ad(0x1e9))[_0x3a76ad(0x1c1)](); let _0x530f73 = $(_0x3a76ad(0x253))[_0x3a76ad(0x241)]()['parent']()[_0x3a76ad(0x236)](_0x3a76ad(0x1cb))[_0x3a76ad(0x1c1)](); _0x530f73 = _0x530f73 < min_bet_amount || '' == _0x530f73 || NaN == _0x530f73 ? parseFloat(min_bet_amount)[_0x3a76ad(0x19f)](0x2) : _0x530f73 > max_bet_amount ? parseFloat(max_bet_amount)[_0x3a76ad(0x19f)](0x2) : parseFloat(_0x530f73)[_0x3a76ad(0x19f)](0x2), $('#main_bet_now')[_0x3a76ad(0x241)]()['parent']()['find'](_0x3a76ad(0x1cb))[_0x3a76ad(0x1c1)](_0x530f73), _0x530f73 >= min_bet_amount && _0x530f73 <= max_bet_amount && bet_array['push']({ 'bet_type': _0x5b4f5d, 'bet_amount': _0x530f73, 'section_no': 0x0 }); } if ($(_0x3a76ad(0x15b))['prop'](_0x3a76ad(0x1ba)) && 0x2 != bet_array[_0x3a76ad(0x254)] && (0x0 == bet_array[_0x3a76ad(0x254)] || 0x1 == bet_array[_0x3a76ad(0x254)] && 0x1 != bet_array[0x0][_0x3a76ad(0x221)])) { _0x5b4f5d = $(_0x3a76ad(0x1f6))['parent']()[_0x3a76ad(0x241)]()['parent']()[_0x3a76ad(0x236)](_0x3a76ad(0x1e9))[_0x3a76ad(0x1c1)](); let _0xb43a8a = $('#extra_bet_now')[_0x3a76ad(0x241)]()[_0x3a76ad(0x241)]()[_0x3a76ad(0x236)](_0x3a76ad(0x1cb))[_0x3a76ad(0x1c1)](); _0xb43a8a = _0xb43a8a < min_bet_amount || '' == _0xb43a8a || NaN == _0xb43a8a ? parseFloat(min_bet_amount)['toFixed'](0x2) : _0xb43a8a > max_bet_amount ? parseFloat(max_bet_amount)[_0x3a76ad(0x19f)](0x2) : parseFloat(_0xb43a8a)['toFixed'](0x2), $(_0x3a76ad(0x1f6))[_0x3a76ad(0x241)]()['parent']()['find'](_0x3a76ad(0x1cb))[_0x3a76ad(0x1c1)](_0xb43a8a), _0xb43a8a >= min_bet_amount && _0xb43a8a <= max_bet_amount && bet_array[_0x3a76ad(0x1bf)]({ 'bet_type': _0x5b4f5d, 'bet_amount': _0xb43a8a, 'section_no': 0x1 }); } } function lets_fly_one() { var _0xd7c37a = _0x5e11c0; is_game_generated = 0x0, $(_0xd7c37a(0x1b9))[_0xd7c37a(0x1cd)](_0xd7c37a(0x195)), $(_0xd7c37a(0x140))[_0xd7c37a(0x1cd)](_0xd7c37a(0x195)); } function lets_fly() { var _0x3322f5 = _0x5e11c0; $(_0x3322f5(0x1b9))['removeClass'](_0x3322f5(0x195)), $(_0x3322f5(0x140))[_0x3322f5(0x24c)](_0x3322f5(0x195)), stage_time_out = 0x0, 0x1 == bet_array[_0x3322f5(0x254)] && bet_array[0x0] && 0x0 == bet_array[0x0][_0x3322f5(0x221)] && (enableDisable(_0x3322f5(0x143)), $('#main_bet_section')[_0x3322f5(0x236)](_0x3322f5(0x1bd))[_0x3322f5(0x201)](), $(_0x3322f5(0x19d))['find']('#cancle_button')[_0x3322f5(0x201)](), $(_0x3322f5(0x19d))[_0x3322f5(0x236)](_0x3322f5(0x202))[_0x3322f5(0x201)](), $(_0x3322f5(0x19d))[_0x3322f5(0x236)]('#cashout_button')[_0x3322f5(0x24e)](), $(_0x3322f5(0x234))[_0x3322f5(0x24c)](_0x3322f5(0x229)), $('#main_bet_section\x20.controls')[_0x3322f5(0x1cd)](_0x3322f5(0x1ff)), $(_0x3322f5(0x19e))[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0), $('#main_checkout')[_0x3322f5(0x146)]('disabled', !0x0), $(_0x3322f5(0x20d))['prop'](_0x3322f5(0x24b), !0x0)), 0x1 == bet_array[_0x3322f5(0x254)] && bet_array[0x0] && 0x1 == bet_array[0x0][_0x3322f5(0x221)] && (enableDisable(_0x3322f5(0x165)), $('#extra_bet_section')[_0x3322f5(0x236)](_0x3322f5(0x1bd))[_0x3322f5(0x201)](), $('#extra_bet_section')[_0x3322f5(0x236)]('#cancle_button')[_0x3322f5(0x201)](), $(_0x3322f5(0x1fa))[_0x3322f5(0x236)](_0x3322f5(0x202))[_0x3322f5(0x201)](), $('#extra_bet_section')[_0x3322f5(0x236)](_0x3322f5(0x1de))['show'](), $('#extra_bet_section\x20.controls')['removeClass'](_0x3322f5(0x229)), $('#extra_bet_section\x20.controls')[_0x3322f5(0x1cd)]('bet-border-yellow'), $('#extra_auto_bet')['prop'](_0x3322f5(0x24b), !0x0), $('#extra_checkout')[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0), $(_0x3322f5(0x1a7))[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0)), 0x2 == bet_array[_0x3322f5(0x254)] && (bet_array[0x0] && 0x0 == bet_array[0x0][_0x3322f5(0x221)] && (enableDisable(_0x3322f5(0x143)), $(_0x3322f5(0x19d))[_0x3322f5(0x236)](_0x3322f5(0x1bd))[_0x3322f5(0x201)](), $(_0x3322f5(0x19d))[_0x3322f5(0x236)](_0x3322f5(0x179))[_0x3322f5(0x201)](), $(_0x3322f5(0x19d))[_0x3322f5(0x236)]('#cancle_button\x20#waiting')['hide'](), $(_0x3322f5(0x19d))[_0x3322f5(0x236)](_0x3322f5(0x1de))[_0x3322f5(0x24e)](), $(_0x3322f5(0x234))['removeClass'](_0x3322f5(0x229)), $(_0x3322f5(0x234))['addClass'](_0x3322f5(0x1ff)), $(_0x3322f5(0x19e))['prop'](_0x3322f5(0x24b), !0x0), $(_0x3322f5(0x13d))[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0), $('#main_incrementor')[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0)), bet_array[0x0] && 0x1 == bet_array[0x0][_0x3322f5(0x221)] && (enableDisable(_0x3322f5(0x165)), $(_0x3322f5(0x1fa))['find'](_0x3322f5(0x1bd))['hide'](), $(_0x3322f5(0x1fa))[_0x3322f5(0x236)]('#cancle_button')[_0x3322f5(0x201)](), $(_0x3322f5(0x1fa))[_0x3322f5(0x236)](_0x3322f5(0x202))[_0x3322f5(0x201)](), $(_0x3322f5(0x1fa))[_0x3322f5(0x236)](_0x3322f5(0x1de))[_0x3322f5(0x24e)](), $(_0x3322f5(0x13f))['removeClass'](_0x3322f5(0x229)), $('#extra_bet_section\x20.controls')[_0x3322f5(0x1cd)](_0x3322f5(0x1ff)), $('#extra_auto_bet')[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0), $(_0x3322f5(0x152))[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0), $('#extra_incrementor')['prop'](_0x3322f5(0x24b), !0x0)), bet_array[0x1] && 0x0 == bet_array[0x1][_0x3322f5(0x221)] && (enableDisable(_0x3322f5(0x143)), $(_0x3322f5(0x19d))[_0x3322f5(0x236)](_0x3322f5(0x1bd))['hide'](), $(_0x3322f5(0x19d))[_0x3322f5(0x236)](_0x3322f5(0x179))['hide'](), $(_0x3322f5(0x19d))['find'](_0x3322f5(0x202))[_0x3322f5(0x201)](), $('#main_bet_section')[_0x3322f5(0x236)](_0x3322f5(0x1de))[_0x3322f5(0x24e)](), $(_0x3322f5(0x234))[_0x3322f5(0x24c)](_0x3322f5(0x229)), $('#main_bet_section\x20.controls')[_0x3322f5(0x1cd)](_0x3322f5(0x1ff)), $(_0x3322f5(0x19e))[_0x3322f5(0x146)](_0x3322f5(0x24b), !0x0), $(_0x3322f5(0x13d))[_0x3322f5(0x146)]('disabled', !0x0), $(_0x3322f5(0x20d))['prop'](_0x3322f5(0x24b), !0x0)), bet_array[0x1] && 0x1 == bet_array[0x1][_0x3322f5(0x221)] && (enableDisable(_0x3322f5(0x165)), $(_0x3322f5(0x1fa))['find'](_0x3322f5(0x1bd))[_0x3322f5(0x201)](), $(_0x3322f5(0x1fa))[_0x3322f5(0x236)](_0x3322f5(0x179))[_0x3322f5(0x201)](), $(_0x3322f5(0x1fa))[_0x3322f5(0x236)](_0x3322f5(0x202))['hide'](), $('#extra_bet_section')[_0x3322f5(0x236)](_0x3322f5(0x1de))[_0x3322f5(0x24e)](), $(_0x3322f5(0x13f))[_0x3322f5(0x24c)]('bet-border-red'), $(_0x3322f5(0x13f))[_0x3322f5(0x1cd)]('bet-border-yellow'), $(_0x3322f5(0x15b))['prop'](_0x3322f5(0x24b), !0x0), $('#extra_checkout')[_0x3322f5(0x146)]('disabled', !0x0), $(_0x3322f5(0x1a7))['prop'](_0x3322f5(0x24b), !0x0))), $(_0x3322f5(0x17e))['hide'](), $(_0x3322f5(0x14d))[_0x3322f5(0x24c)](_0x3322f5(0x1c2)), $(_0x3322f5(0x187))[_0x3322f5(0x24c)](_0x3322f5(0x24e)), $(_0x3322f5(0x1e0))['show'](), setVariable(0x1), flyPlaneSound(); } function _0x27d0(_0x480bb8, _0x1d0e8f) { var _0x336afa = _0x336a(); return _0x27d0 = function (_0x27d02c, _0x387e54) { _0x27d02c = _0x27d02c - 0x13d; var _0x1eb71d = _0x336afa[_0x27d02c]; return _0x1eb71d; }, _0x27d0(_0x480bb8, _0x1d0e8f); } function incrementor(_0x4f5836) { var _0x4e240d = _0x5e11c0; if ($('.loading-game')[_0x4e240d(0x24c)](_0x4e240d(0x24e)), $(_0x4e240d(0x1e0))[_0x4e240d(0x24e)](), $(_0x4e240d(0x149))[_0x4e240d(0x230)](_0x4e240d(0x172)), document['getElementById'](_0x4e240d(0x14e))[_0x4e240d(0x1e7)] = _0x4f5836 + 'x', bet_array['length'] > 0x0) { var _0x2a1617 = $('#main_bet_section\x20#bet_amount')[_0x4e240d(0x1c1)](), _0x1a012d = $(_0x4e240d(0x212))[_0x4e240d(0x1c1)](); const _0x4b7e93 = _0x4f5836 * Number(_0x1a012d), _0x30a34b = _0x4f5836 * Number(_0x2a1617); $(_0x4e240d(0x19d))['find'](_0x4e240d(0x240))['text'](parseFloat(_0x30a34b)[_0x4e240d(0x19f)](0x2) + '' + currency_symbol), $(_0x4e240d(0x1fa))[_0x4e240d(0x236)](_0x4e240d(0x240))[_0x4e240d(0x230)](parseFloat(_0x4b7e93)[_0x4e240d(0x19f)](0x2) + '' + currency_symbol); let _0x25af0f, _0xa9fc5d = $(_0x4e240d(0x13d))[_0x4e240d(0x146)](_0x4e240d(0x1ba)), _0x27e213 = $(_0x4e240d(0x152))[_0x4e240d(0x146)](_0x4e240d(0x1ba)); for (let _0x2bcadc = 0x0; _0x2bcadc < bet_array[_0x4e240d(0x254)]; _0x2bcadc++)0x0 == bet_array[_0x2bcadc]['section_no'] ? 0x1 == bet_array[_0x2bcadc][_0x4e240d(0x1f3)] && 0x1 == _0xa9fc5d && (_0x25af0f = $(_0x4e240d(0x20d))['val'](), main_incrementor = _0x25af0f, parseFloat(_0x4f5836) >= parseFloat(_0x25af0f) ? 0x0 == main_counter && (cash_out_now('', 0x0, _0x25af0f), main_counter++, main_cash_out = 0x1) : main_cash_out = 0x2) : 0x1 == bet_array[_0x2bcadc][_0x4e240d(0x221)] && 0x1 == bet_array[_0x2bcadc]['is_bet'] && 0x1 == _0x27e213 && (_0x25af0f = $(_0x4e240d(0x1a7))[_0x4e240d(0x1c1)](), extra_incrementor = _0x25af0f, console[_0x4e240d(0x20f)](extra_incrementor, _0x4e240d(0x168)), parseFloat(_0x4f5836) >= parseFloat(_0x25af0f) ? 0x0 == extra_counter && (cash_out_now('', 0x1, _0x25af0f), extra_counter++, extra_cash_out = 0x1) : extra_cash_out = 0x2); } bet_array[_0x4e240d(0x254)] > 0x0 && cash_out_multiplier(_0x4f5836); } function cash_out_bet(_0x3ce64f) { var _0x4a3259 = _0x5e11c0; if ($('#all_bets\x20.mCSB_container\x20.' + _0x3ce64f['hash_id'])[_0x4a3259(0x1cd)](_0x4a3259(0x21f)), $(_0x4a3259(0x18c) + _0x3ce64f[_0x4a3259(0x153)] + _0x4a3259(0x18a))[_0x4a3259(0x1a8)](_0x4a3259(0x22b) + get_multiplier_badge_class(_0x3ce64f['incrementor']) + _0x4a3259(0x159) + _0x3ce64f[_0x4a3259(0x18f)] + _0x4a3259(0x1f8)), 0x1 == currency_id) var _0x115566 = _0x3ce64f[_0x4a3259(0x15d)]; else _0x115566 = _0x3ce64f[_0x4a3259(0x185)]; $('#all_bets\x20.mCSB_container\x20.' + _0x3ce64f[_0x4a3259(0x153)] + _0x4a3259(0x176))[_0x4a3259(0x1a8)](_0x115566 + currency_symbol); } function update_bet_list(_0xb2ba3d, _0x58f350, _0x256f86 = '') { var _0x50696d = _0x5e11c0; 0x1 == _0x256f86 && $(_0x50696d(0x1f5))[_0x50696d(0x1a8)](''), 0x2 == _0x256f86 && $(_0x50696d(0x19c))[_0x50696d(0x1a8)](''); var _0x500b24 = ''; for (i = 0x0; i < _0xb2ba3d[_0x50696d(0x254)]; i++) { var _0x24eb16 = _0xb2ba3d[i][_0x50696d(0x217)] > 0x0 ? _0x50696d(0x21f) : ''; if (parseFloat(_0xb2ba3d[i][_0x50696d(0x217)]) <= 0x2) var _0x597f67 = 'bg3'; else { if (parseFloat(_0xb2ba3d[i]['cashout_multiplier']) < 0xa) _0x597f67 = 'bg1'; else _0x597f67 = _0x50696d(0x1ee); } if (parseFloat(_0xb2ba3d[i]['cashout_multiplier']) > 0x0) { Math[_0x50696d(0x141)](_0xb2ba3d[i][_0x50696d(0x217)] * _0xb2ba3d[i][_0x50696d(0x220)]); var _0x5c12f4 = '<div\x20class=\x22' + _0x597f67 + '\x20custom-badge\x20mx-auto\x22>' + _0xb2ba3d[i][_0x50696d(0x217)] + _0x50696d(0x1f8); } else _0x5c12f4 = '-'; if (null != _0xb2ba3d[i][_0x50696d(0x20b)] && _0x50696d(0x23d) != _0xb2ba3d[i][_0x50696d(0x20b)]) var _0x889356 = 'bet_id_' + _0xb2ba3d[i]['class_name']; else _0x889356 = ''; _0x500b24 += _0x50696d(0x1c5) + _0x24eb16 + '\x20' + _0x889356 + _0x50696d(0x218) + _0xb2ba3d[i][_0x50696d(0x16a)] + _0x50696d(0x1a9) + _0xb2ba3d[i][_0x50696d(0x22c)] + '\x20</div><div\x20class=\x22column-3\x22>\x20<button\x20class=\x22btn\x20btn-transparent\x20previous-history\x20d-flex\x20align-items-center\x20mx-auto\x22>\x20' + _0xb2ba3d[i][_0x50696d(0x220)] + currency_symbol + _0x50696d(0x21d) + _0x5c12f4 + _0x50696d(0x205); } $(_0x58f350)[_0x50696d(0x1a8)](_0x500b24); } function updateRandomMultiplier(_0x3a42d9, _0x49ab4c, _0x32bd18) { var _0x516bdb = _0x5e11c0; _0x3a42d9[Math[_0x516bdb(0x1e6)](Math[_0x516bdb(0x15f)]() * _0x3a42d9['length'])][_0x516bdb(0x217)] = void 0x0 !== _0x32bd18 ? _0x32bd18[_0x516bdb(0x19f)](0x2) : '-'; var _0x462f4b = generateUpdatedHtml(_0x3a42d9); $(_0x49ab4c)[_0x516bdb(0x1a8)](_0x462f4b); } function getBadgeColor(_0x2080e1) { var _0x323a0d = _0x5e11c0; return '-' == _0x2080e1 ? '-' : parseFloat(_0x2080e1) <= 0x2 ? _0x323a0d(0x151) : parseFloat(_0x2080e1) < 0xa ? _0x323a0d(0x1d5) : _0x323a0d(0x1ee); } try { function generateUpdatedHtml(_0x44dbef) { var _0x3e021d = _0x5e11c0; for (var _0x410cb8 = '', _0x2c937d = 0x0; _0x2c937d < _0x44dbef[_0x3e021d(0x254)]; _0x2c937d++) { var _0x490a54 = _0x44dbef[_0x2c937d][_0x3e021d(0x217)] > 0x0 ? _0x3e021d(0x21f) : '', _0x381d4d = void 0x0 !== _0x44dbef[_0x2c937d]['cashout_multiplier'] ? _0x44dbef[_0x2c937d][_0x3e021d(0x217)] : '-', _0x1f7b5f = _0x3e021d(0x22b) + getBadgeColor(_0x381d4d) + _0x3e021d(0x159) + _0x381d4d + _0x3e021d(0x1ab); _0x410cb8 += _0x3e021d(0x1c5) + _0x490a54 + '\x20' + (_0x44dbef[_0x2c937d][_0x3e021d(0x20b)] ? _0x3e021d(0x211) + _0x44dbef[_0x2c937d][_0x3e021d(0x20b)] : '') + '\x22><div\x20class=\x22column-1\x20users\x22>\x20<img\x20src=\x22' + _0x44dbef[_0x2c937d][_0x3e021d(0x16a)] + '\x22\x20class=\x22avatar\x22>\x20\x20</div><div\x20class=\x22column-2\x22>\x20' + _0x44dbef[_0x2c937d][_0x3e021d(0x22c)] + _0x3e021d(0x144) + _0x44dbef[_0x2c937d]['amount'] + currency_symbol + '\x20</button>\x20</div><div\x20class=\x22column-4\x22>\x20' + _0x1f7b5f + _0x3e021d(0x205); } return _0x410cb8; } } catch (_0x38d6fc) { } function _0x336a() { var _0x1433ea = ['#bet_button', '#main_bet_section\x20#bet_amount', 'push', '#my_bet_list\x20#my_bet_section_1', 'val', 'overflow-hidden', '.main_bet_btn', '125780RjoEsz', '<div\x20class=\x22list-items\x20', 'trade_num', '.controls', 'add', '#load_btn', 'ajax', '.bet-block\x20.spinner\x20#bet_amount', 'bet_counts', 'addClass', '.cashout-toaster1', 'hidden', 'type', '#main_bet_section\x20.controls\x20.navigation', '#extra_plus_btn', '.main_bet_amount', '#remove_extra_section_btn', 'bg1', '#isbet', 'background_Audio', 'currentGame', 'append', 'location', '1065633QWxakT', 'innerHTML', '.second-row', '#cashout_button', '.fill-line', '#auto_increment_number_div', 'sound_Audio', '1203304TpCueM', '.tabs-navs\x20.nav-item', 'map', '1377rWEQaH', 'floor', 'innerText', '#music', '.navigation\x20#bet_type', 'click', 'pageshow', 'text-danger', 'stringify', 'bg2', 'getElementById', 'list-items', '\x20\x22><div\x20class=\x22column-1\x20users\x22>\x20<img\x20src=\x22https://win24hrs.live/assets/aviator/images/avtar/av-24.png\x22\x20class=\x22avatar\x22>\x20\x20</div><div\x20class=\x22column-2\x22>\x20', '1490456ZncUKG', 'is_bet', '#all_bets', '#all_bets\x20.mCSB_container', '#extra_bet_now', '.column-4', 'x</div>', 'hasClass', '#extra_bet_section', '</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', '.bet-opt', 'x</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-4\x20fw-normal\x22>$', '#all_bets\x20.mCSB_container\x20.bet_id_', 'bet-border-yellow', 'game_id', 'hide', '#cancle_button\x20#waiting', 'play', 'splice', '\x20</div></div>', 'fn\x20call', 'split', '32920MfHqIU', '.auto-btn', 'addEventListener', 'class_name', '.extra_bet_amount', '#main_incrementor', '#prev_win_multi', 'log', 'focus', 'bet_id_', '#extra_bet_section\x20#bet_amount', 'oanimationend\x20animationend\x20webkitAnimationEnd', '#bet-history', 'ready', 'json', 'cashout_multiplier', '\x20\x22><div\x20class=\x22column-1\x20users\x22>\x20<img\x20src=\x22', '.cashout-toaster2', 'message', 'bind', 'classList', '\x20</button>\x20</div><div\x20class=\x22column-4\x22>\x20', 'appendChild', 'active', 'amount', 'section_no', '#header_wallet_balance', 'login', 'attr', 'load', 'stopPropagation', 'Auto', '784974UnEEYU', 'bet-border-red', '#bet_type', '<div\x20class=\x22', 'userid', '.cash-out-switcher\x20.form-check\x20.form-check-input', 'loop', '.round-history-list', 'text', 'rest\x20time', 'pause', 'volume', '#main_bet_section\x20.controls', '318856nRvjpc', 'find', '.custom-badge:last', '#prev_bets', '.main_amount_btn', 'removeAttr', '.bet-btn', 'dullEffect', 'undefined', 'substring', 'preventDefault', '#cash_out_amount', 'parent', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22btn\x20btn-transparent\x20previous-history\x20d-flex\x20align-items-center\x20mx-auto\x20fw-normal\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', 'blur', 'reduce', '.cashout-toaster1\x20.stop-number', 'canvas', '#extra_bet_id', 'extra_bet_now', '.slider', 'same', 'disabled', 'removeClass', '.error-toaster1\x20.msg', 'show', 'data', '#main_bet_id', 'change', '.cashout-toaster2\x20.out-amount', '#main_bet_now', 'length', '.game-centeral-loading', '.navigation', '#main_checkout', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22list-items\x20bet_record_count\x20', '#extra_bet_section\x20.controls', '.bet-controls', 'round', 'href', 'main_bet_section', '\x20</div><div\x20class=\x22column-3\x22>\x20<button\x20class=\x22btn\x20btn-transparent\x20previous-history\x20d-flex\x20align-items-center\x20mx-auto\x22>\x20', 'Handler/my_bets_history.ashx', 'prop', '0.00', 'reload', '#running_type', 'main_cancel_now', 'POST', '\x22><div\x20class=\x22column-1\x20users\x20fw-normal\x22>\x20', 'body', 'auto_increment_number', 'textContent', 'keys', 'bg3', '#extra_checkout', 'hash_id', '#wallet_balance', 'bet_amount', 'div', '.nav-item', '#my_bet_list\x20.mCSB_container\x20.list-items', '\x20custom-badge\x20mx-auto\x22>', '.button-block', '#extra_auto_bet', '.list-items', 'inr_amount', '#extra_bet_section\x20.controls\x20.navigation', 'random', 'autoplay', '#all_bets\x20.mCSB_container\x20.list-items', 'cash_out_audio_2', '#extra_minus_btn', 'Success', 'extra_bet_section', '.button-block\x20.history-dropdown\x20.round-history-list', 'win_amount', ';extra', '1.01', 'image', 'GET', '.navigation-switcher\x20.slider', 'my_bet_list', '.input\x20#bet_amount', '#main_minus_btn', 'trade_type', 'each', 'cash\x20out\x20time', '#member_bet\x20.mCSB_container', 'clearRect', '.controls\x20.navigation', '\x20.column-4', '1.00x', '\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', '#cancle_button', 'cash_out_amount', 'currentGameBetCount', 'toString', '\x20custom-badge\x20mx-auto\x22>\x20', '.load-txt', '.error-toaster2', '7imRfIp', 'querySelector', '#previous_hand_btn', '.extra_amount_btn', 'createElement', 'dollar_amount', 'mult_no', '.loading-game', '#auto_increment_number', 'forEach', '\x20.column-3', 'clearInterval', '#all_bets\x20.mCSB_container\x20.', '#main_plus_btn', '.error-toaster1', 'incrementor', '#total_bets_amount', 'hidden.bs.modal', '</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-3\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22bg3\x20custom-badge\x20mx-auto\x22>', '3sGxOuN', 'x\x20</div>', 'blink_section', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-1\x20users\x20fw-normal\x22>', 'user_id', 'multiplication', '.cashout-toaster2\x20.stop-number', 'fly_plane_audio', '.flew_away_section', '#prev_bets\x20.mCSB_container', '#main_bet_section', '#main_auto_bet', 'toFixed', 'stop-action', 'prepend', '#current_hand_btn', '.bet_record_count', 'width', 'dark-3', 'previous_game_bet_list', '#extra_incrementor', 'html', '\x22\x20class=\x22avatar\x22>\x20\x20</div><div\x20class=\x22column-2\x22>\x20', 'cash_out_audio', '</div>', '.cashout-spinner-wrapper\x20input', 'slice', '.amt', '#all_my_bets\x20.mCSB_container', '\x20</div><div\x20class=\x22column-2\x22>\x20<button\x20class=\x22btn\x20btn-transparent\x20previous-history\x20d-flex\x20align-items-center\x20mx-auto\x20fw-normal\x22>', 'replace', '.wallet-top', 'totalBetAmount', '#sound', 'main_bet_now', 'getMinutes', '<div\x20class=\x22list-items\x22\x20id=\x22my_bet_section_', 'visibilitychange', '.stage-board', 'checked', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-4\x20fw-normal\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', 'Bets']; _0x336a = function () { return _0x1433ea; }; return _0x336a(); } function update_all_bet_list(_0x1c8ad6, _0x4f072e, _0x47b58e = '') { var _0xe85c04 = _0x5e11c0; 0x1 == _0x47b58e && $('#all_bets\x20.mCSB_container')[_0xe85c04(0x1a8)](''), 0x2 == _0x47b58e && $(_0xe85c04(0x19c))['html'](''); var _0x4a1367 = ''; for (i = 0x0; i < _0x1c8ad6[_0xe85c04(0x254)]; i++) { var _0x575ac0 = _0x1c8ad6[i][_0xe85c04(0x217)] > 0x0 ? _0xe85c04(0x21f) : ''; if (parseFloat(_0x1c8ad6[i][_0xe85c04(0x217)]) <= 0x2) var _0x35ff4e = _0xe85c04(0x151); else { if (parseFloat(_0x1c8ad6[i]['cashout_multiplier']) < 0xa) _0x35ff4e = 'bg1'; else _0x35ff4e = 'bg2'; } if (parseFloat(_0x1c8ad6[i]['cashout_multiplier']) > 0x0) { Math['round'](_0x1c8ad6[i]['cashout_multiplier'] * _0x1c8ad6[i][_0xe85c04(0x220)]); var _0x467be8 = _0xe85c04(0x22b) + _0x35ff4e + '\x20custom-badge\x20mx-auto\x22>' + _0x1c8ad6[i][_0xe85c04(0x217)] + _0xe85c04(0x1f8); } else _0x467be8 = '-'; _0x4a1367 += _0xe85c04(0x1c5) + _0x575ac0 + '\x20' + _0x1c8ad6[i][_0xe85c04(0x1d0)] + _0xe85c04(0x1f1) + _0x1c8ad6[i][_0xe85c04(0x197)] + _0xe85c04(0x144) + _0x1c8ad6[i][_0xe85c04(0x220)] + currency_symbol + _0xe85c04(0x21d) + _0x467be8 + _0xe85c04(0x205); } $(_0x4f072e)['prepend'](_0x4a1367); } function update_my_bet_Multipliers(_0x25e48a, _0x233d6a, _0x38d841) { var _0x4a2113 = _0x5e11c0; const _0x26f11f = 0x0 == _0x233d6a || 0x1 == _0x233d6a ? _0x38d841 : '1', _0x119464 = (0x0 === _0x233d6a || 0x1 === _0x233d6a) && _0x26f11f > 0x0 ? _0x4a2113(0x21f) : '', _0x14fb5d = getBadgeColor(_0x26f11f); $(_0x25e48a)['removeClass']('active')[_0x4a2113(0x1cd)](_0x119464), $(_0x25e48a)[_0x4a2113(0x236)](_0x4a2113(0x1f7))['html']('<div\x20class=\x22\x20' + _0x14fb5d + '\x20\x20custom-badge\x20mx-auto\x22>' + _0x26f11f + _0x4a2113(0x1ab)); } function update_my_new_bet(_0x3b8d6f, _0x58a898, _0xe1dee1) { var _0x5a9a5d = _0x5e11c0, _0x29149d = ''; _0x29149d += _0x5a9a5d(0x1b7) + _0x58a898 + _0x5a9a5d(0x14c) + get_current_hour_minute() + _0x5a9a5d(0x1b0) + parseFloat(_0x3b8d6f)['toFixed'](0x2) + currency_symbol + '</button>\x20</div><div\x20class=\x22column-3\x22>\x20-\x20</div><div\x20class=\x22column-4\x20fw-normal\x22>\x20-\x20</div></div>', $(_0xe1dee1)[_0x5a9a5d(0x1a1)](_0x29149d); } function update_my_bet_history(_0x4f0a6a) { var _0x5b3bf5 = _0x5e11c0, _0xace057 = document[_0x5b3bf5(0x1ef)](_0x5b3bf5(0x16d)); _0xace057['innerHTML'] = '', _0x4f0a6a[_0x5b3bf5(0x189)](function (_0x2e0407) { var _0x56aadc = _0x5b3bf5, _0x18ebf8 = document[_0x56aadc(0x184)](_0x56aadc(0x156)); _0x18ebf8[_0x56aadc(0x21c)][_0x56aadc(0x1c8)](_0x56aadc(0x1f0)), _0x18ebf8[_0x56aadc(0x1dc)] = _0x56aadc(0x196) + _0x2e0407['add_date'][_0x56aadc(0x207)]('\x20')[0x0] + '</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22btn\x20btn-transparent\x20previous-history\x20d-flex\x20align-items-center\x20mx-auto\x20fw-normal\x22>\x20' + _0x2e0407['amount'] + _0x56aadc(0x192) + _0x2e0407[_0x56aadc(0x170)] + _0x56aadc(0x1fd) + (null !== _0x2e0407[_0x56aadc(0x1c6)] ? _0x2e0407[_0x56aadc(0x1c6)] : '0') + _0x56aadc(0x1fb), _0xace057[_0x56aadc(0x21e)](_0x18ebf8); }); } function get_multiplier_badge_class(_0x252b1c) { var _0x1543fe = _0x5e11c0; return parseFloat(_0x252b1c) <= 0x2 ? _0x1543fe(0x151) : parseFloat(_0x252b1c) < 0xa ? 'bg1' : 'bg2'; } function previous_hand(_0x3ac391) { var _0x5a5a9d = _0x5e11c0; 0x1 == _0x3ac391 ? ($('#current_hand_btn')['addClass']('hide'), $(_0x5a5a9d(0x182))[_0x5a5a9d(0x24c)]('hide'), $(_0x5a5a9d(0x1f4))[_0x5a5a9d(0x1cd)](_0x5a5a9d(0x201)), $(_0x5a5a9d(0x238))[_0x5a5a9d(0x24c)](_0x5a5a9d(0x201)), $(_0x5a5a9d(0x20e))['removeClass']('hide'), prevoius_game_bets(current_game_data['id'])) : ($(_0x5a5a9d(0x1a2))[_0x5a5a9d(0x24c)](_0x5a5a9d(0x201)), $('#previous_hand_btn')[_0x5a5a9d(0x1cd)](_0x5a5a9d(0x201)), $('#all_bets')['removeClass'](_0x5a5a9d(0x201)), $('#prev_bets')['addClass'](_0x5a5a9d(0x201)), $('#prev_win_multi')[_0x5a5a9d(0x1cd)]('hide'), show_bet_count($(_0x5a5a9d(0x161))[_0x5a5a9d(0x254)])); } function prevoius_game_bets(_0x27e1de) { var _0x310d1e = _0x5e11c0; $[_0x310d1e(0x1ca)]({ 'url': _0x310d1e(0x1a6), 'data': { 'game_id': _0x27e1de }, 'type': _0x310d1e(0x14b), 'dataType': _0x310d1e(0x216), 'success': function (_0x11fbd6) { var _0xd7d344 = _0x310d1e; if (_0x11fbd6['isSuccess'] && Object[_0xd7d344(0x150)](_0x11fbd6[_0xd7d344(0x24f)])[_0xd7d344(0x254)] > 0x0) { var _0x5ae830 = _0x11fbd6[_0xd7d344(0x24f)]['bet_list'], _0x5187d5 = _0x11fbd6[_0xd7d344(0x24f)][_0xd7d344(0x1cc)], _0x3fdcf0 = _0x11fbd6[_0xd7d344(0x24f)]['win_multi']; update_bet_list(_0x5ae830, '#prev_bets\x20.mCSB_container', 0x2), show_bet_count(_0x5187d5), $(_0xd7d344(0x20e))[_0xd7d344(0x1cd)](get_multiplier_badge_class(_0x3fdcf0))[_0xd7d344(0x230)](parseFloat(_0x3fdcf0)[_0xd7d344(0x19f)](0x2) + 'x'); } else $('#prev_win_multi')[_0xd7d344(0x1cd)](_0xd7d344(0x1d5)); } }); } function cash_out_multiplier(_0x4606b3) { var _0x38374d = _0x5e11c0; 0x1 == bet_array['length'] && 0x0 == bet_array[0x0][_0x38374d(0x221)] && null != bet_array[0x0]['is_bet'] && $(_0x38374d(0x19d))[_0x38374d(0x236)](_0x38374d(0x240))['text'](parseFloat(bet_array[0x0]['bet_amount'] * _0x4606b3)[_0x38374d(0x19f)](0x2) + '' + currency_symbol), 0x1 == bet_array[_0x38374d(0x254)] && 0x1 == bet_array[0x0][_0x38374d(0x221)] && null != bet_array[0x0]['is_bet'] && $(_0x38374d(0x1fa))[_0x38374d(0x236)](_0x38374d(0x240))['text'](parseFloat(bet_array[0x0][_0x38374d(0x155)] * _0x4606b3)[_0x38374d(0x19f)](0x2) + '' + currency_symbol), 0x2 == bet_array[_0x38374d(0x254)] && $[_0x38374d(0x1e4)](bet_array, function (_0x5be0cf, _0x4c6703) { var _0x86fb66 = _0x38374d; 0x0 == _0x5be0cf[_0x86fb66(0x221)] && null != _0x5be0cf[_0x86fb66(0x1f3)] && $(_0x86fb66(0x19d))[_0x86fb66(0x236)](_0x86fb66(0x240))[_0x86fb66(0x230)](parseFloat(_0x5be0cf[_0x86fb66(0x155)] * _0x4606b3)[_0x86fb66(0x19f)](0x2) + '' + currency_symbol), 0x1 == _0x5be0cf['section_no'] && null != _0x5be0cf[_0x86fb66(0x1f3)] && $(_0x86fb66(0x1fa))['find'](_0x86fb66(0x240))['text'](parseFloat(_0x5be0cf[_0x86fb66(0x155)] * _0x4606b3)[_0x86fb66(0x19f)](0x2) + '' + currency_symbol); }); } function show_bet_count(_0x436bf0, _0x26fd9d) { var _0x504acc = _0x5e11c0; $('#total_bets')[_0x504acc(0x230)](_0x436bf0), $(_0x504acc(0x190))[_0x504acc(0x230)](_0x26fd9d); } function bet_now(_0xb1f3fc, _0x3f226f, _0x1374dd) { var _0x17faa0 = _0x5e11c0; if (_0x1374dd[_0x17faa0(0x23f)](), $(_0x17faa0(0x1d6))[_0x17faa0(0x1c1)](0x1), max_bet_amount = 0x64, 0x1 == stage_time_out) enableDisable(0x0 == _0x3f226f ? _0x17faa0(0x143) : _0x17faa0(0x165)), $(_0x17faa0(0x17f))[_0x17faa0(0x1cd)](_0x17faa0(0x24e)), errorToastrStageTimeOut(); else { var _0x40a021 = $(_0xb1f3fc)['parent']()['parent']()[_0x17faa0(0x241)]()[_0x17faa0(0x236)]('.navigation\x20#bet_type')[_0x17faa0(0x1c1)](); let _0x4b49ed = $(_0xb1f3fc)[_0x17faa0(0x241)]()[_0x17faa0(0x241)]()[_0x17faa0(0x236)](_0x17faa0(0x1cb))[_0x17faa0(0x1c1)](); 0x0 == _0x3f226f ? $(_0x17faa0(0x234))[_0x17faa0(0x1cd)](_0x17faa0(0x229)) : 0x1 == _0x3f226f && $(_0x17faa0(0x13f))[_0x17faa0(0x1cd)](_0x17faa0(0x229)), _0x4b49ed = _0x4b49ed < min_bet_amount || '' == _0x4b49ed || NaN == _0x4b49ed ? parseFloat(min_bet_amount)[_0x17faa0(0x19f)](0x2) : _0x4b49ed > max_bet_amount ? parseFloat(max_bet_amount)[_0x17faa0(0x19f)](0x2) : parseFloat(_0x4b49ed)[_0x17faa0(0x19f)](0x2), $(_0xb1f3fc)[_0x17faa0(0x241)]()[_0x17faa0(0x241)]()[_0x17faa0(0x236)](_0x17faa0(0x1cb))[_0x17faa0(0x1c1)](_0x4b49ed), _0x4b49ed >= min_bet_amount && ($(_0xb1f3fc)[_0x17faa0(0x241)]()['parent']()[_0x17faa0(0x236)]('#bet_button')[_0x17faa0(0x201)](), $(_0xb1f3fc)[_0x17faa0(0x241)]()[_0x17faa0(0x241)]()[_0x17faa0(0x236)](_0x17faa0(0x179))[_0x17faa0(0x24e)](), $(_0xb1f3fc)[_0x17faa0(0x241)]()[_0x17faa0(0x241)]()[_0x17faa0(0x236)](_0x17faa0(0x202))[_0x17faa0(0x24e)](), 0x1 == is_game_generated && setTimeout(() => { var _0x2b316f = _0x17faa0; $(_0xb1f3fc)['parent']()[_0x2b316f(0x241)]()[_0x2b316f(0x236)](_0x2b316f(0x202))[_0x2b316f(0x201)](); }, 0x1f4), bet_array[_0x17faa0(0x1bf)]({ 'bet_type': _0x40a021, 'bet_amount': _0x4b49ed, 'section_no': _0x3f226f })); } } function cancle_now(_0x380a0b, _0x5083b0) { var _0x5ba7f4 = _0x5e11c0; 0x1 == stage_time_out ? ($(_0x5ba7f4(0x17f))[_0x5ba7f4(0x1cd)](_0x5ba7f4(0x24e)), errorToastrStageTimeOut()) : (0x0 == _0x5083b0 ? ($(_0x5ba7f4(0x19e))[_0x5ba7f4(0x146)](_0x5ba7f4(0x1ba), !0x1), $(_0x5ba7f4(0x234))[_0x5ba7f4(0x24c)]('bet-border-red')) : 0x1 == _0x5083b0 && ($(_0x5ba7f4(0x15b))[_0x5ba7f4(0x146)](_0x5ba7f4(0x1ba), !0x1), $('#extra_bet_section\x20.controls')['removeClass'](_0x5ba7f4(0x229))), 0x1 == bet_array['length'] && (bet_array = []), 0x2 == bet_array[_0x5ba7f4(0x254)] && 0x0 == _0x5083b0 && (0x0 == bet_array[0x0][_0x5ba7f4(0x221)] && bet_array['splice'](0x0, 0x1), 0x1 == bet_array[0x0][_0x5ba7f4(0x221)] && bet_array['splice'](0x1, 0x1)), $(_0x380a0b)[_0x5ba7f4(0x241)]()['parent']()['find']('#bet_button')[_0x5ba7f4(0x24e)](), $(_0x380a0b)[_0x5ba7f4(0x241)]()[_0x5ba7f4(0x241)]()['find'](_0x5ba7f4(0x179))[_0x5ba7f4(0x201)](), $(_0x380a0b)[_0x5ba7f4(0x241)]()[_0x5ba7f4(0x241)]()[_0x5ba7f4(0x236)](_0x5ba7f4(0x202))[_0x5ba7f4(0x201)]()); } function place_bet_now(_0x39a3be) { var _0x40e014 = _0x5e11c0; try { for (let _0x4b4caf = 0x0; _0x4b4caf < bet_array[_0x40e014(0x254)]; _0x4b4caf++)bet_array[_0x4b4caf][_0x40e014(0x200)] = _0x39a3be['id']; current_is_bet = !0x0; var _0x4d9840 = getCookie(_0x40e014(0x186)); if (_0x4d9840 < 0xa) { var _0x1c8828 = Number(_0x4d9840) + 0x1; setCookie(_0x40e014(0x186), _0x1c8828, 0x1); } else setCookie(_0x40e014(0x186), 0x1, 0x1); var _0x46d3d0 = document['querySelector']('.wallet-top')[_0x40e014(0x14f)], _0x4a9b10 = (_0x46d3d0[_0x40e014(0x23e)](0x1), parseFloat(_0x46d3d0['replace'](/[^0-9.]/g, ''))); $[_0x40e014(0x1ca)]({ 'url': 'Handler/add_bet.ashx', 'data': { 'mult_no': 0x0, '_token': hash_id, 'all_bets': JSON[_0x40e014(0x1ed)](bet_array), 'RoundNo': _0x39a3be['id'] }, 'type': _0x40e014(0x14b), 'dataType': 'json', 'success': function (_0x2292be) { var _0x1249b5 = _0x40e014; if (_0x2292be && _0x2292be[_0x1249b5(0x164)]) { update_all_bet_list(_0x2292be, _0x1249b5(0x1af), 0x1); try { const _0x4efe7e = _0x2292be[_0x1249b5(0x1bc)][_0x1249b5(0x244)]((_0x4d07af, _0x5d22ad) => _0x4d07af + Number(_0x5d22ad[_0x1249b5(0x220)]), 0x0); if ('' != _0x4efe7e && NaN != _0x4efe7e) { total_bet_amounts = Number(_0x4efe7e), max_bet_amount = Number(max_bet_amount) - Number(_0x4efe7e); var _0x19da48 = (Number(_0x4a9b10) - Number(_0x4efe7e))[_0x1249b5(0x19f)](0x2); document['querySelector'](_0x1249b5(0x1b2))[_0x1249b5(0x14f)] = _0x19da48, $('.main_bet_amount')[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x18d))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $('#main_minus_btn')[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x239))[_0x1249b5(0x146)]('disabled', !0x1), $(_0x1249b5(0x13d))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x13d))['prop'](_0x1249b5(0x1ba)) && $(_0x1249b5(0x20d))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x19e))[_0x1249b5(0x146)](_0x1249b5(0x1ba), !0x1); } else $('#wallet_balance')[_0x1249b5(0x230)](currency_symbol + _0x1249b5(0x147)), $(_0x1249b5(0x222))[_0x1249b5(0x230)](currency_symbol + '0.00'); } catch (_0x527b76) { } } else $(_0x1249b5(0x24d))['html'](_0x2292be[_0x1249b5(0x21a)]), $(_0x1249b5(0x18e))[_0x1249b5(0x1cd)](_0x1249b5(0x24e)), errorToastr(), $('#main_bet_section')['find'](_0x1249b5(0x1bd))[_0x1249b5(0x24e)](), $(_0x1249b5(0x19d))[_0x1249b5(0x236)](_0x1249b5(0x179))[_0x1249b5(0x201)](), $(_0x1249b5(0x19d))[_0x1249b5(0x236)](_0x1249b5(0x202))['hide'](), $(_0x1249b5(0x19d))[_0x1249b5(0x236)](_0x1249b5(0x1de))[_0x1249b5(0x201)](), $('#main_bet_section\x20.controls')[_0x1249b5(0x24c)](_0x1249b5(0x229)), $(_0x1249b5(0x234))[_0x1249b5(0x24c)](_0x1249b5(0x1ff)), $(_0x1249b5(0x1d1))[_0x1249b5(0x24c)](_0x1249b5(0x1a0)), $(_0x1249b5(0x1fa))['find'](_0x1249b5(0x1bd))[_0x1249b5(0x24e)](), $(_0x1249b5(0x1fa))[_0x1249b5(0x236)](_0x1249b5(0x179))[_0x1249b5(0x201)](), $(_0x1249b5(0x1fa))['find']('#cancle_button\x20#waiting')[_0x1249b5(0x201)](), $('#extra_bet_section')['find'](_0x1249b5(0x1de))[_0x1249b5(0x201)](), $('#extra_bet_section\x20.controls')[_0x1249b5(0x24c)](_0x1249b5(0x229)), $(_0x1249b5(0x13f))[_0x1249b5(0x24c)](_0x1249b5(0x1ff)), $(_0x1249b5(0x15e))['removeClass'](_0x1249b5(0x1a0)), $('.main_bet_amount')[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x18d))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x16f))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x239))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x13d))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $('#main_checkout')['prop']('checked') && $('#main_incrementor')['prop'](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x19e))[_0x1249b5(0x146)]('checked', !0x1), $(_0x1249b5(0x20c))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x163))[_0x1249b5(0x146)]('disabled', !0x1), $(_0x1249b5(0x1d2))['prop']('disabled', !0x1), $(_0x1249b5(0x183))[_0x1249b5(0x146)]('disabled', !0x1), $(_0x1249b5(0x152))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x152))[_0x1249b5(0x146)](_0x1249b5(0x1ba)) && $(_0x1249b5(0x1a7))[_0x1249b5(0x146)](_0x1249b5(0x24b), !0x1), $(_0x1249b5(0x15b))[_0x1249b5(0x146)]('checked', !0x1), bet_array = []; } }); } catch (_0x27b0fb) { alert(_0x27b0fb); } } function firstToastr() { let _0x3fead2 = 0x1; var _0x5c2f53 = setInterval(function () { var _0x909912 = _0x27d0; _0x3fead2 < 0x3 ? _0x3fead2++ : ($(_0x909912(0x1ce))[_0x909912(0x24c)](_0x909912(0x24e)), clearInterval(_0x5c2f53)); }, 0x3e8); } function secondToastr() { let _0x3d8f35 = 0x1; var _0x436883 = setInterval(function () { var _0x580bac = _0x27d0; _0x3d8f35 < 0x3 ? _0x3d8f35++ : ($('.cashout-toaster2')[_0x580bac(0x24c)](_0x580bac(0x24e)), clearInterval(_0x436883)); }, 0x3e8); } function errorToastr() { let _0x54d721 = 0x1; var _0x320465 = setInterval(function () { var _0x558f52 = _0x27d0; _0x54d721 < 0x3 ? _0x54d721++ : ($(_0x558f52(0x18e))['removeClass'](_0x558f52(0x24e)), clearInterval(_0x320465)); }, 0x3e8); } function errorToastrStageTimeOut() { let _0x22d0e9 = 0x1; var _0x3d1cc7 = setInterval(function () { var _0x45ba86 = _0x27d0; _0x22d0e9 < 0x3 ? _0x22d0e9++ : ($('.error-toaster2')[_0x45ba86(0x24c)](_0x45ba86(0x24e)), clearInterval(_0x3d1cc7)); }, 0x3e8); } function get_current_hour_minute() { var _0x30e85f = _0x5e11c0, _0x4b4031 = new Date(), _0x55a0dc = _0x4b4031['getHours'](), _0x58daa8 = _0x4b4031[_0x30e85f(0x1b6)](); if (_0x55a0dc[_0x30e85f(0x17c)]()[_0x30e85f(0x254)] > 0x1) var _0x5f0def = _0x55a0dc; else _0x5f0def = '0' + _0x55a0dc; if (_0x58daa8[_0x30e85f(0x17c)]()[_0x30e85f(0x254)] > 0x1) var _0x14fc23 = _0x58daa8; else _0x14fc23 = '0' + _0x58daa8; return _0x5f0def + ':' + _0x14fc23; } function update_round_history(_0x2be45a) { var _0x45e532 = _0x5e11c0, _0x59a875 = '<div\x20class=\x22' + get_multiplier_badge_class(_0x2be45a) + '\x20custom-badge\x22>' + parseFloat(_0x2be45a)['toFixed'](0x2) + _0x45e532(0x1f8); $('.payouts-wrapper\x20.payouts-block')[_0x45e532(0x1a1)](_0x59a875), $(_0x45e532(0x166))['prepend'](_0x59a875); } function loadData() { var _0xd9d7d8 = _0x5e11c0; const _0x4c8bbe = $('.bet_record_count')['length']; $[_0xd9d7d8(0x1ca)]({ 'url': '/member_bet', 'type': 'post', 'data': { 'offset': _0x4c8bbe }, 'success': function (_0xc301fb) { var _0x2e2d48 = _0xd9d7d8; const _0x3d559b = _0xc301fb[_0x2e2d48(0x24f)][_0x2e2d48(0x254)]; if (_0x3d559b > 0x0) for (let _0x41e115 = 0x0; _0x41e115 < _0x3d559b; _0x41e115++) { if (parseFloat(_0xc301fb[_0x2e2d48(0x24f)][_0x41e115]['multiplication']) > 0x0) var _0x111fcf = _0x2e2d48(0x22b) + get_multiplier_badge_class(_0xc301fb[_0x2e2d48(0x24f)][_0x41e115][_0x2e2d48(0x198)]) + _0x2e2d48(0x17d) + _0xc301fb[_0x2e2d48(0x24f)][_0x41e115][_0x2e2d48(0x198)] + _0x2e2d48(0x194); else _0x111fcf = '-'; $(_0x2e2d48(0x173))[_0x2e2d48(0x1d9)](_0x2e2d48(0x13e) + (_0xc301fb[_0x2e2d48(0x24f)][_0x41e115][_0x2e2d48(0x17a)] > 0x0 ? 'active' : '') + '\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-1\x20users\x20fw-normal\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20' + _0xc301fb[_0x2e2d48(0x24f)][_0x41e115]['date'] + _0x2e2d48(0x242) + (_0xc301fb[_0x2e2d48(0x24f)][_0x41e115][_0x2e2d48(0x155)] + currency_symbol) + '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22column-3\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20' + _0x111fcf + _0x2e2d48(0x1bb) + (_0xc301fb['data'][_0x41e115][_0x2e2d48(0x17a)] > 0x0 ? _0xc301fb[_0x2e2d48(0x24f)][_0x41e115][_0x2e2d48(0x17a)] + currency_symbol : '-') + _0x2e2d48(0x178)); } _0x3d559b < 0xa ? $(_0x2e2d48(0x1c9))[_0x2e2d48(0x201)]() : $('#load_btn')[_0x2e2d48(0x24e)](); } }); } function soundPlay() { var _0x5c3b70 = _0x5e11c0; let _0x1b22f5 = document[_0x5c3b70(0x1ef)](_0x5c3b70(0x1e1)); document['hidden'] ? _0x1b22f5[_0x5c3b70(0x232)]() : 0x1 == $('#sound')[_0x5c3b70(0x146)](_0x5c3b70(0x1ba)) && 0x0 == window_blur ? _0x1b22f5[_0x5c3b70(0x203)]() : _0x1b22f5[_0x5c3b70(0x232)](); } function flyPlaneSound() { var _0x1876c0 = _0x5e11c0; let _0x37f741 = document[_0x1876c0(0x1ef)](_0x1876c0(0x19a)); document[_0x1876c0(0x1cf)] ? _0x37f741[_0x1876c0(0x232)]() : 0x1 == $('#sound')[_0x1876c0(0x146)](_0x1876c0(0x1ba)) && 0x0 == window_blur ? _0x37f741[_0x1876c0(0x203)]() : _0x37f741[_0x1876c0(0x232)](); } function cashOutSound() { var _0x8968b0 = _0x5e11c0; let _0x2e8eac = document['getElementById'](_0x8968b0(0x1aa)); document[_0x8968b0(0x1cf)] ? _0x2e8eac[_0x8968b0(0x232)]() : 0x1 == $(_0x8968b0(0x1b4))[_0x8968b0(0x146)](_0x8968b0(0x1ba)) && 0x0 == window_blur ? _0x2e8eac['play']() : _0x2e8eac['pause'](); } function cashOutSoundOtherSection() { var _0x421aac = _0x5e11c0; let _0x2a8ddd = document[_0x421aac(0x1ef)](_0x421aac(0x162)); document[_0x421aac(0x1cf)] ? _0x2a8ddd[_0x421aac(0x232)]() : 0x1 == $('#sound')[_0x421aac(0x146)](_0x421aac(0x1ba)) && 0x0 == window_blur ? _0x2a8ddd['play']() : _0x2a8ddd['pause'](); } function backgroundSound() { var _0x32789a = _0x5e11c0; let _0x415cbc = document[_0x32789a(0x1ef)](_0x32789a(0x1d7)); 0x1 == $(_0x32789a(0x1e8))['prop'](_0x32789a(0x1ba)) ? (_0x415cbc[_0x32789a(0x233)] = 0.5, _0x415cbc[_0x32789a(0x160)] = !0x0, _0x415cbc[_0x32789a(0x22e)] = !0x0, _0x415cbc[_0x32789a(0x225)]()) : _0x415cbc[_0x32789a(0x232)](); } function check_login_status() { var _0x7f0537 = _0x5e11c0; $['ajax']({ 'url': 'is_login', 'type': _0x7f0537(0x14b), 'dataType': 'json', 'success': function (_0x3e14e2) { var _0x47f9a0 = _0x7f0537; 0x0 == _0x3e14e2['isSuccess'] && (window[_0x47f9a0(0x1da)][_0x47f9a0(0x142)] = _0x47f9a0(0x223)); } }); } function gameLoadingTimer() { let _0x5b391e = 0x1; var _0x5267b5 = setInterval(function () { var _0x5651d2 = _0x27d0; _0x5b391e <= 0x5 ? (0x1 == _0x5b391e && $('.loading-game')[_0x5651d2(0x1cd)]('show'), _0x5b391e++) : ($(_0x5651d2(0x187))[_0x5651d2(0x24c)]('show'), clearInterval(_0x5267b5)); }, 0x3e8); } $('#main_auto_bet')['on'](_0x5e11c0(0x251), function () { var _0xe77668 = _0x5e11c0; let _0x3e1f18 = $(this)[_0xe77668(0x146)]('checked'); const _0x8b3299 = $(_0xe77668(0x13d))['prop'](_0xe77668(0x1ba)); if (_0x3e1f18) { $(_0xe77668(0x19d))[_0xe77668(0x236)]('#bet_button')[_0xe77668(0x201)](), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x179))[_0xe77668(0x24e)](), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x202))[_0xe77668(0x24e)](), 0x1 == is_game_generated && setTimeout(() => { var _0x2442bd = _0xe77668; $(_0x2442bd(0x19d))[_0x2442bd(0x236)](_0x2442bd(0x202))[_0x2442bd(0x201)](); }, 0x1f4), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x1de))['hide'](), $('#main_bet_section\x20.controls')[_0xe77668(0x1cd)](_0xe77668(0x229)), $(_0xe77668(0x19d))[_0xe77668(0x241)]()['parent']()[_0xe77668(0x236)]('.cashout-spinner-wrapper\x20input')[_0xe77668(0x146)](_0xe77668(0x24b), !0x0), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x175))[_0xe77668(0x1cd)](_0xe77668(0x1a0)); var _0x2c4b51 = $('#main_bet_now')[_0xe77668(0x241)]()[_0xe77668(0x241)]()['parent']()[_0xe77668(0x236)](_0xe77668(0x1e9))['val'](); let _0x3ec763 = $('#main_bet_now')[_0xe77668(0x241)]()['parent']()[_0xe77668(0x236)](_0xe77668(0x1cb))['val'](); _0x3ec763 = _0x3ec763 < min_bet_amount || '' == _0x3ec763 || NaN == _0x3ec763 ? parseFloat(min_bet_amount)[_0xe77668(0x19f)](0x2) : _0x3ec763 > max_bet_amount ? parseFloat(max_bet_amount)[_0xe77668(0x19f)](0x2) : parseFloat(_0x3ec763)[_0xe77668(0x19f)](0x2), $('#main_bet_now')[_0xe77668(0x241)]()[_0xe77668(0x241)]()['find']('.bet-block\x20.spinner\x20#bet_amount')[_0xe77668(0x1c1)](_0x3ec763), _0x3ec763 >= min_bet_amount && _0x3ec763 <= max_bet_amount && (0x1 == bet_array[_0xe77668(0x254)] ? 0x0 != bet_array[0x0][_0xe77668(0x221)] && bet_array['push']({ 'bet_type': _0x2c4b51, 'bet_amount': _0x3ec763, 'section_no': 0x0 }) : 0x2 == bet_array[_0xe77668(0x254)] ? 0x0 != bet_array[0x0][_0xe77668(0x221)] && 0x0 != bet_array[0x1][_0xe77668(0x221)] && bet_array[_0xe77668(0x1bf)]({ 'bet_type': _0x2c4b51, 'bet_amount': _0x3ec763, 'section_no': 0x0 }) : bet_array['push']({ 'bet_type': _0x2c4b51, 'bet_amount': _0x3ec763, 'section_no': 0x0 })), $(_0xe77668(0x1d3))[_0xe77668(0x146)](_0xe77668(0x24b), !0x0), $('#main_plus_btn')[_0xe77668(0x146)]('disabled', !0x0), $(_0xe77668(0x16f))[_0xe77668(0x146)](_0xe77668(0x24b), !0x0), $(_0xe77668(0x239))[_0xe77668(0x146)](_0xe77668(0x24b), !0x0), $(_0xe77668(0x13d))['prop']('disabled', !0x0), $('#main_checkout')[_0xe77668(0x146)](_0xe77668(0x1ba)) && $(_0xe77668(0x20d))[_0xe77668(0x146)]('disabled', !0x0); } else 0x0 == _0x8b3299 ? ($(_0xe77668(0x19d))[_0xe77668(0x241)]()[_0xe77668(0x241)]()[_0xe77668(0x236)](_0xe77668(0x1ac))[_0xe77668(0x146)](_0xe77668(0x24b), !0x1), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x175))[_0xe77668(0x24c)]('stop-action')) : ($(_0xe77668(0x19d))['parent']()['parent']()[_0xe77668(0x236)](_0xe77668(0x1ac))['prop']('disabled', !0x0), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x175))[_0xe77668(0x1cd)](_0xe77668(0x1a0))), 0x1 == bet_array[_0xe77668(0x254)] ? bet_array['splice'](0x0, 0x1) : 0x2 == bet_array[_0xe77668(0x254)] ? 0x0 == bet_array[0x0]['section_no'] ? bet_array[_0xe77668(0x204)](0x0, 0x1) : bet_array[_0xe77668(0x204)](0x1, 0x1) : bet_array[_0xe77668(0x254)], $(_0xe77668(0x19d))['find'](_0xe77668(0x1bd))[_0xe77668(0x24e)](), $(_0xe77668(0x19d))['find']('#cancle_button')['hide'](), $(_0xe77668(0x19d))['find']('#cancle_button\x20#waiting')[_0xe77668(0x201)](), $(_0xe77668(0x19d))[_0xe77668(0x236)](_0xe77668(0x1de))[_0xe77668(0x201)](), $(_0xe77668(0x234))[_0xe77668(0x24c)](_0xe77668(0x229)), $(_0xe77668(0x1d3))['prop']('disabled', !0x1), $(_0xe77668(0x18d))[_0xe77668(0x146)](_0xe77668(0x24b), !0x1), $(_0xe77668(0x16f))[_0xe77668(0x146)](_0xe77668(0x24b), !0x1), $(_0xe77668(0x239))[_0xe77668(0x146)](_0xe77668(0x24b), !0x1), $(_0xe77668(0x13d))[_0xe77668(0x146)](_0xe77668(0x24b), !0x1), $(_0xe77668(0x13d))[_0xe77668(0x146)](_0xe77668(0x1ba)) && $(_0xe77668(0x20d))[_0xe77668(0x146)]('disabled', !0x1); }), $(_0x5e11c0(0x15b))['on'](_0x5e11c0(0x251), function () { var _0x3dee77 = _0x5e11c0; let _0x1efaa9 = $(this)[_0x3dee77(0x146)](_0x3dee77(0x1ba)); const _0x24fc82 = $('#extra_checkout')[_0x3dee77(0x146)](_0x3dee77(0x1ba)); if (_0x1efaa9) { $(_0x3dee77(0x1fa))[_0x3dee77(0x236)](_0x3dee77(0x1bd))[_0x3dee77(0x201)](), $('#extra_bet_section')[_0x3dee77(0x236)]('#cancle_button')[_0x3dee77(0x24e)](), $(_0x3dee77(0x1fa))[_0x3dee77(0x236)](_0x3dee77(0x202))[_0x3dee77(0x24e)](), 0x1 == is_game_generated && setTimeout(() => { var _0xce8b62 = _0x3dee77; $(_0xce8b62(0x1fa))['find'](_0xce8b62(0x202))[_0xce8b62(0x201)](); }, 0x1f4), $(_0x3dee77(0x1fa))[_0x3dee77(0x236)]('#cashout_button')[_0x3dee77(0x201)](), $(_0x3dee77(0x13f))[_0x3dee77(0x1cd)]('bet-border-red'), $(_0x3dee77(0x1fa))['parent']()['parent']()[_0x3dee77(0x236)](_0x3dee77(0x1ac))['prop'](_0x3dee77(0x24b), !0x0), $('#extra_bet_section')[_0x3dee77(0x236)]('.controls\x20.navigation')[_0x3dee77(0x1cd)](_0x3dee77(0x1a0)); var _0x45796f = $(_0x3dee77(0x1f6))[_0x3dee77(0x241)]()[_0x3dee77(0x241)]()[_0x3dee77(0x241)]()[_0x3dee77(0x236)](_0x3dee77(0x1e9))[_0x3dee77(0x1c1)](); let _0x29b041 = $(_0x3dee77(0x1f6))['parent']()[_0x3dee77(0x241)]()[_0x3dee77(0x236)](_0x3dee77(0x1cb))[_0x3dee77(0x1c1)](); _0x29b041 = _0x29b041 < min_bet_amount || '' == _0x29b041 || NaN == _0x29b041 ? parseFloat(min_bet_amount)[_0x3dee77(0x19f)](0x2) : _0x29b041 > max_bet_amount ? parseFloat(max_bet_amount)[_0x3dee77(0x19f)](0x2) : parseFloat(_0x29b041)[_0x3dee77(0x19f)](0x2), $('#extra_bet_now')[_0x3dee77(0x241)]()[_0x3dee77(0x241)]()[_0x3dee77(0x236)](_0x3dee77(0x1cb))[_0x3dee77(0x1c1)](_0x29b041), _0x29b041 >= min_bet_amount && _0x29b041 <= max_bet_amount && (0x1 == bet_array['length'] ? 0x1 != bet_array[0x0][_0x3dee77(0x221)] && bet_array[_0x3dee77(0x1bf)]({ 'bet_type': _0x45796f, 'bet_amount': _0x29b041, 'section_no': 0x1 }) : 0x2 == bet_array['length'] ? 0x1 != bet_array[0x0][_0x3dee77(0x221)] && 0x1 != bet_array[0x1]['section_no'] && bet_array['push']({ 'bet_type': _0x45796f, 'bet_amount': _0x29b041, 'section_no': 0x1 }) : bet_array['push']({ 'bet_type': _0x45796f, 'bet_amount': _0x29b041, 'section_no': 0x1 })), $('.extra_bet_amount')[_0x3dee77(0x146)](_0x3dee77(0x24b), !0x0), $(_0x3dee77(0x163))[_0x3dee77(0x146)]('disabled', !0x0), $(_0x3dee77(0x1d2))[_0x3dee77(0x146)]('disabled', !0x0), $('.extra_amount_btn')[_0x3dee77(0x146)](_0x3dee77(0x24b), !0x0), $(_0x3dee77(0x152))[_0x3dee77(0x146)](_0x3dee77(0x24b), !0x0), $(_0x3dee77(0x152))[_0x3dee77(0x146)](_0x3dee77(0x1ba)) && $('#extra_incrementor')['prop'](_0x3dee77(0x24b), !0x0); } else 0x0 == _0x24fc82 ? ($(_0x3dee77(0x1fa))[_0x3dee77(0x241)]()[_0x3dee77(0x241)]()[_0x3dee77(0x236)](_0x3dee77(0x1ac))[_0x3dee77(0x146)]('disabled', !0x1), $(_0x3dee77(0x1fa))[_0x3dee77(0x236)](_0x3dee77(0x175))['removeClass'](_0x3dee77(0x1a0))) : ($(_0x3dee77(0x1fa))[_0x3dee77(0x241)]()[_0x3dee77(0x241)]()[_0x3dee77(0x236)](_0x3dee77(0x1ac))[_0x3dee77(0x146)]('disabled', !0x0), $('#extra_bet_section')['find'](_0x3dee77(0x175))[_0x3dee77(0x1cd)](_0x3dee77(0x1a0))), 0x1 == bet_array[_0x3dee77(0x254)] ? bet_array['splice'](0x0, 0x1) : (bet_array[_0x3dee77(0x254)], 0x2 == bet_array[_0x3dee77(0x254)] && (0x1 == bet_array[0x0][_0x3dee77(0x221)] ? bet_array[_0x3dee77(0x204)](0x0, 0x1) : bet_array[_0x3dee77(0x204)](0x1, 0x1))), $(_0x3dee77(0x1fa))['find'](_0x3dee77(0x1bd))[_0x3dee77(0x24e)](), $(_0x3dee77(0x1fa))[_0x3dee77(0x236)](_0x3dee77(0x179))[_0x3dee77(0x201)](), $(_0x3dee77(0x1fa))[_0x3dee77(0x236)](_0x3dee77(0x202))[_0x3dee77(0x201)](), $('#extra_bet_section')[_0x3dee77(0x236)](_0x3dee77(0x1de))[_0x3dee77(0x201)](), $(_0x3dee77(0x13f))['removeClass'](_0x3dee77(0x229)), $(_0x3dee77(0x20c))['prop'](_0x3dee77(0x24b), !0x1), $('#extra_minus_btn')[_0x3dee77(0x146)]('disabled', !0x1), $(_0x3dee77(0x1d2))[_0x3dee77(0x146)](_0x3dee77(0x24b), !0x1), $(_0x3dee77(0x183))[_0x3dee77(0x146)](_0x3dee77(0x24b), !0x1), $('#extra_checkout')['prop'](_0x3dee77(0x24b), !0x1), $(_0x3dee77(0x152))['prop'](_0x3dee77(0x1ba)) && $(_0x3dee77(0x1a7))[_0x3dee77(0x146)](_0x3dee77(0x24b), !0x1); }), backgroundSound(), $('#music')['on'](_0x5e11c0(0x251), function () { backgroundSound(); }), $(_0x5e11c0(0x1c3))['on'](_0x5e11c0(0x1ea), function () { var _0xf2aa1d = _0x5e11c0; if (0x1 != stage_time_out) { let _0x33e6b6 = $(this)['attr']('id'); _0xf2aa1d(0x1b5) == _0x33e6b6 ? ($(_0xf2aa1d(0x1d3))[_0xf2aa1d(0x146)]('disabled', !0x0), $(_0xf2aa1d(0x18d))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x0), $(_0xf2aa1d(0x16f))[_0xf2aa1d(0x146)]('disabled', !0x0), $(_0xf2aa1d(0x239))[_0xf2aa1d(0x146)]('disabled', !0x0), $(_0xf2aa1d(0x13d))['prop'](_0xf2aa1d(0x24b), !0x0), $('#main_incrementor')[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x0)) : _0xf2aa1d(0x14a) == _0x33e6b6 && ($(_0xf2aa1d(0x1d3))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $(_0xf2aa1d(0x18d))['prop'](_0xf2aa1d(0x24b), !0x1), $(_0xf2aa1d(0x16f))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $('.main_amount_btn')['prop'](_0xf2aa1d(0x24b), !0x1), $(_0xf2aa1d(0x13d))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $(_0xf2aa1d(0x13d))['prop'](_0xf2aa1d(0x1ba)) && $(_0xf2aa1d(0x20d))[_0xf2aa1d(0x146)]('disabled', !0x1)), _0xf2aa1d(0x248) == _0x33e6b6 ? ($(_0xf2aa1d(0x20c))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x0), $('#extra_minus_btn')['prop'](_0xf2aa1d(0x24b), !0x0), $(_0xf2aa1d(0x1d2))[_0xf2aa1d(0x146)]('disabled', !0x0), $(_0xf2aa1d(0x183))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x0), $('#extra_checkout')['prop'](_0xf2aa1d(0x24b), !0x0), $(_0xf2aa1d(0x1a7))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x0)) : 'extra_cancel_now' == _0x33e6b6 && ($(_0xf2aa1d(0x20c))['prop']('disabled', !0x1), $(_0xf2aa1d(0x163))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $(_0xf2aa1d(0x1d2))[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $('.extra_amount_btn')[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $('#extra_checkout')[_0xf2aa1d(0x146)](_0xf2aa1d(0x24b), !0x1), $(_0xf2aa1d(0x152))[_0xf2aa1d(0x146)]('checked') && $(_0xf2aa1d(0x1a7))[_0xf2aa1d(0x146)]('disabled', !0x1)); } }); let focus_interval, visibility_interval, focus_timer = 0x0, visibility_timer = 0x0; $(window)[_0x5e11c0(0x210)](function () { focus_timer > 0xa ? location['reload']() : (focus_timer = 0x0, clearInterval(focus_interval)); }); let window_blur = 0x0; function enableDisable(_0x357cb3) { var _0x4c3bc3 = _0x5e11c0; $('#' + _0x357cb3)[_0x4c3bc3(0x236)]('.controls')[_0x4c3bc3(0x1cd)](_0x4c3bc3(0x23c)), setTimeout(function () { var _0x109c05 = _0x4c3bc3; $('#' + _0x357cb3)['find'](_0x109c05(0x1c7))[_0x109c05(0x24c)](_0x109c05(0x23c)); }, 0xc8); } function main_incrementor_change(_0x3735e1) { var _0x2c5837 = _0x5e11c0; _0x3735e1 < 1.01 ? $(_0x2c5837(0x20d))[_0x2c5837(0x1c1)](_0x2c5837(0x169)) : $(_0x2c5837(0x20d))[_0x2c5837(0x1c1)](parseFloat(_0x3735e1)['toFixed'](0x2)); } function extra_incrementor_change(_0x3dbdbe) { var _0x1114a9 = _0x5e11c0; _0x3dbdbe < 1.01 ? $(_0x1114a9(0x1a7))[_0x1114a9(0x1c1)](_0x1114a9(0x169)) : $('#extra_incrementor')[_0x1114a9(0x1c1)](parseFloat(_0x3dbdbe)[_0x1114a9(0x19f)](0x2)); } function hide_loading_game() { var _0x20b075 = _0x5e11c0; $(_0x20b075(0x187))[_0x20b075(0x24c)](_0x20b075(0x24e)); } function show_loading_game() { var _0x2f7746 = _0x5e11c0; $(_0x2f7746(0x187))[_0x2f7746(0x1cd)](_0x2f7746(0x24e)); } $(window)[_0x5e11c0(0x243)](function () { var _0x4b8f9e = _0x5e11c0; const _0x2d2fd5 = document[_0x4b8f9e(0x1ef)](_0x4b8f9e(0x1d7)); window_blur = 0x1, _0x2d2fd5[_0x4b8f9e(0x232)](), focus_interval = setInterval(function () { focus_timer = parseInt(focus_timer + 0x1); }, 0x3e8); }), $(window)[_0x5e11c0(0x210)](function () { var _0xb66923 = _0x5e11c0; window_blur = 0x0, document[_0xb66923(0x1ef)](_0xb66923(0x1d7))[_0xb66923(0x203)](); }), document[_0x5e11c0(0x20a)](_0x5e11c0(0x1b8), function (_0x381393) { var _0x13a8fb = _0x5e11c0; document[_0x13a8fb(0x1cf)] ? visibility_interval = setInterval(function () { visibility_timer = parseInt(visibility_timer + 0x1); }, 0x3e8) : visibility_timer > 0xa ? location[_0x13a8fb(0x148)]() : (visibility_timer = 0x0, clearInterval(visibility_interval)); }), $(window)[_0x5e11c0(0x21b)](_0x5e11c0(0x1eb), function (_0xdc155d) { var _0x385e68 = _0x5e11c0; _0xdc155d['originalEvent']['persisted'] && $('.load-txt')[_0x385e68(0x24e)](); }), $(_0x5e11c0(0x1df))[_0x5e11c0(0x21b)](_0x5e11c0(0x213), function () { var _0x22b5a5 = _0x5e11c0; $(_0x22b5a5(0x255))[_0x22b5a5(0x201)](), $('bottom-left-plane')[_0x22b5a5(0x24e)](); }), $(_0x5e11c0(0x1df))['bind']('oanimationstart\x20animationstart\x20webkitAnimationStart', function () { var _0x1b89f6 = _0x5e11c0; $(_0x1b89f6(0x255))[_0x1b89f6(0x24e)](); }), $(document)[_0x5e11c0(0x1ea)](function () { var _0x14030c = _0x5e11c0; $(_0x14030c(0x15a))['hasClass']('show') && $('.button-block')[_0x14030c(0x24c)](_0x14030c(0x24e)); }), $('.history-top')[_0x5e11c0(0x1ea)](function (_0x210dd8) { var _0x1f8fc1 = _0x5e11c0; return _0x210dd8[_0x1f8fc1(0x226)](), !0x1; });
+// $('body').addClass('overflow-hidden');
+var currency_symbol = "INR";
+var wallet_balance = 100;
+var bet_list_current = [];
+function scrollFunction() {
+    $(".list-body").mCustomScrollbar({
+        scrollInertia: 50,
+        theme: "dark-3"
+    });
+}
+scrollFunction();
+
+
+document.addEventListener("visibilitychange", function () {
+    // console.log(document.visibilityState); // "hidden" or "visible"
+    // console.log(document.hidden); // true or false
+    const music = document.getElementById("background_Audio");
+    if (document.hidden) {
+        music.pause();
+    } else {
+        if (window_blur == 0) {
+            music.play();
+        } else {
+            music.pause();
+        }
+        // sound.play()
+    }
+}, false);
+
+/*-------HINAL (START)-------*/
+$(document).on('hidden.bs.modal', '#bet-history', function () {
+    $(".bet_record_count").remove();
+})
+/*---------HINAL (END)-------*/
+
+// Bet Tab Change Functionality START
+$(".tabs-navs .nav-item").click(function () {
+    $(this).parent().parent().find(".nav-item").removeClass('active');
+    $(this).addClass('active');
+});
+
+$(".auto-btn").click(function () {
+    $(this).parent().parent().find("#bet_type").val(1);
+});
+
+$(".bet-btn").click(function () {
+    $(this).parent().parent().find("#bet_type").val(0);
+});
+
+$(".navigation-switcher .slider").click(function () {
+    $(this).parent().find(".slider").removeClass('active');
+    $(this).addClass('active');
+
+    const type = $(this).text();
+    if (type == 'Auto') {
+        $(this).parent().parent().parent().find(".second-row").addClass('show');
+    } else {
+        $(this).parent().parent().parent().find(".second-row").removeClass('show');
+    }
+});
+
+$(".cash-out-switcher .form-check .form-check-input").change(function () {
+    if (this.checked) {
+        $(this).parent().parent().parent().find(".cashout-spinner-wrapper input").attr('disabled', false);
+        $(this).parent().parent().parent().parent().parent().find(".navigation").addClass('stop-action');
+    } else {
+        $(this).parent().parent().parent().find(".cashout-spinner-wrapper input").attr('disabled', true);
+        $(this).parent().parent().parent().parent().parent().find(".navigation").removeClass('stop-action');
+    }
+});
+
+$("#remove_extra_section_btn").click(function () {
+    $("#extra_bet_section").hide();
+    $("#add_extra_bet_section_btn").show();
+});
+
+$("#add_extra_bet_section_btn").click(function () {
+    $("#extra_bet_section").show();
+    $("#add_extra_bet_section_btn").hide();
+});
+// Bet Tab Change Functionality END
+var globalAmt = 10;
+
+function bet_amount_incremental(element, event) {
+    event.preventDefault();
+    var bet_amount = parseFloat($(element).parent().parent().find(".input #bet_amount").val());
+    bet_amount += globalAmt;
+
+    if (bet_amount <= max_bet_amount) {
+        $(element).parent().parent().find(".input #bet_amount").val(bet_amount);
+    }
+}
+
+function bet_amount_decremental(element, event) {
+    event.preventDefault();
+    var bet_amount = parseFloat($(element).parent().parent().find(".input #bet_amount").val());
+    bet_amount -= globalAmt;
+    if (bet_amount >= min_bet_amount) {
+        $(element).parent().parent().find(".input #bet_amount").val(bet_amount);
+    }
+}
+
+function select_direct_bet_amount(element, event) {
+    event.preventDefault();
+    var current_bet_amount = parseFloat($(element).parent().parent().find(".input #bet_amount").val());
+    var adding_bet_amount = parseFloat($(element).find(".amt").text());
+    globalAmt = adding_bet_amount
+
+    if ($(element).hasClass('same')) {
+        var new_bet_amount = parseFloat(parseFloat(current_bet_amount) + parseFloat(adding_bet_amount)).toFixed(2);
+
+        if (new_bet_amount <= max_bet_amount) {
+            $(element).parent().parent().find(".input #bet_amount").val(new_bet_amount);
+        }
+    } else {
+        $(element).parent().find('.bet-opt').removeClass('same');
+        $(element).addClass('same');
+        $(element).parent().parent().find(".input #bet_amount").val(adding_bet_amount);
+    }
+}
+
+var current_game_count;
+var multiplier_limit = 0;
+var stop_position = 0;
+
+$('.loading-game').addClass('show');
+// gameLoadingTimer();
+
+$(document).ready(function () {
+    let music = document.getElementById("background_Audio");
+    music.volume = 0.2;
+    if ($("#music").prop("checked") == true) {
+        music.loop = true;
+        music.load();
+    } else {
+        music.pause();
+    }
+    $("#wallet_balance").text(currency_symbol + wallet_balance); // Show Wallet Balance
+    $("#header_wallet_balance").text(currency_symbol + wallet_balance); // Show Header Wallet Balance
+});
+
+function info_data(intialData) {
+
+    current_game_data = intialData.currentGame;
+    current_game_count = intialData.currentGameBetCount;
+    show_bet_count(current_game_count, intialData.totalBetAmount);
+    update_bet_list(intialData.currentGameBet, '#all_bets .mCSB_container', 1);
+    bet_list_current = intialData.currentGameBet;
+}
+
+var main_counter = 0;
+var extra_counter = 0;
+function cash_out_now(element, section_no, event, increment = '') {
+    debugger;
+    event.preventDefault();
+
+    current_cash_out = increment;
+    if (section_no == 0) {
+        // cashOutSound();
+    } else {
+        // cashOutSoundOtherSection();
+    }
+    if (bet_array.length == 1) {
+        current_cash = true;
+    }
+    let incrementor;
+    if (increment != '') {
+        incrementor = increment;
+    } else {
+        incrementor = $("#auto_increment_number").text().slice(0, -1);
+    }
+
+    if (section_no == 0) {
+        enableDisable('main_bet_section');
+        main_cash_out = 0;
+    } else {
+        enableDisable('extra_bet_section');
+        extra_cash_out = 0;
+    }
+
+    if (bet_array.length == 1) {
+        bet_array.splice(0, 1); // Remove Perticular Bet
+    } else if (bet_array.length == 2 && section_no == 0) {
+        if (bet_array[0].section_no == 0) {
+            bet_array.splice(0, 1); // Remove Perticular Bet
+        } else {
+            bet_array.splice(1, 1); // Remove Perticular Bet
+        }
+    } else if (bet_array.length == 2 && section_no == 1) {
+        if (bet_array[0].section_no == 1) {
+            bet_array.splice(0, 1); // Remove Perticular Bet
+        } else {
+            bet_array.splice(1, 1); // Remove Perticular Bet
+        }
+    }
+
+    let bet_id;
+    if (section_no == 0) {
+        bet_id = $("#main_bet_id").val();
+        var bet_amount = $("#main_bet_section #bet_amount").val();
+    } else {
+        bet_id = $("#extra_bet_id").val();
+        var bet_amount = $("#extra_bet_section #bet_amount").val();
+
+    }
+    // let incrementor = $("#auto_increment_number").text().slice(0,-1);
+    game_id = current_game_data.id
+
+    if (currency_id == 1) {
+        var amt = parseFloat(parseFloat(incrementor) * parseFloat(bet_amount)).toFixed(2);
+    } else {
+        var amt = parseFloat(parseFloat(incrementor) * (parseFloat(bet_amount))).toFixed(2);
+        // var amt = parseFloat(parseFloat(incrementor) * (parseFloat(bet_amount) / 80)).toFixed(2);
+    }
+
+    $('#all_bets .mCSB_container .bet_id_' + member_id + section_no + '').addClass('active');
+    $('#all_bets .mCSB_container .bet_id_' + member_id + section_no + ' .column-3').html('<div class="' + get_multiplier_badge_class(incrementor) + ' custom-badge mx-auto">' + incrementor + 'x</div>');
+    $('#all_bets .mCSB_container .bet_id_' + member_id + section_no + ' .column-4').html(amt + currency_symbol);
+
+    if (section_no == 0) {
+        let is_main_auto_bet_checked = $("#main_auto_bet").prop('checked');
+        if (is_main_auto_bet_checked) {
+            $("#main_bet_section").find("#bet_button").hide();
+            $("#main_bet_section").find("#cancle_button").show();
+            $("#main_bet_section").find("#cancle_button #waiting").show();
+            $("#main_bet_section").find("#cashout_button").hide();
+            $("#main_bet_section .controls").removeClass('bet-border-yellow');
+            $("#main_bet_section .controls").addClass('bet-border-red');
+        } else {
+            $("#main_bet_section").find("#bet_button").show();
+            $("#main_bet_section").find("#cancle_button").hide();
+            $("#main_bet_section").find("#cancle_button #waiting").hide();
+            $("#main_bet_section").find("#cashout_button").hide();
+            $("#main_bet_section .controls").removeClass('bet-border-red');
+            $("#main_bet_section .controls").removeClass('bet-border-yellow');
+        }
+
+        $("#main_bet_section").find("#cash_out_amount").text('');
+        $(".cashout-toaster1 .stop-number").html(incrementor + 'x');
+        $(".cashout-toaster1 .out-amount").html(amt + currency_symbol);
+        $(".cashout-toaster1").addClass('show');
+        firstToastr();
+    }
+
+    if (section_no == 1) {
+        let is_extra_auto_bet_checked = $("#extra_auto_bet").prop('checked');
+        if (is_extra_auto_bet_checked) {
+            $("#extra_bet_section").find("#bet_button").hide();
+            $("#extra_bet_section").find("#cancle_button").show();
+            $("#extra_bet_section").find("#cancle_button #waiting").show();
+            $("#extra_bet_section").find("#cashout_button").hide();
+            $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+            $("#extra_bet_section .controls").addClass('bet-border-red');
+        } else {
+            $("#extra_bet_section").find("#bet_button").show();
+            $("#extra_bet_section").find("#cancle_button").hide();
+            $("#extra_bet_section").find("#cancle_button #waiting").hide();
+            $("#extra_bet_section").find("#cashout_button").hide();
+            $("#extra_bet_section .controls").removeClass('bet-border-red');
+            $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+        }
+
+        $("#extra_bet_section").find("#cash_out_amount").text('');
+        $(".cashout-toaster2 .stop-number").html(incrementor + 'x');
+        $(".cashout-toaster2 .out-amount").html(amt + currency_symbol);
+        $(".cashout-toaster2").addClass('show');
+        secondToastr();
+    }
+
+    // toastr.success('You have cashed out! ' + incrementor + 'x You got ' + amt + currency_symbol);
+
+    var triggerElement = document.querySelector('.wallet-top');
+    var walletText = triggerElement.textContent;
+    var walletValue = walletText.substring(1);
+    var amountUi = walletValue.replace('?', '');
+
+    $.ajax({
+        url: 'Handler/cash_out.ashx',
+        data: {
+            game_id: gameId,
+            // bet_id: bet_id,
+            "betAmount": bet_amount,
+            win_multiplier: incrementor,
+            section_no: section_no
+        },
+        type: "GET",
+        dataType: "json",
+        success: function (result) {
+
+            $('#all_my_bets .mCSB_container').find('.list-items').each(function () {
+                var sectionNo = $(this).attr('class').split(' ').find(cls => cls !== 'list-items' && cls !== 'active');
+                update_my_bet_Multipliers(this, parseInt(result.section_no), result.multiplier);
+            });
+            $.ajax({
+                url: 'Handler/my_bets_history.ashx',
+                type: "POST",
+                data: {
+                    _token: hash_id
+                },
+                dataType: "json",
+                success: function (data) {
+
+                    update_my_bet_history(data.data)
+                }
+            });
+            if (result) {
+                if (result.win_amount != '' && result.win_amount != NaN) {
+                    var updatedValue = Number(amountUi) + Number(result.win_amount);
+                    total_bet_amounts -= result.win_amount
+                    max_bet_amount = Number(max_bet_amount) + Number(result.win_amount);
+
+                    document.querySelector('.wallet-top').textContent = "?" + updatedValue.toFixed(2);
+                    $("#wallet_balance").text(currency_symbol + updatedValue);
+                    $("#header_wallet_balance").text(currency_symbol + updatedValue);
+                } else {
+                    $("#wallet_balance").text(currency_symbol + '0.00');
+                    $("#header_wallet_balance").text(currency_symbol + '0.00'); // Show Header Wallet Balance
+                }
+                if (section_no == 0) {
+                    $("#main_bet_section").find("#bet_button").show();
+                    $("#main_bet_section").find("#cancle_button").hide();
+                    $("#main_bet_section").find("#cancle_button #waiting").hide();
+                    $("#main_bet_section").find("#cashout_button").hide();
+
+                    $("#my_bet_list #my_bet_section_0").addClass('active');
+                    // $("#my_bet_list #my_bet_section_0 .column-3").html('<div class="' + get_multiplier_badge_class(incrementor) + ' custom-badge mx-auto">' + incrementor + 'x</div>');
+                    // $("#my_bet_list #my_bet_section_0 .column-4").html(result.data.cash_out_amount + currency_symbol);
+                    let is_main_auto_bet_checked = $("#main_auto_bet").prop('checked');
+
+                    $("#my_bet_list #my_bet_section_0").removeAttr('id');
+
+
+                    if (is_main_auto_bet_checked == false) {
+                        // Main Bet Button and text box enable
+                        $(".main_bet_amount").prop('disabled', false);
+                        $("#main_plus_btn").prop('disabled', false);
+                        $("#main_minus_btn").prop('disabled', false);
+                        $(".main_amount_btn").prop('disabled', false);
+                        $("#main_checkout").prop('disabled', false)
+                        if ($("#main_checkout").prop('checked')) {
+                            $("#main_incrementor").prop('disabled', false);
+                        }
+                    }
+                    $("#main_auto_bet").prop('disabled', false);
+                }
+                if (section_no == 1) {
+                    $("#extra_bet_section").find("#bet_button").show();
+                    $("#extra_bet_section").find("#cancle_button").hide();
+                    $("#extra_bet_section").find("#cancle_button #waiting").hide();
+                    $("#extra_bet_section").find("#cashout_button").hide();
+
+                    $("#my_bet_list #my_bet_section_1").addClass('active');
+                    // $("#my_bet_list #my_bet_section_1 .column-3").html('<div class="' + get_multiplier_badge_class(incrementor) + ' custom-badge mx-auto">' + incrementor + 'x</div>');
+                    // $("#my_bet_list #my_bet_section_1 .column-4").html(result.data.cash_out_amount + currency_symbol);
+                    let is_extra_auto_bet_checked = $("#extra_auto_bet").prop('checked');
+
+                    $("#my_bet_list #my_bet_section_1").removeAttr('id');
+
+
+                    if (is_extra_auto_bet_checked == false) {
+                        // Extra Bet Button and text box enable
+                        $(".extra_bet_amount").prop('disabled', false);
+                        $("#extra_minus_btn").prop('disabled', false);
+                        $("#extra_plus_btn").prop('disabled', false);
+                        $(".extra_amount_btn").prop('disabled', false);
+                        $("#extra_checkout").prop('disabled', false);
+                        if ($("#extra_checkout").prop('checked')) {
+                            $("#extra_incrementor").prop('disabled', false);
+                        }
+                    }
+                    $("#extra_auto_bet").prop('disabled', false);
+
+                }
+            }
+        }
+    });
+}
+
+function crash_plane(inc_no) {
+    soundPlay();
+
+    window.clearInterval(StopPlaneIntervalID);
+    $(".flew_away_section").show();
+    $("#auto_increment_number").addClass('text-danger');
+    stopPlane();
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    $("#running_type").text('rest time');
+    update_round_history(inc_no);
+    const number_of_bet = $(".round-history-list").find('.custom-badge').length;
+    if (number_of_bet > 50) {
+        $(".round-history-list").find('.custom-badge:last').remove();
+    }
+
+    let is_main_auto_bet_checked = $("#main_auto_bet").prop('checked');
+    let is_extra_auto_bet_checked = $("#extra_auto_bet").prop('checked');
+
+    const main_bet_id = $("#main_bet_id").val();
+    const extra_bet_id = $("#extra_bet_id").val();
+
+    setTimeout(function () {
+        const incrementor = $("#auto_increment_number").text().slice(0, -1);
+        if (main_cash_out == 2) {
+            $("#main_bet_id").val(main_bet_id);
+            const main_inc = main_incrementor;
+            if (parseFloat(incrementor) >= parseFloat(main_inc)) {
+                cash_out_now('', 0, main_inc);
+            }
+            $("#main_bet_id").val('');
+        }
+
+        if (extra_cash_out == 2) {
+            $("#extra_bet_id").val(extra_bet_id);
+            const extra_inc = extra_incrementor;
+            if (parseFloat(incrementor) >= parseFloat(extra_inc)) {
+                cash_out_now('', 1, extra_inc);
+            }
+            $("#extra_bet_id").val('');
+        }
+        main_cash_out = 0;
+        extra_cash_out = 0;
+    }, 1000);
+
+
+
+    // if (bet_array.length == 2) {
+    if (bet_array[0] && bet_array[0].is_bet != undefined) {
+        if (bet_array[0].section_no == 0) {
+            if (is_main_auto_bet_checked) {
+                $("#main_bet_section").find("#bet_button").hide();
+                $("#main_bet_section").find("#cancle_button").show();
+                $("#main_bet_section").find("#cancle_button #waiting").show();
+                $("#main_bet_section").find("#cashout_button").hide();
+                $("#main_bet_section .controls").removeClass('bet-border-yellow');
+                $("#main_bet_section .controls").addClass('bet-border-red');
+            } else {
+                $("#main_bet_section").find("#bet_button").show();
+                $("#main_bet_section").find("#cancle_button").hide();
+                $("#main_bet_section").find("#cancle_button #waiting").hide();
+                $("#main_bet_section").find("#cashout_button").hide();
+                $("#main_bet_section .controls").removeClass('bet-border-red');
+                $("#main_bet_section .controls").removeClass('bet-border-yellow');
+
+                // Main Bet
+                $(".main_bet_amount").prop('disabled', false);
+                $("#main_plus_btn").prop('disabled', false);
+                $("#main_minus_btn").prop('disabled', false);
+                $(".main_amount_btn").prop('disabled', false);
+                $("#main_checkout").prop('disabled', false);
+                if ($("#main_checkout").prop('checked')) {
+                    $("#main_incrementor").prop('disabled', false);
+                }
+            }
+
+            $("#main_bet_id").val('');
+            $("#main_bet_section").find("#cash_out_amount").text('');
+
+
+            $("#main_auto_bet").prop('disabled', false);
+        } else if (bet_array[0].section_no == 1) {
+            if (is_extra_auto_bet_checked) {
+                $("#extra_bet_section").find("#bet_button").hide();
+                $("#extra_bet_section").find("#cancle_button").show();
+                $("#extra_bet_section").find("#cancle_button #waiting").show();
+                $("#extra_bet_section").find("#cashout_button").hide();
+                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+                $("#extra_bet_section .controls").addClass('bet-border-red');
+            } else {
+                $("#extra_bet_section").find("#bet_button").show();
+                $("#extra_bet_section").find("#cancle_button").hide();
+                $("#extra_bet_section").find("#cancle_button #waiting").hide();
+                $("#extra_bet_section").find("#cashout_button").hide();
+                $("#extra_bet_section .controls").removeClass('bet-border-red');
+                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+
+                // Extra Bet
+                $(".extra_bet_amount").prop('disabled', false);
+                $("#extra_minus_btn").prop('disabled', false);
+                $("#extra_plus_btn").prop('disabled', false);
+                $(".extra_amount_btn").prop('disabled', false);
+                $("#extra_checkout").prop('disabled', false);
+                if ($("#extra_checkout").prop('checked')) {
+                    $("#extra_incrementor").prop('disabled', false);
+                }
+            }
+
+            $("#extra_bet_id").val('');
+            $("#extra_bet_section").find("#cash_out_amount").text('');
+
+
+            $("#extra_auto_bet").prop('disabled', false);
+        }
+    }
+    if (bet_array[1] && bet_array[1].is_bet != undefined) {
+        if (bet_array[1].section_no == 0) {
+            if (is_main_auto_bet_checked) {
+                $("#main_bet_section").find("#bet_button").hide();
+                $("#main_bet_section").find("#cancle_button").show();
+                $("#main_bet_section").find("#cancle_button #waiting").show();
+                $("#main_bet_section").find("#cashout_button").hide();
+                $("#main_bet_section .controls").removeClass('bet-border-yellow');
+                $("#main_bet_section .controls").addClass('bet-border-red');
+            } else {
+                $("#main_bet_section").find("#bet_button").show();
+                $("#main_bet_section").find("#cancle_button").hide();
+                $("#main_bet_section").find("#cancle_button #waiting").hide();
+                $("#main_bet_section").find("#cashout_button").hide();
+                $("#main_bet_section .controls").removeClass('bet-border-red');
+                $("#main_bet_section .controls").removeClass('bet-border-yellow');
+
+                // Main Bet
+                $(".main_bet_amount").prop('disabled', false);
+                $("#main_plus_btn").prop('disabled', false);
+                $("#main_minus_btn").prop('disabled', false);
+                $(".main_amount_btn").prop('disabled', false);
+                $("#main_checkout").prop('disabled', false);
+                if ($("#main_checkout").prop('checked')) {
+                    $("#main_incrementor").prop('disabled', false);
+                }
+            }
+
+            $("#main_bet_id").val('');
+            $("#main_bet_section").find("#cash_out_amount").text('');
+
+
+            $("#main_auto_bet").prop('disabled', false);
+        } else if (bet_array[1].section_no == 1) {
+            if (is_extra_auto_bet_checked) {
+                $("#extra_bet_section").find("#bet_button").hide();
+                $("#extra_bet_section").find("#cancle_button").show();
+                $("#extra_bet_section").find("#cancle_button #waiting").show();
+                $("#extra_bet_section").find("#cashout_button").hide();
+                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+                $("#extra_bet_section .controls").addClass('bet-border-red');
+            } else {
+                $("#extra_bet_section").find("#bet_button").show();
+                $("#extra_bet_section").find("#cancle_button").hide();
+                $("#extra_bet_section").find("#cancle_button #waiting").hide();
+                $("#extra_bet_section").find("#cashout_button").hide();
+                $("#extra_bet_section .controls").removeClass('bet-border-red');
+                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+
+                // Extra Bet
+                $(".extra_bet_amount").prop('disabled', false);
+                $("#extra_minus_btn").prop('disabled', false);
+                $("#extra_plus_btn").prop('disabled', false);
+                $(".extra_amount_btn").prop('disabled', false);
+                $("#extra_checkout").prop('disabled', false);
+                if ($("#extra_checkout").prop('checked')) {
+                    $("#extra_incrementor").prop('disabled', false);
+                }
+            }
+
+            $("#extra_bet_id").val('');
+            $("#extra_bet_section").find("#cash_out_amount").text('');
+
+
+            $("#extra_auto_bet").prop('disabled', false);
+        }
+    }
+    // }
+}
+
+
+function new_game_generated() {
+    debugger;
+    console.log('fn call')
+    is_game_generated = 1;
+    $('#my_bet_list .mCSB_container .list-items').removeAttr('id');
+    $(".game-centeral-loading").show();
+
+    $("#main_bet_section").find("#cancle_button #waiting").hide();
+    $("#extra_bet_section").find("#cancle_button #waiting").hide();
+
+    if (bet_array.length == 1) {
+        if (bet_array[0].section_no == 0) {
+            enableDisable('main_bet_section');
+        }
+        if (bet_array[0].section_no == 1) {
+            enableDisable('extra_bet_section');
+        }
+    }
+    if (bet_array.length == 2) {
+        enableDisable('main_bet_section');
+        enableDisable('extra_bet_section');
+    }
+
+    $(".load-txt").hide();
+    $('body').removeClass('overflow-hidden');
+    document.getElementById('auto_increment_number').innerText = '1.00x';
+    // $('.loading-game').addClass('show');
+    //khushbu
+    $('.loading-game').addClass('show');
+    // setTimeout(hide_loading_game(), 10000);
+    $(".flew_away_section").hide();
+    $("#auto_increment_number").removeClass('text-danger');
+    $("#all_bets .mCSB_container").html('');
+    $("#running_type").text('bet time');
+    $("#auto_increment_number_div").hide();
+    //khushbu
+    current_game_count = 0;
+
+    let is_main_auto_bet_checked = $("#main_auto_bet").prop('checked');
+    if (is_main_auto_bet_checked) {
+        if (bet_array.length != 2 && (bet_array.length == 0 || (bet_array.length == 1 && bet_array[0].section_no != 0))) {
+            var bet_type = $("#main_bet_now").parent().parent().parent().find(".navigation #bet_type").val(); // 0 - Normal, 1 - Auto
+            let bet_amount = $("#main_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val();
+
+            if (bet_amount < min_bet_amount || bet_amount == '' || bet_amount == NaN) {
+                bet_amount = parseFloat(min_bet_amount).toFixed(2);
+            } else if (bet_amount > max_bet_amount) {
+                bet_amount = parseFloat(max_bet_amount).toFixed(2);
+            } else {
+                bet_amount = parseFloat(bet_amount).toFixed(2);
+            }
+
+            $("#main_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val(bet_amount);
+
+            if (bet_amount >= min_bet_amount && bet_amount <= max_bet_amount) {
+                bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: 0 });
+            }
+        }
+
+    }
+
+    let is_extra_auto_bet_checked = $("#extra_auto_bet").prop('checked');
+    if (is_extra_auto_bet_checked) {
+        if (bet_array.length != 2 && (bet_array.length == 0 || (bet_array.length == 1 && bet_array[0].section_no != 1))) {
+            var bet_type = $("#extra_bet_now").parent().parent().parent().find(".navigation #bet_type").val(); // 0 - Normal, 1 - Auto
+            let bet_amount = $("#extra_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val();
+
+            if (bet_amount < min_bet_amount || bet_amount == '' || bet_amount == NaN) {
+                bet_amount = parseFloat(min_bet_amount).toFixed(2);
+            } else if (bet_amount > max_bet_amount) {
+                bet_amount = parseFloat(max_bet_amount).toFixed(2);
+            } else {
+                bet_amount = parseFloat(bet_amount).toFixed(2);
+            }
+
+            $("#extra_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val(bet_amount);
+
+            if (bet_amount >= min_bet_amount && bet_amount <= max_bet_amount) {
+                bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: 1 });
+            }
+        }
+
+    }
+
+}
+
+function lets_fly_one() {
+    is_game_generated = 0;
+    $(".stage-board").addClass('blink_section');
+    $(".bet-controls").addClass('blink_section');
+}
+
+function lets_fly() {
+    //debugger;
+    $(".stage-board").removeClass('blink_section');
+    $(".bet-controls").removeClass('blink_section');
+    stage_time_out = 0;
+    if (bet_array.length == 1 && bet_array[0] && bet_array[0].section_no == 0) {
+        //debugger;
+        enableDisable('main_bet_section');
+        $("#main_bet_section").find("#bet_button").hide();
+        $("#main_bet_section").find("#cancle_button").hide();
+        $("#main_bet_section").find("#cancle_button #waiting").hide();
+        $("#main_bet_section").find("#cashout_button").show();
+        $("#main_bet_section .controls").removeClass('bet-border-red');
+        $("#main_bet_section .controls").addClass('bet-border-yellow');
+        $("#main_auto_bet").prop('disabled', true);
+        $("#main_checkout").prop('disabled', true);
+        $("#main_incrementor").prop('disabled', true);
+    }
+
+    if (bet_array.length == 1 && bet_array[0] && bet_array[0].section_no == 1) {
+        enableDisable('extra_bet_section');
+        $("#extra_bet_section").find("#bet_button").hide();
+        $("#extra_bet_section").find("#cancle_button").hide();
+        $("#extra_bet_section").find("#cancle_button #waiting").hide();
+        $("#extra_bet_section").find("#cashout_button").show();
+        $("#extra_bet_section .controls").removeClass('bet-border-red');
+        $("#extra_bet_section .controls").addClass('bet-border-yellow');
+        $("#extra_auto_bet").prop('disabled', true);
+        $("#extra_checkout").prop('disabled', true);
+        $("#extra_incrementor").prop('disabled', true);
+    }
+
+    if (bet_array.length == 2) {
+
+        if (bet_array[0] && bet_array[0].section_no == 0) {
+            enableDisable('main_bet_section');
+            $("#main_bet_section").find("#bet_button").hide();
+            $("#main_bet_section").find("#cancle_button").hide();
+            $("#main_bet_section").find("#cancle_button #waiting").hide();
+            $("#main_bet_section").find("#cashout_button").show();
+            $("#main_bet_section .controls").removeClass('bet-border-red');
+            $("#main_bet_section .controls").addClass('bet-border-yellow');
+            $("#main_auto_bet").prop('disabled', true);
+            $("#main_checkout").prop('disabled', true);
+            $("#main_incrementor").prop('disabled', true);
+        }
+
+        if (bet_array[0] && bet_array[0].section_no == 1) {
+            enableDisable('extra_bet_section');
+            $("#extra_bet_section").find("#bet_button").hide();
+            $("#extra_bet_section").find("#cancle_button").hide();
+            $("#extra_bet_section").find("#cancle_button #waiting").hide();
+            $("#extra_bet_section").find("#cashout_button").show();
+            $("#extra_bet_section .controls").removeClass('bet-border-red');
+            $("#extra_bet_section .controls").addClass('bet-border-yellow');
+            $("#extra_auto_bet").prop('disabled', true);
+            $("#extra_checkout").prop('disabled', true);
+            $("#extra_incrementor").prop('disabled', true);
+        }
+
+        if (bet_array[1] && bet_array[1].section_no == 0) {
+            enableDisable('main_bet_section');
+            $("#main_bet_section").find("#bet_button").hide();
+            $("#main_bet_section").find("#cancle_button").hide();
+            $("#main_bet_section").find("#cancle_button #waiting").hide();
+            $("#main_bet_section").find("#cashout_button").show();
+            $("#main_bet_section .controls").removeClass('bet-border-red');
+            $("#main_bet_section .controls").addClass('bet-border-yellow');
+            $("#main_auto_bet").prop('disabled', true);
+            $("#main_checkout").prop('disabled', true);
+            $("#main_incrementor").prop('disabled', true);
+        }
+
+        if (bet_array[1] && bet_array[1].section_no == 1) {
+            enableDisable('extra_bet_section');
+            $("#extra_bet_section").find("#bet_button").hide();
+            $("#extra_bet_section").find("#cancle_button").hide();
+            $("#extra_bet_section").find("#cancle_button #waiting").hide();
+            $("#extra_bet_section").find("#cashout_button").show();
+            $("#extra_bet_section .controls").removeClass('bet-border-red');
+            $("#extra_bet_section .controls").addClass('bet-border-yellow');
+            $("#extra_auto_bet").prop('disabled', true);
+            $("#extra_checkout").prop('disabled', true);
+            $("#extra_incrementor").prop('disabled', true);
+        }
+    }
+
+    $(".load-txt").hide();
+    $('body').removeClass('overflow-hidden');
+    // main_counter = 0;
+    // extra_counter = 0;
+    $('.loading-game').removeClass('show');
+    $("#auto_increment_number_div").show();
+    setVariable(1);
+    flyPlaneSound();
+}
+
+function incrementor(inc_no) {
+    //debugger;
+    $('.loading-game').removeClass('show');
+    $("#auto_increment_number_div").show();
+    $("#running_type").text('cash out time');
+    document.getElementById('auto_increment_number').innerText = inc_no + '' + 'x';
+
+    if (bet_array.length > 0) {
+
+        var main_mult_amt = $("#main_bet_section #bet_amount").val();
+        var extra_mult_amt = $("#extra_bet_section #bet_amount").val();
+        const extra_final_amt = inc_no * Number(extra_mult_amt);
+        const main_final_amt = inc_no * Number(main_mult_amt);
+        $("#main_bet_section").find("#cash_out_amount").text(parseFloat(main_final_amt).toFixed(2) + '' + currency_symbol);
+        $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(extra_final_amt).toFixed(2) + '' + currency_symbol);
+        let main_isChecked = $('#main_checkout').prop('checked');
+        let extra_isChecked = $("#extra_checkout").prop('checked');
+        let incrementor;
+
+
+        for (let i = 0; i < bet_array.length; i++) {
+            if (bet_array[i].section_no == 0) {
+                if (bet_array[i].is_bet == 1) {
+                    if (main_isChecked == true) {
+                        incrementor = $('#main_incrementor').val();
+                        main_incrementor = incrementor;
+                        if (parseFloat(inc_no) >= parseFloat(incrementor)) {
+                            if (main_counter == 0) {
+                                cash_out_now('', 0, incrementor);
+                                main_counter++;
+                                main_cash_out = 1;
+                            }
+                        } else {
+                            main_cash_out = 2;
+                        }
+                    }
+                }
+            } else if (bet_array[i].section_no == 1) {
+                if (bet_array[i].is_bet == 1) {
+                    if (extra_isChecked == true) {
+
+                        incrementor = $('#extra_incrementor').val();
+                        extra_incrementor = incrementor;
+                        console.log(extra_incrementor, ';extra')
+                        if (parseFloat(inc_no) >= parseFloat(incrementor)) {
+                            if (extra_counter == 0) {
+                                cash_out_now('', 1, incrementor);
+                                extra_counter++;
+                                extra_cash_out = 1;
+                            }
+                        } else {
+                            extra_cash_out = 2;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    if (bet_array.length > 0) {
+
+        cash_out_multiplier(inc_no);
+    }
+
+}
+
+function cash_out_bet(cashOutData) {
+    $('#all_bets .mCSB_container .' + cashOutData.hash_id + '').addClass('active');
+    $('#all_bets .mCSB_container .' + cashOutData.hash_id + ' .column-3').html('<div class="' + get_multiplier_badge_class(cashOutData.incrementor) + ' custom-badge mx-auto">' + cashOutData.incrementor + 'x</div>');
+    if (currency_id == 1) {
+        var amt = cashOutData.inr_amount;
+    } else {
+        var amt = cashOutData.dollar_amount;
+    }
+    $('#all_bets .mCSB_container .' + cashOutData.hash_id + ' .column-4').html(amt + currency_symbol);
+}
+
+function update_bet_list(bets, target, appendType = '') {
+    //debugger;
+    //khushbu 
+    // show_bet_count(bets.length);
+    if (appendType == 1) {
+        $("#all_bets .mCSB_container").html('');
+    }
+    if (appendType == 2) {
+        $('#prev_bets .mCSB_container').html('');
+    }
+    var html = '';
+    for (i = 0; i < bets.length; i++) {
+        var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
+        if (parseFloat(bets[i].cashout_multiplier) <= 2) {
+            var badgeColor = 'bg3';
+        } else if (parseFloat(bets[i].cashout_multiplier) < 10) {
+            var badgeColor = 'bg1';
+        } else {
+            var badgeColor = 'bg2';
+        }
+        if (parseFloat(bets[i].cashout_multiplier) > 0) {
+            var cashOut = Math.round(bets[i].cashout_multiplier * bets[i].amount) + currency_symbol;
+            var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + bets[i].cashout_multiplier + 'x</div>';
+        } else {
+            var cashOut = '-';
+            var multiplication = '-';
+        }
+        //   me  //if (bets[i].class_name != undefined && bets[i].class_name != 'undefined') {
+        //    var sectionNo = 'bet_id_' + '' + bets[i].class_name;
+        //} else {
+        //    var sectionNo = '';
+        //   me     //}
+        var sectionNo = 'bet_id_' + bets[i].sectionNo;
+        html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
+            '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">  </div>' +
+            '<div class="column-2"> ' + bets[i].userid + ' </div>' +
+            '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
+            '<div class="column-4"> ' + multiplication + ' </div>' +
+            // '<div class="column-5"> ' + cashOut + ' </div>' +
+            '</div>';
+    }
+    $(target).html(html);
+
+}
+
+
+function updateRandomMultiplier(bets, target, a) {
+    var randomIndex = Math.floor(Math.random() * bets.length);
+    bets[randomIndex].cashout_multiplier = a !== undefined ? a.toFixed(2) : '-'; // Assign '-' if `a` is undefined
+    var html = generateUpdatedHtml(bets);
+    $(target).html(html);
+}
+function getBadgeColor(multiplier) {
+    if (multiplier == '-') {
+        return '-';
+    }
+
+    if (parseFloat(multiplier) <= 2) {
+        return 'bg3';
+    } else if (parseFloat(multiplier) < 10) {
+        return 'bg1';
+    } else {
+        return 'bg2';
+    }
+}
+function generateUpdatedHtml(bets) {
+    var html = '';
+    for (var i = 0; i < bets.length; i++) {
+        var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
+        var multiplier = bets[i].cashout_multiplier !== undefined ? bets[i].cashout_multiplier : '-'; // Default to '-' if undefined
+        var badgeColor = getBadgeColor(multiplier);
+
+        var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + multiplier + '</div>';
+
+        var sectionNo = bets[i].class_name ? 'bet_id_' + bets[i].class_name : '';
+
+        html += '<div class="list-items ' + isActive + ' ' + sectionNo + '">' +
+            '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">  </div>' +
+            '<div class="column-2"> ' + bets[i].userid + ' </div>' +
+            '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
+            '<div class="column-4"> ' + multiplication + ' </div>' +
+            // '<div class="column-5"> ' + cashOut + ' </div>' +
+            '</div>';
+    }
+    return html;
+}
+function update_all_bet_list(bets, target, appendType = '') {
+
+    if (appendType == 1) {
+        $("#all_bets .mCSB_container").html('');
+    }
+    if (appendType == 2) {
+        $('#prev_bets .mCSB_container').html('');
+    }
+
+    var html = '';
+    for (i = 0; i < bets.length; i++) {
+        var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
+        if (parseFloat(bets[i].cashout_multiplier) <= 2) {
+            var badgeColor = 'bg3';
+        } else if (parseFloat(bets[i].cashout_multiplier) < 10) {
+            var badgeColor = 'bg1';
+        } else {
+            var badgeColor = 'bg2';
+        }
+        if (parseFloat(bets[i].cashout_multiplier) > 0) {
+            var cashOut = Math.round(bets[i].cashout_multiplier * bets[i].amount) + currency_symbol;
+            var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + bets[i].cashout_multiplier + 'x</div>';
+        } else {
+            var cashOut = '-';
+            var multiplication = '-';
+        }
+
+        var sectionNo = bets[i].type;
+        html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
+            '<div class="column-1 users"> <img src="https://win24hrs.live/assets/aviator/images/avtar/av-24.png" class="avatar">  </div>' +
+            '<div class="column-2"> ' + bets[i].user_id + ' </div>' +
+            '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
+            '<div class="column-4"> ' + multiplication + ' </div>' +
+            // '<div class="column-5"> ' + cashOut + ' </div>' +
+            '</div>';
+    }
+    $(target).prepend(html);
+
+}
+
+
+function update_my_bet_Multipliers(element, sectionNo, mult) {
+    const updatedMultiplier = (sectionNo == 0 || sectionNo == 1) ? mult : '1';
+    const isActive = (sectionNo === 0 || sectionNo === 1) && updatedMultiplier > 0 ? "active" : "";
+    const badgeColor = getBadgeColor(updatedMultiplier);
+
+    $(element).removeClass("active").addClass(isActive);
+    $(element).find('.column-4').html('<div class=" ' + badgeColor + '  custom-badge mx-auto">' + updatedMultiplier + '</div>');
+}
+
+function update_my_new_bet(bet_amount, section_no, target) {
+    var html = '';
+    html += '<div class="list-items" id="my_bet_section_' + section_no + '">' +
+        '<div class="column-1 users fw-normal"> ' + get_current_hour_minute() + ' </div>' +
+        '<div class="column-2"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">' + parseFloat(bet_amount).toFixed(2) + '' + currency_symbol + '</button> </div>' +
+        '<div class="column-3"> - </div>' +
+        '<div class="column-4 fw-normal"> - </div>' +
+        '</div>';
+    $(target).prepend(html);
+}
+
+function update_my_bet_history(data) {
+
+    var myBetListDiv = document.getElementById("my_bet_list");
+    myBetListDiv.innerHTML = ""; // Clear existing content
+
+    data.forEach(function (item) {
+        var listItem = document.createElement("div");
+        listItem.classList.add("list-items");
+
+        // Add columns
+        listItem.innerHTML = `
+                    <div class="column-1 users fw-normal">${item.add_date.split(' ')[0]}</div>
+                    <div class="column-2">
+                        <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">TRX ${item.amount}</button>
+                    </div>
+                    <div class="column-3">
+                        <div class="bg3 custom-badge mx-auto">${item.trade_type}x</div>
+                    </div>
+                    <div class="column-4 fw-normal">?${item.trade_num !== null ? item.trade_num : '0'}</div>
+                `;
+
+        myBetListDiv.appendChild(listItem);
+    });
+}
+
+function get_multiplier_badge_class(multiplier) {
+    if (parseFloat(multiplier) <= 2) {
+        return 'bg3';
+    } else if (parseFloat(multiplier) < 10) {
+        return 'bg1';
+    } else {
+        return 'bg2';
+    }
+}
+
+function previous_hand(val) {
+    if (val == 1) {
+        $("#current_hand_btn").addClass('hide');
+        $("#previous_hand_btn").removeClass('hide');
+        $("#all_bets").addClass('hide');
+        $("#prev_bets").removeClass('hide');
+        $("#prev_win_multi").removeClass('hide');
+        //khushbu
+        prevoius_game_bets(current_game_data.id);
+    } else {
+        $("#current_hand_btn").removeClass('hide');
+        $("#previous_hand_btn").addClass('hide');
+        $("#all_bets").removeClass('hide');
+        $("#prev_bets").addClass('hide');
+        $("#prev_win_multi").addClass('hide');
+        //khushbu
+        show_bet_count($('#all_bets .mCSB_container .list-items').length);
+    }
+};
+
+function prevoius_game_bets(game_id) {
+    $.ajax({
+        url: 'previous_game_bet_list',
+        data: {
+            game_id: game_id,
+        },
+        type: "POST",
+        dataType: "json",
+        success: function (result) {
+            if (result.isSuccess && Object.keys(result.data).length > 0) {
+                var betList = result.data.bet_list;
+                var betCount = result.data.bet_counts;
+                var winMulti = result.data.win_multi;
+                update_bet_list(betList, '#prev_bets .mCSB_container', 2);
+
+                show_bet_count(betCount);
+                $("#prev_win_multi").addClass(get_multiplier_badge_class(winMulti)).text(parseFloat(winMulti).toFixed(2) + 'x');
+            } else {
+                $("#prev_win_multi").addClass('bg1');
+            }
+        }
+    });
+}
+
+function cash_out_multiplier(inc_no) {
+    //debugger
+    if (bet_array.length == 1 && bet_array[0].section_no == 0 && bet_array[0].is_bet != undefined) {
+        $("#main_bet_section").find("#cash_out_amount").text(parseFloat(bet_array[0].bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+    }
+
+    if (bet_array.length == 1 && bet_array[0].section_no == 1 && bet_array[0].is_bet != undefined) {
+        $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(bet_array[0].bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+    }
+
+    if (bet_array.length == 2) {
+        $.map(bet_array, function (item, index) {
+            if (item.section_no == 0 && item.is_bet != undefined) {
+                $("#main_bet_section").find("#cash_out_amount").text(parseFloat(item.bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+            }
+            if (item.section_no == 1 && item.is_bet != undefined) {
+                $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(item.bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+            }
+        });
+    }
+}
+
+function show_bet_count(count, bet_amount) {
+    //debugger;
+    $("#total_bets").text(count);
+    $("#total_bets_amount").text(bet_amount);
+}
+
+function bet_now(element, section_no, event) {
+    let wallet_balance = parseFloat(document.querySelector(".wallet-top").textContent.trim()) || 0;
+    let bet_amount_check = parseFloat($(element).parent().parent().find(".bet-block .spinner #bet_amount").val()) || 0;
+
+    if (wallet_balance <= 0) {
+        return;
+    }
+    if (bet_amount_check > wallet_balance) {
+        return;
+    }
+    event.preventDefault();
+    $("#isbet").val(1);
+    max_bet_amount = 100;
+    if (stage_time_out == 1) {
+        if (section_no == 0) {
+            enableDisable('main_bet_section');
+        } else {
+
+            enableDisable('extra_bet_section');
+        }
+        $(".error-toaster2").addClass('show');
+        errorToastrStageTimeOut();
+    } else {
+        var bet_type = $(element).parent().parent().parent().find(".navigation #bet_type").val(); // 0 - Normal, 1 - Auto
+        // var bet_amount = parseFloat($(element).parent().parent().find(".bet-block .spinner #bet_amount").val());
+        let bet_amount = $(element).parent().parent().find(".bet-block .spinner #bet_amount").val();
+
+        if (section_no == 0) {
+            $("#main_bet_section .controls").addClass('bet-border-red');
+        } else if (section_no == 1) {
+            $("#extra_bet_section .controls").addClass('bet-border-red');
+        }
+        //alert(bet_amount);
+        if (bet_amount < min_bet_amount || bet_amount == '' || bet_amount == NaN) {
+            bet_amount = parseFloat(min_bet_amount).toFixed(2);
+        }
+        else if (bet_amount > max_bet_amount) {
+            bet_amount = parseFloat(max_bet_amount).toFixed(2);
+        }
+        else {
+            bet_amount = parseFloat(bet_amount).toFixed(2);
+        }
+
+        $(element).parent().parent().find(".bet-block .spinner #bet_amount").val(bet_amount);
+        if (bet_amount >= min_bet_amount && bet_amount <= max_bet_amount) {
+
+
+            $(element).parent().parent().find("#bet_button").hide();
+            $(element).parent().parent().find("#cancle_button").show();
+            $(element).parent().parent().find("#cancle_button #waiting").show();
+
+            if (is_game_generated == 1) {
+                setTimeout(() => {
+                    $(element).parent().parent().find("#cancle_button #waiting").hide();
+                }, 500);
+            }
+
+            bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no, });
+
+        }
+    }
+}
+
+function cancle_now(element, section_no) {
+    debugger
+    if (stage_time_out == 1) {
+        $(".error-toaster2").addClass('show');
+        errorToastrStageTimeOut();
+    } else {
+        if (section_no == 0) {
+            $('#main_auto_bet').prop('checked', false);
+            $("#main_bet_section .controls").removeClass('bet-border-red');
+        } else if (section_no == 1) {
+            $('#extra_auto_bet').prop('checked', false);
+            $("#extra_bet_section .controls").removeClass('bet-border-red');
+        }
+
+        if (bet_array.length == 1) {
+            bet_array = [];
+        }
+        if (bet_array.length == 2 && section_no == 0) {
+            if (bet_array[0].section_no == 0) {
+                bet_array.splice(0, 1); // Remove Perticular Bet
+            }
+            if (bet_array[0].section_no == 1) {
+                bet_array.splice(1, 1); // Remove Perticular Bet
+            }
+        }
+
+        // delete bet_array[section_no];
+        $(element).parent().parent().find("#bet_button").show();
+        $(element).parent().parent().find("#cancle_button").hide();
+        $(element).parent().parent().find("#cancle_button #waiting").hide();
+    }
+}
+
+function place_bet_now(result) {
+    debugger;
+    try {
+        for (let i = 0; i < bet_array.length; i++) {
+            bet_array[i].game_id = result.id;
+        }
+        current_is_bet = true;
+
+        var mult_no = getCookie('mult_no');
+        if (mult_no < 10) {
+            var increase_mult = Number(mult_no) + 1;
+            setCookie('mult_no', increase_mult, 1);
+        } else {
+            setCookie('mult_no', 1, 1);
+        }
+        var triggerElement = document.querySelector('.wallet-top');
+        var walletText = triggerElement.textContent;
+        var walletValue = walletText.substring(1);
+        var amountUi = walletValue.replace('?', '');
+
+        $.ajax({
+            url: 'Handler/add_bet.ashx',
+            data: {
+                "mult_no": 0,
+                _token: hash_id,
+                all_bets: JSON.stringify(bet_array),
+                "RoundNo": result.id
+            },
+            type: "POST",
+            dataType: "json",
+            success: function (result) {
+
+                if (result) {
+                    update_all_bet_list(result, '#all_my_bets .mCSB_container', 1);
+                    const bets_total_amts = result.reduce((acc, item) => {
+                        return acc += Number(item.amount);
+                    }, 0);
+
+                    if (bets_total_amts != '' && bets_total_amts != NaN) {
+
+                        total_bet_amounts = Number(bets_total_amts);
+                        max_bet_amount = Number(max_bet_amount) - Number(bets_total_amts);
+                        var updatedValue = (Number(amountUi) - Number(bets_total_amts)).toFixed(2);
+                        document.querySelector('.wallet-top').textContent = "?" + updatedValue;
+
+                        $(".main_bet_amount").prop('disabled', false);
+                        $("#main_plus_btn").prop('disabled', false);
+                        $("#main_minus_btn").prop('disabled', false);
+                        $(".main_amount_btn").prop('disabled', false);
+                        $("#main_checkout").prop('disabled', false)
+                        if ($("#main_checkout").prop('checked')) {
+                            $("#main_incrementor").prop('disabled', false);
+                        }
+                        $('#main_auto_bet').prop('checked', false);
+                    } else {
+                        $("#wallet_balance").text(currency_symbol + '0.00');
+                        $("#header_wallet_balance").text(currency_symbol + '0.00'); // Show Header Wallet Balance
+                    }
+
+
+
+
+                    // if (bet_array.length == 1) {
+                    //     update_my_new_bet(bet_array[0].bet_amount, bet_array[0].section_no, '#my_bet_list .mCSB_container');
+                    // } else if (bet_array.length == 2) {
+                    //     if (bet_array[0] != undefined) {
+                    //         update_my_new_bet(bet_array[0].bet_amount, bet_array[0].section_no, '#my_bet_list .mCSB_container');
+                    //     }
+                    //     if (bet_array[1] != undefined) {
+                    //         update_my_new_bet(bet_array[1].bet_amount, bet_array[1].section_no, '#my_bet_list .mCSB_container');
+                    //     }
+                    // }
+
+                    // if (bet_array.length == 1 && bet_array[0].section_no == 0) {
+                    //     bet_array[0].is_bet = 1;
+                    //     enableDisable('main_bet_section');
+                    //     $("#main_bet_id").val(result.data.return_bets[0].bet_id);
+                    // }
+
+                    // if (bet_array.length == 1 && bet_array[0].section_no == 1) {
+                    //     bet_array[0].is_bet = 1;
+                    //     enableDisable('extra_bet_section');
+                    //     $("#extra_bet_id").val(result.data.return_bets[0].bet_id);
+                    // }
+
+                    // if (bet_array.length == 2) {
+
+                    //     if (bet_array[0].section_no == 0) {
+                    //         console.log(result)
+                    //         $("#main_bet_id").val(result.data.return_bets[0].bet_id);
+                    //         $("#extra_bet_id").val(result.data.return_bets[1].bet_id);
+                    //         bet_array[0].is_bet = 1;
+                    //     }
+
+                    //     if (bet_array[0].section_no == 1) {
+                    //         $("#main_bet_id").val(result.data.return_bets[1].bet_id);
+                    //         $("#extra_bet_id").val(result.data.return_bets[0].bet_id);
+                    //     bet_array[0].is_bet = 1;
+                    //     }
+                    //     if (bet_array[1].section_no == 0) {
+                    //         $("#main_bet_id").val(result.data.return_bets[0].bet_id);
+                    //         $("#extra_bet_id").val(result.data.return_bets[1].bet_id);
+                    //     bet_array[1].is_bet = 1;
+                    //     }
+
+                    //     if (bet_array[1].section_no == 1) {
+                    //         $("#main_bet_id").val(result.data.return_bets[1].bet_id);
+                    //         $("#extra_bet_id").val(result.data.return_bets[0].bet_id);
+                    //     bet_array[1].is_bet = 1;
+                    //     }
+                    // }
+
+
+
+
+
+                } else {
+                    $(".error-toaster1 .msg").html(result.message);
+                    $(".error-toaster1").addClass('show');
+                    errorToastr();
+
+                    $("#main_bet_section").find("#bet_button").show();
+                    $("#main_bet_section").find("#cancle_button").hide();
+                    $("#main_bet_section").find("#cancle_button #waiting").hide();
+                    $("#main_bet_section").find("#cashout_button").hide();
+                    $("#main_bet_section .controls").removeClass('bet-border-red');
+                    $("#main_bet_section .controls").removeClass('bet-border-yellow');
+                    $("#main_bet_section .controls .navigation").removeClass('stop-action');
+
+                    $("#extra_bet_section").find("#bet_button").show();
+                    $("#extra_bet_section").find("#cancle_button").hide();
+                    $("#extra_bet_section").find("#cancle_button #waiting").hide();
+                    $("#extra_bet_section").find("#cashout_button").hide();
+                    $("#extra_bet_section .controls").removeClass('bet-border-red');
+                    $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+                    $("#extra_bet_section .controls .navigation").removeClass('stop-action');
+
+                    // Main Bet
+                    $(".main_bet_amount").prop('disabled', false);
+                    $("#main_plus_btn").prop('disabled', false);
+                    $("#main_minus_btn").prop('disabled', false);
+                    $(".main_amount_btn").prop('disabled', false);
+                    $("#main_checkout").prop('disabled', false)
+                    if ($("#main_checkout").prop('checked')) {
+                        $("#main_incrementor").prop('disabled', false);
+                    }
+                    $('#main_auto_bet').prop('checked', false);
+
+                    // Extra Bet
+                    $(".extra_bet_amount").prop('disabled', false);
+                    $("#extra_minus_btn").prop('disabled', false);
+                    $("#extra_plus_btn").prop('disabled', false);
+                    $(".extra_amount_btn").prop('disabled', false);
+                    $("#extra_checkout").prop('disabled', false);
+                    if ($("#extra_checkout").prop('checked')) {
+                        $("#extra_incrementor").prop('disabled', false);
+                    }
+                    $('#extra_auto_bet').prop('checked', false);
+
+                    bet_array = [];
+                }
+            }
+
+        });
+    } catch (e) {
+        alert(e);
+    }
+}
+
+function firstToastr() {
+    let first_no = 1;
+    var success_toast1 = setInterval(function () {
+        if (first_no < 3) {
+            first_no++;
+        } else {
+            $(".cashout-toaster1").removeClass('show');
+            clearInterval(success_toast1);
+        }
+    }, 1000); // for every second
+}
+
+function secondToastr() {
+    let second_no = 1;
+    var success_toast2 = setInterval(function () {
+        if (second_no < 3) {
+            second_no++;
+        } else {
+            $(".cashout-toaster2").removeClass('show');
+            clearInterval(success_toast2);
+        }
+    }, 1000); // for every second
+}
+
+function errorToastr() {
+    let error_no = 1;
+    var error_toast1 = setInterval(function () {
+        if (error_no < 3) {
+            error_no++;
+        } else {
+            $(".error-toaster1").removeClass('show');
+            clearInterval(error_toast1);
+        }
+    }, 1000); // for every second
+}
+
+function errorToastrStageTimeOut() {
+    let stage_error_no = 1;
+    var error_toast_stage_time_out = setInterval(function () {
+        if (stage_error_no < 3) {
+            stage_error_no++;
+        } else {
+            $(".error-toaster2").removeClass('show');
+            clearInterval(error_toast_stage_time_out);
+        }
+    }, 1000); // for every second
+}
+
+function get_current_hour_minute() {
+    var date = new Date;
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+
+    if (hour.toString().length > 1) {
+        var retHour = hour;
+    } else {
+        var retHour = '0' + hour;
+    }
+
+    if (minutes.toString().length > 1) {
+        var retMinute = minutes;
+    } else {
+        var retMinute = '0' + minutes;
+    }
+
+    return retHour + ':' + retMinute;
+}
+
+function update_round_history(inc_no) {
+    //debugger;
+    var html = '<div class="' + get_multiplier_badge_class(inc_no) + ' custom-badge">' + parseFloat(inc_no).toFixed(2) + 'x</div>'
+    $(".payouts-wrapper .payouts-block").prepend(html);
+    $(".button-block .history-dropdown .round-history-list").prepend(html);
+}
+
+/*-------HINAL (START)-------*/
+
+function loadData() {
+    //debugger;
+    const numItems = $('.bet_record_count').length;
+    $.ajax({
+        url: '/member_bet',
+        type: 'post',
+        data: {
+            'offset': numItems,
+        },
+        success: function (result) {
+            const length = result.data.length;
+            if (length > 0) {
+                for (let i = 0; i < length; i++) {
+                    if (parseFloat(result.data[i].multiplication) > 0) {
+                        var multiplier = `<div class="${get_multiplier_badge_class(result.data[i].multiplication)} custom-badge mx-auto"> ${result.data[i].multiplication}x </div>`;
+                    } else {
+                        var multiplier = `-`;
+                    }
+
+                    $("#member_bet .mCSB_container").append(`
+                            <div class="list-items bet_record_count ${result.data[i].cash_out_amount > 0 ? 'active' : ''}">
+                                <div class="column-1 users fw-normal">
+                                    ${result.data[i].date}
+                                </div>
+                                <div class="column-2">
+                                    <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">
+                                        ${result.data[i].bet_amount + currency_symbol}
+                                    </button>
+                                </div>
+                                <div class="column-3">
+                                    ${multiplier}
+                                </div>
+                                <div class="column-4 fw-normal">
+                                    ${result.data[i].cash_out_amount > 0 ? result.data[i].cash_out_amount + currency_symbol : '-'} 
+                                </div>
+                            </div>
+                        `);
+                }
+            }
+            if (length < 10) {
+                $("#load_btn").hide();
+            } else {
+                $("#load_btn").show();
+            }
+        }
+    })
+}
+
+$("#main_auto_bet").on('change', function () {
+    //debugger;
+    let isChecked = $(this).prop('checked');
+    let section_no = 0;
+    const isCheckedCashout = $("#main_checkout").prop('checked');
+
+    if (isChecked) {
+        $("#main_bet_section").find("#bet_button").hide();
+        $("#main_bet_section").find("#cancle_button").show();
+        $("#main_bet_section").find("#cancle_button #waiting").show();
+        if (is_game_generated == 1) {
+            setTimeout(() => {
+                $("#main_bet_section").find("#cancle_button #waiting").hide();
+            }, 500);
+        }
+        $("#main_bet_section").find("#cashout_button").hide();
+        $("#main_bet_section .controls").addClass('bet-border-red');
+        $("#main_bet_section").parent().parent().find('.cashout-spinner-wrapper input').prop('disabled', true)
+        $("#main_bet_section").find('.controls .navigation').addClass('stop-action')
+        var bet_type = $("#main_bet_now").parent().parent().parent().find(".navigation #bet_type").val(); // 0 - Normal, 1 - Auto
+        let bet_amount = $("#main_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val();
+
+        if (bet_amount < min_bet_amount || bet_amount == '' || bet_amount == NaN) {
+            bet_amount = parseFloat(min_bet_amount).toFixed(2);
+        } else if (bet_amount > max_bet_amount) {
+            bet_amount = parseFloat(max_bet_amount).toFixed(2);
+        } else {
+            bet_amount = parseFloat(bet_amount).toFixed(2);
+        }
+
+        $("#main_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val(bet_amount);
+
+        if (bet_amount >= min_bet_amount && bet_amount <= max_bet_amount) {
+            if (bet_array.length == 1) {
+                if (bet_array[0].section_no != section_no) {
+                    bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no });
+                }
+            } else if (bet_array.length == 2) {
+                if (bet_array[0].section_no != section_no && bet_array[1].section_no != section_no) {
+                    bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no });
+                }
+            } else {
+                bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no });
+            }
+        }
+
+        $(".main_bet_amount").prop('disabled', true);
+        $("#main_plus_btn").prop('disabled', true);
+        $("#main_minus_btn").prop('disabled', true);
+        $(".main_amount_btn").prop('disabled', true);
+        $("#main_checkout").prop('disabled', true);
+        if ($("#main_checkout").prop('checked')) {
+            $("#main_incrementor").prop('disabled', true);
+        }
+
+    } else {
+        if (isCheckedCashout == false) {
+            $("#main_bet_section").parent().parent().find('.cashout-spinner-wrapper input').prop('disabled', false)
+            $("#main_bet_section").find('.controls .navigation').removeClass('stop-action')
+        } else {
+            $("#main_bet_section").parent().parent().find('.cashout-spinner-wrapper input').prop('disabled', true)
+            $("#main_bet_section").find('.controls .navigation').addClass('stop-action')
+        }
+        // if(bet_array.length == 1) {
+        //     bet_array.splice(0, 1); // Remove Perticular Bet
+        // } else if (bet_array.length == 2 && section_no == 0) {
+        //     bet_array.splice(0, 1); // Remove Perticular Bet
+        // } else if (bet_array.length == 2 && section_no == 1) {
+        //     bet_array.splice(1, 1); // Remove Perticular Bet
+        // }
+
+        if (bet_array.length == 1) {
+            bet_array.splice(0, 1); // Remove Perticular Bet
+        } else if (bet_array.length == 2 && section_no == 0) {
+            if (bet_array[0].section_no == 0) {
+                bet_array.splice(0, 1); // Remove Perticular Bet
+            } else {
+                bet_array.splice(1, 1); // Remove Perticular Bet
+            }
+        } else if (bet_array.length == 2 && section_no == 1) {
+            if (bet_array[0].section_no == 1) {
+                bet_array.splice(0, 1); // Remove Perticular Bet
+            } else {
+                bet_array.splice(1, 1); // Remove Perticular Bet
+            }
+        }
+
+        $("#main_bet_section").find("#bet_button").show();
+        $("#main_bet_section").find("#cancle_button").hide();
+        $("#main_bet_section").find("#cancle_button #waiting").hide();
+        $("#main_bet_section").find("#cashout_button").hide();
+        $("#main_bet_section .controls").removeClass('bet-border-red');
+
+        $(".main_bet_amount").prop('disabled', false);
+        $("#main_plus_btn").prop('disabled', false);
+        $("#main_minus_btn").prop('disabled', false);
+        $(".main_amount_btn").prop('disabled', false);
+        $("#main_checkout").prop('disabled', false)
+        if ($("#main_checkout").prop('checked')) {
+            $("#main_incrementor").prop('disabled', false);
+        }
+    }
+
+});
+
+$("#extra_auto_bet").on('change', function () {
+
+    let isChecked = $(this).prop('checked');
+    let section_no = 1;
+    const isCheckedCashout = $('#extra_checkout').prop('checked');
+
+    if (isChecked) {
+        $("#extra_bet_section").find("#bet_button").hide();
+        $("#extra_bet_section").find("#cancle_button").show();
+        $("#extra_bet_section").find("#cancle_button #waiting").show();
+        if (is_game_generated == 1) {
+            setTimeout(() => {
+                $("#extra_bet_section").find("#cancle_button #waiting").hide();
+            }, 500);
+        }
+        $("#extra_bet_section").find("#cashout_button").hide();
+        $("#extra_bet_section .controls").addClass('bet-border-red');
+        $("#extra_bet_section").parent().parent().find('.cashout-spinner-wrapper input').prop('disabled', true)
+        $("#extra_bet_section").find('.controls .navigation').addClass('stop-action')
+        var bet_type = $("#extra_bet_now").parent().parent().parent().find(".navigation #bet_type").val(); // 0 - Normal, 1 - Auto
+        let bet_amount = $("#extra_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val();
+
+        if (bet_amount < min_bet_amount || bet_amount == '' || bet_amount == NaN) {
+            bet_amount = parseFloat(min_bet_amount).toFixed(2);
+        } else if (bet_amount > max_bet_amount) {
+            bet_amount = parseFloat(max_bet_amount).toFixed(2);
+        } else {
+            bet_amount = parseFloat(bet_amount).toFixed(2);
+        }
+
+        $("#extra_bet_now").parent().parent().find(".bet-block .spinner #bet_amount").val(bet_amount);
+
+        if (bet_amount >= min_bet_amount && bet_amount <= max_bet_amount) {
+
+            if (bet_array.length == 1) {
+                if (bet_array[0].section_no != section_no) {
+                    bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no });
+                }
+            } else if (bet_array.length == 2) {
+                if (bet_array[0].section_no != section_no && bet_array[1].section_no != section_no) {
+                    bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no });
+                }
+            } else {
+                bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no });
+            }
+        }
+        $(".extra_bet_amount").prop('disabled', true);
+        $("#extra_minus_btn").prop('disabled', true);
+        $("#extra_plus_btn").prop('disabled', true);
+        $(".extra_amount_btn").prop('disabled', true);
+        $("#extra_checkout").prop('disabled', true);
+        if ($("#extra_checkout").prop('checked')) {
+            $("#extra_incrementor").prop('disabled', true);
+        }
+
+
+    } else {
+        if (isCheckedCashout == false) {
+            $("#extra_bet_section").parent().parent().find('.cashout-spinner-wrapper input').prop('disabled', false)
+            $("#extra_bet_section").find('.controls .navigation').removeClass('stop-action')
+        } else {
+            $("#extra_bet_section").parent().parent().find('.cashout-spinner-wrapper input').prop('disabled', true)
+            $("#extra_bet_section").find('.controls .navigation').addClass('stop-action')
+        }
+
+        if (bet_array.length == 1) {
+            bet_array.splice(0, 1); // Remove Perticular Bet
+        } else if (bet_array.length == 2 && section_no == 0) {
+            if (bet_array[0].section_no == 0) {
+                bet_array.splice(0, 1); // Remove Perticular Bet
+            } else {
+                bet_array.splice(1, 1); // Remove Perticular Bet
+            }
+        } else if (bet_array.length == 2 && section_no == 1) {
+            if (bet_array[0].section_no == 1) {
+                bet_array.splice(0, 1); // Remove Perticular Bet
+            } else {
+                bet_array.splice(1, 1); // Remove Perticular Bet
+            }
+        }
+
+        $("#extra_bet_section").find("#bet_button").show();
+        $("#extra_bet_section").find("#cancle_button").hide();
+        $("#extra_bet_section").find("#cancle_button #waiting").hide();
+        $("#extra_bet_section").find("#cashout_button").hide();
+        $("#extra_bet_section .controls").removeClass('bet-border-red');
+
+        $(".extra_bet_amount").prop('disabled', false);
+        $("#extra_minus_btn").prop('disabled', false);
+        $("#extra_plus_btn").prop('disabled', false);
+        $(".extra_amount_btn").prop('disabled', false);
+        $("#extra_checkout").prop('disabled', false);
+        if ($("#extra_checkout").prop('checked')) {
+            $("#extra_incrementor").prop('disabled', false);
+        }
+
+    }
+
+});
+
+
+/*-----------------HINAL-----------------*/
+function soundPlay() {
+    //debugger;
+    let sound = document.getElementById("sound_Audio");
+    if (document.hidden) {
+        sound.pause();
+    } else {
+        if ($("#sound").prop("checked") == true) {
+            if (window_blur == 0) {
+                sound.play();
+            } else {
+                sound.pause();
+            }
+
+        } else {
+            sound.pause();
+        }
+    }
+}
+
+function flyPlaneSound() {
+    let sound = document.getElementById("fly_plane_audio");
+    if (document.hidden) {
+        sound.pause();
+    } else {
+        if ($("#sound").prop("checked") == true) {
+            if (window_blur == 0) {
+                sound.play();
+            } else {
+                sound.pause();
+            }
+        } else {
+            sound.pause();
+        }
+    }
+}
+
+function cashOutSound() {
+    let sound = document.getElementById("cash_out_audio");
+    if (document.hidden) {
+        sound.pause();
+    } else {
+        if ($("#sound").prop("checked") == true) {
+            if (window_blur == 0) {
+                sound.play();
+            } else {
+                sound.pause();
+            }
+        } else {
+            sound.pause();
+        }
+    }
+}
+
+function cashOutSoundOtherSection() {
+    let sound = document.getElementById("cash_out_audio_2");
+    if (document.hidden) {
+        sound.pause();
+    } else {
+        if ($("#sound").prop("checked") == true) {
+            if (window_blur == 0) {
+                sound.play();
+            } else {
+                sound.pause();
+            }
+        } else {
+            sound.pause();
+        }
+    }
+}
+
+function backgroundSound() {
+    let music = document.getElementById("background_Audio");
+    if ($("#music").prop("checked") == true) {
+        music.volume = 0.5;
+        music.autoplay = true;
+        music.loop = true;
+        music.load();
+    } else {
+        music.pause();
+    }
+}
+
+backgroundSound();
+$("#music").on('change', function () {
+    backgroundSound();
+})
+
+$(".main_bet_btn").on('click', function () {
+
+    if (stage_time_out != 1) {
+        let id = $(this).attr('id');
+        if (id == 'main_bet_now') {
+            $(".main_bet_amount").prop('disabled', true);
+            $("#main_plus_btn").prop('disabled', true);
+            $("#main_minus_btn").prop('disabled', true);
+            $(".main_amount_btn").prop('disabled', true);
+            $("#main_checkout").prop('disabled', true);
+            $("#main_incrementor").prop('disabled', true);
+
+        } else if (id == 'main_cancel_now') {
+            $(".main_bet_amount").prop('disabled', false);
+            $("#main_plus_btn").prop('disabled', false);
+            $("#main_minus_btn").prop('disabled', false);
+            $(".main_amount_btn").prop('disabled', false);
+            $("#main_checkout").prop('disabled', false)
+            if ($("#main_checkout").prop('checked')) {
+                $("#main_incrementor").prop('disabled', false);
+            }
+
+        }
+
+        if (id == 'extra_bet_now') {
+            $(".extra_bet_amount").prop('disabled', true);
+            $("#extra_minus_btn").prop('disabled', true);
+            $("#extra_plus_btn").prop('disabled', true);
+            $(".extra_amount_btn").prop('disabled', true);
+            $("#extra_checkout").prop('disabled', true);
+            $("#extra_incrementor").prop('disabled', true);
+        } else if (id == 'extra_cancel_now') {
+            $(".extra_bet_amount").prop('disabled', false);
+            $("#extra_minus_btn").prop('disabled', false);
+            $("#extra_plus_btn").prop('disabled', false);
+            $(".extra_amount_btn").prop('disabled', false);
+            $("#extra_checkout").prop('disabled', false);
+            if ($("#extra_checkout").prop('checked')) {
+                $("#extra_incrementor").prop('disabled', false);
+            }
+
+        }
+
+    }
+
+});
+
+function check_login_status() {
+    $.ajax({
+        url: 'is_login',
+        type: "POST",
+        dataType: "json",
+        success: function (result) {
+            if (result.isSuccess == false) {
+                window.location.href = 'login';
+            }
+        }
+    });
+}
+
+function gameLoadingTimer() {
+    let timer_no = 1;
+    var game_loading_timer = setInterval(function () {
+        if (timer_no <= 5) {
+            if (timer_no == 1) {
+                $('.loading-game').addClass('show');
+            }
+            timer_no++;
+        } else {
+            $(".loading-game").removeClass('show');
+            clearInterval(game_loading_timer);
+        }
+    }, 1000); // for every second
+}
+
+let focus_timer = 0;
+let focus_interval;
+let visibility_timer = 0;
+let visibility_interval;
+
+$(window).focus(function () {
+    // console.log('focused');
+    // console.log(focus_timer);
+    if (focus_timer > 10) {
+        location.reload();
+    } else {
+        focus_timer = 0;
+        clearInterval(focus_interval);
+    }
+});
+
+let window_blur = 0;
+$(window).blur(function () {
+    // console.log('blur');
+    const music = document.getElementById("background_Audio");
+    window_blur = 1;
+    music.pause();
+    focus_interval = setInterval(function () {
+        focus_timer = parseInt(focus_timer + 1);
+    }, 1000);
+});
+
+
+$(window).focus(function () {
+    // console.log('blur');
+    window_blur = 0;
+    const music = document.getElementById("background_Audio");
+    music.play();
+
+});
+document.addEventListener('visibilitychange', function (event) {
+    if (document.hidden) {
+        // console.log('not visible');
+        visibility_interval = setInterval(function () {
+            visibility_timer = parseInt(visibility_timer + 1);
+        }, 1000);
+    } else {
+        // console.log(visibility_timer);
+        // console.log('is visible');
+        if (visibility_timer > 10) {
+            location.reload();
+        } else {
+            visibility_timer = 0;
+            clearInterval(visibility_interval);
+        }
+    }
+});
+
+function enableDisable(section) {
+    $(`#${section}`).find('.controls').addClass('dullEffect');
+    setTimeout(function () {
+        $(`#${section}`).find('.controls').removeClass('dullEffect');
+    }, 200);
+}
+
+//khushbu for validate auto cash textbox
+function main_incrementor_change(new_value) {
+    if (new_value < 1.01) {
+        $("#main_incrementor").val("1.01");
+    } else {
+        $("#main_incrementor").val(parseFloat(new_value).toFixed(2));
+    }
+}
+function extra_incrementor_change(new_value) {
+    if (new_value < 1.01) {
+        $("#extra_incrementor").val("1.01");
+    } else {
+        $("#extra_incrementor").val(parseFloat(new_value).toFixed(2));
+    }
+}
+function hide_loading_game() {
+    $('.loading-game').removeClass('show');
+}
+function show_loading_game() {
+    $('.loading-game').addClass('show');
+
+}
+// khushbu for when come from minimize refresh page
+$(window).bind("pageshow", function (event) {
+    if (event.originalEvent.persisted) {
+        $(".load-txt").show();
+    }
+});
+
+$(".fill-line").bind('oanimationend animationend webkitAnimationEnd', function () {
+    // console.log('-----anime---end-----');
+    $(".game-centeral-loading").hide();
+    $('bottom-left-plane').show();
+});
+
+$(".fill-line").bind('oanimationstart animationstart webkitAnimationStart', function () {
+    // console.log('-----anime---start-----');
+    $(".game-centeral-loading").show();
+});
+
+/*-------HINAL (START)-------*/
+
+$(document).click(function () {
+    if ($(".button-block").hasClass('show')) {
+        $(".button-block").removeClass('show');
+    }
+});
+
+$(".history-top").click(function (e) {
+    e.stopPropagation(); // This is the preferred method.
+    return false;        // This should not be used unless you do not want
+});
+
+/*-------HINAL (END)-------*/
