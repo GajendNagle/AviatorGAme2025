@@ -1,5 +1,5 @@
 // $('body').addClass('overflow-hidden');
-var currency_symbol = "$";
+var currency_symbol = "INR";
 var wallet_balance = 100;
 var bet_list_current = [];
 function scrollFunction() {
@@ -79,7 +79,7 @@ $("#add_extra_bet_section_btn").click(function () {
     $("#add_extra_bet_section_btn").hide();
 });
 // Bet Tab Change Functionality END
-var globalAmt = 10;
+var globalAmt = 0.01;
 
 function bet_amount_incremental(element, event) {
     event.preventDefault();
@@ -101,7 +101,6 @@ function bet_amount_decremental(element, event) {
 }
 
 function select_direct_bet_amount(element, event) {
-    debugger;
     event.preventDefault();
     var current_bet_amount = parseFloat($(element).parent().parent().find(".input #bet_amount").val());
     var adding_bet_amount = parseFloat($(element).find(".amt").text());
@@ -141,7 +140,7 @@ $(document).ready(function () {
 });
 
 function info_data(intialData) {
-    //debugger;
+
     current_game_data = intialData.currentGame;
     current_game_count = intialData.currentGameBetCount;
     show_bet_count(current_game_count, intialData.totalBetAmount);
@@ -152,8 +151,8 @@ function info_data(intialData) {
 var main_counter = 0;
 var extra_counter = 0;
 function cash_out_now(element, section_no, event, increment = '') {
-    debugger;
     event.preventDefault();
+
     current_cash_out = increment;
     if (section_no == 0) {
         // cashOutSound();
@@ -210,7 +209,7 @@ function cash_out_now(element, section_no, event, increment = '') {
         var amt = parseFloat(parseFloat(incrementor) * parseFloat(bet_amount)).toFixed(2);
     } else {
         var amt = parseFloat(parseFloat(incrementor) * (parseFloat(bet_amount))).toFixed(2);
-        // var amt = parseFloat(parseFloat(incrementor) * (parseFloat(bet_amount) / 80)).toFixed(2);
+        // var amt = parseFloat(parseFloat(incrementor) * (parseFloat(bet_amount) / 80)).toFixed(3);
     }
 
     $('#all_bets .mCSB_container .bet_id_' + member_id + section_no + '').addClass('active');
@@ -273,7 +272,6 @@ function cash_out_now(element, section_no, event, increment = '') {
     var walletText = triggerElement.textContent;
     var walletValue = walletText.substring(1);
     var amountUi = parseFloat(walletText.replace(/[^0-9.]/g, ''));
-    //var amountUi = walletValue.replace('$', '');
 
     $.ajax({
         url: 'Handler/cash_out.ashx',
@@ -287,7 +285,7 @@ function cash_out_now(element, section_no, event, increment = '') {
         type: "GET",
         dataType: "json",
         success: function (result) {
-            debugger;
+
             $('#all_my_bets .mCSB_container').find('.list-items').each(function () {
                 var sectionNo = $(this).attr('class').split(' ').find(cls => cls !== 'list-items' && cls !== 'active');
                 update_my_bet_Multipliers(this, parseInt(result.section_no), result.multiplier);
@@ -305,16 +303,13 @@ function cash_out_now(element, section_no, event, increment = '') {
                 }
             });
             if (result) {
-                debugger;
                 if (result.win_amount != '' && result.win_amount != NaN) {
                     var updatedValue = Number(amountUi) + Number(result.win_amount);
                     total_bet_amounts -= result.win_amount
                     max_bet_amount = Number(max_bet_amount) + Number(result.win_amount);
-
-                    //document.querySelector('.wallet-top').textContent = "$" + updatedValue.toFixed(2);
-                    document.querySelector('.wallet-top').textContent = updatedValue.toFixed(2);
-                    $("#wallet_balance").text(currency_symbol + updatedValue);
-                    $("#header_wallet_balance").text(currency_symbol + updatedValue);
+                    document.querySelector('.wallet-top').textContent = parseFloat(updatedValue).toFixed(2);
+                    $("#wallet_balance").text(currency_symbol + parseFloat(updatedValue).toFixed(2));
+                    $("#header_wallet_balance").text(currency_symbol + parseFloat(updatedValue).toFixed(2));
                 } else {
                     $("#wallet_balance").text(currency_symbol + '0.00');
                     $("#header_wallet_balance").text(currency_symbol + '0.00'); // Show Header Wallet Balance
@@ -381,7 +376,6 @@ function cash_out_now(element, section_no, event, increment = '') {
 
 function crash_plane(inc_no) {
     soundPlay();
-
     window.clearInterval(StopPlaneIntervalID);
     $(".flew_away_section").show();
     $("#auto_increment_number").addClass('text-danger');
@@ -426,147 +420,28 @@ function crash_plane(inc_no) {
 
 
     // if (bet_array.length == 2) {
-    if (bet_array[0] && bet_array[0].is_bet != undefined) {
-        if (bet_array[0].section_no == 0) {
-            if (is_main_auto_bet_checked) {
-                $("#main_bet_section").find("#bet_button").hide();
-                $("#main_bet_section").find("#cancle_button").show();
-                $("#main_bet_section").find("#cancle_button #waiting").show();
-                $("#main_bet_section").find("#cashout_button").hide();
-                $("#main_bet_section .controls").removeClass('bet-border-yellow');
-                $("#main_bet_section .controls").addClass('bet-border-red');
-            } else {
-                $("#main_bet_section").find("#bet_button").show();
-                $("#main_bet_section").find("#cancle_button").hide();
-                $("#main_bet_section").find("#cancle_button #waiting").hide();
-                $("#main_bet_section").find("#cashout_button").hide();
-                $("#main_bet_section .controls").removeClass('bet-border-red');
-                $("#main_bet_section .controls").removeClass('bet-border-yellow');
+    //else {
+    //    $("#main_bet_section").find("#bet_button").show();
+    //    $("#main_bet_section").find("#cancle_button").hide();
+    //    $("#main_bet_section").find("#cancle_button #waiting").hide();
+    //    $("#main_bet_section .controls").removeClass('bet-border-red');
+    //    $("#main_bet_section .controls").removeClass('bet-border-yellow');
+    //    $("#main_bet_section .controls .navigation").removeClass('stop-action');
 
-                // Main Bet
-                $(".main_bet_amount").prop('disabled', false);
-                $("#main_plus_btn").prop('disabled', false);
-                $("#main_minus_btn").prop('disabled', false);
-                $(".main_amount_btn").prop('disabled', false);
-                $("#main_checkout").prop('disabled', false);
-                if ($("#main_checkout").prop('checked')) {
-                    $("#main_incrementor").prop('disabled', false);
-                }
-            }
-
-            $("#main_bet_id").val('');
-            $("#main_bet_section").find("#cash_out_amount").text('');
-
-
-            $("#main_auto_bet").prop('disabled', false);
-        } else if (bet_array[0].section_no == 1) {
-            if (is_extra_auto_bet_checked) {
-                $("#extra_bet_section").find("#bet_button").hide();
-                $("#extra_bet_section").find("#cancle_button").show();
-                $("#extra_bet_section").find("#cancle_button #waiting").show();
-                $("#extra_bet_section").find("#cashout_button").hide();
-                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-                $("#extra_bet_section .controls").addClass('bet-border-red');
-            } else {
-                $("#extra_bet_section").find("#bet_button").show();
-                $("#extra_bet_section").find("#cancle_button").hide();
-                $("#extra_bet_section").find("#cancle_button #waiting").hide();
-                $("#extra_bet_section").find("#cashout_button").hide();
-                $("#extra_bet_section .controls").removeClass('bet-border-red');
-                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-
-                // Extra Bet
-                $(".extra_bet_amount").prop('disabled', false);
-                $("#extra_minus_btn").prop('disabled', false);
-                $("#extra_plus_btn").prop('disabled', false);
-                $(".extra_amount_btn").prop('disabled', false);
-                $("#extra_checkout").prop('disabled', false);
-                if ($("#extra_checkout").prop('checked')) {
-                    $("#extra_incrementor").prop('disabled', false);
-                }
-            }
-
-            $("#extra_bet_id").val('');
-            $("#extra_bet_section").find("#cash_out_amount").text('');
-
-
-            $("#extra_auto_bet").prop('disabled', false);
-        }
-    }
-    if (bet_array[1] && bet_array[1].is_bet != undefined) {
-        if (bet_array[1].section_no == 0) {
-            if (is_main_auto_bet_checked) {
-                $("#main_bet_section").find("#bet_button").hide();
-                $("#main_bet_section").find("#cancle_button").show();
-                $("#main_bet_section").find("#cancle_button #waiting").show();
-                $("#main_bet_section").find("#cashout_button").hide();
-                $("#main_bet_section .controls").removeClass('bet-border-yellow');
-                $("#main_bet_section .controls").addClass('bet-border-red');
-            } else {
-                $("#main_bet_section").find("#bet_button").show();
-                $("#main_bet_section").find("#cancle_button").hide();
-                $("#main_bet_section").find("#cancle_button #waiting").hide();
-                $("#main_bet_section").find("#cashout_button").hide();
-                $("#main_bet_section .controls").removeClass('bet-border-red');
-                $("#main_bet_section .controls").removeClass('bet-border-yellow');
-
-                // Main Bet
-                $(".main_bet_amount").prop('disabled', false);
-                $("#main_plus_btn").prop('disabled', false);
-                $("#main_minus_btn").prop('disabled', false);
-                $(".main_amount_btn").prop('disabled', false);
-                $("#main_checkout").prop('disabled', false);
-                if ($("#main_checkout").prop('checked')) {
-                    $("#main_incrementor").prop('disabled', false);
-                }
-            }
-
-            $("#main_bet_id").val('');
-            $("#main_bet_section").find("#cash_out_amount").text('');
-
-
-            $("#main_auto_bet").prop('disabled', false);
-        } else if (bet_array[1].section_no == 1) {
-            if (is_extra_auto_bet_checked) {
-                $("#extra_bet_section").find("#bet_button").hide();
-                $("#extra_bet_section").find("#cancle_button").show();
-                $("#extra_bet_section").find("#cancle_button #waiting").show();
-                $("#extra_bet_section").find("#cashout_button").hide();
-                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-                $("#extra_bet_section .controls").addClass('bet-border-red');
-            } else {
-                $("#extra_bet_section").find("#bet_button").show();
-                $("#extra_bet_section").find("#cancle_button").hide();
-                $("#extra_bet_section").find("#cancle_button #waiting").hide();
-                $("#extra_bet_section").find("#cashout_button").hide();
-                $("#extra_bet_section .controls").removeClass('bet-border-red');
-                $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-
-                // Extra Bet
-                $(".extra_bet_amount").prop('disabled', false);
-                $("#extra_minus_btn").prop('disabled', false);
-                $("#extra_plus_btn").prop('disabled', false);
-                $(".extra_amount_btn").prop('disabled', false);
-                $("#extra_checkout").prop('disabled', false);
-                if ($("#extra_checkout").prop('checked')) {
-                    $("#extra_incrementor").prop('disabled', false);
-                }
-            }
-
-            $("#extra_bet_id").val('');
-            $("#extra_bet_section").find("#cash_out_amount").text('');
-
-
-            $("#extra_auto_bet").prop('disabled', false);
-        }
-    }
+    //    $("#extra_bet_section").find("#bet_button").show();
+    //    $("#extra_bet_section").find("#cashout_button").hide();
+    //    $("#extra_bet_section").find("#cancle_button").hide();
+    //    $("#extra_bet_section").find("#cancle_button #waiting").hide();
+    //    $("#extra_bet_section").find("#cashout_button").hide();
+    //    $("#extra_bet_section .controls").removeClass('bet-border-red');
+    //    $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+    //    $("#extra_bet_section .controls .navigation").removeClass('stop-action');
+    //}
     // }
 }
 
 
 function new_game_generated() {
-    debugger;
-    console.log('fn call')
     is_game_generated = 1;
     $('#my_bet_list .mCSB_container .list-items').removeAttr('id');
     $(".game-centeral-loading").show();
@@ -657,12 +532,10 @@ function lets_fly_one() {
 }
 
 function lets_fly() {
-    //debugger;
     $(".stage-board").removeClass('blink_section');
     $(".bet-controls").removeClass('blink_section');
     stage_time_out = 0;
     if (bet_array.length == 1 && bet_array[0] && bet_array[0].section_no == 0) {
-        //debugger;
         enableDisable('main_bet_section');
         $("#main_bet_section").find("#bet_button").hide();
         $("#main_bet_section").find("#cancle_button").hide();
@@ -754,7 +627,6 @@ function lets_fly() {
 }
 
 function incrementor(inc_no) {
-    //debugger;
     $('.loading-game').removeClass('show');
     $("#auto_increment_number_div").show();
     $("#running_type").text('cash out time');
@@ -766,8 +638,8 @@ function incrementor(inc_no) {
         var extra_mult_amt = $("#extra_bet_section #bet_amount").val();
         const extra_final_amt = inc_no * Number(extra_mult_amt);
         const main_final_amt = inc_no * Number(main_mult_amt);
-        $("#main_bet_section").find("#cash_out_amount").text(parseFloat(main_final_amt).toFixed(2) + '' + currency_symbol);
-        $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(extra_final_amt).toFixed(2) + '' + currency_symbol);
+        $("#main_bet_section").find("#cash_out_amount").text(parseFloat(main_final_amt).toFixed(3) + '' + currency_symbol);
+        $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(extra_final_amt).toFixed(3) + '' + currency_symbol);
         let main_isChecked = $('#main_checkout').prop('checked');
         let extra_isChecked = $("#extra_checkout").prop('checked');
         let incrementor;
@@ -796,7 +668,7 @@ function incrementor(inc_no) {
 
                         incrementor = $('#extra_incrementor').val();
                         extra_incrementor = incrementor;
-                        console.log(extra_incrementor, ';extra')
+                        // console.log(extra_incrementor, ';extra')
                         if (parseFloat(inc_no) >= parseFloat(incrementor)) {
                             if (extra_counter == 0) {
                                 cash_out_now('', 1, incrementor);
@@ -831,8 +703,8 @@ function cash_out_bet(cashOutData) {
 }
 
 function update_bet_list(bets, target, appendType = '') {
-    //debugger;
     // show_bet_count(bets.length);
+    debugger;
     if (appendType == 1) {
         $("#all_bets .mCSB_container").html('');
     }
@@ -856,16 +728,17 @@ function update_bet_list(bets, target, appendType = '') {
             var cashOut = '-';
             var multiplication = '-';
         }
-        if (bets[i].class_name != undefined && bets[i].class_name != 'undefined') {
-            var sectionNo = 'bet_id_' + '' + bets[i].class_name;
-        } else {
-            var sectionNo = '';
-        }
+        //   me  //if (bets[i].class_name != undefined && bets[i].class_name != 'undefined') {
+        //    var sectionNo = 'bet_id_' + '' + bets[i].class_name;
+        //} else {
+        //    var sectionNo = '';
+        //   me     //}
+        var sectionNo = 'bet_id_' + bets[i].sectionNo;
         html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
-            '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">  </div>' +
-            '<div class="column-2"> ' + bets[i].userid + ' </div>' +
+            '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar me-1"> ' + bets[i].userid + '</div>' +
+            '<div class="column-2"> ' + bets[i].amount + '</div>' +
             '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
-            '<div class="column-4"> ' + multiplication + ' </div>' +
+            '<div class="column-4"> ' + (bets[i].cashout_multiplier > 0 ? (bets[i].amount * bets[i].cashout_multiplier).toFixed(3) + '' : '-') + ' </div>' +
             // '<div class="column-5"> ' + cashOut + ' </div>' +
             '</div>';
     }
@@ -874,13 +747,21 @@ function update_bet_list(bets, target, appendType = '') {
 }
 
 
+
 function updateRandomMultiplier(bets, target, a) {
-    //debugger;
-    var randomIndex = Math.floor(Math.random() * bets.length);
-    bets[randomIndex].cashout_multiplier = a !== undefined ? a.toFixed(2) : '-'; // Assign '-' if `a` is undefined
-    var html = generateUpdatedHtml(bets);
-    $(target).html(html);
+    try {
+        if (!bets || bets.length === 0) return;
+        var randomIndex = Math.floor(Math.random() * bets.length);
+        bets[randomIndex].cashout_multiplier = a !== undefined ? bets[randomIndex].cashout_multiplier : '-';// Assign '-' if `a` is undefined
+        var html = generateUpdatedHtml(bets);
+        $(target).html(html);
+    }
+    catch (error) {
+        console.error(error);
+        alert("Error in updateRandomMultiplier: " + error.message);
+    }
 }
+
 function getBadgeColor(multiplier) {
     if (multiplier == '-') {
         return '-';
@@ -894,36 +775,31 @@ function getBadgeColor(multiplier) {
         return 'bg2';
     }
 }
-try {
-    function generateUpdatedHtml(bets) {
-        //debugger;
-        var html = '';
-        for (var i = 0; i < bets.length; i++) {
-            var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
-            var multiplier = bets[i].cashout_multiplier !== undefined ? bets[i].cashout_multiplier : '-'; // Default to '-' if undefined
-            var badgeColor = getBadgeColor(multiplier);
+function generateUpdatedHtml(bets) {
+    var html = '';
+    for (var i = 0; i < bets.length; i++) {
+        var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
+        var multiplier = bets[i].cashout_multiplier !== undefined ? bets[i].cashout_multiplier : '-'; // Default to '-' if undefined
+        var badgeColor = getBadgeColor(multiplier);
 
-            var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + multiplier + '</div>';
+        var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + multiplier + '</div>';
 
-            var sectionNo = bets[i].class_name ? 'bet_id_' + bets[i].class_name : '';
+        var sectionNo = bets[i].sectionNo ? 'bet_id_' + bets[i].sectionNo : '';
 
-            html += '<div class="list-items ' + isActive + ' ' + sectionNo + '">' +
-                '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">  </div>' +
-                '<div class="column-2"> ' + bets[i].userid + ' </div>' +
-                '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
-                '<div class="column-4"> ' + multiplication + ' </div>' +
-                // '<div class="column-5"> ' + cashOut + ' </div>' +
-                '</div>';
-        }
-        return html;
+        html += '<div class="list-items ' + isActive + ' ' + sectionNo + '">' +
+            '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar">' + bets[i].userid + ' </div>' +
+            '<div class="column-2"> ' + bets[i].amount + ' USD </div>' +
+            '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
+            '<div class="column-4"> ' + (bets[i].cashout_multiplier > 0 ? (bets[i].amount * bets[i].cashout_multiplier).toFixed(2) + '' : '-') + ' </div>' +
+            // '<div class="column-5"> ' + cashOut + ' </div>' +
+            '</div>';
     }
-
-} catch (e) {
-
+    return html;
 }
 
+
 function update_all_bet_list(bets, target, appendType = '') {
-    debugger;
+
     if (appendType == 1) {
         $("#all_bets .mCSB_container").html('');
     }
@@ -949,14 +825,20 @@ function update_all_bet_list(bets, target, appendType = '') {
             var multiplication = '-';
         }
 
-        var sectionNo = bets[i].type;
-        html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
-            '<div class="column-1 users"> <img src="https://win24hrs.live/assets/aviator/images/avtar/av-24.png" class="avatar">  </div>' +
-            '<div class="column-2"> ' + bets[i].user_id + ' </div>' +
-            '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
-            '<div class="column-4"> ' + multiplication + ' </div>' +
-            // '<div class="column-5"> ' + cashOut + ' </div>' +
-            '</div>';
+        html += `
+            <div class="list-items ${isActive} ${sectionNo}">
+                <div class="column-1 users">
+                    <img src="${bets.image}" class="avatar me-1"> ${bets.userid}
+                </div>
+                <div class="column-2">${bets.amount}</div>
+                <div class="column-3">
+                    <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto">
+                        ${bets.amount}${currency_symbol}
+                    </button>
+                </div>
+                <div class="column-4">${badgeData.cashOut}</div>
+            </div>
+        `;
     }
     $(target).prepend(html);
 
@@ -976,7 +858,7 @@ function update_my_new_bet(bet_amount, section_no, target) {
     var html = '';
     html += '<div class="list-items" id="my_bet_section_' + section_no + '">' +
         '<div class="column-1 users fw-normal"> ' + get_current_hour_minute() + ' </div>' +
-        '<div class="column-2"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">' + parseFloat(bet_amount).toFixed(2) + '' + currency_symbol + '</button> </div>' +
+        '<div class="column-2"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto fw-normal">' + parseFloat(bet_amount).toFixed(3) + '' + currency_symbol + '</button> </div>' +
         '<div class="column-3"> - </div>' +
         '<div class="column-4 fw-normal"> - </div>' +
         '</div>';
@@ -1001,8 +883,8 @@ function update_my_bet_history(data) {
                     <div class="column-3">
                         <div class="bg3 custom-badge mx-auto">${item.trade_type}x</div>
                     </div>
-                    <div class="column-4 fw-normal">$${item.trade_num !== null ? item.trade_num : '0'}</div>
-                `;
+                    <div class="column-4 fw-normal">${currency_symbol}${item.trade_num !== null ? item.trade_num : '0'}</div>
+`;
 
         myBetListDiv.appendChild(listItem);
     });
@@ -1054,7 +936,7 @@ function prevoius_game_bets(game_id) {
                 update_bet_list(betList, '#prev_bets .mCSB_container', 2);
 
                 show_bet_count(betCount);
-                $("#prev_win_multi").addClass(get_multiplier_badge_class(winMulti)).text(parseFloat(winMulti).toFixed(2) + 'x');
+                $("#prev_win_multi").addClass(get_multiplier_badge_class(winMulti)).text(parseFloat(winMulti).toFixed(3) + 'x');
             } else {
                 $("#prev_win_multi").addClass('bg1');
             }
@@ -1063,38 +945,44 @@ function prevoius_game_bets(game_id) {
 }
 
 function cash_out_multiplier(inc_no) {
-    //debugger
     if (bet_array.length == 1 && bet_array[0].section_no == 0 && bet_array[0].is_bet != undefined) {
-        $("#main_bet_section").find("#cash_out_amount").text(parseFloat(bet_array[0].bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+        $("#main_bet_section").find("#cash_out_amount").text(parseFloat(bet_array[0].bet_amount * inc_no).toFixed(3) + '' + currency_symbol);
     }
 
     if (bet_array.length == 1 && bet_array[0].section_no == 1 && bet_array[0].is_bet != undefined) {
-        $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(bet_array[0].bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+        $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(bet_array[0].bet_amount * inc_no).toFixed(3) + '' + currency_symbol);
     }
 
     if (bet_array.length == 2) {
         $.map(bet_array, function (item, index) {
             if (item.section_no == 0 && item.is_bet != undefined) {
-                $("#main_bet_section").find("#cash_out_amount").text(parseFloat(item.bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+                $("#main_bet_section").find("#cash_out_amount").text(parseFloat(item.bet_amount * inc_no).toFixed(3) + '' + currency_symbol);
             }
             if (item.section_no == 1 && item.is_bet != undefined) {
-                $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(item.bet_amount * inc_no).toFixed(2) + '' + currency_symbol);
+                $("#extra_bet_section").find("#cash_out_amount").text(parseFloat(item.bet_amount * inc_no).toFixed(3) + '' + currency_symbol);
             }
         });
     }
 }
 
 function show_bet_count(count, bet_amount) {
-    //debugger;
     $("#total_bets").text(count);
     $("#total_bets_amount").text(bet_amount);
 }
 
 function bet_now(element, section_no, event) {
-    debugger;
+    let wallet_balance = parseFloat(document.querySelector(".wallet-top").textContent.trim()) || 0;
+    let bet_amount_check = parseFloat($(element).parent().parent().find(".bet-block .spinner #bet_amount").val()) || 0;
+
+    if (wallet_balance <= 0) {
+        return;
+    }
+    if (bet_amount_check > wallet_balance) {
+        return;
+    }
     event.preventDefault();
     $("#isbet").val(1);
-    max_bet_amount = 100;
+    //max_bet_amount = 100;
     if (stage_time_out == 1) {
         if (section_no == 0) {
             enableDisable('main_bet_section');
@@ -1126,9 +1014,7 @@ function bet_now(element, section_no, event) {
         }
 
         $(element).parent().parent().find(".bet-block .spinner #bet_amount").val(bet_amount);
-        //&& bet_amount <= max_bet_amount
-
-        if (bet_amount >= min_bet_amount) {
+        if (bet_amount >= min_bet_amount && bet_amount <= max_bet_amount) {
 
 
             $(element).parent().parent().find("#bet_button").hide();
@@ -1140,7 +1026,7 @@ function bet_now(element, section_no, event) {
                     $(element).parent().parent().find("#cancle_button #waiting").hide();
                 }, 500);
             }
-            debugger;
+
             bet_array.push({ bet_type: bet_type, bet_amount: bet_amount, section_no: section_no, });
 
         }
@@ -1148,7 +1034,6 @@ function bet_now(element, section_no, event) {
 }
 
 function cancle_now(element, section_no) {
-    // debugger
     if (stage_time_out == 1) {
         $(".error-toaster2").addClass('show');
         errorToastrStageTimeOut();
@@ -1172,7 +1057,14 @@ function cancle_now(element, section_no) {
                 bet_array.splice(1, 1); // Remove Perticular Bet
             }
         }
-
+        if (bet_array.length == 2 && section_no == 1) {
+            if (bet_array[0].section_no == 0) {
+                bet_array.splice(0, 1); // Remove Perticular Bet
+            }
+            if (bet_array[0].section_no == 1) {
+                bet_array.splice(1, 1); // Remove Perticular Bet
+            }
+        }
         // delete bet_array[section_no];
         $(element).parent().parent().find("#bet_button").show();
         $(element).parent().parent().find("#cancle_button").hide();
@@ -1181,7 +1073,6 @@ function cancle_now(element, section_no) {
 }
 
 function place_bet_now(result) {
-    debugger;
     try {
         for (let i = 0; i < bet_array.length; i++) {
             bet_array[i].game_id = result.id;
@@ -1197,7 +1088,7 @@ function place_bet_now(result) {
         }
         var triggerElement = document.querySelector('.wallet-top');
         var walletText = triggerElement.textContent;
-        var walletValue = walletText.substring(1);
+        //var walletValue = walletText.substring(1);
         //var amountUi = walletValue.replace('$', '');
         var amountUi = parseFloat(walletText.replace(/[^0-9.]/g, ''));
 
@@ -1212,20 +1103,18 @@ function place_bet_now(result) {
             type: "POST",
             dataType: "json",
             success: function (result) {
-                debugger;
                 if (result && result.Success) {
                     update_all_bet_list(result, '#all_my_bets .mCSB_container', 1);
                     try {
                         const bets_total_amts = result.Bets.reduce((acc, item) => {
                             return acc += Number(item.amount);
                         }, 0);
-                        //debugger;
+
                         if (bets_total_amts != '' && bets_total_amts != NaN) {
 
                             total_bet_amounts = Number(bets_total_amts);
                             max_bet_amount = Number(max_bet_amount) - Number(bets_total_amts);
                             var updatedValue = (Number(amountUi) - Number(bets_total_amts)).toFixed(2);
-                            //document.querySelector('.wallet-top').textContent = "$" + updatedValue;
                             document.querySelector('.wallet-top').textContent = updatedValue;
 
                             $(".main_bet_amount").prop('disabled', false);
@@ -1243,11 +1132,10 @@ function place_bet_now(result) {
                         }
 
 
+
                     } catch (error) {
 
                     }
-
-
 
                     // if (bet_array.length == 1) {
                     //     update_my_new_bet(bet_array[0].bet_amount, bet_array[0].section_no, '#my_bet_list .mCSB_container');
@@ -1425,8 +1313,7 @@ function get_current_hour_minute() {
 }
 
 function update_round_history(inc_no) {
-    //debugger;
-    var html = '<div class="' + get_multiplier_badge_class(inc_no) + ' custom-badge">' + parseFloat(inc_no).toFixed(2) + 'x</div>'
+    var html = '<div class="' + get_multiplier_badge_class(inc_no) + ' custom-badge">' + parseFloat(inc_no).toFixed(3) + 'x</div>'
     $(".payouts-wrapper .payouts-block").prepend(html);
     $(".button-block .history-dropdown .round-history-list").prepend(html);
 }
@@ -1434,7 +1321,6 @@ function update_round_history(inc_no) {
 /*-------HINAL (START)-------*/
 
 function loadData() {
-    debugger;
     const numItems = $('.bet_record_count').length;
     $.ajax({
         url: '/member_bet',
@@ -1482,7 +1368,6 @@ function loadData() {
 }
 
 $("#main_auto_bet").on('change', function () {
-    //debugger;
     let isChecked = $(this).prop('checked');
     let section_no = 0;
     const isCheckedCashout = $("#main_checkout").prop('checked');
@@ -1689,7 +1574,6 @@ $("#extra_auto_bet").on('change', function () {
 
 /*-----------------HINAL-----------------*/
 function soundPlay() {
-    //debugger;
     let sound = document.getElementById("sound_Audio");
     if (document.hidden) {
         sound.pause();
@@ -1856,8 +1740,6 @@ let visibility_timer = 0;
 let visibility_interval;
 
 $(window).focus(function () {
-    // console.log('focused');
-    // console.log(focus_timer);
     if (focus_timer > 10) {
         location.reload();
     } else {
@@ -1868,7 +1750,6 @@ $(window).focus(function () {
 
 let window_blur = 0;
 $(window).blur(function () {
-    // console.log('blur');
     const music = document.getElementById("background_Audio");
     window_blur = 1;
     music.pause();
@@ -1879,7 +1760,6 @@ $(window).blur(function () {
 
 
 $(window).focus(function () {
-    // console.log('blur');
     window_blur = 0;
     const music = document.getElementById("background_Audio");
     music.play();
@@ -1887,13 +1767,10 @@ $(window).focus(function () {
 });
 document.addEventListener('visibilitychange', function (event) {
     if (document.hidden) {
-        // console.log('not visible');
         visibility_interval = setInterval(function () {
             visibility_timer = parseInt(visibility_timer + 1);
         }, 1000);
     } else {
-        // console.log(visibility_timer);
-        // console.log('is visible');
         if (visibility_timer > 10) {
             location.reload();
         } else {
@@ -1915,14 +1792,14 @@ function main_incrementor_change(new_value) {
     if (new_value < 1.01) {
         $("#main_incrementor").val("1.01");
     } else {
-        $("#main_incrementor").val(parseFloat(new_value).toFixed(2));
+        $("#main_incrementor").val(parseFloat(new_value).toFixed(3));
     }
 }
 function extra_incrementor_change(new_value) {
     if (new_value < 1.01) {
         $("#extra_incrementor").val("1.01");
     } else {
-        $("#extra_incrementor").val(parseFloat(new_value).toFixed(2));
+        $("#extra_incrementor").val(parseFloat(new_value).toFixed(3));
     }
 }
 function hide_loading_game() {

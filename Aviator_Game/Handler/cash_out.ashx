@@ -63,7 +63,7 @@ public class cash_out : IHttpHandler
     {
         try
         {
-            ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay]", new string[] {
+            ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay_new]", new string[] {
             "Action","MemId","RoundNo","Bet","BetAmount" ,"Multi","Result_Status"
             }, new string[] { BetAction,UserID,RoundNo,
                 BetType.ToString(),BetAmount.ToString() ,CrashMulti.ToString(),"WIN" }, "das");

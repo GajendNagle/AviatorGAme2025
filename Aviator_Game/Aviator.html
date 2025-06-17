@@ -13,7 +13,7 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--====== mCustomScrollbar CSS ======-->
     <link rel="stylesheet" href="aviator_css/jquery.mCustomScrollbar.min.css" />
@@ -266,10 +266,19 @@
             transition: 1s linear;
             /* animation: up-down 3s linear infinite; */
         }
+
+        #mCSB_2_dragger_vertical {
+            display: none !important;
+        }
+
+        .users {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 
-<body class="dark-bg-main">
+<body class="dark-bg-main" style="font-family: Poppins !important;">
 
 
 
@@ -620,6 +629,10 @@
             <!--====== Left Sidebar Start ======-->
             <div class="left-sidebar">
                 <div class="tabs-navs">
+                    <a href="../Jap762Btp28lyf/game-index.html" class="text-white fw-bold me-5 d-flex align-items-center">
+                        <i class="fa fa-home me-2"></i>
+                        Home
+                    </a>
                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
                         <li class="nav-item active " role="presentation">
                             <button class="nav-link active " id="pills-allbets-tab" data-bs-toggle="pill" data-bs-target="#pills-allbets" type="button" role="tab" aria-controls="pills-allbets" aria-selected="true">All Bets</button>
@@ -646,16 +659,16 @@
                             <div class="list-data-tbl mt-2">
                                 <div class="list-header">
                                     <div class="column-1">
-                                        Image
+                                        Player
                                     </div>
                                     <div class="column-2">
-                                        User
+                                        Bet USD
                                     </div>
                                     <div class="column-3">
-                                        Bet .
+                                        X
                                     </div>
                                     <div class="column-4">
-                                        Mult
+                                        Win USD
                                     </div>
                                 </div>
                                 <div class="list-body scroll-div list-body0" id="all_my_bets"> </div>
@@ -730,17 +743,17 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between w-100 order-md-2 order-1">
-                                <div class="" style="color:white;">
-                                    <span class="period_no w-50"> Round No : 202505030856</span>
+                                <div class="" style="color:#9b9c9e;">
+                                    <span class="period_no w-50"> Round No : 0</span>
                                 </div>
 
                                 <div class="" style="color:white;">
-                                    $ <span class="wallet-top w-50"> 0 </span>
+                                    <span class="wallet-top w-100 fw-bold text-success"> 0 </span> USD
                                 </div>
                                 <div class="button-block">
                                     <div class="dropdown-toggle button histry-toggle">
                                         <div class="trigger" style="color:white;">
-                                            <i class="fa fa-bars"></i>
+                                            <i class="fa fa-angle-down"></i>
                                         </div>
                                     </div>
                                     <div class="history-dropdown">
@@ -833,23 +846,25 @@
                                 <div class="first-row auto-game-feature">
                                     <div class="bet-block">
                                         <div class="spinner">
-                                            <div class="input">
-                                                <input id="bet_amount" value="0.01" min="10.00" type="number" class="main_bet_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-                                            </div>
                                             <div class="qty-buttons">
                                                 <button type="button" class="minus " id="main_minus_btn" onclick="bet_amount_decremental(this, event);">
                                                     -
                                                 </button>
+                                            </div>
+                                            <div class="input">
+                                                <input id="bet_amount" value="0.01" min="0.01" class="main_bet_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                            </div>
+                                            <div class="qty-buttons">
                                                 <button type="button" class="plus" id="main_plus_btn" onclick="bet_amount_incremental(this, event);">
                                                     +
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="bets-opt-list">
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1</span><span class="currency">$</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">10</span><span class="currency">$</span></button>
                                             <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">100</span><span class="currency">$</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">200</span><span class="currency">$</span></button>
                                             <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">500</span><span class="currency">$</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt main_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1000</span><span class="currency">$</span></button>
                                         </div>
                                     </div>
                                     <div class="buttons-block" id="bet_button">
@@ -922,23 +937,25 @@
                                 <div class="first-row auto-game-feature">
                                     <div class="bet-block">
                                         <div class="spinner">
-                                            <div class="input">
-                                                <input id="bet_amount" value="0.01" min="10.00" type="number" class="extra_bet_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-                                            </div>
                                             <div class="qty-buttons">
                                                 <button type="button" class="minus " id="extra_minus_btn" onclick="bet_amount_decremental(this, event);">
                                                     -
                                                 </button>
+                                            </div>
+                                            <div class="input">
+                                                <input id="bet_amount" value="0.01" min="0.01" class="extra_bet_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                            </div>
+                                            <div class="qty-buttons">
                                                 <button type="button" class="plus" id="extra_plus_btn" onclick="bet_amount_incremental(this, event);">
                                                     +
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="bets-opt-list">
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1</span><span class="currency">$</span></button>
+                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">10</span><span class="currency">$</span></button>
                                             <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">100</span><span class="currency">$</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">200</span><span class="currency">$</span></button>
                                             <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">500</span><span class="currency">$</span></button>
-                                            <button type="button" class="btn btn-secondary btn-sm bet-opt extra_amount_btn" onclick="select_direct_bet_amount(this, event);"><span class="amt">1000</span><span class="currency">$</span></button>
                                         </div>
                                     </div>
                                     <div class="buttons-block" id="bet_button">
@@ -1267,9 +1284,6 @@
     </div>
     <!--====== Avatar Modal End ======-->
     <!--====== Slimscroll js ======-->
-
-
-
     <!--<script src="../Jap762Btp28lyf/Handler_js/Inner_Page_Summary.js?ver=1"></script>-->
     <script>
         var successMessage = '';
@@ -1336,20 +1350,22 @@
                     _token: hash_id,
                 },
                 dataType: "json",
-                success: function (result) {
-                    if (!result.Success || result.Message === "Not Authenticated") {
+                success: function (Result) {
+                    if (!Result.Success || Result.Message === "Not Authenticated") {
                         window.location.href = "../login.html";
                         return;
                     }
+                    let result = Result.data;
                     document.querySelector('.period_no').textContent = "Round No : " + result.id;
-                    document.querySelector('.wallet-top').textContent = result.Walletblnc;
+                    document.querySelector('.wallet-top').textContent = parseFloat(result.Walletblnc).toFixed(2);
+                    min_bet_amount = parseFloat(result.MinBetAmt);
+                    max_bet_amount = parseFloat(result.MaxBetAmt);
                     gamegenerate();
                 },
                 error: function () {
                     window.location.href = "../login.html";
                 }
             });
-
             $.ajax({
                 url: 'Handler/currentlybet.ashx',
                 type: "POST",
@@ -1378,9 +1394,6 @@
 
         });
     </script>
-
-
-    <!--new aviator animation script-->
     <script>
         document.querySelectorAll('.circle-container').forEach((circlegraph) => {
             let circles = circlegraph.querySelectorAll('.circle')
@@ -1409,19 +1422,18 @@
         var current_cash_out = 1.00;
         var current_cash = false;
         var total_bet_lists = []
-
+        var GameStart = false;
         document.addEventListener('DOMContentLoaded', function () {
             var tabs = document.querySelectorAll('[data-bs-toggle="pill"]');
             tabs.forEach(function (tab) {
                 tab.addEventListener('click', function () {
                     var target = document.querySelector(tab.getAttribute('data-bs-target'));
                     if (target) {
-                        // Hide all tab panes
+
                         var tabPanes = document.querySelectorAll('.tab-pane');
                         tabPanes.forEach(function (pane) {
                             pane.classList.remove('show', 'active');
                         });
-                        // Show the target tab pane
                         target.classList.add('show', 'active');
                     }
                 });

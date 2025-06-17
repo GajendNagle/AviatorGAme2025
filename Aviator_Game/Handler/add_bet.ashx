@@ -63,7 +63,7 @@ public class add_bet : IHttpHandler
 
             foreach (var bet in bets)
             {
-                DataSet ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay]",
+                DataSet ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay_new]",
                     new string[] { "Action", "MemId", "RoundNo", "Bet", "BetAmount", "Multi", "Result_Status" },
                     new string[] { "Place", userId, roundNo, bet.section_no.ToString(), bet.bet_amount, "0", "bet" },
                     "bet"

@@ -15,29 +15,75 @@ $('#rsltmodal').on('hidden.bs.modal', function () {
 });
 
 function Showcounttime() {
-    $.getJSON('Handlers/Getcount-Timer.ashx?type=fastparity',
-        function (OrjsonDS) {
-            if (OrjsonDS.length == 0) {
-            }
-            else {
-                for (var i = 0; i < OrjsonDS.length; i++) {
-                    $('#jackportno').val(OrjsonDS[i].JackptNo);
-                    $('#Fastparityno').html(OrjsonDS[i].JackptNo);
-                    $('#storetimer').val(OrjsonDS[i].PHDate);
+    $.getJSON('Handlers/Getcount-Timer.ashx?type=fastparity', function (OrjsonDS) {
+        if (OrjsonDS.length === 0) return;
 
-                    if (OrjsonDS[i].JackptNo == 0) {
-                        $('#submitplaynow').attr('disabled', 'disabled');
-                    }
-                    else {
-                        $('#submitplaynow').removeAttr('disabled');
-                    }
-                    parity1minrslt();
-                    Everyonsordr(1, 10);
-                }
+        for (var i = 0; i < OrjsonDS.length; i++) {
+            $('#jackportno').val(OrjsonDS[i].JackptNo);
+            $('#Fastparityno').html(OrjsonDS[i].JackptNo);
+            $('#storetimer').val(OrjsonDS[i].PHDate);
 
+            if (OrjsonDS[i].JackptNo == 0) {
+                $('#submitplaynow').attr('disabled', 'disabled');
+            } else {
+                $('#submitplaynow').removeAttr('disabled');
             }
-        });
+
+            parity1minrslt();
+            Everyonsordr(1, 10);
+
+            startCountdown(OrjsonDS[i].PHDate);
+        }
+    });
 }
+function getTimeRemaining(endtime) {
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    if (t < 5000) {
+        document.getElementById('sound')?.play();
+        $('.box1, .box2, .num').addClass('disabled');
+    }
+    var seconds = Math.floor((t / 1000) % 60);
+    var minutes = Math.floor((t / 1000 / 60) % 60);
+    return {
+        total: t,
+        minutes: Math.max(0, minutes),
+        seconds: Math.max(0, seconds),
+    };
+}
+function initializeClock(id, endtime) {
+    var clock = document.getElementById(id);
+    if (!clock) return;
+    var minutesSpan = clock.querySelector('.minutes');
+    var secondsSpan = clock.querySelector('.seconds');
+
+    function updateClock() {
+        var t = getTimeRemaining(endtime);
+        minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+        if (t.total <= 5000) {
+            $('#seconds1').html('0' + t.seconds);
+            $('.disable-box').removeClass('d-none');
+        }
+
+        if (t.total <= 0) {
+            var jck = $('#jackportno').val();
+            if (jck > 0) {
+                loadjackpot('fastparity');
+            }
+            clearInterval(timeinterval);
+        }
+    }
+
+    updateClock();
+    var timeinterval = setInterval(updateClock, 1000);
+}
+function startCountdown(phDate) {
+    var deadline = new Date(phDate);
+    initializeClock('clockdiv', deadline);
+}
+
+
 function Save_JackpotParticipate() {
     if ($("#checkbox").prop('checked') == false) {
         swal({
@@ -215,8 +261,6 @@ function Myorder(PageNo, PageSize) {
     $('#Myorder').html('<div class="text-center"><img src="../UserProfileImg/loading2.gif"></div>');
     $('#Myorder').load("Handlers/Game-Common-Values.ashx?Vs=Myorder&p=" + PageNo + "&s=" + PageSize);
 }
-
-
 function Save_ParityParticipate3min() {
     if ($("#checkbox").prop('checked') == false) {
         swal({
@@ -321,6 +365,7 @@ function Save_ParityParticipate3min() {
     return true;
 
 }
+
 function Showcounttime3min() {
     $.getJSON('Handlers/Getcount-Timer.ashx?type=Parity',
         function (OrjsonDS) {
@@ -344,10 +389,56 @@ function Showcounttime3min() {
                     parity3minrslt();
                     Everyonsordr3min(1, 10);
 
+                    startCountdown3min(OrjsonDS[i].PHDate);
                 }
             }
         });
 }
+function getTimeRemaining3min(endtime) {
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    if (t < 5000) {
+        document.getElementById('sound').play();
+        $('.box1').addClass('disabled');
+        $('.box2').addClass('disabled');
+        $('.num').addClass('disabled');
+    }
+    var seconds = Math.floor((t / 1000) % 60);
+    var minutes = Math.floor((t / 1000 / 60) % 60);
+    return {
+        'total': t,
+        'minutes': Math.max(0, minutes),
+        'seconds': Math.max(0, seconds)
+    };
+}
+function initializeClock3min(id, endtime) {
+    var clock = document.getElementById(id);
+    var minutesSpan = clock.querySelector('.minutes');
+    var secondsSpan = clock.querySelector('.seconds');
+    function updateClock3min() {
+        var t = getTimeRemaining3min(endtime);
+        minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+        if (t.total <= 5000) {
+            $('#seconds1').html('0' + t.seconds);
+            $('.disable-box').removeClass('d-none');
+        }
+        if (t.total <= 0) {
+            var jck = $('#jackportno').val();
+            if (jck > 0) {
+                loadjackpot('Parity');
+            }
+        }
+        else {
+        }
+    }
+    updateClock3min();
+    var timeinterval = setInterval(updateClock3min, 1000);
+}
+function startCountdown3min(phDate) {
+    var deadline = new Date(phDate);
+    initializeClock3min('clockdiv', deadline);
+}
+
 function parity3minrslt() {
     var showModalparity = sessionStorage.getItem('showModalParity');
     if (showModalparity) {
@@ -416,8 +507,6 @@ function Myorder3min(PageNo, PageSize) {
     $('#Myorder3min').html('<div class="text-center"><img src="../UserProfileImg/loading2.gif"></div>');
     $('#Myorder3min').load("Handlers/Game-Common-Values.ashx?Vs=Myorder3min&p=" + PageNo + "&s=" + PageSize);
 }
-
-
 function Save_ParityParticipate5min() {
     document.getElementById("submitplaynow").disabled = true;
     $("#submitplaynow").html('Please wait...');
@@ -921,6 +1010,3 @@ function getgameNovalue(value) {
         $('#btnbg2').css("background", "rgb(0, 194, 130)");
     }
 }
-
-
-

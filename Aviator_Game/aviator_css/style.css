@@ -819,14 +819,14 @@ element.style {
     border-radius: 17px;
     background-image: linear-gradient(85deg,#000000,#0f1214);
     border: solid 2px #000000;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
     color: #fff;
     display: flex;
     justify-content: space-between;
     font-size: 12px;
     line-height: 16px;
     align-items: center;
-    height: 34px;
+    height: 36px;
     font-weight: 600;
 }
 

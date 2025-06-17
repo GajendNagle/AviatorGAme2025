@@ -1,6 +1,5 @@
-var gameId;
+﻿var gameId;
 function gameover(lastint) {
-    //debugger;
     $("#isbet").val(0);
     $.ajax({
         url: 'Handler/game_over.ashx',
@@ -12,7 +11,6 @@ function gameover(lastint) {
         },
         dataType: "text",
         success: function (result) {
-            //debugger;
             if (current_is_bet) {
                 $.ajax({
                     url: 'Handler/my_bets_history.ashx',
@@ -22,69 +20,84 @@ function gameover(lastint) {
                     },
                     dataType: "json",
                     success: function (data) {
-                        //debugger;
+
                         update_my_bet_history(data.data);
                     }
                 });
             }
             current_is_bet = false;
             current_cash = false;
-            $("#main_bet_section").find("#cashout_button").hide();
-
-            $("#main_bet_section").find("#bet_button").show();
-
-            $("#main_bet_section").find("#cancle_button").hide();
-            $("#main_bet_section").find("#cancle_button #waiting").hide();
-            $("#main_bet_section .controls").removeClass('bet-border-red');
-            $("#main_bet_section .controls").removeClass('bet-border-yellow');
-            $("#main_bet_section .controls .navigation").removeClass('stop-action');
-
-            $("#extra_bet_section").find("#bet_button").show();
-            $("#extra_bet_section").find("#cashout_button").hide();
-            $("#extra_bet_section").find("#cancle_button").hide();
-            $("#extra_bet_section").find("#cancle_button #waiting").hide();
-            $("#extra_bet_section").find("#cashout_button").hide();
-            $("#extra_bet_section .controls").removeClass('bet-border-red');
-            $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-            $("#extra_bet_section .controls .navigation").removeClass('stop-action');
-
-
             if (result) {
                 var responseData = JSON.parse(result);
 
                 if (responseData.is_win == 2) {
-                    bet_array = [];
-                    setTimeout(() => {
-                        $("#auto_increment_number_div").hide();
-                        $(".flew_away_section").hide();
-                        $("#auto_increment_number").removeClass('text-danger');
-                        $(".game-centeral-loading").show();
-                        show_loading_game();
-                        gamegenerate();
-                    }, 5000);
+                    $.ajax({
+                        url: "Handler/new_game_generated.ashx",
+                        type: "GET",
+                        data: { _token: hash_id },
+                        dataType: "json",
+                        success: function (Result) {
+                            if (!Result.Success && Result.Message === "Not Authenticated") {
+                                window.location.href = "../login.html";
+                                return;
+                            }
 
-                    // Main Bet
-                    $(".main_bet_amount").prop('disabled', false);
-                    $("#main_plus_btn").prop('disabled', false);
-                    $("#main_minus_btn").prop('disabled', false);
-                    $(".main_amount_btn").prop('disabled', false);
-                    $("#main_checkout").prop('disabled', false);
-                    if ($("#main_checkout").prop('checked')) {
-                        $("#main_incrementor").prop('disabled', false);
-                    }
-                    $('#main_auto_bet').prop('checked', false);
+                            let result = Result.data;
+                            let bet0 = result.Bet_0 || 0;
+                            let bet1 = result.Bet_1 || 0;
+                            if (
+                                (bet0 === 1 && bet1 === 1)
+                            ) {
+                                bet_array.length = 0;
+                                MainbetUi();
+                                extrabetUi();
 
-                    // Extra Bet
-                    $(".extra_bet_amount").prop('disabled', false);
-                    $("#extra_minus_btn").prop('disabled', false);
-                    $("#extra_plus_btn").prop('disabled', false);
-                    $(".extra_amount_btn").prop('disabled', false);
-                    $("#extra_checkout").prop('disabled', false);
-                    if ($("#extra_checkout").prop('checked')) {
-                        $("#extra_incrementor").prop('disabled', false);
-                    }
-                    $('#extra_auto_bet').prop('checked', false);
+                            } else {
+                                if (bet0 === 1) {
+                                    const index = bet_array.findIndex(b => b.section_no === 0);
+                                    if (index !== -1) {
+                                        bet_array.splice(index, 1);
+                                    }
+                                    MainbetUi();
+                                }
+                                if (bet1 === 1) {
+                                    const index = bet_array.findIndex(b => b.section_no === 1);
+                                    if (index !== -1) {
+                                        bet_array.splice(index, 1);
+                                    }
+                                    extrabetUi();
+                                }
+                            }
+                            setTimeout(() => {
+                                $("#auto_increment_number_div").hide();
+                                $(".flew_away_section").hide();
+                                $("#auto_increment_number").removeClass('text-danger');
+                                $(".game-centeral-loading").show();
+                                show_loading_game();
+                                gamegenerate();
+                            }, 5000);
 
+                            $(".main_bet_amount").prop('disabled', false);
+                            $("#main_plus_btn").prop('disabled', false);
+                            $("#main_minus_btn").prop('disabled', false);
+                            $(".main_amount_btn").prop('disabled', false);
+                            $("#main_checkout").prop('disabled', false);
+                            if ($("#main_checkout").prop('checked')) {
+                                $("#main_incrementor").prop('disabled', false);
+                            }
+                            $('#main_auto_bet').prop('checked', false);
+
+                            $(".extra_bet_amount").prop('disabled', false);
+                            $("#extra_minus_btn").prop('disabled', false);
+                            $("#extra_plus_btn").prop('disabled', false);
+                            $(".extra_amount_btn").prop('disabled', false);
+                            $("#extra_checkout").prop('disabled', false);
+                            if ($("#extra_checkout").prop('checked')) {
+                                $("#extra_incrementor").prop('disabled', false);
+                            }
+                            $('#extra_auto_bet').prop('checked', false);
+                        }
+                    });
                 } else {
                     $("#main_bet_section").find("#bet_button").show();
                     $("#main_bet_section").find("#cancle_button").hide();
@@ -94,6 +107,27 @@ function gameover(lastint) {
             }
         }
     });
+}
+function MainbetUi() {
+    $("#main_bet_section").find("#cashout_button").hide();
+
+    $("#main_bet_section").find("#bet_button").show();
+
+    $("#main_bet_section").find("#cancle_button").hide();
+    $("#main_bet_section").find("#cancle_button #waiting").hide();
+    $("#main_bet_section .controls").removeClass('bet-border-red');
+    $("#main_bet_section .controls").removeClass('bet-border-yellow');
+    $("#main_bet_section .controls .navigation").removeClass('stop-action');
+}
+function extrabetUi() {
+    $("#extra_bet_section").find("#bet_button").show();
+    $("#extra_bet_section").find("#cashout_button").hide();
+    $("#extra_bet_section").find("#cancle_button").hide();
+    $("#extra_bet_section").find("#cancle_button #waiting").hide();
+    $("#extra_bet_section").find("#cashout_button").hide();
+    $("#extra_bet_section .controls").removeClass('bet-border-red');
+    $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+    $("#extra_bet_section .controls .navigation").removeClass('stop-action');
 }
 function currentid() {
     $.ajax({
@@ -109,9 +143,6 @@ function currentid() {
 }
 
 function gamegenerate() {
-    //debugger;
-    bet_array.length = 0;
-
     setTimeout(() => {
         $("#auto_increment_number_div").hide();
         $('.loading-game').addClass('show');
@@ -127,13 +158,14 @@ function gamegenerate() {
                 },
 
                 dataType: "json",
-                success: function (result) {
-                    if (!result.Success && result.Message === "Not Authenticated") {
+                success: function (Result) {
+                    if (!Result.Success && Result.Message === "Not Authenticated") {
                         window.location.href = "../login.html";
                         return;
                     }
+                    let result = Result.data;
+
                     incrementor(parseFloat(1.00).toFixed(2));
-                    //debugger;
                     if (bet_array.length > 0) {
                         place_bet_now(result);
                     }
@@ -155,26 +187,16 @@ function gamegenerate() {
                         url: "Handler/increamentor.ashx",
                         type: "POST",
                         data: {
-                            // token: Number(getCookie('mult_no')),
                             token: 0,
                             isbet: 0,
                             game_id: result.id,
                         },
                         dataType: "text",
                         success: function (data) {
+
                             var decodedData = atob(data);
                             var mlresult = JSON.parse(decodedData);
-                            if (current_is_bet) {
-
-                                if (mlresult.result <= 10) {
-                                    currentbet = mlresult.result;
-                                } else {
-                                    currentbet = 1.11;
-                                }
-                            } else {
-
-                                currentbet = mlresult.result;
-                            }
+                            currentbet = mlresult.result;
 
                             function MyBetHistory() {
                                 $.ajax({
@@ -235,23 +257,7 @@ function gamegenerate() {
                                     $("#all_my_bets .mCSB_container").empty();
                                     clearInterval(increamtsappgame);
                                     clearInterval(randomintervalId);
-                                    $("#main_bet_section").find("#bet_button").show();
-                                    $("#main_bet_section").find("#cancle_button").hide();
-                                    $("#main_bet_section").find("#cancle_button #waiting").hide();
-                                    $("#main_bet_section .controls").removeClass('bet-border-red');
-                                    $("#main_bet_section .controls").removeClass('bet-border-yellow');
-                                    $("#main_bet_section .controls .navigation").removeClass('stop-action');
 
-                                    $("#extra_bet_section").find("#bet_button").show();
-                                    $("#extra_bet_section").find("#cashout_button").hide();
-                                    $("#extra_bet_section").find("#cancle_button").hide();
-                                    $("#extra_bet_section").find("#cancle_button #waiting").hide();
-                                    $("#extra_bet_section").find("#cashout_button").hide();
-                                    $("#extra_bet_section .controls").removeClass('bet-border-red');
-                                    $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-                                    $("#extra_bet_section .controls .navigation").removeClass('stop-action');
-
-                                    $("#total_bets_amount").text(0);
                                 } else {
 
                                     a = parseFloat(a) + 0.01;
@@ -277,5 +283,4 @@ function check_game_running(event) {
 
 $(document).ready(function () {
     check_game_running("check");
-    // gamegenerate();
 });

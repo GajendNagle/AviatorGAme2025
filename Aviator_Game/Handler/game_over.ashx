@@ -65,9 +65,9 @@ public class game_over : IHttpHandler
         try
         {
 
-            ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay]", new string[]
+            ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay_new]", new string[]
             { "Action", "MemId", "RoundNo", "Bet", "BetAmount", "Multi", "Result_Status" }, new string[]
-            { "CloseRound", "", RoundNo, "", "0",CrashMulti.ToString() , ""}, "das");
+            { "CloseRound", "", RoundNo, "", "0","" , ""}, "das");
 
             // Safe check for "Rlt" in Table[0]
             bool isRltOkTable0 = ds.Tables.Count > 0 &&

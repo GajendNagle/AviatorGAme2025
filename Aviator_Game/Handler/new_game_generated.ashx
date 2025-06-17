@@ -1,4 +1,5 @@
-﻿﻿<%@ WebHandler Language="C#" Class="new_game_generated" %>
+﻿﻿
+<%@ WebHandler Language="C#" Class="new_game_generated" %>
 
 using System;
 using System.Web;
@@ -6,6 +7,8 @@ using System.Web.Script.Serialization;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Collections.Generic;
+
 using System.Web.SessionState;
 
 public class new_game_generated : IHttpHandler, IRequiresSessionState
@@ -14,12 +17,11 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
     public HttpRequest request;
     public HttpResponse response;
     DataSet ds = new DataSet();
-    float WalletBlnc;
     string UserId;
     DataTable dt;
     public float BetAPending;
     public float BetBPending;
-     DynamicDtls objgdb = new DynamicDtls();
+    DynamicDtls objgdb = new DynamicDtls();
 
     public string ConDB = ConfigurationManager.ConnectionStrings["Conn"].ConnectionString;
 
@@ -51,17 +53,15 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
         }
 
     }
-
     private void BindResult()
     {
         try
         {
             using (SqlConnection con = new SqlConnection(ConDB))
-            using (SqlCommand cmd = new SqlCommand("dbo.Avtr_ProStartNewRound", con))
+            using (SqlCommand cmd = new SqlCommand("dbo.Avtr_ProStartNewRound_New", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Memid", UserId.ToString());
-                //cmd.Parameters.AddWithValue("Round_Status", "Closed");
                 SqlParameter outputParam = new SqlParameter("@NewRoundNo", SqlDbType.VarChar, 25);
                 outputParam.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(outputParam);
@@ -77,14 +77,16 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
                     {
                         if (ds.Tables[0].Rows.Count > 0)
                         {
-                            string CurrentRound = dt.Rows[0]["CurrentRound"].ToString();
+                            string CurrentRound = dt.Rows[0]["id"].ToString();
 
                             if (!string.IsNullOrEmpty(CurrentRound))
                             {
-                                BetAPending = float.Parse(dt.Rows[0]["Bet_A"].ToString());
-                                BetBPending = float.Parse(dt.Rows[0]["Bet_B"].ToString());
-                                WalletBlnc = float.Parse(dt.Rows[0]["GameWalletB"].ToString());
-                                WriteJsonResponse(true, "New Round Started", CurrentRound, UserId, BetAPending, BetBPending,WalletBlnc);
+                                Dictionary<string, object> Data = new Dictionary<string, object>();
+                                foreach (DataColumn col in dt.Columns)
+                                {
+                                    Data[col.ColumnName] = dt.Rows[0][col];
+                                }
+                                WriteJsonResponse(true, "New Round Started", Data);
                             }
                             else
                             {
@@ -98,24 +100,20 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
         }
         catch (Exception ex)
         {
-            WriteJsonResponse(false, "Error: " + ex.Message, UserId: UserId);
+            WriteJsonResponse(false, "Error: " + ex.Message);
         }
     }
 
 
-    private void WriteJsonResponse(bool success, string message, string roundNo = "", string UserId = "", float BetA = 0, float BetB = 0,float WalletBlnc=0)
+    private void WriteJsonResponse(bool success, string message, Dictionary<string, object> Data = null)
     {
-        var result = new
+        var Result = new
         {
             Success = success,
             Message = message,
-            id = roundNo,
-            UserId = UserId,
-            PendingBetA = BetA,
-            PendingBetB = BetB,
-            Walletblnc=WalletBlnc
+            data = Data
         };
-        string json = new JavaScriptSerializer().Serialize(result);
+        string json = new JavaScriptSerializer().Serialize(Result);
         response.Write(json);
     }
 
@@ -124,3 +122,4 @@ public class new_game_generated : IHttpHandler, IRequiresSessionState
         get { return false; }
     }
 }
+

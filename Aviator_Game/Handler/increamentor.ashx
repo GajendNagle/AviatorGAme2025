@@ -10,6 +10,7 @@ public class increamentor : IHttpHandler
 {
     DynamicDtls objgdb = new DynamicDtls();
     DataSet ds;
+    string UserId;
 
     public void ProcessRequest(HttpContext context)
     {
@@ -18,11 +19,13 @@ public class increamentor : IHttpHandler
         string token = context.Request["token"];
         string isbet = context.Request["isbet"];
         string gameId = context.Request["game_id"];
+        UserId = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+        //ds = objgdb.ByProcedure("[Avtr_GenerateCrashPoint_NEW]", new string[] 
+        ds = objgdb.ByProcedure("[Avtr_ProStartNewRound_New]", new string[]
+        {
+            "NewRoundNo","Memid"}, new string[] { "",UserId.ToString() }, "das");;
 
-        ds = objgdb.ByProcedure("[Avtr_GenerateCrashPoint]", new string[] {
-            "isbet"}, new string[] { isbet }, "das");
-
-        string crash = ds.Tables[0].Rows[0]["crash"].ToString();
+        string crash = ds.Tables[0].Rows[0]["Crash"].ToString();
         var resultObj = new
         {
             result = crash

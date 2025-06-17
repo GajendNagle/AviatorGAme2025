@@ -663,29 +663,54 @@
     <input type="hidden" id="gamefeededuction" value=""><audio controls="controls" id="sound" class="d-none"><source src="timersound/3min-bell-sound-count-61773.mp3" id="sound" type="audio/mpeg"></audio>
 
     <script src="assets/plugins/jquery/jquery.min.js"></script>
-    <script src="js/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="js/preloader.js"></script>
-    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="Handler_js/Game-LoadCounter.js?ver=2.8"></script>
-    <script src="Handler_js/Inner_Page_Summary.js?ver=1.0"></script>
-    <script src="Handler_js/wingogame.js?ver=1.2"></script>
-    <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            Showcounttime3min();
-            $(".btn-light").click(function () {
-                $(".btn-light").removeClass("active");
-                $(this).addClass("active");
+    
+
+    <!-- Dynamically load app scripts with cache busting -->
+    <script>
+        const scriptFiles = [
+            "js/sidebar.js",
+            "js/preloader.js",
+            "assets/plugins/sweetalert/sweetalert.min.js",
+            "Handler_js/Game-LoadCounter.js",
+            "Handler_js/Inner_Page_Summary.js",
+            "Handler_js/wingogame.js"
+        ];
+
+        function loadScriptsSequentially(files, index = 0, callback) {
+            if (index >= files.length) return callback?.();
+
+            const script = document.createElement("script");
+            script.src = `${files[index]}?v=${Date.now()}`;
+            script.onload = () => loadScriptsSequentially(files, index + 1, callback);
+            document.body.appendChild(script);
+        }
+
+        // Start loading scripts, and then call your init code
+        loadScriptsSequentially(scriptFiles, 0, () => {
+            // All scripts loaded, now run app logic
+            $(document).ready(function () {
+                if (typeof Showcounttime === 'function') {
+                    Showcounttime3min();
+                    $(".btn-light").click(function () {
+                        $(".btn-light").removeClass("active");
+                        $(this).addClass("active");
+                    });
+                } else {
+                    console.warn("Showcounttime() not found.");
+                }
             });
         });
     </script>
+
+
     <script>
         function opendetails(orderid) {
             $('#c' + orderid).toggle(1000);
         }
     </script>
 
-    <script>
+    <!--<script>
         setTimeout(
             function () {
                 function getTimeRemaining(endtime) {
@@ -735,6 +760,6 @@
             },
             3000
         );
-    </script>
+    </script>-->
 </body>
 </html>

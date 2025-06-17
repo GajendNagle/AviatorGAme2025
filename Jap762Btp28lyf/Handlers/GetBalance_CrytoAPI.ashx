@@ -57,19 +57,26 @@ public class GetBalance_CrytoAPI : IHttpHandler
     {
         this.context = context;
         context.Response.ContentType = "application/json";
-        reciverAddress = DynamicDtls.withdraw;
-        var privkey = DynamicDtls.privetkey;
-        reciverPrivateKey = DB.base64Decod(privkey);
-        // Assignno = context.Request.Form["ODsID"];
+        if (context.Request.Cookies["Tap190Nvw92mst"] != null)
+        {
+            reciverAddress = DynamicDtls.withdraw;
+            var privkey = DynamicDtls.privetkey;
+            reciverPrivateKey = DB.base64Decod(privkey);
+            // Assignno = context.Request.Form["ODsID"];
 
-        //Transaction_Hash = "";
-        //  rcVAdd = context.Request.Form["RcVAdd"];
-        // SKey = context.Request.Form["Skey"];
-        SKey ="Succes24!7H1p";
-        UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString().Trim();
-        GiveHelpOrder();
-        WriteJson(new TestResponse(sc, Msgs, dtl));
-
+            //Transaction_Hash = "";
+            //  rcVAdd = context.Request.Form["RcVAdd"];
+            // SKey = context.Request.Form["Skey"];
+            SKey = "Succes24!7H1p";
+            UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString().Trim();
+            GiveHelpOrder();
+            WriteJson(new TestResponse(sc, Msgs, dtl));
+        }
+        else
+        {
+            context.Response.Write("<script>window.open('../login.html','_top');</script>");
+            //context.Response.Redirect("../amp.html","_top");
+        }
     }
     public void GetUSDTBEP20Balance(string walletAddress, string PlnAmt, string UserPvtKey)
     {

@@ -91,7 +91,6 @@ PWD: Win(id$N0W)365
 withdrawal Address
 THJhQrKAdTXogyGzo8nK3AkecYVNNMPZ88
 
-3d6514c7a8612bc95845a58440163cf740a46f3ae2b921d33ed25e8d9c82ecb7 
 0x27BBd8AFEd9A3C89866016770e23BF06763630d8
 ----------------------
 Deposit Address
@@ -134,3 +133,13 @@ https://aviatordemo.in/
 ==============================
 timer procedure :
 dbtuning
+
+========Aviator Game me=======
+1. Two Bet ki btn me ek se Manually bet second se Auto Bet Ka krna he 
+2.Min bet Amt=0.01,Max bet Amt=500
+3. Amount ko Replace krna he Jaha 
+100>>>>1
+200>>>>10
+500>>>>100
+1000>>>>500
+========Aviator Game me=======

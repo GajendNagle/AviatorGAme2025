@@ -50,8 +50,9 @@ public class currentlybet : IHttpHandler
                         userid = row["MemId"].ToString(),
                         amount = Convert.ToDecimal(row["BetAmount"]),
                         cashout_multiplier = Convert.ToDecimal(row["Multi"]),
-                        sectionNo = Convert.ToDecimal(row["Bet"]), 
-                        image = row["MemPic"].ToString()           
+                        sectionNo = row["Bet"].ToString(), 
+                        image = row["MemPic"].ToString()   ,        
+                        Win_Amt = Convert.ToDecimal(row["Win_Amt"])           
                     });
                 }
 
