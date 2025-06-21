@@ -368,9 +368,17 @@ function crash_plane(inc_no) {
     $(".flew_away_section").show();
     $("#auto_increment_number").addClass('text-danger');
     stopPlane();
+    deleteCookie("ztk9v8pl");
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     $("#running_type").text('rest time');
-    update_round_history(inc_no);
+    update_round_history();
+    $("#main_bet_section").find("#cashout_button").hide();
+    $("#main_bet_section .controls").removeClass('bet-border-yellow');
+    $("#main_bet_section .controls .navigation").removeClass('stop-action');
+    $("#extra_bet_section").find("#cashout_button").hide();
+    $("#extra_bet_section .controls").removeClass('bet-border-red');
+    $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+    $("#extra_bet_section .controls .navigation").removeClass('stop-action');
     const number_of_bet = $(".round-history-list").find('.custom-badge').length;
     if (number_of_bet > 50) {
         $(".round-history-list").find('.custom-badge:last').remove();
@@ -404,9 +412,6 @@ function crash_plane(inc_no) {
         main_cash_out = 0;
         extra_cash_out = 0;
     }, 1000);
-
-
-
 }
 
 
@@ -702,7 +707,7 @@ function update_bet_list(bets, target, appendType = '') {
                 '<div class="column-1 users"> <img src="' + bets[i].image + '" class="avatar me-1"> ' + bets[i].userid + '</div>' +
                 '<div class="column-2"> ' + bets[i].amount + '</div>' +
                 '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
-                '<div class="column-4"> ' + multiplication+ ' </div>' +
+                '<div class="column-4"> ' + multiplication + ' </div>' +
 
                 '</div>';
 
@@ -779,32 +784,32 @@ function update_all_bet_list(bets, target, appendType = '') {
     var html = '';
     try {
 
-    
-    for (i = 0; i < bets.length; i++) {
-        var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
-        if (parseFloat(bets[i].cashout_multiplier) <= 2) {
-            var badgeColor = 'bg3';
-        } else if (parseFloat(bets[i].cashout_multiplier) < 10) {
-            var badgeColor = 'bg1';
-        } else {
-            var badgeColor = 'bg2';
-        }
-        if (parseFloat(bets[i].cashout_multiplier) > 0) {
-            var cashOut = Math.round(bets[i].cashout_multiplier * bets[i].amount) + currency_symbol;
-            var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + (bets[i].cashout_multiplier > 0 ? (bets[i].amount * bets[i].cashout_multiplier).toFixed(2) + '' : '-')+ '</div>';
-        } else {
-            var cashOut = '-';
-            var multiplication = '-';
-        }
 
-        var sectionNo = bets[i].type;
-        html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
-            '<div class="column-1 users"> <img src="https://win24hrs.live/assets/aviator/images/avtar/av-24.png" class="avatar">' + bets[i].userid + '  </div>' +
-            '<div class="column-2"> ' + bets[i].user_id + ' </div>' +
-            '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
-            '<div class="column-4"> ' + multiplication + ' </div>' +
-            '</div>';
-    }
+        for (i = 0; i < bets.length; i++) {
+            var isActive = bets[i].cashout_multiplier > 0 ? "active" : "";
+            if (parseFloat(bets[i].cashout_multiplier) <= 2) {
+                var badgeColor = 'bg3';
+            } else if (parseFloat(bets[i].cashout_multiplier) < 10) {
+                var badgeColor = 'bg1';
+            } else {
+                var badgeColor = 'bg2';
+            }
+            if (parseFloat(bets[i].cashout_multiplier) > 0) {
+                var cashOut = Math.round(bets[i].cashout_multiplier * bets[i].amount) + currency_symbol;
+                var multiplication = '<div class="' + badgeColor + ' custom-badge mx-auto">' + (bets[i].cashout_multiplier > 0 ? (bets[i].amount * bets[i].cashout_multiplier).toFixed(2) + '' : '-') + '</div>';
+            } else {
+                var cashOut = '-';
+                var multiplication = '-';
+            }
+
+            var sectionNo = bets[i].type;
+            html += '<div class="list-items ' + isActive + ' ' + sectionNo + ' ' + '">' +
+                '<div class="column-1 users"> <img src="https://win24hrs.live/assets/aviator/images/avtar/av-24.png" class="avatar">' + bets[i].userid + '  </div>' +
+                '<div class="column-2"> ' + bets[i].user_id + ' </div>' +
+                '<div class="column-3"> <button class="btn btn-transparent previous-history d-flex align-items-center mx-auto"> ' + bets[i].amount + currency_symbol + ' </button> </div>' +
+                '<div class="column-4"> ' + multiplication + ' </div>' +
+                '</div>';
+        }
         $(target).prepend(html);
     } catch (error) {
     }
@@ -1209,7 +1214,7 @@ function get_current_hour_minute() {
     }
 
     if (minutes.toString().length > 1) {
-        var retMinute = minutes;
+        var retMinute = minutessetCookie
     } else {
         var retMinute = '0' + minutes;
     }
@@ -1217,10 +1222,30 @@ function get_current_hour_minute() {
     return retHour + ':' + retMinute;
 }
 
-function update_round_history(inc_no) {
-    var html = '<div class="' + get_multiplier_badge_class(inc_no) + ' custom-badge">' + parseFloat(inc_no).toFixed(3) + 'x</div>'
-    $(".payouts-wrapper .payouts-block").prepend(html);
-    $(".button-block .history-dropdown .round-history-list").prepend(html);
+function update_round_history() {
+
+    try {
+        $.ajax({
+            url: 'Handler/get_round_history.ashx',
+            method: 'GET',
+            success: function (response) {
+                if (response.error) {
+                    console.error("Server error:", response.error);
+                    return;
+                }
+                const history = response.result;
+                $(".round-history-list").empty(); 
+                history.forEach(function (multiplier) {
+                    var html = '<div class="' + get_multiplier_badge_class(multiplier) + ' custom-badge">' +
+                        parseFloat(multiplier).toFixed(2) + 'x</div>';
+                    $(".payouts-wrapper .payouts-block").prepend(html);
+                    $(".button-block .history-dropdown .round-history-list").prepend(html);
+                });
+            }
+        });
+    }
+    catch (error) {
+    }
 }
 
 

@@ -34,7 +34,6 @@ public class cash_out : IHttpHandler
         if (context.Request.Cookies["Tap190Nvw92mst"] != null)
         {
             UserID = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
-            // float.TryParse(context.Request["betAmount"].Trim(), out BetAmount);
             BetType = context.Request["section_no"].Trim();
             RoundNo = context.Request["game_id"].Trim();
             float.TryParse(context.Request["betAmount"].Trim(), out BetAmount);

@@ -9,14 +9,6 @@ public class is_login : IHttpHandler {
     public HttpContext context;
     public HttpRequest request;
     public HttpResponse response;
-    DataSet ds = new DataSet();
-    float WalletBlnc;
-    string UserId;
-    DataTable dt;
-    public float BetAPending;
-    public float BetBPending;
-    DynamicDtls objgdb = new DynamicDtls();
-
 
     public void ProcessRequest(HttpContext _context)
     {

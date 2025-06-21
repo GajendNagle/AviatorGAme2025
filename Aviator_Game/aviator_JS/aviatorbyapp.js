@@ -1,103 +1,118 @@
 ﻿var gameId;
 function gameover(lastint) {
     $("#isbet").val(0);
+
     $.ajax({
         url: 'Handler/game_over.ashx',
         type: "POST",
         data: {
             _token: hash_id,
-            "last_time": lastint,
-            "game_id": gameId
+            last_time: lastint,
+            game_id: gameId,
+            "Bet": JSON.stringify(bet_array)
         },
-        dataType: "text",
+        dataType: "json",
         success: function (result) {
+            //debugger;
+            $.ajax({
+                url: "Handler/Update_Get_current_multi.ashx",
+                type: "POST",
+                data: {
+                    Type: "Clear_Multi",
+                    game_id: gameId
+                }
+            });
+
             if (current_is_bet) {
                 $.ajax({
                     url: 'Handler/my_bets_history.ashx',
                     type: "POST",
-                    data: {
-                        _token: hash_id
-                    },
+                    data: { _token: hash_id },
                     dataType: "json",
                     success: function (data) {
-
                         update_my_bet_history(data.data);
                     }
                 });
             }
+
             current_is_bet = false;
             current_cash = false;
+            $("#main_bet_section").find("#cashout_button").hide();
+
+            $("#main_bet_section").find("#bet_button").show();
+
+            $("#main_bet_section").find("#cancle_button").hide();
+            $("#main_bet_section").find("#cancle_button #waiting").hide();
+            $("#main_bet_section .controls").removeClass('bet-border-red');
+            $("#main_bet_section .controls").removeClass('bet-border-yellow');
+            $("#main_bet_section .controls .navigation").removeClass('stop-action');
+
+            $("#extra_bet_section").find("#bet_button").show();
+            $("#extra_bet_section").find("#cashout_button").hide();
+            $("#extra_bet_section").find("#cancle_button").hide();
+            $("#extra_bet_section").find("#cancle_button #waiting").hide();
+            $("#extra_bet_section").find("#cashout_button").hide();
+            $("#extra_bet_section .controls").removeClass('bet-border-red');
+            $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+            $("#extra_bet_section .controls .navigation").removeClass('stop-action');
             if (result) {
-                var responseData = JSON.parse(result);
+                const responseData = result;
+                debugger;
+                if (responseData.is_win === 2) {
+                    update_round_history();
+                    debugger;
+                    //const bet0 = responseData.Bet_0;
+                    //const bet1 = responseData.Bet_1;
+                    //if (bet0 === 1 && bet1 === 1)
+                    //{
+                    //    bet_array = [];
+                    //}
+                    //else
+                    //{
+                    //    if (bet0 === 1) {
+                    //        const index = bet_array.findIndex(b => b.section_no === 0);
+                    //        if (index !== -1) {
+                    //            bet_array.splice(index, 1);
+                    //        }
+                    //    }
+                    //    if (bet1 === 1) {
+                    //        const index = bet_array.findIndex(b => b.section_no === 1);
+                    //        if (index !== -1) {
+                    //            bet_array.splice(index, 1);
+                    //        }
+                    //    }
+                    //}
 
-                if (responseData.is_win == 2) {
-                    $.ajax({
-                        url: "Handler/new_game_generated.ashx",
-                        type: "GET",
-                        data: { _token: hash_id },
-                        dataType: "json",
-                        success: function (Result) {
-                            if (!Result.Success && Result.Message === "Not Authenticated") {
-                                window.location.href = "../login.html";
-                                return;
-                            }
+                    setTimeout(() => {
+                        $("#auto_increment_number_div").hide();
+                        $(".flew_away_section").hide();
+                        $("#auto_increment_number").removeClass('text-danger');
+                        $(".game-centeral-loading").show();
+                        show_loading_game();
+                        gamegenerate();
+                    }, 5000);
 
-                            let result = Result.data;
-                            let bet0 = result.Bet_0 || 0;
-                            let bet1 = result.Bet_1 || 0;
-                            if (
-                                (bet0 === 1 && bet1 === 1)
-                            ) {
-                                bet_array.length = 0;
-                                MainbetUi();
-                                extrabetUi();
+                    // Main Bet
+                    $(".main_bet_amount").prop('disabled', false);
+                    $("#main_plus_btn").prop('disabled', false);
+                    $("#main_minus_btn").prop('disabled', false);
+                    $(".main_amount_btn").prop('disabled', false);
+                    $("#main_checkout").prop('disabled', false);
+                    if ($("#main_checkout").prop('checked')) {
+                        $("#main_incrementor").prop('disabled', false);
+                    }
+                    $('#main_auto_bet').prop('checked', false);
 
-                            } else {
-                                if (bet0 === 1) {
-                                    const index = bet_array.findIndex(b => b.section_no === 0);
-                                    if (index !== -1) {
-                                        bet_array.splice(index, 1);
-                                    }
-                                    MainbetUi();
-                                }
-                                if (bet1 === 1) {
-                                    const index = bet_array.findIndex(b => b.section_no === 1);
-                                    if (index !== -1) {
-                                        bet_array.splice(index, 1);
-                                    }
-                                    extrabetUi();
-                                }
-                            }
-                            setTimeout(() => {
-                                $("#auto_increment_number_div").hide();
-                                $(".flew_away_section").hide();
-                                $("#auto_increment_number").removeClass('text-danger');
-                                $(".game-centeral-loading").show();
-                                show_loading_game();
-                                gamegenerate();
-                            }, 5000);
-
-                            $(".main_bet_amount").prop('disabled', false);
-                            $("#main_plus_btn").prop('disabled', false);
-                            $("#main_minus_btn").prop('disabled', false);
-                            $(".main_amount_btn").prop('disabled', false);
-                            $("#main_checkout").prop('disabled', false);
-                            if ($("#main_checkout").prop('checked')) {
-                                $("#main_incrementor").prop('disabled', false);
-                            }
-                            $('#main_auto_bet').prop('checked', false);
-
-                            $(".extra_bet_amount").prop('disabled', false);
-                            $("#extra_minus_btn").prop('disabled', false);
-                            $("#extra_plus_btn").prop('disabled', false);
-                            $(".extra_amount_btn").prop('disabled', false);
-                            $("#extra_checkout").prop('disabled', false);
-                            if ($("#extra_checkout").prop('checked')) {
-                                $("#extra_incrementor").prop('disabled', false);
-                            }
-                            $('#extra_auto_bet').prop('checked', false);
-                        }
-                    });
+                    // Extra Bet
+                    $(".extra_bet_amount").prop('disabled', false);
+                    $("#extra_minus_btn").prop('disabled', false);
+                    $("#extra_plus_btn").prop('disabled', false);
+                    $(".extra_amount_btn").prop('disabled', false);
+                    $("#extra_checkout").prop('disabled', false);
+                    if ($("#extra_checkout").prop('checked')) {
+                        $("#extra_incrementor").prop('disabled', false);
+                    }
+                    $('#extra_auto_bet').prop('checked', false);
                 } else {
                     $("#main_bet_section").find("#bet_button").show();
                     $("#main_bet_section").find("#cancle_button").hide();
@@ -108,27 +123,7 @@ function gameover(lastint) {
         }
     });
 }
-function MainbetUi() {
-    $("#main_bet_section").find("#cashout_button").hide();
 
-    $("#main_bet_section").find("#bet_button").show();
-
-    $("#main_bet_section").find("#cancle_button").hide();
-    $("#main_bet_section").find("#cancle_button #waiting").hide();
-    $("#main_bet_section .controls").removeClass('bet-border-red');
-    $("#main_bet_section .controls").removeClass('bet-border-yellow');
-    $("#main_bet_section .controls .navigation").removeClass('stop-action');
-}
-function extrabetUi() {
-    $("#extra_bet_section").find("#bet_button").show();
-    $("#extra_bet_section").find("#cashout_button").hide();
-    $("#extra_bet_section").find("#cancle_button").hide();
-    $("#extra_bet_section").find("#cancle_button #waiting").hide();
-    $("#extra_bet_section").find("#cashout_button").hide();
-    $("#extra_bet_section .controls").removeClass('bet-border-red');
-    $("#extra_bet_section .controls").removeClass('bet-border-yellow');
-    $("#extra_bet_section .controls .navigation").removeClass('stop-action');
-}
 function currentid() {
     $.ajax({
         url: 'aviator/currentid',
@@ -165,7 +160,9 @@ function gamegenerate() {
                     }
                     let result = Result.data;
 
-                    incrementor(parseFloat(1.00).toFixed(2));
+                    getCurrentMultiplierOnJoin(result.id, function (multiplier) {
+                        incrementor(parseFloat(multiplier).toFixed(2));
+                    });
                     if (bet_array.length > 0) {
                         place_bet_now(result);
                     }
@@ -180,7 +177,6 @@ function gamegenerate() {
                     lets_fly_one();
                     lets_fly();
                     let currentbet = 0;
-                    var a = 1.0;
                     let isbet = $("#isbet").val();
                     isbet = 1;
                     $.ajax({
@@ -212,7 +208,7 @@ function gamegenerate() {
                                 });
                             }
                             MyBetHistory();
-                            setInterval(MyBetHistory, 1000);
+                            setInterval(MyBetHistory, 5000);
 
                             function CurrentlyBet() {
                                 $.ajax({
@@ -229,58 +225,110 @@ function gamegenerate() {
                                 });
                             }
                             CurrentlyBet();
-                            setInterval(CurrentlyBet, 1000);
+                            setInterval(CurrentlyBet, 5000);
+                            getCurrentMultiplierOnJoin(gameId, function (multiplier) {
+                                startGameIncrement(multiplier);
+                            });
+
+                            function startGameIncrement(initialMultiplier) {
+                                let a = initialMultiplier;
+
+                                var randomintervalId = setInterval(function () {
+                                    updateRandomMultiplier(bet_list_current, '#all_bets .mCSB_container', a);
+                                }, 300);
+                                let increamtsappgame = setInterval(() => {
+
+                                    //if (current_cash) {
+                                    //    const randomNumbers = (Math.random() * (5.99 - 3.5) + 4.5).toFixed(2);
+                                    //    currentbet = randomNumbers;
+
+                                    //}
 
 
-                            var randomintervalId = setInterval(function () {
-                                updateRandomMultiplier(bet_list_current, '#all_bets .mCSB_container', a);
-                            }, 300);
-                            let increamtsappgame = setInterval(() => {
+                                    if (a >= currentbet) {
 
-                                if (current_cash) {
-                                    const randomNumbers = (Math.random() * (5.99 - 3.5) + 4.5).toFixed(2);
-                                    currentbet = randomNumbers;
+                                        let res = parseFloat(a).toFixed(2);
+                                        a = 1.0;
+                                        let result = res;
+                                        crash_plane(result);
+                                        incrementor(res);
+                                        $("#main_bet_section").find("#cashout_button").hide();
+                                        gameover(result);
+                                        $("#all_bets .mCSB_container").empty();
+                                        $("#all_my_bets .mCSB_container").empty();
+                                        clearInterval(increamtsappgame);
+                                        clearInterval(randomintervalId);
+                                        $("#main_bet_section").find("#bet_button").show();
+                                        $("#main_bet_section").find("#cancle_button").hide();
+                                        $("#main_bet_section").find("#cancle_button #waiting").hide();
+                                        $("#main_bet_section .controls").removeClass('bet-border-red');
+                                        $("#main_bet_section .controls").removeClass('bet-border-yellow');
+                                        $("#main_bet_section .controls .navigation").removeClass('stop-action');
 
-                                }
+                                        $("#extra_bet_section").find("#bet_button").show();
+                                        $("#extra_bet_section").find("#cashout_button").hide();
+                                        $("#extra_bet_section").find("#cancle_button").hide();
+                                        $("#extra_bet_section").find("#cancle_button #waiting").hide();
+                                        $("#extra_bet_section").find("#cashout_button").hide();
+                                        $("#extra_bet_section .controls").removeClass('bet-border-red');
+                                        $("#extra_bet_section .controls").removeClass('bet-border-yellow');
+                                        $("#extra_bet_section .controls .navigation").removeClass('stop-action');
 
+                                        $("#total_bets_amount").text(0);
+                                    } else {
 
-                                if (a >= currentbet) {
+                                        a = parseFloat(a) + 0.01;
+                                        incrementor(parseFloat(a).toFixed(2));
 
-                                    let res = parseFloat(a).toFixed(2);
-                                    a = 1.0;
-                                    let result = res;
-                                    crash_plane(result);
-                                    incrementor(res);
-                                    $("#main_bet_section").find("#cashout_button").hide();
-                                    gameover(result);
-                                    $("#all_bets .mCSB_container").empty();
-                                    $("#all_my_bets .mCSB_container").empty();
-                                    clearInterval(increamtsappgame);
-                                    clearInterval(randomintervalId);
+                                    }
+                                    $.ajax({
+                                        url: "Handler/Update_Get_current_multi.ashx",
+                                        type: "POST",
+                                        data: {
+                                            "Multi": a.toFixed(2),
+                                            "game_id": gameId,
+                                            "Type": "Set_Multi"
+                                        },
+                                        dataType: "json",
+                                    });
 
-                                } else {
-
-                                    a = parseFloat(a) + 0.01;
-                                    incrementor(parseFloat(a).toFixed(2));
-
-                                }
-                            }, 60)
-
-
-
+                                },60)
+                            }
                         }
                     })
                 }
             });
         }, 10000);
 
-    }, 1000);
+    }, 1500);
 }
 
 function check_game_running(event) {
-
 }
 
 $(document).ready(function () {
     check_game_running("check");
 });
+
+function getCurrentMultiplierOnJoin(gameId, callback) {
+    $.ajax({
+        url: "Handler/Update_Get_current_multi.ashx",
+        type: "POST",
+        data: {
+            "game_id": gameId,
+            "Type": "Get_Multi"
+        },
+        dataType: "json",
+        success: function (response) {
+            var currentMulti = response.result;
+            if (!isNaN(currentMulti)) {
+                callback(currentMulti);
+            } else {
+                callback(1.0);
+            }
+        },
+        error: function () {
+            callback(1.0);
+        }
+    });
+}

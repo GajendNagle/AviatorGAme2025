@@ -20,24 +20,20 @@ public class increamentor : IHttpHandler
         string isbet = context.Request["isbet"];
         string gameId = context.Request["game_id"];
         UserId = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
-        //ds = objgdb.ByProcedure("[Avtr_GenerateCrashPoint_NEW]", new string[] 
         ds = objgdb.ByProcedure("[Avtr_ProStartNewRound_New]", new string[]
         {
-            "NewRoundNo","Memid"}, new string[] { "",UserId.ToString() }, "das");;
-
+            "Memid"}, new string[] {UserId.ToString() }, "das");;
         string crash = ds.Tables[0].Rows[0]["Crash"].ToString();
         var resultObj = new
         {
             result = crash
         };
 
-        // Serialize to JSON
+ 
         string json = new JavaScriptSerializer().Serialize(resultObj);
 
-        // Encode JSON to Base64
         string base64Encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
-        // Return Base64 string
         context.Response.Write(base64Encoded);
     }
 

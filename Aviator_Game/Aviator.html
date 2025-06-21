@@ -704,42 +704,6 @@
                         <div class="stats flex-md-row flex-column gy-1">
                             <div class="payouts-wrapper order-md-1 order-2">
                                 <div class="payouts-block">
-                                    <div class="bg1 custom-badge">3.3x</div>
-                                    <div class="bg1 custom-badge">4.8x</div>
-                                    <div class="bg1 custom-badge">2.9x</div>
-                                    <div class="bg2 custom-badge">17.7x</div>
-                                    <div class="bg1 custom-badge">9x</div>
-                                    <div class="bg1 custom-badge">7.4x</div>
-                                    <div class="bg1 custom-badge">3.7x</div>
-                                    <div class="bg2 custom-badge">10.8x</div>
-                                    <div class="bg2 custom-badge">10.8x</div>
-                                    <div class="bg1 custom-badge">5.1x</div>
-                                    <div class="bg2 custom-badge">13.1x</div>
-                                    <div class="bg2 custom-badge">16.8x</div>
-                                    <div class="bg2 custom-badge">13.6x</div>
-                                    <div class="bg2 custom-badge">13.9x</div>
-                                    <div class="bg2 custom-badge">16.1x</div>
-                                    <div class="bg1 custom-badge">2.1x</div>
-                                    <div class="bg1 custom-badge">8.2x</div>
-                                    <div class="bg1 custom-badge">3.9x</div>
-                                    <div class="bg2 custom-badge">17.5x</div>
-                                    <div class="bg2 custom-badge">19x</div>
-                                    <div class="bg2 custom-badge">14.1x</div>
-                                    <div class="bg1 custom-badge">4.2x</div>
-                                    <div class="bg3 custom-badge">1x</div>
-                                    <div class="bg1 custom-badge">5.5x</div>
-                                    <div class="bg1 custom-badge">7.7x</div>
-                                    <div class="bg2 custom-badge">12.1x</div>
-                                    <div class="bg2 custom-badge">15.3x</div>
-                                    <div class="bg1 custom-badge">7.4x</div>
-                                    <div class="bg2 custom-badge">17.8x</div>
-                                    <div class="bg1 custom-badge">4.8x</div>
-                                    <div class="bg1 custom-badge">6.9x</div>
-                                    <div class="bg2 custom-badge">18x</div>
-                                    <div class="bg2 custom-badge">15x</div>
-                                    <div class="bg2 custom-badge">13.7x</div>
-                                    <div class="bg1 custom-badge">3.3x</div>
-
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between w-100 order-md-2 order-1">
@@ -759,41 +723,6 @@
                                     <div class="history-dropdown">
                                         <div class="pa-5 secondary-font text-white pb-0">ROUND HISTORY</div>
                                         <div class="d-flex flex-wrap pa-5 round-history-list">
-                                            <div class="bg1 custom-badge">3.3x</div>
-                                            <div class="bg1 custom-badge">4.8x</div>
-                                            <div class="bg1 custom-badge">2.9x</div>
-                                            <div class="bg2 custom-badge">17.7x</div>
-                                            <div class="bg1 custom-badge">9x</div>
-                                            <div class="bg1 custom-badge">7.4x</div>
-                                            <div class="bg1 custom-badge">3.7x</div>
-                                            <div class="bg2 custom-badge">10.8x</div>
-                                            <div class="bg2 custom-badge">10.8x</div>
-                                            <div class="bg1 custom-badge">5.1x</div>
-                                            <div class="bg2 custom-badge">13.1x</div>
-                                            <div class="bg2 custom-badge">16.8x</div>
-                                            <div class="bg2 custom-badge">13.6x</div>
-                                            <div class="bg2 custom-badge">13.9x</div>
-                                            <div class="bg2 custom-badge">16.1x</div>
-                                            <div class="bg1 custom-badge">2.1x</div>
-                                            <div class="bg1 custom-badge">8.2x</div>
-                                            <div class="bg1 custom-badge">3.9x</div>
-                                            <div class="bg2 custom-badge">17.5x</div>
-                                            <div class="bg2 custom-badge">19x</div>
-                                            <div class="bg2 custom-badge">14.1x</div>
-                                            <div class="bg1 custom-badge">4.2x</div>
-                                            <div class="bg3 custom-badge">1x</div>
-                                            <div class="bg1 custom-badge">5.5x</div>
-                                            <div class="bg1 custom-badge">7.7x</div>
-                                            <div class="bg2 custom-badge">12.1x</div>
-                                            <div class="bg2 custom-badge">15.3x</div>
-                                            <div class="bg1 custom-badge">7.4x</div>
-                                            <div class="bg2 custom-badge">17.8x</div>
-                                            <div class="bg1 custom-badge">4.8x</div>
-                                            <div class="bg1 custom-badge">6.9x</div>
-                                            <div class="bg2 custom-badge">18x</div>
-                                            <div class="bg2 custom-badge">15x</div>
-                                            <div class="bg2 custom-badge">13.7x</div>
-                                            <div class="bg1 custom-badge">3.3x</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1424,6 +1353,7 @@
         var total_bet_lists = []
         var GameStart = false;
         document.addEventListener('DOMContentLoaded', function () {
+            update_round_history();
             var tabs = document.querySelectorAll('[data-bs-toggle="pill"]');
             tabs.forEach(function (tab) {
                 tab.addEventListener('click', function () {

@@ -38,7 +38,6 @@ public class currentlybet : IHttpHandler
                 var dt1 = ds.Tables[1];
                 var betList = new List<object>();
 
-                // Use the first row for summary data
                 string currentGame = dt.Rows[0]["currentGame"].ToString();
                 int currentGameBetCount = Convert.ToInt32(dt.Rows[0]["currentGameBetCount"]);
                 decimal totalBetAmount = Convert.ToDecimal(dt.Rows[0]["totalBetAmount"]);

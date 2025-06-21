@@ -4,25 +4,32 @@ using System;
 using System.Web;
 using System.Data;
 using System.Web.Script.Serialization;
+using System.Collections.Generic;
 
 public class game_over : IHttpHandler
 {
     public HttpContext context;
     public HttpRequest request;
     public HttpResponse response;
-    public bool sc;
-    public static string msg = "", RoundStatus = "", RoundNo = "", CrashMulti;
-    public float crashMultiplier;
-    DynamicDtls objgdb = new DynamicDtls();
-    DataSet ds;
+    public static string RoundNo = "", CrashMulti, userId;
+    public DynamicDtls objgdb = new DynamicDtls();
+    public DataSet ds;
 
     public class ResponseModel
     {
         public bool Success { get; set; }
         public string Message { get; set; }
         public int is_win { get; set; }
-        public string bet0 { get; set; }
-        public string bet { get; set; }
+        public int Bet_1 { get; set; }
+        public int Bet_0 { get; set; }
+    }
+
+    public class Bet
+    {
+        public string bet_type { get; set; }
+        public string bet_amount { get; set; }
+        public int section_no { get; set; }
+        public int RoundNo { get; set; }
     }
 
     public void ProcessRequest(HttpContext _context)
@@ -32,16 +39,20 @@ public class game_over : IHttpHandler
         response = _context.Response;
         response.ContentType = "application/json";
 
-
-        var serializer = new JavaScriptSerializer();
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
         ResponseModel res = new ResponseModel();
+
         if (context.Request.Cookies["Tap190Nvw92mst"] != null)
         {
             try
             {
                 RoundNo = request["game_id"];
                 CrashMulti = request["last_time"];
-                res = recordCrash();
+                string betJson = request["Bet"];
+                userId = DB.base64Decod(context.Request.Cookies["Tap190Nvw92mst"].Value).ToString();
+
+                List<Bet> bets = serializer.Deserialize<List<Bet>>(betJson);
+                res = recordCrash(bets);
             }
             catch (Exception ex)
             {
@@ -56,51 +67,52 @@ public class game_over : IHttpHandler
             res.Message = "LoginID missing.";
             res.is_win = 0;
         }
+
         response.Write(serializer.Serialize(res));
     }
 
-    public ResponseModel recordCrash()
+    public ResponseModel recordCrash(List<Bet> bets)
     {
         ResponseModel res = new ResponseModel();
         try
         {
-
-            ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay_new]", new string[]
-            { "Action", "MemId", "RoundNo", "Bet", "BetAmount", "Multi", "Result_Status" }, new string[]
-            { "CloseRound", "", RoundNo, "", "0","" , ""}, "das");
-
-            // Safe check for "Rlt" in Table[0]
-            bool isRltOkTable0 = ds.Tables.Count > 0 &&
-                                 ds.Tables[0].Rows.Count > 0 &&
-                                 ds.Tables[0].Columns.Contains("Rlt") &&
-                                 ds.Tables[0].Rows[0]["Rlt"].ToString() == "IsOk";
-
-            // Safe check for "Rlt" in Table[1]
-            bool isRltOkTable1 = ds.Tables.Count > 1 &&
-                                 ds.Tables[1].Rows.Count > 0 &&
-                                 ds.Tables[1].Columns.Contains("Rlt") &&
-                                 ds.Tables[1].Rows[0]["Rlt"].ToString() == "IsOk";
-
-            if (isRltOkTable0 || isRltOkTable1)
+            if (bets != null && bets.Count > 0)
             {
-                res.Success = true;
-                if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0 && ds.Tables[1].Columns.Contains("msg"))
-                    res.Message = ds.Tables[1].Rows[0]["msg"].ToString();
-                res.is_win = 2;
+                foreach (var bet in bets)
+                {
+                    ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay_new]", new string[]
+                    { "Action", "MemId", "RoundNo", "Bet", "BetAmount", "Multi", "Result_Status"
+                    },
+                    new string[]
+                    { "CloseRound",(!string.IsNullOrEmpty(userId)) ? userId : "",
+                    RoundNo,bet != null ? bet.section_no.ToString() : "", "0", "", ""},
+                    "das");
+                }
             }
             else
             {
-                res.Success = true;
-                if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0 && ds.Tables[1].Columns.Contains("msg"))
-                    res.Message = ds.Tables[1].Rows[0]["msg"].ToString();
-                res.is_win = 2;
+                ds = objgdb.ByProcedure("[Avtr_ProRecordBetPlay_new]", new string[] {
+             "Action", "MemId", "RoundNo", "Bet", "BetAmount", "Multi", "Result_Status"  },
+            new string[] { "CloseRound",  "", RoundNo, "", "0", "", "" }, "das");
+            }
+
+
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                res.Message = ds.Tables[0].Rows[0]["msg"].ToString();
+                res.Success = Convert.ToBoolean(ds.Tables[0].Rows[0]["Success"]);
+                res.is_win = Convert.ToInt16(ds.Tables[0].Rows[0]["is_win"]);
+                res.Bet_0 = Convert.ToInt16(ds.Tables[0].Rows[0]["Bet_0"]);
+                res.Bet_1 = Convert.ToInt16(ds.Tables[0].Rows[0]["Bet_1"]);
+            }
+            else
+            {
+                res.Message = "Round closed.";
             }
         }
         catch (Exception ex)
         {
             DB.WriteLog(this.ToString() + " Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
-            sc = false;
-            msg = "Sorry, something went wrong. Please try later.";
             res.Success = false;
             res.Message = "Sorry, something went wrong.";
             res.is_win = 0;
@@ -109,13 +121,14 @@ public class game_over : IHttpHandler
         {
             if (ds != null) ds.Dispose();
         }
+
         return res;
     }
+
     public bool IsReusable
     {
-        get
-        {
-            return false;
-        }
+        get { return false; }
     }
 }
+
+
